@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>弹出层效果</title>
+    <link type="text/css" href="index.css" rel="stylesheet">
+    <script type="text/javascript" src="/public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript">
+
+        function tips_demo() {
+            //这个是提示框
+            alert_obj.is_tips('标题', '提示信息', function () {
+                //这里是点击确认后的动作
+                $('#box').remove(); //这一句是关闭弹框
+            });
+        }
+
+        function alert_demo() {
+            //这个是提示框
+            alert_obj.is_alert('标题', '提示信息', '按钮一', '按钮二', function () {
+                //这里是点击按键一后的动作
+                $('#box').remove(); //这一句是关闭弹框
+            }, function () {
+                //点击按钮二后的动作
+                $('#box').remove(); //这一句是关闭弹框
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="tr"><a href="javascript:tips_demo();">弹出提示框</a></div>
+<div class="tr"><a href="javascript:alert_demo();">弹出对话框</a></div>
+</body>
+</html>

@@ -1,0 +1,142 @@
+@charset "utf-8";
+/* CSS Document */
+body, ul, ol, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, p, em, i {
+    margin: 0px;
+    padding: 0px;
+}
+
+body, p {
+    font: 14px/24px Microsoft Yahei, Simsum, Arial;
+}
+
+ul, ol {
+    list-style-type: none
+}
+
+em, i {
+    font-style: normal;
+}
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+
+input, select {
+    vertical-align: middle;
+    font-family: Microsoft yahei;
+}
+
+a {
+    color: #5c5c5c;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #723489;
+    text-decoration: none;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.cl {
+    clear: both;
+}
+
+body {
+    background: #f2f2f2;
+}
+
+.header {
+    width: 100%;
+    background: #fff;
+    height: 70px;
+}
+
+.header-warp {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.header .logo {
+    float: left;
+}
+
+.wrapper {
+    width: 400px;
+    height: 280px;
+    margin: 100px auto 0;
+    border: 1px solid #d1d1d1;
+    background: #fff;
+    box-shadow: 0 0 15px #b1b1b1;
+}
+
+.wrapper .title {
+    background: #242b31;
+    height: 60px;
+    color: #fff;
+    line-height: 60px;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.wrapper .line {
+    height: 3px;
+    background-color: #004d23;
+}
+
+.wrapper .content {
+    width: 360px;
+    padding: 15px 20px;
+    height: 187px;
+}
+
+.wrapper .content .text {
+    color: #596774;
+}
+
+.wrapper .content input.input_txt {
+    width: 358px;
+    height: 25px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    margin: 5px 0;
+}
+
+.wrapper .content input.submit {
+    width: 360px;
+    height: 35px;
+    background: #004d23;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-top: 15px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.wrapper .content input.submit:hover {
+    background: #003217;
+}
+
+.footer {
+    width: 100%;
+    margin-top: 138px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.footer a {
+    color: #999;
+}
+
+.footer a:hover {
+    color: #5c5c5c;;
+}

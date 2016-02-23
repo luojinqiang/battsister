@@ -1,0 +1,60 @@
+.pages, .pageback {
+    float: right;
+    padding: 2px 0;
+}
+
+.pages a, .pages strong, .pageback a {
+    float: left;
+    padding: 0 6px;
+    margin-right: 2px;
+    height: 20px;
+    border: 1px solid;
+    line-height: 20px;
+    overflow: hidden;
+}
+
+.pages a, .pageback a {
+    border-color: #D2DACE;
+    background-color: #FFF;
+    color: #69b412;
+}
+
+.pages a:hover, .pageback a:hover {
+    text-decoration: none;
+}
+
+.pages strong {
+    border-color: #69b412;
+    background-color: #69b412;
+    color: #FFF;
+    font-weight: 700;
+}
+
+.pages a.prev, .pages a.next {
+    background-repeat: no-repeat;
+}
+
+.pages a.prev {
+    background-position: 30% 50%;
+    padding: 0;
+    width: 22px;
+    overflow: hidden;
+    text-indent: -9999px;
+}
+
+.pages a.next {
+    padding-right: 16px;
+    background-position: 90% 50%;
+}
+
+.pageback a {
+    padding-left: 16px;
+    background: #FFF no-repeat 0 50%;
+}
+
+.pages a:hover, .pageback a, .pages a.next {
+    border-color: #69b412;
+}
+
+/* CSS Document */
+

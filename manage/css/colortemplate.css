@@ -1,0 +1,134 @@
+@charset "utf-8";
+/* CSS Document */
+h1 {
+    float: left;
+    width: 330px;
+    height: 40px;
+    font-size: 16px;
+    text-indent: 40px;
+    margin-left: 20px;
+    overflow: hidden;
+    background: url(../images/logo_ly2.png) no-repeat;
+    line-height: 40px;
+    color: #aaa;
+}
+
+.header .right_exit {
+    float: right;
+    padding-right: 10px;
+    color: #aaa;
+}
+
+.nav_click ul.nc_cont {
+    float: left;
+    width: 500px;
+    height: 40px;
+    overflow: hidden;
+}
+
+.tabs-header {
+    border-top: 1px #c7fb09 solid;
+    background: #95d210;
+}
+
+#jsddm li ul li a:hover {
+    background: #ff7e00;
+    color: #FFF;
+    text-decoration: none;
+}
+
+.tabs {
+    border-bottom: 1px solid #94bd00;
+}
+
+.tabs li.tabs-selected {
+    border: 1px solid #94bd00;
+    border-bottom: 1px solid #fff;
+}
+
+.tabs li {
+    border: 1px solid #94bd00;
+}
+
+.tabs li a.tabs-inner {
+    background: #eee;
+    color: #476c2e;
+}
+
+.tabs li a.tabs-inner:hover {
+    background: #000
+}
+
+.tabs li.tabs-selected a.tabs-inner {
+    background: #000
+    color: #94bd00;
+}
+
+.tabs li.tabs-selected a.tabs-inner {
+    color: #94bd00;
+    font-weight: bold;
+    background: #fff;
+}
+
+.tabs li a.tabs-close {
+    background: url("../images/tabs_close.gif") no-repeat scroll 2px 2px
+}
+
+.tabs li a.tabs-close:hover {
+    background: url("../images/tabs_closeB.gif") no-repeat scroll 2px 2px transparent;
+    background-color: #94bd00;
+}
+
+.tabs li a:hover.tabs-close {
+    background-color: #44880d;
+}
+
+.btn_kjmenu {
+    background: #95d210;
+    color: #fff;
+}
+
+.btn_kjmenu:hover {
+    background: #80bb00;
+}
+
+.kl_form a {
+    color: #69b412;
+    text-decoration: underline;
+    margin-left: 10px;
+}
+
+.kl_form a:hover {
+    color: #539b00
+}
+
+.sidebar {
+    background: #fff;
+    border: #69b412 1px solid;
+    width: 178px;
+}
+
+.sidebar h3 {
+    height: 30px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 30px;
+    background: #95d210
+}
+
+.footer a {
+    color: #78b429;
+}
+
+.form_table table {
+    background: #fff;
+}
+
+.form_table table th {
+    background: #f3f9ee;
+    border: 1px solid #ddd;
+}
+
+.form_table table td {
+    border: 1px solid #ddd;
+}
