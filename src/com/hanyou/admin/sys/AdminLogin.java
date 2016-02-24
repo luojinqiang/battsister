@@ -568,7 +568,7 @@ public class AdminLogin {
         JSONObject backjson=new JSONObject();
         try {
             dbc.openConn("mysqlss");
-            base.setDbc(dbc);
+            base.setDbc(dbc,false);
             String today_date=AjaxXml.Get_Date("now","YY04-MM-DD");
             Doc infoDoc=base.executeQuery2Docs("select count(*) as 'counts' ,sum(mem_today) as 'mem_today' from (select id,case DATE_FORMAT(FROM_UNIXTIME(mem_addtime),'%Y-%m-%d') when '"+today_date+"' then 1 else 0 end as 'mem_today' from hy_member where isdel=0 ) a ",new Object[]{},1)[0];
             int memNum=0;//总的用户数
@@ -577,51 +577,8 @@ public class AdminLogin {
             	memNum=infoDoc.getIn("counts");
             	memNum_totday=infoDoc.getIn("mem_today");
             }
-            //健身房的总的预约数量
-            //连锁账号和健身房账号
-            List sqllist=new ArrayList();
-            StringBuffer sqlBuffer=new StringBuffer("");
-            if(gym_group_id>0){
-            	sqllist.add(gym_group_id);
-            	sqlBuffer.append(" and gym_group_id=? ");
-            }
-            if(gym_id>0){
-            	sqllist.add(gym_id);
-            	sqlBuffer.append(" and gym_id=? ");
-            }
-            int book_num=0;
-            int book_num_today=0;
-            infoDoc=base.executeQuery2Docs("select count(*) as 'counts' ,sum(book_today) as 'book_today' from (select id,case DATE_FORMAT(FROM_UNIXTIME(create_time),'%Y-%m-%d') when '"+today_date+"' then 1 else 0 end as 'book_today' from hy_member_book_coach where isdel=0 "+sqlBuffer.toString()+") a ",sqllist,1)[0];
-            if(infoDoc!=null){
-            	book_num=infoDoc.getIn("counts");
-            	book_num_today=infoDoc.getIn("book_today");
-            }
-            int weixin_order_num=0;//微信总订单数
-            int weixin_book_num=0;//微信预约私教订单数量
-            int weixin_chongzhi_num=0;//微信充值订单数量
-            int weixin_tuanti_num=0;//微信团体订单数量
-            //1为私教，2为团队课，3为充值'
-            List<Doc> infoList=base.executeQuery2List("select order_type,count(*) as 'counts' from pro_order where isdel=0 "+sqlBuffer.toString()+" group by order_type",sqllist);
-            if(infoDoc!=null){
-            	for(Doc doc:infoList){
-            		if(doc.getIn("order_type")==1){
-            			weixin_book_num=doc.getIn("counts");
-            		}else if(doc.getIn("order_type")==2){
-            			weixin_tuanti_num=doc.getIn("counts");
-            		}else if(doc.getIn("order_type")==3){
-            			weixin_chongzhi_num=doc.getIn("counts");
-            		}
-            	}
-            }
-            weixin_order_num=weixin_book_num+weixin_chongzhi_num+weixin_tuanti_num;
             backjson.put("memNum",memNum);
             backjson.put("memNum_totday",memNum_totday);
-            backjson.put("book_num", book_num);
-            backjson.put("book_num_today",book_num_today);
-            backjson.put("weixin_order_num", weixin_order_num);
-            backjson.put("weixin_book_num", weixin_book_num);
-            backjson.put("weixin_chongzhi_num", weixin_chongzhi_num);
-            backjson.put("weixin_tuanti_num", weixin_tuanti_num);
             return backjson;
         } catch (Exception e) {
             base.rollback();

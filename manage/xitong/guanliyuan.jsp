@@ -129,8 +129,6 @@
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <th width="3%"></th>
-                    <th width="12%">所属连锁</th>
-                    <th width="12%">所属健身房</th>
                     <th width="15%">后台帐号</th>
                     <th width="8%">登陆错误</th>
                     <th width="15%">最近登陆IP</th>
@@ -144,22 +142,12 @@
 
                     int pages = ru.getInt("page");
                     int pn = 20;
-                    String table = "hy_sys_user a left join hy_gym_group b on a.gym_group_id=b.id left join hy_gym c on a.gym_id=c.id ";
-                    String file = " a.id,a.user_name,a.user_flag,a.login_err,create_ip,a.create_time,a.last_login_ip,a.last_login_time,a.islock,b.group_name,c.gym_name  ";
+                    String table = "hy_sys_user a  ";
+                    String file = " a.id,a.user_name,a.user_flag,a.login_err,create_ip,a.create_time,a.last_login_ip,a.last_login_time,a.islock";
                     String order = " order by a.id desc";
                     String idd = "a.id";
                     String user_flag = "";
                     List listid = new ArrayList();
-                    if (gym_group_id > 0) {
-                        wheres += "and a.gym_group_id=? ";
-                        listid.add(gym_group_id);
-
-                    }
-                    if (gym_id > 0) {
-                        wheres += " and a.gym_id=?";
-                        listid.add(gym_id);
-                    }
-
                     int counts = utildb.Get_count(idd, table, wheres, "", listid);
                     List list = utildb.Get_mssqlList(pages, pn, counts, table, wheres, file, order, idd, "", listid);
                     if (list != null) {
@@ -174,10 +162,6 @@
                 %>
                 <tr onmousemove="tableMove(this);" onmouseout="tableOut(this)">
                     <td><input name="id" type="checkbox" id="id" value="<%=doc.get("id")%>"/></td>
-                    <td><%=doc.get("group_name", "") %>
-                    </td>
-                    <td><%=doc.get("gym_name", "") %>
-                    </td>
                     <td><%=doc.get("user_name") %>
                     </td>
                     <td><%=doc.getIn("login_err") %>
@@ -198,7 +182,7 @@
                     }
                 %>
                 <tr>
-                    <td colspan="9" style="text-align: right">
+                    <td colspan="7" style="text-align: right">
                         <input type="checkbox" name="chkall" id="chkall" value="checkbox"
                                onClick="CheckAll(this.form);"/>
                         选中/取消所有
@@ -206,7 +190,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="9"
+                    <td colspan="7"
                         style="text-align:right"><%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%></td>
                 </tr>
             </table>

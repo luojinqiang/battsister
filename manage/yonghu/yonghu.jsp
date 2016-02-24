@@ -362,7 +362,7 @@
                 <%
 
                     String table = "hy_member a left join g_province b on a.mem_province=b.provinceid left join g_city c on a.mem_city=c.cityid left join g_area d on a.mem_area=d.areaid";
-                    String wheres = "a.isdel=0 and a.is_coach=0";
+                    String wheres = "a.isdel=0 ";
                     List sqllist = new ArrayList();
                     if (!"".equals(mem_name)) {
                         wheres = wheres + " and a.mem_name like ?";

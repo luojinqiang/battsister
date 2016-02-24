@@ -11,7 +11,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="robots" content="noarchive"/>
-    <title>健身房管理系统</title>
+    <title>派司德教学资源管理系统</title>
 
     <base target="_self"/>
     <link href="css/reset.css" rel="stylesheet" type="text/css"/>
@@ -152,18 +152,12 @@
                     <li>
                         <button class="btn_kjmenu" type="button" onclick="clicknum('用户管理')">用户管理</button>
                     </li>
-                    <!--li><button class="btn_kjmenu" type="button" onclick="clicknum('当前订单')">当前订单</button></li>
-                    <li><button class="btn_kjmenu" type="button" onclick="clicknum('发布产品')">发布产品</button></li>
-                    <li><button class="btn_kjmenu" type="button" onclick="clicknum('妙圈管理')">妙圈管理</button></li -->
                 </ul>
             </div>
         </div>
     </div><!--kj_nav e-->
 
     <div class="kj_main">
-      <%
-      	if(gym_group_id==0){
-      %>
         <div class="kj_tabs_title">
             <ul class="clearfix">
                 <li><strong>用户数据信息</strong></li>
@@ -179,55 +173,7 @@
                 </ul>
             </div>
         </div>
-      
-      <%
-      }
-      %>
-        <div class="kj_tabs_title">
-            <ul class="clearfix">
-                <li><strong>健身房数据信息</strong></li>
-            </ul>
-        </div>
-        <div class="kj_tabs_cont">
-            <div class="k_r_mc">
-                <ul class="kl_form clearfix">
-                 <li><span class="k_f_text">总预约数量：<b class="red"><%=result.optInt("book_num") %>
-                    </b></span><a href="javascript:window.parent.jianyi2('jianshenfang/gym_member_book.jsp','预约私教')">查看</a></li>
-                    <li><span class="k_f_text">今日新增：<b class="red"><%=result.optInt("book_num_today") %>
-                    </b></span></li>
-                </ul>
-            </div>
-        </div>
-        
-         <div class="kj_tabs_title">
-            <ul class="clearfix">
-                <li><strong>微信数据信息</strong></li>
-            </ul>
-        </div>
-        <div class="kj_tabs_cont">
-            <div class="k_r_mc">
-                <ul class="kl_form clearfix">
-                 <li><span class="k_f_text">总订单数量：<b class="red"><%=result.optInt("weixin_order_num") %>
-                    </b></span><a href="javascript:window.parent.jianyi2('order/hy_order.jsp','订单管理')">查看</a></li>
-                     <li><span class="k_f_text">购买私教：<b class="red"><%=result.optInt("weixin_book_num") %>
-                    </b></span><a href="javascript:window.parent.jianyi2('order/hy_order.jsp?order_type=1','订单管理')">查看</a></li>
-                     <li><span class="k_f_text">充值：<b class="red"><%=result.optInt("weixin_chongzhi_num") %>
-                    </b></span><a href="javascript:window.parent.jianyi2('order/hy_order.jsp?order_type=3','订单管理')">查看</a></li>
-                     <li><span class="k_f_text">团体课程：<b class="red"><%=result.optInt("weixin_tuanti_num") %>
-                    </b></span><a href="javascript:window.parent.jianyi2('order/hy_order.jsp?order_type=2','订单管理')">查看</a></li>
-                </ul>
-            </div>
-        </div>
-        <!-- div class="kj_tabs_title" style="margin-top:10px">
-          <ul class="clearfix">
-          <li><strong>预约信息</strong></li>
-          </ul>
-        </div>
-
-        </div -->
     </div><!--kj_main e-->
-
-
 </div>
 </body>
 </html>

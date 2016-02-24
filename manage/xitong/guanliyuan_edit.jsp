@@ -177,38 +177,6 @@
                                    style="width:30px;"/></li>
                 <li>错误5次帐号会被锁定，修改为0解锁</li>
             </ul>
-            <ul class="row2 clearfix">
-                <%
-                    if (gym_group_id == 0) {
-                %>
-                <li>所属连锁：
-                    <select name="gymGroupId" id="gymGroupId" onchange="getGyms(this)">
-                        <option value="0">--请选择连锁--</option>
-                        <%=BasicType.getLianSuo(gymGroupId, gym_group_id)%>
-                    </select>
-                </li>
-                <%
-                } else {%>
-                <input name="gymGroupId" id="gymGroupId" type="hidden" value="<%=gym_group_id%>"/>
-                <%
-                    }
-                    if (gym_id == 0) {
-                %>
-                <li>健身房：
-                    <select name="gymId" id="gymId" onchange="getCoachs(this)">
-                        <option value="0">--请选择健身房--</option>
-                        <%=BasicType.getJianShenFang(gymId, gym_group_id, gym_id)%>
-                    </select>
-                </li>
-                <%
-                } else {
-                %>
-                <input name="gymId" id="gymId" type="hidden" value="<%=gym_id%>"/>
-                <%} %>
-            </ul>
-            <%
-            	if(gym_group_id==0){
-            %>
             <ul class="row1 clearfix">
                 <li>用户管理：
                     <input name="flag1" type="checkbox" value="1001" <%
@@ -216,149 +184,10 @@
                             out.print("checked");
                         }
                     %>/>用户管理
-                    <input name="flag1" type="checkbox" value="1004" <%
-                        if (admin_flag.indexOf(",1004,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>积分操作组别
-                    <input name="flag1" type="checkbox" value="1005" <%
-                        if (admin_flag.indexOf(",1005,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>积分操作
-                    <input name="flag1" type="checkbox" value="1007" <%
-                        if (admin_flag.indexOf(",1007,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>积分获取分数情况
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag1" type="checkbox" id="selectAll_flag1"
                                                          onchange="selectall(1)"/><span style="color:green;">全选</span>
                 </li>
             </ul>
-			<%
-            	}
-			%>
-            <ul class="row1 clearfix">
-                <li>订单管理：
-                    <input name="flag2" type="checkbox" value="2007" <%
-                        if (admin_flag.indexOf(",2007,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>订单管理
-                    <%
-                 if(gym_group_id==0){
-                    %>
-                     <input name="flag2" type="checkbox" value="2025" <%
-                        if (admin_flag.indexOf(",2025,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>体测项目
-                    <input name="flag2" type="checkbox" value="2026" <%
-                        if (admin_flag.indexOf(",2026,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>动作类型
-                    <input name="flag2" type="checkbox" value="2027" <%
-                        if (admin_flag.indexOf(",2027,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>默认动作
-                    <input name="flag2" type="checkbox" value="2028" <%
-                        if (admin_flag.indexOf(",2028,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>健身目标
-                    <input name="flag2" type="checkbox" value="2029" <%
-                        if (admin_flag.indexOf(",2029,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>常用语类型
-                     <input name="flag2" type="checkbox" value="2030" <%
-                        if (admin_flag.indexOf(",2030,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>常用语设置
-                     <input name="flag2" type="checkbox" value="2033" <%
-                        if (admin_flag.indexOf(",2033,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>用户资金记录
-                     <input name="flag2" type="checkbox" value="2031" <%
-                        if (admin_flag.indexOf(",2031,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>商品栏目
-                     <%
-                   }
-                    %>
-                     <input name="flag2" type="checkbox" value="2032" <%
-                        if (admin_flag.indexOf(",2032,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>商品管理
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag2" id="selectAll_flag2" type="checkbox"
-                                                         onchange="selectall(2)"/><span style="color:green;">全选</span>
-                </li>
-            </ul>
-            <ul class="row1 clearfix">
-                <li>健身房管理：
-                    <%if (gym_group_id == 0) { %>
-                    <input name="flag3" type="checkbox" value="3001" <%
-                        if (admin_flag.indexOf(",3001,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>连锁集团管理
-                    <%
-                        }
-                    %>
-                    <%
-                    	if(gym_id==0){
-                    %>
-                    <input name="flag3" type="checkbox" value="3005" <%
-                        if (admin_flag.indexOf(",3005,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>健身房管理
-                    <%
-                    }
-                    %>
-                    <input name="flag3" type="checkbox" value="3009" <%
-                        if (admin_flag.indexOf(",3009,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>教练管理
-                   <input name="flag3" type="checkbox" value="3017" <%
-                        if (admin_flag.indexOf(",3017,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>预约私教
-                    <input name="flag3" type="checkbox" value="3045" <%
-                        if (admin_flag.indexOf(",3045,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>设备管理
-                     <input name="flag3" type="checkbox" value="3049" <%
-                        if (admin_flag.indexOf(",3049,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>体态管理
-                     <input name="flag3" type="checkbox" value="3050" <%
-                        if (admin_flag.indexOf(",3050,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>体能管理
-                     <input name="flag3" type="checkbox" value="3051" <%
-                        if (admin_flag.indexOf(",3051,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>体测管理
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag3" id="selectAll_flag3" type="checkbox"
-                                                         onchange="selectall(3)"/><span style="color:green;">全选</span>
-                </li>
-            </ul>
-			<%
-				if(gym_group_id==0){
-			%>
             <ul class="row1 clearfix">
                 <li>信息管理：
                     <input name="flag4" type="checkbox" value="4001" <%
@@ -385,39 +214,6 @@
                                                          onchange="selectall(4)"/><span style="color:green;">全选</span>
                 </li>
             </ul>
-            <%
-				}
-			%>
-            <%
-				if(gym_group_id==0){
-			%>
-            <ul class="row1 clearfix">
-                <li>发现文章：
-                    <input name="flag5" type="checkbox" value="5001" <%
-                        if (admin_flag.indexOf(",5001,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>发现文章
-                    <input name="flag5" type="checkbox" value="5005" <%
-                        if (admin_flag.indexOf(",5005,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>文章评论
-                    <input name="flag5" type="checkbox" value="5007" <%
-                        if (admin_flag.indexOf(",5007,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>每日推荐
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag5" type="checkbox" id="selectAll_flag5"
-                                                         onchange="selectall(5)"/><span style="color:green;">全选</span>
-                </li>
-            </ul>
-		<%
-				}
-		%>
-            <%
-            	if(gym_group_id==0){
-            %>
             <ul class="row1 clearfix">
                 <li>系统：
                     <input name="flag6" type="checkbox" value="6001" <%
@@ -430,11 +226,6 @@
                             out.print("checked");
                         }
                     %>/>关键字管理
-                    <input name="flag6" type="checkbox" value="6009" <%
-                        if (admin_flag.indexOf(",6009,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>加盟申请
                     <input name="flag6" type="checkbox" value="6003" <%
                         if (admin_flag.indexOf(",6003,") > -1) {
                             out.print("checked");
@@ -445,18 +236,10 @@
                             out.print("checked");
                         }
                     %>/>后台管理员管理
-                    <input name="flag6" type="checkbox" value="6008" <%
-                        if (admin_flag.indexOf(",6008,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>会员推送
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag6" type="checkbox" id="selectAll_flag6"
                                                          onchange="selectall(6)"/><span style="color:green;">全选</span>
                 </li>
             </ul>
-            <%
-            	}
-            %>
             <div class="row_btn">
                 <button type="button" id="tjbutton" onclick="usersave()">确定提交</button>
                 <span id="tisspan"></span>
