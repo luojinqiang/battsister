@@ -15,11 +15,10 @@
         return;
     }
     RequestUtil ru = new RequestUtil(request);
-
     Newsclass ste = new Newsclass();
     String action = ru.getString("action");
     if (action.equals("save")) {
-        String result = ste.editNews(request, userid, user_name, gym_group_id, gym_id);
+        String result = ste.editNews(request, user_id, user_name, gym_group_id, gym_id);
         out.print(result);
         return;
     }
@@ -32,7 +31,6 @@
     int id = ru.getInt("id");
     int parentid = ru.getInt("parentid");
     if (id > 0) {
-
         Doc doc = utildb
                 .Get_Doc(
                         "classname,classename,ordernum,parentid,parentpath,depth,rootid,child,"

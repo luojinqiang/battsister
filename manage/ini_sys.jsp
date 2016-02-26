@@ -4,28 +4,15 @@
 <%@page import="com.hanyou.admin.sys.*" %>
 <%
     request.setCharacterEncoding("utf-8");
-    AdminLogin checklogin = new AdminLogin();
-    int userid = 0;
+    int user_id = 0;
     String user_name = "guest";
-    String current_flags = "";
-    int gym_group_id = 0, gym_id = 0;
-    Selectic utildb = new Selectic();
-    Doc currentUser = null;
-    int ii = checklogin.checkLogin(request, response);
-    if (ii == 0) {
-        user_name = checklogin.getuser_name();
-        userid = checklogin.getuserid();
-
-        currentUser = utildb.Get_Doc("user_flag,gym_group_id,gym_id", "hy_sys_user", "where id=" + userid, "mysqlss");
-        //System.out.println("currentUser="+currentUser);
-        if (currentUser != null) {
-            current_flags = AjaxXml.getString(currentUser.get("user_flag"));
-            //System.out.println("current_flags="+current_flags);
-            gym_group_id = currentUser.getIn("gym_group_id");
-            gym_id = currentUser.getIn("gym_id");
-
-        }
-        //flag=admin_username.get("flag");
+    String current_flags = (String)session.getAttribute("user_flag");
+    int gym_group_id=0;
+    Selectic utildb=new Selectic();
+    int gym_id=0;
+    if (current_flags!= null) {
+    	 user_name = (String)session.getAttribute("user_name");
+    	user_id =Integer.parseInt(String.valueOf(session.getAttribute("user_id")));
     } else {
         out.print("<script>");
         out.print("alert('请登录后再操作');");

@@ -177,9 +177,6 @@
                        <%
                         if (current_flags.contains("6001")) { %>
                         <li><a href="javascript:window.parent.jianyi2('xitong/rizhi.jsp','系统日志')">系统日志</a></li>
-                        <li>
-                            <a href="javascript:window.parent.jianyi2('xitong/rizhi.jsp?log_type=2','教练系统日志')">教练系统日志</a>
-                        </li>
                         <%
                             }
                             if (current_flags.contains("6002")) {

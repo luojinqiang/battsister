@@ -11,7 +11,7 @@
     String action = ru.getString("action");
     if (action.equals("saveread")) {
         News news = new News();
-        out.print(news.readNews(request, userid, user_name, gym_group_id, gym_id));
+        out.print(news.readNews(request, user_id, user_name, gym_group_id, gym_id));
     }
     if (id > 0) {
         Doc sanke = utildb.Get_Doc("newsclass,newstitle,content,readuser", "xitong_news", "where id=?", "", new Object[]{id});
@@ -46,7 +46,7 @@
             $(this).contextMenu(menu1, {theme: 'vista'});
         });
         <%
-        if(readuser.indexOf(","+userid+",")<0){
+        if(readuser.indexOf(","+user_id+",")<0){
             %>$(function () {
             $.ajax({
                 type: "post",

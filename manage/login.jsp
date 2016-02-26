@@ -25,12 +25,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>健身房登录页面</title>
+    <title>派司德教学资源管理系统登录页面</title>
     <link href="css/logincss.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
     <link type="text/css" rel="stylesheet" href="css/jquery.alert.css"/>
     <script type="text/javascript" src="js/jquery.alert.js"></script>
-    <script language=javascript src='js/sys.js'></script>
+    <script type="text/javascript" src='js/sys.js'></script>
     <script type="text/javascript" src="js/artDialog4.1.6/artDialog.js?skin=green"></script>
     <script type="text/javascript" src="js/artDialog4.1.6/plugins/iframeTools.source.js"></script>
     <script type="text/javascript">
@@ -79,7 +79,7 @@
     </div>
 </div>
 <div class="wrapper">
-    <div class="title">健身房后台管理</div>
+    <div class="title">派司德教学资源后台管理</div>
     <div class="line"></div>
     <div class="content">
         <div class="text">用户名</div>
@@ -89,11 +89,11 @@
         <input type="password" class="input_txt" name="user_pwd" id="user_pwd"
                onkeydown="if(event.keyCode==13){denglu_check();}"/>
         <span id="tipsspan"></span>
-        <input type="button" id="denglu" name="denglu" value=" 登 录 " class="submit" onclick="denglu_check()"/>
+        <input type="button" id="denglu" name="denglu" value="登 录 " class="submit" onclick="denglu_check()"/>
     </div>
 </div>
 
-<div class="footer"><a href="#" title="U康官网" target="_blank">健身房官网</a> Copyright&copy;2010 – 2015 v1.0.1</div>
+<div class="footer"><a href="http://www.battsister.com" title="派司德官网" target="_blank">派司德官网</a> Copyright&copy;2010 – 2015 v1.0.1</div>
 </body>
 </html>
 

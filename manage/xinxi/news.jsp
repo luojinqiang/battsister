@@ -21,12 +21,12 @@
     String action = ru.getString("action");
     if (action.equals("del")) {
         News news = new News();
-        out.print(news.delNews(request, userid, user_name, gym_group_id, gym_id).toString());
+        out.print(news.delNews(request, user_id, user_name, gym_group_id, gym_id).toString());
         return;
     }
     if (action.equals("batchDel")) {
         News news = new News();
-        out.print(news.batchDelNews(request, userid, user_name, gym_group_id, gym_id).toString());
+        out.print(news.batchDelNews(request, user_id, user_name, gym_group_id, gym_id).toString());
         return;
     }
     Doc newsdoc = new Doc();

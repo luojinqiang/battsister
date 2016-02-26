@@ -1,3 +1,4 @@
+<%@page import="com.hanyou.util.BasicType"%>
 <%@page import="java.net.URLEncoder" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="java.util.ArrayList" %>
@@ -5,7 +6,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.baje.sz.ajax.*" %>
 <%@ page import="com.baje.sz.util.*" %>
-<%@ page import="com.hanyou.admin.sys.*" %>
 <%@ page import="java.net.URLDecoder" %>
 <%@ include file="../ini_sys.jsp" %>
 <%
@@ -17,15 +17,14 @@
         response.sendRedirect("../error.jsp?left=yonghu");
         return;
     }
-    UserMember um = new UserMember();
     RequestUtil ru = new RequestUtil(request);
     String action = ru.getString("action");
     if (action.equals("del")) {
-        out.print(um.memDel(request, userid, user_name, gym_group_id, gym_id).toString());
+        out.print(BasicType.delBasic(request, user_id, user_name, gym_group_id, gym_id,"hy_member","API--删除用户"));
         return;
     }
     if (action.equals("batchdel")) {
-        out.print(um.memDelBatch(request, userid, user_name, gym_group_id, gym_id).toString());
+        out.print(BasicType.batchDelBasic(request, user_id, user_name, gym_group_id, gym_id,"hy_member","API--批量删除用户"));
         return;
     }
     int pages = ru.getInt("page");
@@ -36,14 +35,12 @@
     if (pn == 0) {
         pn = 20;
     }
-
     String mem_name = ru.getString("mem_name", "");
     String mem_username = ru.getString("mem_username", "");
     String mem_mobile = ru.getString("mem_mobile", "");
     int province_id = ru.getInt("province_id");
     int city_id = ru.getInt("city_id");
     int area_id = ru.getInt("area_id");
-
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -248,7 +245,7 @@
                         <option value="0">--所在省份--</option>
                         <%
                             List<Doc> provinceList = utildb
-                                    .Get_List("provinceid,province", "g_province",
+                                   .Get_List("provinceid,province", "g_province",
                                             " where isdel=0 and country_id=41", "mysqlss");
                             if (provinceList != null) {
                                 for (Doc doc : provinceList) {

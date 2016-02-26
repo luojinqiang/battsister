@@ -20,12 +20,12 @@
     String action = ru.getString("action");
     if (action.equals("del")) {
         Logdb ldb = new Logdb();
-        out.print(ldb.Dellog(request, user_name, userid, gym_group_id, gym_id));
+        out.print(ldb.Dellog(request, user_name, user_id, gym_group_id, gym_id));
         return;
     }
     if (action.equals("export")) {
         Logdb ldb = new Logdb();
-        out.print(ldb.export2xls(request, response, userid, user_name));
+        out.print(ldb.export2xls(request, response, user_id, user_name));
         return;
     }
 

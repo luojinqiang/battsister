@@ -9,34 +9,18 @@
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
-/*if(current_flags.indexOf(",1562,")<0){
-	//response.sendRedirect("../error.jsp?left=xitong");
-	//return;
-}*/
     RequestUtil ru = new RequestUtil(request);
     AdminLogin admin = new AdminLogin();
     String action = ru.getString("action");
-
-
-
-/*if(action.equals("addsave")){//增加
-	out.print(admin.editAdminUser(request,userid,user_name,gym_group_id,gym_id).toString());
-	return;
-}*/
-
     if (action.equals("editsave")) {//修改
-        out.print(admin.editPassword(request, userid, user_name, gym_group_id, gym_id).toString());
+        out.print(admin.editPassword(request, user_id, user_name, gym_group_id, gym_id).toString());
 
         return;
     }
-
     if (action.equals("editsave")) {//修改
-        out.print(admin.editPassword(request, userid, user_name, gym_group_id, gym_id).toString());
-
-
+        out.print(admin.editPassword(request, user_id, user_name, gym_group_id, gym_id).toString());
         return;
     }
-
     String ac_title = "";
     String name = "", username = "";
     String tel = "", sex = "", email = "", mobile = "", status = "Y", chengshi = "";
@@ -48,14 +32,10 @@
     String ka_no = "";
     int gymGroupId = 0, gymId = 0;
     double zhekou = 0;
-/*if (id==0){
-	action="addsave";
-	ac_title="添加账号";
-}else*/
-    if (userid > 0) {
+    if (user_id > 0) {
         action = "editsave";
         ac_title = "修改账号";
-        Doc news = utildb.Get_Doc("user_name", "hy_sys_user", "where id=?", "", new Object[]{userid});
+        Doc news = utildb.Get_Doc("user_name", "hy_sys_user", "where id=?", "", new Object[]{user_id});
         if (news == null) {
             out.println("信息不存在");
             return;
@@ -127,7 +107,7 @@
 <div class="iframe_box">
     <div class="box_input">
         <form id="form1" name="form1" method="post" action="">
-            <input name="userid" id="id" type="hidden" value="<%=userid%>"/>
+            <input name="userid" id="id" type="hidden" value="<%=user_id%>"/>
             <input name="action" id="action" type="hidden" value="<%=action%>"/>
             <ul class="row2 clearfix">
                 <li>

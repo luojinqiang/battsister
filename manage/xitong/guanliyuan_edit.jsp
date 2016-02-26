@@ -22,11 +22,11 @@
     String action1 = ru.getString("action1");
     int id = ru.getInt("id");
     if (action.equals("addsave")) {//增加
-        out.print(admin.editAdminUser(request, userid, user_name, gym_group_id, gym_id).toString());
+        out.print(admin.editAdminUser(request, user_id, user_name, gym_group_id, gym_id).toString());
         return;
     }
     if (action.equals("editsave")) {//修改
-        out.print(admin.editAdminUser(request, userid, user_name, gym_group_id, gym_id).toString());
+        out.print(admin.editAdminUser(request, user_id, user_name, gym_group_id, gym_id).toString());
         return;
     }
 
@@ -73,7 +73,7 @@
     <link href="../css/base.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
     <script language="javascript" src='../js/sys.js'></script>
-    <script language=javascript src='../js/qmango.js'></script>
+    <script language="javascript"  src='../js/qmango.js'></script>
     <script type="text/javascript">
 
         function usersave() {

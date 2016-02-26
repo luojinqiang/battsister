@@ -20,7 +20,7 @@
     int id = ru.getInt("id");
     if (action.equals("save")) {//更新
         UserMember um = new UserMember();
-        out.print(um.addOrEditmember(request, userid, user_name, gym_group_id, gym_id));
+        out.print(um.addOrEditmember(request, user_id, user_name, gym_group_id, gym_id));
         return;
     }
     String mem_name = "", mem_username = "", mem_mobile = "", mem_weixin = "", mem_email = "", mem_headpic = "";

@@ -18,7 +18,7 @@
     News ste = new News();
     String action = ru.getString("action");
     if (action.equals("save")) {
-        String result = ste.editNews(request, userid, user_name, gym_group_id, gym_id);
+        String result = ste.editNews(request, user_id, user_name, gym_group_id, gym_id);
         out.print(result);
         return;
     }

@@ -26,17 +26,17 @@
     String action = ru.getString("action");
     if (action.equals("del")) {
         Newsclass news = new Newsclass();
-        out.print(news.delNewsClass(request, userid, user_name, gym_group_id, gym_id));
+        out.print(news.delNewsClass(request, user_id, user_name, gym_group_id, gym_id));
         return;
     }
     if (action.equals("batchDel")) {
         Newsclass news = new Newsclass();
-        out.print(news.batchDelNewsClass(request, userid, user_name, gym_group_id, gym_id));
+        out.print(news.batchDelNewsClass(request, user_id, user_name, gym_group_id, gym_id));
         return;
     }
     if (action.equals("html")) {
         Newsclass news = new Newsclass();
-        String backstr = news.htmlNews(request, userid, user_name, gym_group_id, gym_id);
+        String backstr = news.htmlNews(request, user_id, user_name, gym_group_id, gym_id);
         out.print(backstr);
         return;
     }

@@ -20,7 +20,7 @@
     String action = ru.getString("action");
     if (action.equals("del")) {
 
-        String backstr = news.delNewspic(request, userid, user_name, gym_group_id, gym_id);
+        String backstr = news.delNewspic(request, user_id, user_name, gym_group_id, gym_id);
         out.print(backstr);
         return;
     }
@@ -169,7 +169,7 @@
 <script>
     if ($('#smallfileUpload').size()) {
         global_obj.userfile_upload($('#smallfileUpload'), $('#column_form input[name=smallfile]'), $('#smallfileDetail'),
-                1000, <%=logid%>, '<%=user_name%>', '<%=userid%>', 0, 500, 100, "", function (pic) {
+                1000, <%=logid%>, '<%=user_name%>', '<%=user_id%>', 0, 500, 100, "", function (pic) {
                     addpiclist(pic);
                 });
 

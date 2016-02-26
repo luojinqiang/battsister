@@ -1,7 +1,5 @@
 package com.hanyou.admin.sys;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,106 +19,7 @@ import com.baje.sz.util.StringUtil;
 
 public class UserMember {
     /**
-     * 删除会员
-     *
-     * @param request
-     * @param userid
-     * @param username
-     * @return
-     */
-    public JSONObject memDel(HttpServletRequest request, int userid, String username, int gym_group_id, int gym_id) {
-        Dbc dbc = DbcFactory.getBbsInstance();
-        Base base = new Base();
-        JSONObject backjson = new JSONObject();
-        String ajaxRequest = "";
-        String logtitle = "会员-删除";
-        try {
-            dbc.openConn("mysqlss");
-            base.setDbc(dbc, false);
-            ajaxRequest = AjaxXml.getParameterStr(request);
-            RequestUtil ru = new RequestUtil(request);
-            int id = ru.getInt("id");
-            Doc doc = base.executeQuery2Docs("select id from hy_member where id=? and isdel=0", new Object[]{id}, 1)[0];
-            if (doc == null || doc.isEmpty()) {
-                backjson.put("type", false);
-                backjson.put("msg", "会员不存在");
-                return backjson;
-            }
-            base.executeUpdate("update hy_member set isdel=1 where id=?", new Object[]{id});
-            Logdb.WriteSysLog(gym_group_id, gym_id, ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
-            base.commit();
-            backjson.put("type", true);
-            backjson.put("msg", "操作成功");
-            return backjson;
-        } catch (Exception e) {
-            base.rollback();
-            e.printStackTrace();
-            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
-            backjson.put("type", false);
-            backjson.put("msg", "系统忙，请稍候再试");
-            return backjson;
-        } finally {
-            dbc.closeConn();
-        }
-    }
-
-    /**
-     * 批量删除会员
-     *
-     * @param request
-     * @param userid
-     * @param username
-     * @return
-     */
-    public JSONObject memDelBatch(HttpServletRequest request, int userid, String username, int gym_group_id, int gym_id) {
-        Dbc dbc = DbcFactory.getBbsInstance();
-        Base base = new Base();
-        JSONObject backjson = new JSONObject();
-        String ajaxRequest = "";
-        String logtitle = "会员-批量删除";
-        try {
-            dbc.openConn("mysqlss");
-            base.setDbc(dbc, false);
-            ajaxRequest = AjaxXml.getParameterStr(request);
-            RequestUtil ru = new RequestUtil(request);
-            String idstr = ru.getString("ids");
-            StringBuffer wenhao = new StringBuffer();
-            List sqllist = new ArrayList();
-            String[] idArr = StringUtil.strs2array(idstr, ",");
-            if (idArr.length <= 0) {
-                backjson.put("type", false);
-                backjson.put("msg", "请选择要删除的会员");
-                return backjson;
-            }
-            for (int i = 0; i < idArr.length; i++) {
-                if (i == 0) {
-                    wenhao.append("?");
-                } else {
-                    wenhao.append(",?");
-                }
-                sqllist.add(idArr[i]);
-            }
-            base.executeUpdate("update hy_member set isdel=1 where id in (" + wenhao + ")", sqllist);
-            Logdb.WriteSysLog(gym_group_id, gym_id, ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
-            base.commit();
-            backjson.put("type", true);
-            backjson.put("msg", "操作成功");
-            return backjson;
-        } catch (Exception e) {
-            base.rollback();
-            e.printStackTrace();
-            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
-            backjson.put("type", false);
-            backjson.put("msg", "系统忙，请稍候再试");
-            return backjson;
-        } finally {
-            dbc.closeConn();
-        }
-    }
-
-    /**
      * 会员编辑增加
-     *
      * @param request
      * @param userid
      * @param username

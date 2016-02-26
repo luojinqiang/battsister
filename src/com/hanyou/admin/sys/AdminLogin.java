@@ -68,30 +68,25 @@ public class AdminLogin {
         Base base = new Base();
         RequestUtil ru = new RequestUtil(request);
         String ajaxRequest = "";
-        String logtitle = "后台登陆";
+        String logtitle = "派司德教育--后台登陆";
         JSONObject backjson = new JSONObject();
-
         try {
             dbc.openConn();
             base.setDbc(dbc, false);
-
             long createTime = SetupUtil.getTimestamp("");
             String user_name = ru.getString("user_name").trim();
             String user_pwd = ru.getString("user_pwd").trim();
-
             if (user_name.equals("") || user_pwd.equals("")) {
                 backjson.put("type", false);
                 backjson.put("msg", "帐号、密码不能为空");
                 return backjson;
             }
-
             Doc admindoc = base.executeQuery2Docs("select id,gym_group_id,gym_id,user_pwd,user_flag,islock,login_err from hy_sys_user where isdel=0 and user_name=? ", new Object[]{user_name}, 1)[0];
             if ((admindoc == null) || admindoc.isEmpty()) {
                 backjson.put("type", false);
                 backjson.put("msg", "帐号不存在");
                 return backjson;
             }
-
             if (admindoc.getIn("islock") == 1) {
                 backjson.put("type", false);
                 backjson.put("msg", "帐号已被锁定");
@@ -102,7 +97,6 @@ public class AdminLogin {
                 backjson.put("msg", "密码错误超过5次已经被锁定");
                 return backjson;
             }
-
             int login_err = admindoc.getIn("login_err");
             int shengxia = 5;
             DesEncrypter des = new DesEncrypter(AppConf.getconf().get("privatekey"));
@@ -110,17 +104,21 @@ public class AdminLogin {
             String UserNameDes = des.encrypt(et_username);
             String UserPasswordDes = "";
             KeyBean m = new KeyBean();
-
             if ((user_pwd != null) && (user_pwd.length() != 0)) {
                 UserPasswordDes = m.getkeyBeanofStr(user_pwd).toLowerCase();
             }
-
             if (UserPasswordDes.equals(admindoc.get("user_pwd"))) {
                 AddCookie.writeCookie("adminwebcookies", AjaxXml.escape(user_name) + "|" + UserNameDes + "|" + admindoc.getIn("id"), AppConf.getconf().get("webcookies"), response, 0);    // 添加cookies
                 base.executeUpdate("update hy_sys_user set login_err=0,last_login_ip=?,last_login_time=? where id=?", new Object[]{ru.getIps(), createTime, admindoc.getI("id")});
                 Logdb.WriteSysLog(admindoc.getIn("gym_group_id"), admindoc.getIn("gym_id"), AjaxXml.getParameterStr(request), "登录成功", user_name, admindoc.getIn("id"), ru.getIps(), 0, base);
                 backjson.put("type", true);
                 backjson.put("msg", "登陆成功");
+                //将用户的权限,用户名添加到session对象中(休眠一小时后重新登录)
+                HttpSession session=request.getSession();
+                session.setMaxInactiveInterval(3600);
+                session.setAttribute("user_id",admindoc.getIn("id"));
+                session.setAttribute("user_name",user_name);
+                session.setAttribute("user_flag",admindoc.get("user_flag",""));
             } else {
                 shengxia = 5 - login_err;
                 if (login_err + 1 == 6) {
@@ -135,7 +133,6 @@ public class AdminLogin {
 
                 Logdb.WriteSysLog(admindoc.getIn("gym_group_id"), admindoc.getIn("gym_id"), AjaxXml.getParameterStr(request), "登录失败", user_name, admindoc.getIn("id"), ru.getIps(), 0, base);
             }
-
             base.commit();
             return backjson;
         } catch (Exception e) {
@@ -144,37 +141,27 @@ public class AdminLogin {
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
             backjson.put("type", true);
             backjson.put("msg", "系统忙，请稍候再试");
-
             return backjson;
         } finally {
             dbc.closeConn();
         }
     }
-
     public int checkLogin(HttpServletRequest request, HttpServletResponse response) {
         int _jsp = this.verifyJsp(request, response);
-
         if (_jsp == 0) {
             return _jsp;
         } else {
             return -1;
         }
     }
-
     public int verifyJsp(HttpServletRequest request, HttpServletResponse response) {
         boolean haveurs = false;
-
-        // System.out.println("request="+request);
         Cookie[] urscookies = request.getCookies();
-
         if (null == urscookies) {
             return -1;
         }
-
         Cookie urscookie = null;
-
         for (int i = 0; i < urscookies.length; i++) {
-
             // System.out.println("urscookies[i].getName()="+urscookies[i].getName());
             if (urscookies[i].getName().equals("adminwebcookies")) {
                 urscookie = urscookies[i];

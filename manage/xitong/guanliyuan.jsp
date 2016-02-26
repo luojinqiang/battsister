@@ -20,7 +20,7 @@
     String action = ru.getString("action");
     if (action.equals("del")) {
         AdminLogin admin = new AdminLogin();
-        out.print(admin.Delsysuser(request, user_name, userid, gym_group_id, gym_id));
+        out.print(admin.Delsysuser(request, user_name, user_id, gym_group_id, gym_id));
         return;
     }
 
