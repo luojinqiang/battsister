@@ -92,7 +92,7 @@ public class BasicType {
      * @param gym_id
      * @return
      */
-  public static JSONObject delBasic(HttpServletRequest request, int userid, String username, int gym_group_id, int gym_id,String table,String logtitle){
+  public static JSONObject delBasic(HttpServletRequest request, int userid, String username,String table,String logtitle){
       Dbc dbc = DbcFactory.getBbsInstance();
       Base base = new Base();
       JSONObject backjson = new JSONObject();
@@ -110,7 +110,7 @@ public class BasicType {
               return backjson;
           }
           base.executeUpdate("update "+table+" set isdel=1 where id=?", new Object[]{id});
-          Logdb.WriteSysLog(gym_group_id, gym_id, ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+          Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
           base.commit();
           backjson.put("type", true);
           backjson.put("msg", "操作成功");
@@ -138,7 +138,7 @@ public class BasicType {
    * @param logtitle
    * @return
    */
- public static JSONObject batchDelBasic(HttpServletRequest request, int userid, String username, int gym_group_id, int gym_id,String table,String logtitle){
+ public static JSONObject batchDelBasic(HttpServletRequest request, int userid, String username,String table,String logtitle){
 	 Dbc dbc = DbcFactory.getBbsInstance();
      Base base = new Base();
      JSONObject backjson = new JSONObject();
@@ -166,7 +166,7 @@ public class BasicType {
              sqllist.add(idArr[i]);
          }
          base.executeUpdate("update "+table+" set isdel=1 where id in (" + wenhao + ")", sqllist);
-         Logdb.WriteSysLog(gym_group_id, gym_id, ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+         Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
          base.commit();
          backjson.put("type", true);
          backjson.put("msg", "操作成功");

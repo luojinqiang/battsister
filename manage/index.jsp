@@ -142,12 +142,12 @@
             <!--left down-->
 
             <ul class="nc_cont" id="jsddm">
-				<li class="ncc_01"><a href="javascript:jianyi2('yonghu/yonghu.jsp','用户管理')">用户管理</a>
+				<li class="ncc_01"><a href="javascript:jianyi2('teacher/teachers.jsp','教师管理')">用户管理</a>
                     <ul class="nav_list">
                         <%
                             if (current_flags.contains("1001")) {
                         %>
-                        <li><a href="javascript:window.parent.jianyi2('yonghu/yonghu.jsp','用户管理')">用户管理</a></li>
+                        <li><a href="javascript:window.parent.jianyi2('teacher/teachers.jsp','教师管理')">教师管理</a></li>
                         <%} %>
                     </ul>
                 </li>

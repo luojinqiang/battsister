@@ -36,7 +36,7 @@ public class Newsclass {
      * @param username
      * @return
      */
-    public String editNews(HttpServletRequest request, int userid, String username, int gym_group_id, int gym_id) {
+    public String editNews(HttpServletRequest request, int userid, String username) {
         Dbc dbc = DbcFactory.getRDbcInstance();
         Base base = new Base();
         RequestUtil ru = new RequestUtil(request);
@@ -61,16 +61,11 @@ public class Newsclass {
             String otherhtml = ru.getString("otherhtml").trim();
             String content = ru.getString("contents").trim();
             String classnavicontent = ru.getString("classnavicontent").trim();
-            //String content	= ru.getString("content").trim();
-            //String content	= ru.getString("content").trim();
             int lanmuid = AjaxXml.getid();
             int ordernum = ru.getInt("ordernum");
-            //int paixu=ru.getInt("paixu");
-            //content=AjaxXml.unescape(content);
             if (classname.equals("")) {
                 return "请输入栏目标题$$err";
             }
-            //content=StringUtil.replace(content, "^…", "&");
             String sql = "insert into hy_news_class (classname,classename," +
                     "readme,keyword,templet,savepath,picpath,htmlpage," +
                     "otherhtml,content,classnavicontent,ordernum,previd,nextid,idtype,parentid,parentpath,depth,rootid,child,addtime,id) values (?,?,?,?,?,?,?,?," +
@@ -121,7 +116,7 @@ public class Newsclass {
                 FileUtil.writeByString(AppConf.getconf().get("VMpath") + "/web/" + waibao + "/" + lanmuid + ".vm", classnavicontent);
             }
 
-            Logdb.WriteSysLog(gym_group_id, gym_id, ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             base.commit();
             return logtitle + "成功$$ok";
         } catch (Exception e) {
@@ -144,7 +139,7 @@ public class Newsclass {
      * @param gym_id
      * @return
      */
-    public JSONObject delNewsClass(HttpServletRequest request, int userid, String username, int gym_group_id, int gym_id) {
+    public JSONObject delNewsClass(HttpServletRequest request, int userid, String username) {
         Dbc dbc = DbcFactory.getBbsInstance();
         Base base = new Base();
         JSONObject backjson = new JSONObject();
@@ -164,7 +159,7 @@ public class Newsclass {
             }
 
             base.executeUpdate("update hy_news_class set isdel=1 where id=?", new Object[]{id});
-            Logdb.WriteSysLog(gym_group_id, gym_id, ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             base.commit();
             backjson.put("type", true);
             backjson.put("msg", "删除成功");
@@ -191,7 +186,7 @@ public class Newsclass {
      * @param username
      * @return
      */
-    public String batchDelNewsClass(HttpServletRequest request, int userid, String username, int gym_group_id, int gym_id) {
+    public String batchDelNewsClass(HttpServletRequest request, int userid, String username) {
         Dbc dbc = DbcFactory.getRDbcInstance();
         Base base = new Base();
         RequestUtil ru = new RequestUtil(request);
@@ -217,7 +212,7 @@ public class Newsclass {
                 ulist.add(new Integer(idarr[i]));
             }
             base.executeUpdate("delete from hy_news_class where id in (" + wenhao.toString() + ")", ulist);
-            Logdb.WriteSysLog(gym_group_id, gym_id, ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             base.commit();
             return logtitle + "成功$$ok";
         } catch (Exception e) {

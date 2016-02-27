@@ -2,7 +2,7 @@
 <%@ page import="net.sf.json.JSONObject" %>
 <%@ include file="ini_sys.jsp" %>
 <%
-   JSONObject result =new AdminLogin().getMainInfo(gym_group_id,gym_id);
+   JSONObject result =new AdminLogin().getMainInfo();
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -164,9 +164,9 @@
         <div class="kj_tabs_cont">
             <div class="k_r_mc">
                 <ul class="kl_form clearfix">
-                    <li><span class="k_f_text">当前用户数量：<b class="red"><%=result.optInt("memNum") %>
+                    <li><span class="k_f_text">当前用户数量：<b class="red"><%=result.optInt("teacherNum") %>
                     </b></span><a href="javascript:window.parent.jianyi2('yonghu/yonghu.jsp','用户管理')">查看</a></li>
-                    <li><span class="k_f_text">今日新增：<b class="red"><%=result.optInt("memNum_totday") %>
+                    <li><span class="k_f_text">今日新增：<b class="red"><%=result.optInt("teacherNum_totday") %>
                     </b></span></li>
                 </ul>
             </div>

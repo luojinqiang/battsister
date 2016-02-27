@@ -10,7 +10,7 @@
             <%
                 if (current_flags.contains("1001")) {
             %>
-            <li><a href="javascript:window.parent.jianyi2('yonghu/yonghu.jsp','用户管理')">用户管理</a></li>
+            <li><a href="javascript:window.parent.jianyi2('teacher/teachers.jsp','教师管理')">教师管理</a></li>
             <%
                 }
                %>

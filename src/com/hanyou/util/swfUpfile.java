@@ -590,7 +590,7 @@ public class swfUpfile {
                 }
                 //System.out.println("file_showname:"+file_showname);
                 file_readme = "/" + file_path + "/" + file_name + "." + file_ext;
-                String sqlx = "insert into hy_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
+                String sqlx = "insert into bs_upfile (username,userid,logid,file_name,file_path,file_ext,"
                         + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
                         + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 List growthList = new ArrayList();
@@ -611,9 +611,6 @@ public class swfUpfile {
                 growthList.add(height);
                 growthList.add(file_showname);
                 growthList.add("");
-                //System.out.println(sqlx);
-                //System.out.println(growthList);
-
                 int iiii = base.executeUpdate(sqlx, growthList);
                 if (iiii == 0 && logid > 0) {
                     base.executeUpdate("update hy_news set pic_num=(select count(id) from hy_news_upfile where logid=" + logid + " and isdel=0) where id=" + logid + "", new ArrayList());
@@ -622,7 +619,6 @@ public class swfUpfile {
             backjson.put("status", 1);
             backjson.put("imgpath", file_readme);
             backjson.put("little_url", little_url);
-            //LogUtility.log("little_url--->"+little_url);
             return backjson.toString();
         } catch (Exception e) {
             e.printStackTrace();
