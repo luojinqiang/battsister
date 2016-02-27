@@ -1,12 +1,18 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <link href="/manage/css/colortemplate.css" rel="stylesheet" type="text/css"/>
 <div class="sidebarWrap">
-	    <div class="sidebar" id="yonghu" style="display:none">
+	    <div class="sidebar" id="teacher" style="display:none">
         <h3>
             <span>用户管理</span>
         </h3>
         <ul class="nav_list">
-
+   			<%
+                if (current_flags.contains("1001")) {
+            %>
+            <li><a href="javascript:window.parent.jianyi2('teacher/schools.jsp','学校管理')">学校管理</a></li>
+            <%
+                }
+               %>
             <%
                 if (current_flags.contains("1001")) {
             %>
@@ -72,7 +78,7 @@
 <script type="text/javascript">
     $(document).ready(
             function () {
-                var leftarr = ['yonghu', 'xinxi', 'xitong'];
+                var leftarr = ['teacher', 'xinxi', 'xitong'];
                 var nowhref = window.location.href;
                 for (l in leftarr) {
                     if (nowhref.indexOf(leftarr[l]) > -1) {

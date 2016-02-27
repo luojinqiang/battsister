@@ -35,6 +35,7 @@
     }
     String teacher_name = ru.getString("teacher_name", "");
     String teacher_username = ru.getString("teacher_username", "");
+    int school_id=ru.getInt("school_id");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -174,6 +175,19 @@
     <div class="form_cont mb10">
         <form id="form1" name="form1" method="get" action="">
             <ul class="row3">
+            	<li>所属学校：
+            		<select name="school_id">
+            			<option value="0">--全部--</option>
+            			<%
+            				List<Doc> school_list=utildb.Get_List("id,name","bs_schools"," where isdel=0","mysqlss");
+            				if(school_list!=null){
+            					for(Doc doc:school_list){
+            						out.print("<option value=\""+doc.getIn("id")+"\""+(school_id==doc.getIn("id")?"selected=\"selected\"":"")+">"+doc.getString("name")+"</option>");
+            					}
+            				}
+            			%>
+            		</select>
+            	</li>
                 <li>教师姓名：<input name="teacher_name" type="text" value="<%=teacher_name%>" style="width:100px;"/>
                 </li>
                 <li>教师账号：<input name="teacher_username" type="text" id="teacher_username" value="<%=teacher_username%>"
@@ -220,6 +234,10 @@
                     if (!teacher_username.equals("")) {
                         wheres = wheres + " and a.username like ?";
                         sqllist.add("%" + teacher_username + "%");
+                    }
+                    if(school_id>0){
+                    	   wheres = wheres + " and a.school_id = ?";
+                           sqllist.add(school_id);
                     }
                     String file = "a.id,a.name,a.username,a.headpic,a.sex,a.last_login_time,a.addtime,"+
                     "a.last_login_ip,a.login_times,a.account_status,a.addtime,a.school_id,b.name as 'school_name'";

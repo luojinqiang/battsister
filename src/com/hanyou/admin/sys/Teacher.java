@@ -40,15 +40,38 @@ public class Teacher {
             String user_name=ru.getString("username");
             String name=ru.getString("name");
             String account_status=ru.getString("account_status");
+            int school_id=ru.getInt("school_id");
             int sex=ru.getInt("sex");
             String birth=ru.getString("birth");
             int birthTemp=0;
             if(birth!=null&&!"".equals(birth)){
             	birthTemp=AjaxXml.getTimestamp(birth+" 00:00:00");
             }
+            if(user_name==null||"".equals(user_name)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "请输入教师登陆账号");
+                 return backjson;
+            }
+            if(name==null||"".equals(name)){
+           	 	backjson.put("type", false);
+                backjson.put("msg", "请输入教师姓名");
+                return backjson;
+           }
             String headpic=ru.getString("headpic");
             String password=ru.getString("password");
             String password1=ru.getString("password1");
+            if(id<=0){
+            	if(password==null||"".equals(password)){
+            		backjson.put("type", false);
+                    backjson.put("msg", "请输入教师登陆密码");
+                    return backjson;
+            	}
+            	if(!password.equals(password1)){
+            		backjson.put("type", false);
+                    backjson.put("msg", "两次输入密码不一致");
+                    return backjson;
+            	}
+            }
             List valueList = new ArrayList();
             valueList.add(user_name);
             valueList.add(name);
@@ -56,6 +79,7 @@ public class Teacher {
             valueList.add(sex);
             valueList.add(birthTemp);
             valueList.add(headpic);
+            valueList.add(school_id);
             String addString="";
             String insertString="";
             String insertSql="";
@@ -75,11 +99,11 @@ public class Teacher {
             if (id > 0) {
                 logtitle = "API--教师账号--编辑";
                 valueList.add(id);
-                base.executeUpdate("update bs_teachers set username=?,name=?,account_status=?,sex=?,birth=?,headpic=?"+addString+" where id=? ", valueList);
+                base.executeUpdate("update bs_teachers set username=?,name=?,account_status=?,sex=?,birth=?,headpic=?,school_id=? "+addString+" where id=? ", valueList);
             } else {
                 valueList.add(AjaxXml.getTimestamp("now"));
                 base.executeUpdate("insert into bs_teachers (username,name,account_status,sex,"
-                        + " birth,headpic"+insertSql+",addtime) values(?,?,?,?,?,?"+insertString+",?)", valueList);
+                        + " birth,headpic,school_id"+insertSql+",addtime) values(?,?,?,?,?,?,?"+insertString+",?)", valueList);
             }
             Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             backjson.put("type", true);
