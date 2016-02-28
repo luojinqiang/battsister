@@ -1,34 +1,36 @@
+<%@page import="com.baje.sz.ajax.AjaxXml" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.baje.sz.util.RequestUtil" %>
 <%@ page import="com.baje.sz.util.*" %>
-<%@ page import="com.baje.sz.ajax.*" %>
-<%@ page import="com.hanyou.admin.sys.News" %>
+<%@ page import="com.hanyou.admin.sys.*" %>
 <%@ page import="com.hanyou.util.*" %>
 <%@ include file="../ini_sys.jsp" %>
 <%
+    request.setCharacterEncoding("utf-8");
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
-    if (current_flags.indexOf(",4002,") < 0) {
-        response.sendRedirect("../error.jsp?left=xinxi");
+    RequestUtil ru = new RequestUtil(request);
+    if (current_flags.indexOf(",6002,") < 0) {
+        response.sendRedirect("../error.jsp?left=xitong");
         return;
     }
-    RequestUtil ru = new RequestUtil(request);
-
-    int newsclass = ru.getInt("newsclass");
+    Keyword kw = new Keyword();
     String action = ru.getString("action");
     if (action.equals("del")) {
-        out.print(BasicType.delBasic(request, user_id, user_name,"bs_news","API--删除新闻"));
-        return;
-    }
+    	   out.print(BasicType.delBasic(request, user_id, user_name,"bs_sys_keyword","API--删除关键字"));
+           return;  
+        }
     if (action.equals("batchDel")) {
-    	 out.print(BasicType.batchDelBasic(request, user_id, user_name,"bs_news","API--批量删除新闻"));
-         return;
-    }
-    Doc newsdoc = new Doc();
-%><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+      	 out.print(BasicType.batchDelBasic(request, user_id, user_name,"bs_sys_keyword","API--批量删除后台日志"));
+           return;
+      }
+    String keyword = ru.getString("keyword");
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -37,44 +39,14 @@
     <link href="../css/base.css" rel="stylesheet" type="text/css"/>
     <link href="../css/page.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
-
+    <script type="text/javascript" src='../js/sys.js'></script>
     <script type="text/javascript" src="../js/artDialog4.1.6/artDialog.js?skin=green"></script>
     <script type="text/javascript" src="../js/artDialog4.1.6/plugins/iframeTools.source.js"></script>
-
-
-    <script type="text/javascript" src='../js/sys.js'></script>
     <script type="text/javascript" src='../js/webcalendar.js'></script>
     <script type="text/javascript">
-        var menu1 = [
-            {
-                '刷新页面': function (menuItem, menu) {
-                    window.location.reload();
-                }
-            }
-        ];
-        $(function () {
-            //$(this).contextMenu(menu1,{theme:'vista'});
-        });
-        function edit(id) {
-            //openurl('news_edit.jsp?id='+id+'','xitong','编辑新闻',700,380,0,50,true);
-            window.parent.jianyi2('xinxi/news_edit.jsp?id=' + id + '', '编辑新闻');
+        function edit(id, str) {
+            openurl('keyword_edit.jsp?id=' + id + '', 'xitong', str, 700, 380, 0, 10, true);
         }
-        artDialog.fn.shake = function () {
-            var style = this.DOM.wrap[0].style,
-                    p = [4, 8, 4, 0, -4, -8, -4, 0],
-                    fx = function () {
-                        style.marginLeft = p.shift() + 'px';
-                        if (p.length <= 0) {
-                            style.marginLeft = 0;
-                            clearInterval(timerId);
-                        }
-                        ;
-                    };
-            p = p.concat(p.concat(p));
-            timerId = setInterval(fx, 13);
-            return this;
-        };
-
         function del(id) {
             art.dialog({
                 id: 'delID',
@@ -100,7 +72,7 @@
                                 },
                                 dataType: "json",
                                 type: "post",
-                                url: "news.jsp",
+                                url: "keyword.jsp",
                                 data: "action=del&id=" + id + "",
                                 success: function (msg) {
                                     art.dialog({id: 'tisID'}).close();
@@ -131,7 +103,6 @@
                 ]
             });
         }
-
         function batchDel() {
             var id = getcheckbox("id");
             if (id == "") {
@@ -156,7 +127,7 @@
                                 },
                                 dataType: "json",
                                 type: "post",
-                                url: "news.jsp",
+                                url: "keyword.jsp",
                                 data: "action=batchDel&id=" + id + "",
                                 success: function (msg) {
                                     art.dialog({id: 'tisID'}).close();
@@ -194,126 +165,77 @@
 <body class="ifr">
 <%@ include file="../left.jsp" %><!--End Sidebar-->
 <div class="iframe_box">
-    <div class="form_info"><strong>新闻管理</strong></div>
+    <div class="form_info"><strong>关键字管理</strong></div>
     <div class="form_cont mb10">
-        <form id="form1" name="form1" method="get" action="">
+        <form id="form1" name="form1" method="post" action="">
+            <ul class="row3">
 
-            <ul class="row2">
-                <li>信息分类：<select name="newsclass" id="newsclass">
-                    <option value="0" <%=(newsclass == 0) ? "selected=\"selected\"" : ""%>>选择栏目</option>
-                    <%
-                        List clist = utildb.Get_List("id,classname,parentid",
-                                "bs_news_class",
-                                "where idtype=0 and isdel=0 and parentid=0", "");
-                        if (clist != null) {
-                            for (Iterator its = clist.listIterator(); its.hasNext(); ) {
-                                Doc docx = (Doc) its.next();
-                                if (newsclass == docx.getIn("id")) {
-                                    out.println("<option value=\"" + docx.get("id")
-                                            + "\" selected>&nbsp;|└"
-                                            + docx.get("classname") + "</option>");
-                                } else {
-                                    out.println("<option value=\"" + docx.get("id")
-                                            + "\">├" + docx.get("classname") + "</option>");
-                                }
-                                newsdoc.put(docx.get("id"), docx.get("classname"));
-                                List plist = utildb.Get_List("id,classname",
-                                        "bs_news_class", "where isdel=0 and parentid="
-                                                + docx.getIn("id") + "", "");
-                                if (clist != null) {
-                                    for (Iterator pits = plist.listIterator(); pits
-                                            .hasNext(); ) {
-                                        Doc docp = (Doc) pits.next();
-                                        newsdoc.put(docp.get("id"), docp.get("classname"));
-                                        if (newsclass == docp.getIn("id")) {
-                                            out.println("<option value=\"" + docp.get("id")
-                                                    + " selected=\"selected\"\">&nbsp;|└"
-                                                    + docp.get("classname") + "</option>");
-                                        } else {
-                                            out.println("<option value=\"" + docp.get("id")
-                                                    + "\">&nbsp;|└" + docp.get("classname")
-                                                    + "</option>");
-                                        }
-
-                                    }
-                                }
-                            }
-                        }
-                    %>
-                </select>
-                </li>
-
+                <li>关键字：<input name="keyword" type="text" id="keyword" value="<%=keyword%>" style="width:100px;"/></li>
                 <li class="btn_line">
-                    <button type="button" class="btn_formA" onclick="$('#form1').submit()">确定搜索</button>
+                    <button type="button" class="btn_formA" onclick="$('#form1').submit()">查&nbsp;&nbsp;询</button>
                 </li>
-
             </ul>
+
         </form>
     </div>
     <div class="btnitem mb10 clearfix">
         <ul class="s_btn">
-            <li><a href="javascript:edit(0)">新增新闻</a></li>
-
+            <li><a href="javascript:edit(0,'新增关键字')">新增关键字</a></li>
         </ul>
     </div>
     <div class="form_table">
-        <form id="form2" name="form2" method="post" action="">
+        <form id="form2" name="form2" method="get" action="">
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <th width="5%"></th>
-                    <th width="30%">标题</th>
-                    <th width="11%">栏目</th>
-                    <th width="8%">排序</th>
-                    <th width="12%">添加时间</th>
-                    <th width="15%">操作</th>
+                    <th width="45%">关键字</th>
+                    <th width="10%">类型</th>
+                    <th width="20%">创建时间</th>
+                    <th width="20%">操作</th>
                 </tr>
-
                 <%
-                    List sqllist = new ArrayList();
                     String wheres = " isdel=0";
-                    if (newsclass > 0) {
-                        wheres = wheres + " and newsclass=?";
-                        sqllist.add(new Integer(newsclass));
+                    List sqllist = new ArrayList();
+                    if (!keyword.equals("")) {
+                        wheres = wheres + " and keyword like ?";
+                        sqllist.add("%" + keyword + "%");
                     }
                     int pages = ru.getInt("page");
-                    int pn = 25;
-                    String table = "bs_news";
-                    String file = "id,newstitle,bossname,newsclass,ordernum,addtime";
+                    int pn = 20;
+                    String table = "bs_sys_keyword";
+                    String file = "id,keyword,replace_word,key_type,add_time";
                     String order = " order by id desc";
                     String idd = "id";
+                    String beizhu = "";
                     int counts = utildb.Get_count(idd, table, wheres, "", sqllist);
-                    List list = utildb.Get_mssqlList(pages, pn, counts, table, wheres,
-                            file, order, idd, "", sqllist);
+                    List list = utildb.Get_mssqlList(pages, pn, counts, table, wheres, file, order, idd, "", sqllist);
                     if (list != null) {
                         for (Iterator its = list.listIterator(); its.hasNext(); ) {
                             Doc doc = (Doc) its.next();
+
                 %>
-                <tr>
-                    <td><input name="id" type="checkbox" id="id" value="<%=doc.get("id")%>"/></td>
-                    <td><%=doc.get("newstitle")%>
+                <tr onmousemove="tableMove(this);" onmouseout="tableOut(this)">
+                    <td><input type="checkbox" name="id" id="id" value="<%=doc.get("id")%>"/></td>
+                    <td><%=doc.get("keyword")%>
                     </td>
-                    <td><%=newsdoc.get(doc.get("newsclass"))%>
+                    <td><%=BasicType.getKeywordType(doc.getIn("key_type"))%>
                     </td>
-                    <td><%=doc.getIn("paixu")%>
+                    <td><%=SetupUtil.timestamp2Date(doc.get("add_time"), "YY04-MM-DD HH:MI:SS") %>
                     </td>
-                    <td><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"), "YY04-MM-DD HH:MI:SS")%>
+                    <td>
+                        <a href="javascript:edit(<%=doc.get("id")%>,'<%=doc.get("keyword") %>')">编辑</a>
+                        <a href="javascript:del(<%=doc.get("id")%>)">删除</a>
                     </td>
-                    <td><a href="javascript:edit(<%=doc.get("id")%>)">编辑</a>
-                        <a href="javascript:del(<%=doc.get("id")%>)">删除</a></td>
                 </tr>
+
                 <%
                         }
                     }
                 %>
+
                 <tr>
-                    <td colspan="1" style="text-align:right">
-                        <input type="checkbox" name="chkall" id="chkall" value="checkbox"
-                               onclick="CheckAll(this.form);"/>选中/取消所有
-                    </td>
-                    <td colspan="6" style="text-align:right">
-                        <input name="tjdel " type="button" onclick=" batchDel()" value="批量删除新闻"/>
-                        <%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%>
-                    </td>
+                    <td colspan="5"
+                        style="text-align:right"><%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%></td>
                 </tr>
             </table>
         </form>

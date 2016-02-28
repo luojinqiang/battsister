@@ -1,5 +1,4 @@
 package com.hanyou.admin.sys;
-
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
@@ -310,7 +309,6 @@ public class AdminLogin {
             dbc.closeConn();
         }
     }
-
     /**
      * 后台管理员--更改密码
      * @param request
@@ -373,44 +371,6 @@ public class AdminLogin {
         }
     }
 
-    // 删除后台管理员
-    public String Delsysuser(HttpServletRequest request, String username, int userid) {
-        Dbc dbc = DbcFactory.getRDbcInstance();
-        Base base = new Base();
-        RequestUtil ru = new RequestUtil(request);
-
-        try {
-            dbc.openConn("mysqlss");
-            base.setDbc(dbc, false);
-            String ids = ru.getString("ids");
-            String[] idarr = StringUtil.strs2array(ids, ",");
-            int i = 0;
-            StringBuffer wenhao = new StringBuffer("");
-            List sqllist = new ArrayList();
-
-            for (i = 0; i < idarr.length; i++) {
-                if (i == 0) {
-                    wenhao.append("?");
-                } else {
-                    wenhao.append(",?");
-                }
-
-                sqllist.add(idarr[i]);
-            }
-            base.executeUpdate("update bs_sys_user set isdel=1 where id in (" + wenhao.toString() + ")", sqllist);
-            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "删除后台管理员" + i + "条", username, userid, ru.getIps(), 0, base);
-            base.commit();
-            return "删除成功$$ok";
-        } catch (Exception e) {
-            base.rollback();
-            e.printStackTrace();
-            LogUtility.log(e, "删除后台管理员");
-
-            return "删除失败$$err";
-        } finally {
-            dbc.closeConn();
-        }
-    }
 
     /**
      * 获取首页的信息

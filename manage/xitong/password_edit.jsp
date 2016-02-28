@@ -13,12 +13,12 @@
     AdminLogin admin = new AdminLogin();
     String action = ru.getString("action");
     if (action.equals("editsave")) {//修改
-        out.print(admin.editPassword(request, user_id, user_name, gym_group_id, gym_id).toString());
+        out.print(admin.editPassword(request, user_id, user_name).toString());
 
         return;
     }
     if (action.equals("editsave")) {//修改
-        out.print(admin.editPassword(request, user_id, user_name, gym_group_id, gym_id).toString());
+        out.print(admin.editPassword(request, user_id, user_name).toString());
         return;
     }
     String ac_title = "";
@@ -35,12 +35,12 @@
     if (user_id > 0) {
         action = "editsave";
         ac_title = "修改账号";
-        Doc news = utildb.Get_Doc("user_name", "hy_sys_user", "where id=?", "", new Object[]{user_id});
+        Doc news = utildb.Get_Doc("username", "bs_sys_user", "where id=?", "", new Object[]{user_id});
         if (news == null) {
             out.println("信息不存在");
             return;
         }
-        user_name = news.get("user_name");
+        user_name = news.get("username");
     }
     String logstarttime = AjaxXml.Get_Date("now", "YY04-MM-DD HH:MI:SS");
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -51,7 +51,7 @@
     <link href="../css/reset.css" rel="stylesheet" type="text/css"/>
     <link href="../css/base.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
-    <script language=javascript src='../js/qmango.js'></script>
+    <script type="text/javascript" src='../js/qmango.js'></script>
     <script type="text/javascript">
         function usersave() {
             var id = $("#id").val();

@@ -23,19 +23,14 @@
     RequestUtil ru = new RequestUtil(request);
     String action = ru.getString("action");
     if (action.equals("del")) {
-        out.print(BasicType.delBasic(request,user_id, user_name, gym_group_id, gym_id, "hy_sys_feedback","API--删除用户反馈"));
+        out.print(BasicType.delBasic(request,user_id, user_name, "bs_sys_feedback","API--删除用户反馈"));
         return;
     }
     if (action.equals("batchDel")) {
-        out.print(BasicType.batchDelBasic(request, user_id, user_name, gym_group_id, gym_id, "hy_sys_feedback", "API--批量删除用户反馈"));
+        out.print(BasicType.batchDelBasic(request, user_id, user_name, "bs_sys_feedback", "API--批量删除用户反馈"));
         return;
     }
-    String mem_userid = ru.getString("mem_userid");
-    String mem_name = ru.getString("mem_name");
-    String feedBackTimeStart = ru.getString("startTime");
-    String feedBackTimeEnd = ru.getString("endTime");
-    int mobile_type = ru.getInt("mobile_type");
-    int feedback_type = ru.getInt("feedback_type", -1);
+    int feedback_type=ru.getInt("feedback_type");
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -50,7 +45,6 @@
     <script type="text/javascript" src="../js/artDialog4.1.6/plugins/iframeTools.source.js"></script>
     <script type="text/javascript" src='/manage/js/webcalendar.js'></script>
     <script type="text/javascript">
-
         function batchDel() {
             var id = getcheckbox("id");
             if (id == "") {
@@ -76,7 +70,7 @@
                                 },
                                 dataType: "json",
                                 type: "post",
-                                url: "userFeedback.jsp",
+                                url: "userfeedback.jsp",
                                 data: "action=batchDel&ids=" + id + "",
                                 success: function (msg) {
                                     art.dialog({id: 'tisID'}).close();
@@ -136,7 +130,7 @@
                                 },
                                 dataType: "json",
                                 type: "post",
-                                url: "userFeedback.jsp",
+                                url: "userfeedback.jsp",
                                 data: "action=del&id=" + id + "",
                                 success: function (msg) {
                                     art.dialog({id: 'tisID'}).close();
@@ -171,27 +165,6 @@
             });
             dialog.shake && dialog.shake();// 调用抖动接口
         }
-
-
-        function validation() {
-            var reg = new RegExp("^[0-9]*$");
-            if ($("#mem_userid").attr("value") != "") {
-                if (!reg.test($("#mem_userid").attr("value"))) {
-                    alert("请输入合法账号");
-                    return false;
-                }
-            }
-            reg = /^(\d{4})-(\d{2})-(\d{2})$/
-
-            if ($("#start").attr("value") != "" || $("#end").attr("value") != "") {
-                if (!reg.test($("#start").attr("value")) || !reg.test($("#end").attr("value"))) {
-                    alert("请输入合法日期");
-                    return false;
-                }
-            }
-            $('#form1').submit();
-            return true;
-        }
     </script>
 </head>
 <body class="ifr">
@@ -201,55 +174,30 @@
     <div class="form_cont mb10">
         <form id="form1" name="form1" method="get" action="">
             <ul class="row3">
-                <li>用户id：<input name="mem_userid" type="text" id="mem_userid" value="<%=mem_userid%>"
-                                style="width:100px;"/>
-                </li>
-                <li>
-                    用户名：<input name="mem_name" type="text" id="mem_name" value="<%=mem_name%>" style="width:100px;"/>
-                </li>
-
                 <li>反馈类型：
                     <select name="feedback_type">
-                        <option value="-1">--请选择反馈类型--</option>
-                        <option value="0" <%= (feedback_type == 0 ? "selected" : "") %>>用户APP端</option>
-                        <option value="1" <%=(feedback_type == 1 ? "selected" : "") %>>教练端</option>
+                        <option value="0">--全部--</option>
+                        <option value="1" <%= (feedback_type == 1 ? "selected=\"selected\"" : "") %>>老师反馈</option>
+                        <option value="2" <%=(feedback_type == 2 ? "selected=\"selected\"" : "") %>>学生反馈</option>
                     </select>
                 </li>
             </ul>
-            <ul class="row3">
-                <li>反馈时间：<input name="startTime" type="text"
-                                id="start" value="<%=feedBackTimeStart%>"
-                                style="width:100px;" onclick="SelectDate(this,'yyyy-MM-dd',0,0)"/>
-                    - <input name="endTime" type="text" id="end"
-                             value="<%=feedBackTimeEnd%>" style="width:100px;"
-                             onclick="SelectDate(this,'yyyy-MM-dd',0,0)"/>
-                </li>
-
-                <li>手机类型：<select name="mobile_type">
-                    <option value="0">--请选择手机类型--</option>
-                    <option value="1" <%= (mobile_type == 1 ? "selected" : "") %>>安卓</option>
-                    <option value="2" <%=(mobile_type == 2 ? "selected" : "") %>>IOS</option>
-                </select>
-                </li>
+            <ul class="row3" style="margin-top: 3px;">
                 <li class="btn_line">
-                    <button type="button" class="btn_formA" onclick="return validation()">确定搜索</button>
+                   <button type="button" class="btn_formA" onclick="$('#form1').submit()">确定搜索</button>
                 </li>
             </ul>
         </form>
     </div>
-
     <div class="form_table">
         <form id="form2" name="form2" method="post" action="">
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <th width="8%"></th>
-                    <th width="10%">用户ID</th>
-                    <th width="7%">用户名</th>
-                    <th width="7%">手机类型</th>
-                    <th width="7%">反馈类型</th>
-                    <th width="7%">版本号</th>
-                    <th width="20%">反馈内容</th>
-                    <th width="15%">反馈时间</th>
+                    <th width="10%">学生姓名</th>
+                    <th width="10%">老师姓名</th>
+                    <th width="40%">反馈内容</th>
+                    <th width="20%">反馈时间</th>
                     <th width="">操作</th>
                 </tr>
                 <%
@@ -258,40 +206,17 @@
                         pages = 1;
                     }
                     int pn = 20;
-
                     StringBuffer wheres = new StringBuffer(" a.isdel=0 ");
-
-                    if (mem_userid != null && mem_userid != "") {
-                        wheres.append(" and a.mem_userid like '%" + mem_userid + "%'");
+                    if (feedback_type ==1) {
+                        wheres.append(" and a.teacher_id>0 ");
                     }
-
-                    if (mem_name != null && mem_name != "") {
-                        wheres.append(" and b.mem_name like '%" + URLEncoder.encode(mem_name, "utf-8") + "%'");
+                    if(feedback_type==2){
+                    	 wheres.append(" and a.student_id>0 ");
                     }
-
-                    if (feedBackTimeStart != null && feedBackTimeStart != "" && feedBackTimeEnd != null && feedBackTimeEnd != "") {
-                        //wheres.append(" and a.create_time>='"+feedBackTimeStart+"' and a.create_time<="+feedBackTimeEnd+"");
-                        wheres.append(" and a.create_time>=" + AjaxXml.getTimestamp(AjaxXml.Get_Date(feedBackTimeStart, "YY04-MM-DD 00:00:00")) +
-                                "  and a.create_time<=" + AjaxXml.getTimestamp(AjaxXml.Get_Date(feedBackTimeEnd, "YY04-MM-DD 00:00:00")));
-                    }
-
-                    if (mobile_type == 1) {
-                        wheres.append(" and a.mobile_type=1 ");
-                    }
-                    if (mobile_type == 2) {
-                        wheres.append(" and a.mobile_type=2 ");
-                    }
-                    if (feedback_type == 0) {
-                        wheres.append(" and a.feedback_type=0 ");
-                    }
-                    if (feedback_type == 1) {
-                        wheres.append(" and a.feedback_type=1 ");
-                    }
-                    String table = "hy_sys_feedback a left join hy_member b on a.mem_userid=b.id";
-                    String file = "a.id,a.mem_userid,b.mem_name,a.mobile_type,a.version,a.content,a.create_time,a.feedback_type";
-
+                    String table = "bs_sys_feedback a left join bs_teachers b on a.teacher_id=b.id left join bs_students c on a.student_id=c.id";
+                    String file = "a.id,b.name as 'teacher_name',c.name as 'student_name',a.content,a.add_time";
                     int counts = utildb.Get_count("a.id", table, wheres.toString(), "mysqlss");
-                    List list = utildb.Get_mssqlList(pages, pn, counts, table, wheres.toString(), file, "order by a.create_time", "a.id", "mysqlss", new ArrayList());
+                    List list = utildb.Get_mssqlList(pages, pn, counts, table, wheres.toString(), file, "order by a.add_time", "a.id", "mysqlss", new ArrayList());
                     if (list != null) {
                         for (Iterator its = list.listIterator(); its.hasNext(); ) {
                             Doc doc = (Doc) its.next();
@@ -300,37 +225,16 @@
                 %>
                 <tr onmousemove="tableMove(this);" onmouseout="tableOut(this)">
                     <td><input name="id" type="checkbox" id="id" value="<%=doc.get("id")%>"/></td>
-                    <td><%=doc.get("mem_userid") %>
+                      <td><%=doc.get("teacher_name")!=null&&!"".equals(doc.get("teacher_name"))?doc.get("teacher_name"):"--"%>
                     </td>
-                    <td><%=URLDecoder.decode(doc.get("mem_name"), "utf-8") %>
+                      <td><%=doc.get("student_name")!=null&&!"".equals(doc.get("student_name"))?doc.get("student_name"):"--"%>
+                    </td> 
+                    <td><%=doc.get("content")%>
                     </td>
-                    <td>
-                        <%
-                            if (doc.getIn("mobile_type") == 1) {
-                                out.print("安卓");
-                            } else if (doc.getI("mobile_type") == 2) {
-                                out.print("IOS");
-                            }
-                        %>
-                    </td>
-                    <td>
-                        <%
-                            if (doc.getIn("feedback_type") == 0) {
-                                out.print("用户APP端");
-                            } else if (doc.getI("feedback_type") == 1) {
-                                out.print("教练端");
-                            }
-                        %>
-                    </td>
-                    <td><%=doc.get("version") %>
-                    </td>
-                    <td><%=doc.get("content") %>
-                    </td>
-                    <td><%=AjaxXml.timeStamp2Date(doc.getIn("create_time"), "YY04-MM-DD ")%>
+                    <td><%=AjaxXml.timeStamp2Date(doc.getIn("add_time"), "YY04-MM-DD HH:MI:SS")%>
                     </td>
                     <td><a href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
-
                 <%
                             }
                         }
@@ -345,13 +249,12 @@
 
                     </td>
 
-                    <td colspan="7"
+                    <td colspan="5"
                         style="text-align:right"><%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%></td>
                 </tr>
             </table>
         </form>
     </div>
 </div><!--r_iframe END-->
-
 </body>
 </html>

@@ -1,3 +1,4 @@
+<%@page import="net.sf.json.JSONObject"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="com.baje.sz.ajax.AjaxXml" %>
 <%@ page import="com.baje.sz.util.Doc" %>
@@ -15,10 +16,10 @@
         return;
     }
     RequestUtil ru = new RequestUtil(request);
-    News ste = new News();
     String action = ru.getString("action");
     if (action.equals("save")) {
-        String result = ste.editNews(request, user_id, user_name, gym_group_id, gym_id);
+    	News ste = new News();
+        JSONObject result = ste.editNews(request, user_id, user_name);
         out.print(result);
         return;
     }
@@ -28,21 +29,14 @@
     int ordernum = 0, isdel = 0;
     String addtime = "", adduser = "";
     int adduserid = 0;
-    String templet = "", savepath = "", htmlpage = "", classnavicontent = "", content = "", urladdress = "";
-    int newstype = 0;
+    String  content = "";
     String keywords = "";
-//double saleprice=0,marketprice=0,inprice=0;
-//int jifen=0,salecount=0,kucun=0;
-//String danwei="",lastuserpost="",lasttime="";
-//int newszan=0,fenxiang=0,hits=0,child=0;
-//String keywords="";
-
     int id = ru.getInt("id");
     action = "save";
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("id,newstitle,newsclass,bossname,smallfile,bigfile,ordernum,isdel,addtime,adduser,adduserid,templet,savepath,htmlpage,classnavicontent," +
-                "content,newstype,hits,child,keywords,urladdress" +
-                "", "hy_news", "where id=?", "", new Object[]{new Integer(id)});
+        Doc doc = utildb.Get_Doc("id,newstitle,newsclass,bossname,smallfile,bigfile,ordernum,isdel,addtime,adduser,adduserid," +
+                "content,hits,keywords" +
+                "", "bs_news", "where id=?", "", new Object[]{new Integer(id)});
         if (doc != null) {
             newstitle = doc.get("newstitle");
             content = doc.get("content");
@@ -56,11 +50,6 @@
             isdel = doc.getIn("isdel");
             addtime = doc.get("addtime");
             adduser = doc.get("adduser");
-
-            templet = AjaxXml.getString(doc.get("templet"));
-            savepath = doc.get("savepath");
-            urladdress = doc.get("urladdress");
-            classnavicontent = AjaxXml.getString(doc.get("classnavicontent"));
 
         }
     }
@@ -118,12 +107,8 @@
             art.dialog({id: "pic"}).close();
         }
         function usersave() {
-            var id = $("#id").val();
             var newsclass = $("#newsclass").val();
             var newstitle = $("#newstitle").val();
-            var bossname = $("#bossname").val();
-            var paixu = $("#paixu").val();
-            //var content=KE.util.getData('content');
             var content = escape(escape(editor.getContent()));
             if (newsclass == "" || newsclass == "0") {
                 window.parent.art.dialog.alert('请选择栏目');
@@ -134,7 +119,7 @@
                 return;
             }
             if (content == "") {
-                content = "<p></p>"
+                content = "<p></p>";
             }
             String.prototype.replaceAll = function (s1, s2) {
                 return this.replace(new RegExp(s1, "gm"), s2);
@@ -144,31 +129,27 @@
             $("#tisspan").html("<img src='../images/loading.gif' />提交中，请稍候……");
             $.ajax({
                 type: "post",
+                dataType: "json",
                 url: "news_edit.jsp",
                 data: $("#form1").serialize() + "&logstarttime=<%=logstarttime%>&contentx=" + content + "",
-
-                //data:"id="+id+"&action=save&newsclass="+newsclass+"&title="+title+"&bossname="+bossname+"&markpic="+markpic+"&content="+content+"&paixu="+paixu+"&logstarttime=<%=logstarttime%>",
                 success: function (msg) {
-                    var backarr = $.trim(msg).split("$$");
-                    if (backarr[1] == "ok") {
+                    if (msg.type) {
                         window.parent.art.dialog({
                             id: 'tisID',
-                            content: backarr[0],
+                            content:msg.msg,
                             lock: true,
                             icon: "succeed",
                             cancelVal: '确定',
                             cancel: function () {
                                 $("#tjbutton").attr("disabled", false);
                                 $("#tisspan").html("");
-                                //window.parent.location.reload();
                                 window.parent.art.dialog({id: "tisID"}).close();
-                                //window.parent.art.dialog({id:"xitong"}).close();
                                 window.parent.jianyi2('/manage/xinxi/news.jsp', '信息内容');
                                 window.parent.tabclose("编辑新闻");
                             }
                         });
                     } else {
-                        window.parent.art.dialog.alert(backarr[0]);
+                        window.parent.art.dialog.alert(msg.msg);
                         $("#tjbutton").attr("disabled", false);
                         $("#tisspan").html("");
                     }
@@ -193,7 +174,7 @@
                         <option value="0">选择栏目</option>
 
                         <%
-                            List clist = utildb.Get_List("id,classname,parentid", "hy_news_class", "where idtype=0 and isdel=0 and parentid=0", "");
+                            List clist = utildb.Get_List("id,classname,parentid", "bs_news_class", "where idtype=0 and isdel=0 and parentid=0", "");
                             if (clist != null) {
                                 for (Iterator its = clist.listIterator(); its.hasNext(); ) {
                                     Doc docx = (Doc) its.next();
@@ -202,7 +183,7 @@
                                     } else {
                                         out.println("<option value=\"" + docx.get("id") + "\">├" + docx.get("classname") + "</option>");
                                     }
-                                    List plist = utildb.Get_List("id,classname", "hy_news_class", "where isdel=0 and parentid=" + docx.getIn("id") + "", "");
+                                    List plist = utildb.Get_List("id,classname", "bs_news_class", "where isdel=0 and parentid=" + docx.getIn("id") + "", "");
                                     if (clist != null) {
                                         for (Iterator pits = plist.listIterator(); pits.hasNext(); ) {
                                             Doc docp = (Doc) pits.next();
@@ -229,29 +210,9 @@
                     <label for="textfield">标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</label>
                     <input type="text" name="newstitle" id="newstitle" value="<%=newstitle %>" style="width:300px;"/>
                 </li>
-                <%-- <%
-                List list=utildb.Get_List("classname,vm_path,title","hy_news_templet","where temtype='0' ","");
-                         if (list!=null){
-                 for (Iterator its = list.listIterator();its.hasNext();){
-                 Doc docx = (Doc)its.next();
-                 if (templet.equals(docx.get("vm_path"))){
-                 out.println("<option value=\""+docx.get("vm_path")+"\" selected>"+docx.get("classname")+"</option>");
-                 }else{
-                 out.println("<option value=\""+docx.get("vm_path")+"\">"+docx.get("classname")+"</option>");
-                 }
-                 }}
-                %>    --%>
                 <li>
                     <label for="textfield">关键字：</label>
                     <input type="text" name="keywords" id="keywords" value="<%=keywords %>" style="width:300px;"/>
-                </li>
-                <li>
-                    <label for="textfield">跳转地址：</label>
-                    <input type="text" name="urladdress" id="urladdress" value="<%=urladdress %>" style="width:300px;"/>
-                </li>
-                <li>
-                    <label for="textfield">针对渠道号：</label>
-                    <input type="text" name="bossname" id="bossname" value="<%=bossname %>" style="width:300px;"/>
                 </li>
             </ul>
             <ul class="row1 clearfix">
@@ -317,12 +278,6 @@
                     });
                 }
             </script>
-            <ul class="row1 clearfix">
-                <li><label for="textfield">描述：</label>
-                    <textarea id="classnavicontent" name="classnavicontent" rows="3"
-                              cols="100"><%=classnavicontent%></textarea>
-                </li>
-            </ul>
             <ul class="row1 clearfix">
                 <li>
                     <script type="text/plain" id="contents" name="contents" class="ckeditor">

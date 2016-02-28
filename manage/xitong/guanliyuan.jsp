@@ -19,8 +19,7 @@
     RequestUtil ru = new RequestUtil(request);
     String action = ru.getString("action");
     if (action.equals("del")) {
-        AdminLogin admin = new AdminLogin();
-        out.print(admin.Delsysuser(request, user_name, user_id, gym_group_id, gym_id));
+        out.print(BasicType.delBasic(request, user_id, user_name,"bs_sys_user","API--删除后台管理员"));
         return;
     }
 
@@ -33,13 +32,12 @@
     <link href="../css/base.css" rel="stylesheet" type="text/css"/>
     <link href="../css/page.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
-    <script language=javascript src='../js/qmango.js'></script>
+    <script type="text/javascript" src='../js/qmango.js'></script>
     <script type="text/javascript" src="../js/artDialog4.1.6/artDialog.js?skin=green"></script>
     <script type="text/javascript" src="../js/artDialog4.1.6/plugins/iframeTools.source.js"></script>
     <script type="text/javascript">
 
         function del(id) {
-            var id = getcheckbox("id");
             if (id == "") {
                 art.dialog.alert('请选择操作项');
                 return false;
@@ -63,15 +61,15 @@
                                     });
                                 },
                                 type: "post",
+                                dataType:"json",
                                 url: "guanliyuan.jsp",
-                                data: "action=del&ids=" + id + "",
+                                data: "action=del&id=" + id + "",
                                 success: function (msg) {
                                     art.dialog({id: 'tisID'}).close();
-                                    var backarr = $.trim(msg).split("$$");
-                                    if (backarr[1] == "ok") {
+                                    if (msg.type) {
                                         art.dialog({
                                             id: 'tisID',
-                                            content: backarr[0],
+                                            content: msg.msg,
                                             lock: true,
                                             icon: "succeed",
                                             cancelVal: '确定',
@@ -81,7 +79,7 @@
                                             }
                                         });
                                     } else {
-                                        art.dialog.alert(backarr[0]);
+                                        art.dialog.alert(msg.msg);
                                     }
 
                                 }
@@ -97,7 +95,6 @@
             });
             dialog.shake && dialog.shake();// 调用抖动接口
         }
-
         function addsysusert(id, title) {
             var action1 = 'editsave';
             if (id == 0) {
@@ -107,7 +104,6 @@
         }
         function editPassword(id, title) {
             var action = 'editsave';
-
             openurl('password_edit.jsp?id=' + id + '&action=' + action + '', 'shezhi', title, 700, 380, 0, 10, true);
         }
     </script>
@@ -128,7 +124,6 @@
         <form id="form2" name="form2" method="post" action="">
             <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <th width="3%"></th>
                     <th width="15%">后台帐号</th>
                     <th width="8%">登陆错误</th>
                     <th width="15%">最近登陆IP</th>
@@ -142,8 +137,8 @@
 
                     int pages = ru.getInt("page");
                     int pn = 20;
-                    String table = "hy_sys_user a  ";
-                    String file = " a.id,a.user_name,a.user_flag,a.login_err,create_ip,a.create_time,a.last_login_ip,a.last_login_time,a.islock";
+                    String table = "bs_sys_user a  ";
+                    String file = " a.id,a.username,a.flag,a.login_err,create_ip,a.create_time,a.last_login_ip,a.last_login_time,a.islock";
                     String order = " order by a.id desc";
                     String idd = "a.id";
                     String user_flag = "";
@@ -153,7 +148,7 @@
                     if (list != null) {
                         for (Iterator its = list.listIterator(); its.hasNext(); ) {
                             Doc doc = (Doc) its.next();
-                            user_flag = doc.get("a.user_flag");
+                            user_flag = doc.get("a.flag");
                             if (user_flag.length() > 30) {
                                 user_flag = user_flag.substring(0, 30);
                             }
@@ -161,8 +156,7 @@
 
                 %>
                 <tr onmousemove="tableMove(this);" onmouseout="tableOut(this)">
-                    <td><input name="id" type="checkbox" id="id" value="<%=doc.get("id")%>"/></td>
-                    <td><%=doc.get("user_name") %>
+                    <td><%=doc.get("username") %>
                     </td>
                     <td><%=doc.getIn("login_err") %>
                     </td>
@@ -174,6 +168,7 @@
                     </td>
                     <td>
                         <a href="javascript:addsysusert('<%=doc.get("id") %>','编辑后台管理员/修改权限')">修改权限/编辑</a>
+                          <a href="javascript:del('<%=doc.get("id") %>')">删除</a>
                     </td>
                 </tr>
 
@@ -182,15 +177,7 @@
                     }
                 %>
                 <tr>
-                    <td colspan="7" style="text-align: right">
-                        <input type="checkbox" name="chkall" id="chkall" value="checkbox"
-                               onClick="CheckAll(this.form);"/>
-                        选中/取消所有
-                        <input name="tjczft " type="button" onclick="del()" value="删除"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="7"
+                    <td colspan="6"
                         style="text-align:right"><%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%></td>
                 </tr>
             </table>

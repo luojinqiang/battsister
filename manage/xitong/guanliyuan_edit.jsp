@@ -22,11 +22,11 @@
     String action1 = ru.getString("action1");
     int id = ru.getInt("id");
     if (action.equals("addsave")) {//增加
-        out.print(admin.editAdminUser(request, user_id, user_name, gym_group_id, gym_id).toString());
+        out.print(admin.editAdminUser(request, user_id, user_name).toString());
         return;
     }
     if (action.equals("editsave")) {//修改
-        out.print(admin.editAdminUser(request, user_id, user_name, gym_group_id, gym_id).toString());
+        out.print(admin.editAdminUser(request, user_id, user_name).toString());
         return;
     }
 
@@ -47,17 +47,17 @@
     } else {
         action = "editsave";
         ac_title = "修改账号";
-        Doc news = utildb.Get_Doc("*", "hy_sys_user", "where id=?", "", new Object[]{id});
+        Doc news = utildb.Get_Doc("*", "bs_sys_user", "where id=?", "", new Object[]{id});
         if (news == null) {
             out.println("信息不存在");
             return;
         }
-        username = news.get("user_name");
+        username = news.get("username");
         islock = news.getIn("islock");
         login_err = news.getIn("login_err");
         gymGroupId = news.getIn("gym_group_id");
         gymId = news.getIn("gym_id");
-        flags = news.get("user_flag", "");
+        flags = news.get("userflag", "");
     }
     if (admin_zu == null) {
         admin_zu = "";

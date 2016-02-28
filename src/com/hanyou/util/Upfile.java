@@ -108,7 +108,7 @@ public class Upfile {
                         } else {
                             checkName = checkName + "," + "'" + file_name + "'";
                         }
-                        String sqlx = "insert into hy_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
+                        String sqlx = "insert into bs_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
                                 + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
                                 + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                         List growthList = new ArrayList();
@@ -136,7 +136,7 @@ public class Upfile {
 
             JSONArray picArr = new JSONArray();
             if (!checkName.equals("")) {
-                List list = base.executeQuery2List("select id,file_name,file_path,file_readme from hy_news_upfile where userid=? and file_name in (" + checkName + ") and addip=?", new Object[]{userid, ips});
+                List list = base.executeQuery2List("select id,file_name,file_path,file_readme from bs_news_upfile where userid=? and file_name in (" + checkName + ") and addip=?", new Object[]{userid, ips});
                 if (list != null && !list.isEmpty()) {
                     for (Iterator its = list.iterator(); its.hasNext(); ) {
                         Doc doc = (Doc) its.next();
@@ -239,7 +239,7 @@ public class Upfile {
                     } else {
                         checkName = checkName + "," + "'" + file_name + "'";
                     }
-                    String sqlx = "insert into hy_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
+                    String sqlx = "insert into bs_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
                             + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
                             + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     List growthList = new ArrayList();
@@ -267,7 +267,7 @@ public class Upfile {
 
         JSONArray picArr = new JSONArray();
         if (!checkName.equals("")) {
-            List list = base.executeQuery2List("select id,file_name,file_path,file_readme from hy_news_upfile where userid=? and file_name in (" + checkName + ") and addip=?", new Object[]{userid, ips});
+            List list = base.executeQuery2List("select id,file_name,file_path,file_readme from bs_news_upfile where userid=? and file_name in (" + checkName + ") and addip=?", new Object[]{userid, ips});
             if (list != null && !list.isEmpty()) {
                 for (Iterator its = list.iterator(); its.hasNext(); ) {
                     Doc doc = (Doc) its.next();
@@ -358,7 +358,7 @@ public class Upfile {
             }
         }
 
-        String sqlx = "insert into hy_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
+        String sqlx = "insert into bs_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
                 + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
                 + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         List growthList = new ArrayList();
