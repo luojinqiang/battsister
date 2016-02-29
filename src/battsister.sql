@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50709
 File Encoding         : 65001
 
-Date: 2016-02-29 21:01:23
+Date: 2016-02-29 21:42:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -2321,16 +2321,19 @@ CREATE TABLE `bs_teachers` (
   `login_times` int(11) DEFAULT '0' COMMENT '登录次数',
   `login_err_times` int(11) DEFAULT '0' COMMENT '最近连续密码错误次数',
   `account_status` varchar(255) COLLATE utf8_bin DEFAULT '' COMMENT '账号状态Y正常，N锁定',
+  `school_id` int(11) DEFAULT '0' COMMENT '学校ID',
+  `curse_flag` text CHARACTER SET utf8 COMMENT '该教师账号所拥有的课程权限，jsonArray格式[{"curse_id":"123","chapters":[{"chapter_id":"123","add_time":"1456751564"}]}]',
+  `teach_records` text CHARACTER SET utf8 COMMENT '授课记录 jsonArray格式[{"little_chapter_id":12,"add_time":"1422199009"}]',
+  `training_records` text CHARACTER SET utf8 COMMENT '实训项目记录，jsonArray格式，和授课记录格式一样',
   `addtime` bigint(20) DEFAULT '0' COMMENT '注册时间，时间戳',
   `isdel` int(11) DEFAULT '0',
-  `school_id` int(11) DEFAULT '0' COMMENT '学校ID',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=246 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='教师表';
 
 -- ----------------------------
 -- Records of bs_teachers
 -- ----------------------------
-INSERT INTO `bs_teachers` VALUES ('245', '骆锦强', 'luojinqiang', '49ba59abbe56e057', '/upload/201602/27/18-58-16_4113.jpg', '1', '1456502400', '0', '', '0', '0', 'Y', '1456570708', '0', '158');
+INSERT INTO `bs_teachers` VALUES ('245', '骆锦强', 'luojinqiang', '49ba59abbe56e057', '/upload/201602/27/18-58-16_4113.jpg', '1', '1456502400', '0', '', '0', '0', 'Y', '158', '', null, null, '1456570708', '0');
 
 -- ----------------------------
 -- Table structure for bs_upfile
