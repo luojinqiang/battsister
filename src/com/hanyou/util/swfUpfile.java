@@ -207,7 +207,7 @@ public class swfUpfile {
                     } else {
                     }
                     file_readme = "/" + file_path + "/" + file_name + "." + file_ext;
-                    String sqlx = "insert into bs_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
+                    String sqlx = "insert into bs_upfile (username,userid,logid,file_name,file_path,file_ext,"
                             + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
                             + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     List growthList = new ArrayList();
@@ -322,7 +322,7 @@ public class swfUpfile {
 
 
                     file_readme = "/" + file_path + "/" + file_name + "." + file_ext;
-                    String sqlx = "insert into bs_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
+                    String sqlx = "insert into bs_upfile (username,userid,logid,file_name,file_path,file_ext,"
                             + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
                             + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                     List growthList = new ArrayList();
@@ -346,7 +346,7 @@ public class swfUpfile {
 
                     int iiii = base.executeUpdate(sqlx, growthList);
                     if (iiii == 0 && logid > 0) {
-                        base.executeUpdate("update bs_news set pic_num=(select count(id) from bs_news_upfile where logid=" + logid + " and isdel=0) where id=" + logid + "", new ArrayList());
+                        base.executeUpdate("update bs_news set pic_num=(select count(id) from bs_upfile where logid=" + logid + " and isdel=0) where id=" + logid + "", new ArrayList());
                     }
                 }
             }
@@ -451,7 +451,7 @@ public class swfUpfile {
                             }
                             //System.out.println("file_showname:"+file_showname);
                             file_readme = "/" + file_path + "/" + file_name + "." + file_ext;
-                            String sqlx = "insert into bs_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
+                            String sqlx = "insert into bs_upfile (username,userid,logid,file_name,file_path,file_ext,"
                                     + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
                                     + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                             List growthList = new ArrayList();
@@ -475,7 +475,7 @@ public class swfUpfile {
 
                             int iiii = base.executeUpdate(sqlx, growthList);
                             if (iiii == 0 && logid > 0) {
-                                base.executeUpdate("update bs_news set pic_num=(select count(id) from bs_news_upfile where logid=" + logid + " and isdel=0) where id=" + logid + "", new ArrayList());
+                                base.executeUpdate("update bs_news set pic_num=(select count(id) from bs_upfile where logid=" + logid + " and isdel=0) where id=" + logid + "", new ArrayList());
                             }
                         }
                     } else {
@@ -587,7 +587,7 @@ public class swfUpfile {
                 }
                 //System.out.println("file_showname:"+file_showname);
                 file_readme = "/" + file_path + "/" + file_name + "." + file_ext;
-                String sqlx = "insert into bs_news_upfile (username,userid,logid,file_name,file_path,file_ext,"
+                String sqlx = "insert into bs_upfile (username,userid,logid,file_name,file_path,file_ext,"
                         + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
                         + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 List growthList = new ArrayList();
@@ -610,7 +610,7 @@ public class swfUpfile {
                 growthList.add("");
                 int iiii = base.executeUpdate(sqlx, growthList);
                 if (iiii == 0 && logid > 0) {
-                    base.executeUpdate("update bs_news set pic_num=(select count(id) from bs_news_upfile where logid=" + logid + " and isdel=0) where id=" + logid + "", new ArrayList());
+                    base.executeUpdate("update bs_news set pic_num=(select count(id) from bs_upfile where logid=" + logid + " and isdel=0) where id=" + logid + "", new ArrayList());
                 }
             }
             backjson.put("status", 1);

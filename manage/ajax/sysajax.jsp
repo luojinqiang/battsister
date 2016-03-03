@@ -14,4 +14,22 @@
     response.setDateHeader("Expires", 0);
     RequestUtil ru = new RequestUtil(request);
     String action = ru.getString("action");
+    if("getTeachers".equals(action)){//获取学校下的老师
+    	int school_id=ru.getInt("school_id");
+         JSONArray ja = new JSONArray();
+         List<Doc> list = utildb.Get_List("id,name", "bs_teachers", " where isdel=0 and school_id=?", "", new Object[]{school_id});
+         if (list != null) {
+             for (Doc doc : list) {
+                 JSONObject json = new JSONObject();
+                 json.put("id", doc.get("id", ""));
+                 json.put("teacher_name", doc.get("name", ""));
+                 ja.add(json);
+             }
+         }
+         JSONObject backjson = new JSONObject();
+         backjson.put("type", true);
+         backjson.put("dataJson", ja);
+         out.print(backjson);
+         return;
+    }
 %>

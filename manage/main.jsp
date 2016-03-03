@@ -40,13 +40,7 @@
         }
         function clicknum(opt) {
             if (opt == "用户管理") {
-                window.parent.jianyi2('yonghu/yonghu.jsp', '用户管理');
-            } else if (opt == "当前订单") {
-                window.parent.jianyi2('yonghu/dingdan.jsp', '当前订单');
-            } else if (opt == "发布产品") {
-                window.parent.jianyi2('xinxi/shop.jsp', '发布产品');
-            } else if (opt == "妙圈管理") {
-                window.parent.jianyi2('quanzi/quanzi.jsp', '妙圈管理');
+                window.parent.jianyi2('teacher/schools.jsp', '学校管理');
             }
         }
         function readNew(id, str) {
@@ -165,7 +159,7 @@
             <div class="k_r_mc">
                 <ul class="kl_form clearfix">
                     <li><span class="k_f_text">当前用户数量：<b class="red"><%=result.optInt("teacherNum") %>
-                    </b></span><a href="javascript:window.parent.jianyi2('yonghu/yonghu.jsp','用户管理')">查看</a></li>
+                    </b></span><a href="javascript:window.parent.jianyi2('teacher/teachers.jsp','教师管理')">查看</a></li>
                     <li><span class="k_f_text">今日新增：<b class="red"><%=result.optInt("teacherNum_totday") %>
                     </b></span></li>
                 </ul>

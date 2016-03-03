@@ -18,8 +18,12 @@
             %>
             <li><a href="javascript:window.parent.jianyi2('teacher/teachers.jsp','教师管理')">教师管理</a></li>
             <%
-                }
-               %>
+                }if (current_flags.contains("1001")) {
+                    %>
+                   <li><a href="javascript:window.parent.jianyi2('teacher/students.jsp','学生管理')">学生管理</a></li>
+                    <%
+                 }
+           %>
         </ul>
     </div>
     <div class="sidebar" id="xinxi" style="display:none">
@@ -41,6 +45,10 @@
             %>
             <li><a href="javascript:window.parent.jianyi2('xinxi/news_edit.jsp','发布信息')">发布信息</a></li>
             <%
+                }if(current_flags.contains("4003")){
+                	%>
+			 <li><a href="javascript:window.parent.jianyi2('xinxi/cooperaton_unit.jsp','合作院校、企业')">合作院校、企业</a></li>
+                	<%
                 }
             %>
         </ul>

@@ -142,7 +142,7 @@
             <!--left down-->
 
             <ul class="nc_cont" id="jsddm">
-				<li class="ncc_01"><a href="javascript:jianyi2('teacher/schools.jsp','学校管理')">账号管理</a>
+				<li class="ncc_01"><a href="javascript:jianyi2('teacher/schools.jsp','学校管理')">用户管理</a>
                     <ul class="nav_list">
                      <%
                             if (current_flags.contains("1001")) {
@@ -153,6 +153,9 @@
                             if (current_flags.contains("1001")) {
                         %>
                         <li><a href="javascript:window.parent.jianyi2('teacher/teachers.jsp','教师管理')">教师管理</a></li>
+                        <%} if (current_flags.contains("1001")) {
+                            %>
+                            <li><a href="javascript:window.parent.jianyi2('teacher/students.jsp','学生管理')">学生管理</a></li>
                         <%} %>
                     </ul>
                 </li>
@@ -173,8 +176,12 @@
                         %>
                         <li><a href="javascript:window.parent.jianyi2('xinxi/news_edit.jsp','发布信息')">发布信息</a></li>
                         <%
-                            }
-                        %>
+                            }if (current_flags.contains("4003")) {
+                            %>
+                            <li><a href="javascript:window.parent.jianyi2('xinxi/cooperaton_unit.jsp','合作院校、企业')">合作院校、企业</a></li>
+                            <%
+                           }
+                         %>
                     </ul>
                 </li>
                <li class="ncc_06"><a href="javascript:jianyi2('xitong/rizhi.jsp','系统管理')">系统管理</a>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.baje.sz.ajax.AjaxXml;
@@ -181,6 +182,18 @@ public class BasicType {
      } finally {
          dbc.closeConn();
      }
+ }
+ public static void main(String[] args) {
+	JSONArray array=new JSONArray();
+	JSONObject json=new JSONObject();
+	json.put("little_chapter_id",12);
+	json.put("add_time", "1422199009");
+	array.add(json);
+	System.out.println(array);
+	/**
+	 * [{"curse_id":"123","chapters":[{"chapter_id":"123","add_time":"1456751564"}]}]
+	 */
+	
  }
 }
 

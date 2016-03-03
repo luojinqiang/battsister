@@ -280,7 +280,7 @@ public class AdminLogin {
                 if (!user_pwd.equals("")) {    // 密码为空则不修改密码
                     String pass1 = m.getkeyBeanofStr(user_pwd).toLowerCase();
 
-                    p_t = "user_pwd=?,";
+                    p_t = "password=?,";
                     list.add(pass1);
                 }
                 sql = "update bs_sys_user set " + p_t + "username=?,flag=?,login_err=?,islock=? where id=?";
