@@ -126,18 +126,17 @@
             <input name="id" id="id" type="hidden" value="<%=id%>"/>
             <input name="action" id="action" type="hidden" value="save"/>
 
-            <ul class="row3 clearfix">
+            <ul class="row2 clearfix">
                 <li>登录帐号：<input type="text" name="username" value="<%=username%>" />（字母或数字）</li>
                 <li>学生名称：<input type="text" value="<%=name%>" name="name"/></li>
-                <li>账号状态：
+            </ul>
+            <ul class="row3 clearfix">
+             <li>账号状态：
                 	<select name="account_status">
                 		<option value="Y" <%="Y".equals(account_status)?"selected=\"selected\"":""%>>--正常--</option>
                 		<option value="N" <%="N".equals(account_status)?"selected=\"selected\"":""%>>--锁定--</option>
                 	</select>
                 </li>
-            </ul>
-            <ul class="row3 clearfix">
-            
                 <li>性别：
                     <select name="sex">
                         <option value="0" <%
