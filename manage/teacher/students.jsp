@@ -287,7 +287,7 @@
                     </td>
                      <td><%=doc.get("teacher_name", "")%>
                     </td>
-                    <td><%=doc.get("name", "")%>
+                    <td><%=doc.get("student_name", "")%>
                     </td>
                     <td><%="Y".equals(doc.get("account_status"))?"正常":"锁定"%></td>
                     <td><%

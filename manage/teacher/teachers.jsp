@@ -166,6 +166,9 @@
         function editTeacher(id, title) {
             openurl('teachers_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
         }
+        function editBuyClasses(id, title) {
+            openurl('buy_class_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+        }
     </script>
 </head>
 <body class="ifr">
@@ -213,14 +216,14 @@
                     <th width="4%">&nbsp;</th>
                     <th width="8%">登录帐号</th>
                     <th width="8%">姓名</th>
-                    <th width="12%">所属学校</th>
-                    <th width="6%">账号状态</th>
-                    <th width="4%">性别</th>
-                    <th width="6%">头像</th>
+                    <th width="15%">所属学校</th>
+                    <th width="8%">账号状态</th>
+                    <th width="5%">性别</th>
+                    <th width="10%">头像</th>
                     <th width="12%">添加时间</th>
                    	<th width="12%">最后登录时间</th>
-                   	<th width="5%">登录次数</th>
-                    <th width="7%">操作</th>
+                   	<th width="6%">登录次数</th>
+                    <th width="">操作</th>
                 </tr>
                 <%
 
@@ -281,7 +284,7 @@
                         }
                     %></td>
                      <td><%=doc.getIn("login_times")%></td>
-                    <td><a href="javascript:editTeacher('<%=doc.get("id")%>','编辑教师')">编辑</a> <a
+                    <td><a href="javascript:editBuyClasses('<%=doc.get("id")%>','已购买课程')">已购买课程</a>|<a href="javascript:editTeacher('<%=doc.get("id")%>','编辑教师')">编辑</a>| <a
                             href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
 
