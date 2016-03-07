@@ -1,4 +1,4 @@
-package com.hanyou.admin.sys;
+package com.battsister.admin.sys;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +12,8 @@ import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
 import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
-import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.StringUtil;
-import com.hanyou.util.SetupUtil;
 
 public class News {
     /**

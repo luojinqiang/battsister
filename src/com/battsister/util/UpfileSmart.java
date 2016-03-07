@@ -1,10 +1,9 @@
-package com.hanyou.util;
+package com.battsister.util;
 
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.db.Base;
 import com.baje.sz.util.AppConf;
 import com.baje.sz.util.Doc;
-import com.hanyou.util.Magup;
 import com.soft4j.httpupload4j.SmartUpload;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

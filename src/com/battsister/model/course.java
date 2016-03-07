@@ -1,9 +1,9 @@
-package com.hanyou.model;
+package com.battsister.model;
 
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
-import com.hanyou.basic.BasicImp;
+import com.battsister.basic.BasicImp;
 import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;

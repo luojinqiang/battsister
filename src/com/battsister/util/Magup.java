@@ -1,4 +1,4 @@
-package com.hanyou.util;
+package com.battsister.util;
 
 import com.baje.sz.util.AppConf;
 import org.im4java.core.ConvertCmd;

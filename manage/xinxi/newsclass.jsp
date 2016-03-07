@@ -4,8 +4,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.baje.sz.util.*" %>
 <%@ page import="com.baje.sz.ajax.*" %>
-<%@ page import="com.hanyou.admin.sys.Newsclass" %>
-<%@ page import="com.hanyou.util.*" %>
+<%@ page import="com.battsister.admin.sys.Newsclass" %>
+<%@ page import="com.battsister.util.*" %>
 <%@ include file="../ini_sys.jsp" %>
 <%
     response.setHeader("Pragma", "No-cache");

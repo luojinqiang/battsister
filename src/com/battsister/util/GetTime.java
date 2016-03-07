@@ -1,4 +1,4 @@
-package com.hanyou.util;
+package com.battsister.util;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;

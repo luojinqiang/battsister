@@ -2,7 +2,7 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="com.baje.sz.util.Doc" %>
 <%@ page import="com.baje.sz.util.RequestUtil" %>
-<%@ page import="com.hanyou.admin.sys.News" %>
+<%@ page import="com.battsister.admin.sys.News" %>
 <%@ page import="net.sf.json.JSONObject" %>
 <%@ include file="../ini_sys.jsp" %>
 <%

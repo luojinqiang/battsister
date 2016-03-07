@@ -2,7 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ page import="ueditor.UploaderFix" %>
 <%@ page import="com.baje.sz.ajax.*" %>
-<%@ page import="com.hanyou.util.Upfile" %>
+<%@ page import="com.battsister.util.Upfile" %>
 <%
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");

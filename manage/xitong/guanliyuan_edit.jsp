@@ -1,9 +1,9 @@
 <%@page import="java.util.ArrayList" %>
-<%@page import="com.hanyou.util.BasicType" %>
+<%@page import="com.battsister.util.BasicType" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.hanyou.admin.sys.*" %>
+<%@ page import="com.battsister.admin.sys.*" %>
 <%@ page import="com.baje.sz.util.*" %>
 <%@page import="com.baje.sz.ajax.AjaxXml" %>
 <%@ include file="../ini_sys.jsp" %>

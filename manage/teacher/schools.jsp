@@ -1,4 +1,4 @@
-<%@page import="com.hanyou.util.BasicType"%>
+<%@page import="com.battsister.util.BasicType"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Iterator" %>

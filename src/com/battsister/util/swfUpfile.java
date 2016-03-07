@@ -1,4 +1,4 @@
-package com.hanyou.util;
+package com.battsister.util;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.PageContext;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.fileupload.FileItem;
@@ -37,7 +36,6 @@ import com.baje.sz.util.AppConf;
 import com.baje.sz.util.FileUtil;
 import com.baje.sz.util.Magick;
 import com.baje.sz.util.RequestUtil;
-import com.hanyou.util.Magup;
 import com.soft4j.httpupload4j.SmartUpload;
 
 @SuppressWarnings("unchecked")

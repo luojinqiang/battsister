@@ -1,11 +1,11 @@
-package com.hanyou.admin.sys;
+package com.battsister.admin.sys;
 
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.baje.sz.db.Base;
-import com.hanyou.util.SetupUtil;
+import com.battsister.util.SetupUtil;
 
 /*
  * 后台日志

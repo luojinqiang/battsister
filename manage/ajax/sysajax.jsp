@@ -2,7 +2,7 @@
 <%@page import="com.qiniu.util.StringMap"%>
 <%@page import="com.qiniu.util.Auth"%>
 <%@page import="com.qiniu.processing.OperationManager"%>
-<%@page import="com.hanyou.util.BasicType"%>
+<%@page import="com.battsister.util.BasicType"%>
 <%@page import="net.sf.json.JSONArray" %>
 <%@page import="net.sf.json.JSONObject" %>
 <%@page import="java.util.List" %>

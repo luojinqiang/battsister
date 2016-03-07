@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" %>
-<%@ page import="com.hanyou.util.swfUpfile" %>
+<%@ page import="com.battsister.util.swfUpfile" %>
 <%@ page import="com.soft4j.httpupload4j.SmartUpload" %>
 <%
     int userid = 0;

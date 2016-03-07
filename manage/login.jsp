@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="com.baje.sz.util.RequestUtil" %>
-<%@ page import="com.hanyou.admin.sys.AdminLogin" %>
+<%@ page import="com.battsister.admin.sys.AdminLogin" %>
 <%@ page import="net.sf.json.JSONObject" %>
 <%
     response.setHeader("Pragma", "No-cache");

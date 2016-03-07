@@ -1,4 +1,4 @@
-package com.hanyou.util;
+package com.battsister.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

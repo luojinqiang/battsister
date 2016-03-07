@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="com.baje.sz.util.*" %>
 <%@ page import="com.baje.sz.ajax.*" %>
-<%@page import="com.hanyou.admin.sys.*" %>
+<%@page import="com.battsister.admin.sys.*" %>
 <%
     request.setCharacterEncoding("utf-8");
     int user_id = 0;

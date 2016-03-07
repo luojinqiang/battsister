@@ -1,15 +1,12 @@
-package com.hanyou.util;
+package com.battsister.util;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.baje.sz.db.Base;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -18,7 +15,6 @@ import com.baje.sz.ajax.AjaxDate;
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.util.AppConf;
 import com.baje.sz.util.DesEncrypter;
-import com.baje.sz.util.Doc;
 import com.baje.sz.util.KeyBean;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.StringUtil;

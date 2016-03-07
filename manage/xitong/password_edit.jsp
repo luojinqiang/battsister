@@ -2,7 +2,7 @@
 <%@ page import="com.baje.sz.ajax.AjaxXml" %>
 <%@ page import="com.baje.sz.util.Doc" %>
 <%@ page import="com.baje.sz.util.RequestUtil" %>
-<%@ page import="com.hanyou.admin.sys.AdminLogin" %>
+<%@ page import="com.battsister.admin.sys.AdminLogin" %>
 <%@ include file="../ini_sys.jsp" %>
 <%
     request.setCharacterEncoding("utf-8");

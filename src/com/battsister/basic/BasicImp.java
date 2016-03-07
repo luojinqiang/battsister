@@ -1,4 +1,4 @@
-package com.hanyou.basic;
+package com.battsister.basic;
 
 import com.baje.sz.db.Base;
 import com.baje.sz.db.Dbc;

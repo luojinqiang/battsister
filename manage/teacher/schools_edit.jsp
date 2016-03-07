@@ -4,7 +4,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.baje.sz.util.*" %>
 <%@ page import="com.baje.sz.ajax.*" %>
-<%@ page import="com.hanyou.admin.sys.*" %>
+<%@ page import="com.battsister.admin.sys.*" %>
 <%@ include file="../ini_sys.jsp" %>
 <%
     response.setHeader("Pragma", "No-cache");

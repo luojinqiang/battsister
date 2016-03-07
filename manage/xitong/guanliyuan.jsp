@@ -4,8 +4,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.baje.sz.util.RequestUtil" %>
 <%@ page import="com.baje.sz.util.*" %>
-<%@ page import="com.hanyou.admin.sys.*" %>
-<%@ page import="com.hanyou.util.*" %>
+<%@ page import="com.battsister.admin.sys.*" %>
+<%@ page import="com.battsister.util.*" %>
 <%@page import="com.baje.sz.ajax.AjaxXml" %>
 <%@ include file="../ini_sys.jsp" %>
 <%

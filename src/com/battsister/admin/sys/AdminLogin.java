@@ -1,11 +1,11 @@
-package com.hanyou.admin.sys;
+package com.battsister.admin.sys;
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
 import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
 import com.baje.sz.util.*;
-import com.hanyou.util.SetupUtil;
+import com.battsister.util.SetupUtil;
 
 import net.sf.json.JSONObject;
 
@@ -16,8 +16,6 @@ import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 后台管理员类

@@ -1,4 +1,4 @@
-<%@page import="com.hanyou.util.BasicType"%>
+<%@page import="com.battsister.util.BasicType"%>
 <%@page import="java.net.URLDecoder" %>
 <%@page import="java.net.URLEncoder" %>
 <%@page import="net.sf.json.JSONObject" %>
@@ -8,7 +8,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.baje.sz.util.RequestUtil" %>
 <%@ page import="com.baje.sz.util.*" %>
-<%@ page import="com.hanyou.admin.sys.*" %>
+<%@ page import="com.battsister.admin.sys.*" %>
 <%@page import="com.baje.sz.ajax.AjaxXml" %>
 <%@ include file="../ini_sys.jsp" %>
 <%

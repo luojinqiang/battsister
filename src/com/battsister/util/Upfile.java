@@ -1,4 +1,4 @@
-package com.hanyou.util;
+package com.battsister.util;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,7 +22,6 @@ import com.baje.sz.util.AppConf;
 import com.baje.sz.util.Doc;
 import com.baje.sz.util.FileUtil;
 import com.baje.sz.util.RequestUtil;
-import com.hanyou.util.Magup;
 
 public class Upfile {
     public JSONArray picUpfile(HttpServletRequest request, int userid, String username) {

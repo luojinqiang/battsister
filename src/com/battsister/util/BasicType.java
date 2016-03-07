@@ -1,4 +1,4 @@
-package com.hanyou.util;
+package com.battsister.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.baje.sz.db.DbcFactory;
 import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.StringUtil;
-import com.hanyou.admin.sys.Logdb;
+import com.battsister.admin.sys.Logdb;
 import com.qiniu.storage.UploadManager;
 /**
  * 系统数据字典类

@@ -1,4 +1,4 @@
-package com.hanyou.admin.sys;
+package com.battsister.admin.sys;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,7 +15,7 @@ import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
 import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
-import com.hanyou.util.SetupUtil;
+import com.battsister.util.SetupUtil;
 
 public class Keyword {
     /**

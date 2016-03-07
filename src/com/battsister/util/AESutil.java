@@ -1,4 +1,4 @@
-package com.hanyou.util;
+package com.battsister.util;
 
 /**
  * Created by haihui on 2015-06-16.

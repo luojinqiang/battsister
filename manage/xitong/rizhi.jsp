@@ -1,10 +1,10 @@
- <%@page import="com.hanyou.util.BasicType"%>
+ <%@page import="com.battsister.util.BasicType"%>
 <%@page import="com.baje.sz.ajax.AjaxXml" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="com.baje.sz.util.Doc" %>
 <%@ page import="com.baje.sz.util.RequestUtil" %>
-<%@ page import="com.hanyou.admin.sys.Logdb" %>
-<%@ page import="com.hanyou.util.SetupUtil" %>
+<%@ page import="com.battsister.admin.sys.Logdb" %>
+<%@ page import="com.battsister.util.SetupUtil" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.List" %>
