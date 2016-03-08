@@ -33,7 +33,8 @@
     if (pn == 0) {
         pn = 20;
     }
-    String course_name = ru.getString("course_name", "");
+    String name = ru.getString("name", "");
+    String is_recommend = ru.getString("is_recommend", "");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -48,180 +49,25 @@
     <script type="text/javascript" src="../js/artDialog4.1.6/plugins/iframeTools.source.js"></script>
     <script language="javascript" src='../js/sys.js'></script>
     <script language="javascript" src='/manage/js/webcalendar.js'></script>
-    <script type="text/javascript">
-        function del(id) {
-            art.dialog({
-                id: 'delID',
-                content: '是否确定删除选中项？',
-                lock: true,
-                button: [
-                    {
-                        name: '确定',
-                        callback: function () {
-                            if (id == "") {
-                                art.dialog({id: 'delID'}).close();
-                                art.dialog.alert('请选择操作项');
-                                return false;
-                            }
-                            $.ajax({
-                                beforeSend: function () {
-                                    art.dialog({id: 'delID'}).close();
-                                    art.dialog({
-                                        id: 'tisID',
-                                        lock: true,
-                                        title: '提交中，请稍候……'
-                                    });
-                                },
-                                dataType: "json",
-                                type: "post",
-                                url: "courses.jsp",
-                                data: "action=del&id=" + id + "",
-                                success: function (msg) {
-                                    art.dialog({id: 'tisID'}).close();
-                                    if (msg.type == true) {
-                                        art.dialog({
-                                            id: 'tisID',
-                                            content: msg.msg,
-                                            lock: true,
-                                            icon: "succeed",
-                                            cancelVal: '确定',
-                                            cancel: function () {
-                                                window.location.reload();
-                                                art.dialog({id: "tisID"}).close();
-                                            }
-                                        });
-                                    } else {
-                                        art.dialog.alert(msg.msg);
-                                    }
-                                }
-                            });
-                            return false;
-                        },
-                        focus: true
-                    },
-                    {
-                        name: '取消'
-                    }
-                ]
-            });
-        }
-        function batchdel(id) {
-            var ids = getcheckbox("id");
-            if (ids == "") {
-                alert("请选择删除项？");
-                return;
-            }
-            art.dialog({
-                id: 'delID',
-                content: '是否确定删除选中项？',
-                lock: true,
-                button: [
-                    {
-                        name: '确定',
-                        callback: function () {
-                            $.ajax({
-                                beforeSend: function () {
-                                    art.dialog({id: 'delID'}).close();
-                                    art.dialog({
-                                        id: 'tisID',
-                                        lock: true,
-                                        title: '提交中，请稍候……'
-                                    });
-                                },
-                                dataType: "json",
-                                type: "post",
-                                url: "students.jsp",
-                                data: "action=batchdel&ids=" + ids + "",
-                                success: function (msg) {
-                                    art.dialog({id: 'tisID'}).close();
-                                    if (msg.type == true) {
-                                        art.dialog({
-                                            id: 'tisID',
-                                            content: msg.msg,
-                                            lock: true,
-                                            icon: "succeed",
-                                            cancelVal: '确定',
-                                            cancel: function () {
-                                                window.location.reload();
-                                                art.dialog({id: "tisID"}).close();
-                                            }
-                                        });
-                                    } else {
-                                        art.dialog.alert(msg.msg);
-                                    }
-                                }
-                            });
-                            return false;
-                        },
-                        focus: true
-                    },
-                    {
-                        name: '取消'
-                    }
-                ]
-            });
-        }
-        function editStudent(id, title) {
-            openurl('students_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
-        }
-        function getTeachers(object) {
-            var school_id = $(object).val();
-           /*  if (school_id == 0 || school_id == undefined) {
-                return false;
-            } else { */
-                $.ajax({
-                    dataType: "json",
-                    type: "post",
-                    url: "/manage/ajax/sysajax.jsp",
-                    data: "action=getTeachers&school_id= " + school_id + " ",
-                    success: function (backJson) {
-                        if (backJson.type) {
-                            var teachers = backJson.dataJson;
-                            $("#teacher_id").empty();
-                            $("#teacher_id").append("<option value=\"0\">--请选择老师--</option>");
-                            var option = '';
-                            for (var i = 0; i < teachers.length; i++) {
-                               /*  if (teacher_id == teachers[i].id) {
-                                    option = $("<option value=" + teachers[i].id + " selected>" + teachers[i].teacher_name + "</option>");
-                                } else { */
-                                    option = $("<option value=" + teachers[i].id + ">" + teachers[i].teacher_name + "</option>");
-                              /*   } */
-                                $("#teacher_id").append(option);
-                            }
-                        }
-                    }
-                });
-           /*  } */
-        }
-    </script>
+
 </head>
 <body class="ifr">
 <%@ include file="../left.jsp" %><!--End Sidebar-->
 <div class="iframe_box">
-    <div class="form_info"><strong>学生列表</strong></div>
+    <div class="form_info"><strong>课程列表</strong></div>
     <div class="form_cont mb10">
         <form id="form1" name="form1" method="get" action="">
             <ul class="row3">
-            	<li>所属学校：
-            		<select name="school_id" onchange="getTeachers(this)">
-            			<option value="0">--全部--</option>
-            			<%
-            				List<Doc> school_list=utildb.Get_List("id,name","bs_schools"," where isdel=0","mysqlss");
-            				if(school_list!=null){
-            					for(Doc doc:school_list){
-            						out.print("<option value=\""+doc.getIn("id")+"\""+(school_id==doc.getIn("id")?"selected=\"selected\"":"")+">"+doc.getString("name")+"</option>");
-            					}
-            				}
-            			%>
-            		</select>
-            	</li>
-                <li>所属教师：
-                	<select name="teacher_id" id="teacher_id">
-                		<option value="0">--全部--</option>
-                	</select>
-                </li>
-                <li>学生姓名：<input name="student_name" type="text" id="student_name" value="<%=student_name%>"
+                <li>课程名称 ：<input name="name" type="text" id="name" value="<%=name%>"
                                 style="width:100px;"/></li>
+            	<li>是否推荐到首页：
+                    <select name="is_recommend" id="is_recommend">
+                        <option value="">--全部--</option>
+                        <option value="0" <%="0".equals(is_recommend)?"selected":""%>>否</option>
+                        <option value="1" <%="1".equals(is_recommend)?"selected":""%>>是</option>
+                    </select>
+            	</li>
+
             </ul>
             <ul class="row3" style="margin-top:3px;">
                 <li class="btn_line" style="margin-top:3px;">
@@ -233,7 +79,7 @@
     </div>
     <div class="btnitem mb10 clearfix">
         <ul class="s_btn">
-            <li><a href="javascript:editStudent(0,'新增教师')">新增教师</a></li>
+            <li><a href="javascript:editStudent(0,'新增课程')">新增课程</a></li>
         </ul>
     </div>
     <div class="form_table">
@@ -241,38 +87,29 @@
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <th width="4%">&nbsp;</th>
-                    <th width="8%">所属学校</th>
-                    <th width="8%">所属教师</th>
-                    <th width="12%">学生姓名</th>
-                    <th width="6%">账号状态</th>
-                    <th width="6%">性别</th>
-                    <th width="6%">头像</th>
-                    <th width="12%">添加时间</th>
-                   	<th width="12%">最后登录时间</th>
-                   	<th width="5%">登录次数</th>
+                    <th width="8%">课程名称</th>
+                    <th width="8%">介绍</th>
+                    <th width="12%">图片</th>
+                    <th width="6%">是否推荐到首页</th>
+                    <th width="10%">添加时间</th>
                     <th width="7%">操作</th>
                 </tr>
                 <%
 
-                    String table = "bs_students a left join bs_schools b on a.school_id=b.id left join bs_teachers c on a.teacher_id=c.id";
-                    String wheres = "a.isdel=0 ";
+                    String table = "bs_course";
+                    String wheres = "isdel=0 ";
                     List sqllist = new ArrayList();
-                    if (!student_name.equals("")) {
-                        wheres = wheres + " and a.name like ?";
-                        sqllist.add("%" + student_name + "%");
+                    if (!name.equals("")) {
+                        wheres = wheres + " and name like ?";
+                        sqllist.add("%" + name + "%");
                     }
-                    if(school_id>0){
-                    	 wheres = wheres + " and a.school_id = ?";
-                         sqllist.add(school_id);
+                    if("".equals(is_recommend)){
+                    	 wheres = wheres + " and is_recommend = ?";
+                         sqllist.add(is_recommend);
                     }
-                    if(teacher_id>0){
-                    	 wheres = wheres + " and a.teacher_id = ?";
-                         sqllist.add(teacher_id);
-                    }
-                    String file = "a.id,a.name as 'student_name',a.username,a.headpic,a.sex,a.last_login_time,a.addtime,"+
-                    "a.last_login_ip,a.login_times,a.account_status,a.school_id,b.name as 'school_name',c.name as 'teacher_name'";
-                    String order = " order by a.id desc";
-                    String idd = "a.id";
+                    String file = "name,desc,add_time,is_recommend,pic,order";
+                    String order = " order by orde_num asc";
+                    String idd = "id";
                     int counts = utildb.Get_count(idd, table, wheres, "mysqlss", sqllist);
                     List list = utildb.Get_List(pages, pn, counts, table, wheres, file, order, "mysqlss", sqllist);
                     if (list != null) {
@@ -281,37 +118,22 @@
                 %>
                 <tr onmousemove="tableMove(this);" onmouseout="tableOut(this)">
                     <td><input name="id" type="checkbox" id="id" value="<%=doc.get("id")%>"/></td>
-                    <td><%=doc.get("school_name", "")%>
+                    <td><%=doc.get("name", "")%>
                     </td>
-                     <td><%=doc.get("teacher_name", "")%>
+                     <td><%=doc.get("desc", "")%>
                     </td>
-                    <td><%=doc.get("student_name", "")%>
+                    <td><%=doc.getIn("is_recommend") == 0?"否":"是"%>
                     </td>
-                    <td><%="Y".equals(doc.get("account_status"))?"正常":"锁定"%></td>
-                    <td><%
-                    	if(doc.getIn("sex")==1){
-                    		out.print("男");
-                    	}else if(doc.getIn("sex")==2){
-                    		out.print("女");
-                    	}else{
-                    		out.print("--");
-                    	}
-                    %>
-                    </td>
-                   <td><%=(doc.get("headpic") != null && !doc.get("headpic").equals("")) ? "<img src=\"" + doc.get("headpic") + "\" width=\"30\">" : "" %>
+
+                   <td><%=(doc.get("pic") != null && !doc.get("pic").equals("")) ? "<img src=\"" + doc.get("pic") + "\" width=\"30\">" : "" %>
                     </td>
                      <td><%
-                        if (doc.getIn("addtime") > 0) {
-                            out.print(AjaxXml.timeStamp2Date(doc.getIn("addtime"), "YY04-MM-DD HH:MI:SS"));
+                        if (doc.getIn("add_time") > 0) {
+                            out.print(AjaxXml.timeStamp2Date(doc.getIn("add_time"), "YY04-MM-DD HH:MI:SS"));
                         }
                     %></td>
-                    <td><%
-                        if (doc.getIn("last_login_time") > 0) {
-                            out.print(AjaxXml.timeStamp2Date(doc.getIn("last_login_time"), "YY04-MM-DD HH:MI:SS"));
-                        }
-                    %></td>
-                     <td><%=doc.getIn("login_times")%></td>
-                    <td><a href="javascript:editStudent('<%=doc.get("id")%>','编辑学生')">编辑</a> <a
+
+                    <td><a href="javascript:editStudent('<%=doc.get("id")%>','编辑课程')">编辑</a> <a
                             href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
 
@@ -332,6 +154,122 @@
         </form>
     </div>
 </div><!--r_iframe END-->
-
+<script type="text/javascript">
+    function del(id) {
+        art.dialog({
+            id: 'delID',
+            content: '是否确定删除选中项？',
+            lock: true,
+            button: [
+                {
+                    name: '确定',
+                    callback: function () {
+                        if (id == "") {
+                            art.dialog({id: 'delID'}).close();
+                            art.dialog.alert('请选择操作项');
+                            return false;
+                        }
+                        $.ajax({
+                            beforeSend: function () {
+                                art.dialog({id: 'delID'}).close();
+                                art.dialog({
+                                    id: 'tisID',
+                                    lock: true,
+                                    title: '提交中，请稍候……'
+                                });
+                            },
+                            dataType: "json",
+                            type: "post",
+                            url: "courses.jsp",
+                            data: "action=del&id=" + id + "",
+                            success: function (msg) {
+                                art.dialog({id: 'tisID'}).close();
+                                if (msg.type == true) {
+                                    art.dialog({
+                                        id: 'tisID',
+                                        content: msg.msg,
+                                        lock: true,
+                                        icon: "succeed",
+                                        cancelVal: '确定',
+                                        cancel: function () {
+                                            window.location.reload();
+                                            art.dialog({id: "tisID"}).close();
+                                        }
+                                    });
+                                } else {
+                                    art.dialog.alert(msg.msg);
+                                }
+                            }
+                        });
+                        return false;
+                    },
+                    focus: true
+                },
+                {
+                    name: '取消'
+                }
+            ]
+        });
+    }
+    function batchdel(id) {
+        var ids = getcheckbox("id");
+        if (ids == "") {
+            alert("请选择删除项？");
+            return;
+        }
+        art.dialog({
+            id: 'delID',
+            content: '是否确定删除选中项？',
+            lock: true,
+            button: [
+                {
+                    name: '确定',
+                    callback: function () {
+                        $.ajax({
+                            beforeSend: function () {
+                                art.dialog({id: 'delID'}).close();
+                                art.dialog({
+                                    id: 'tisID',
+                                    lock: true,
+                                    title: '提交中，请稍候……'
+                                });
+                            },
+                            dataType: "json",
+                            type: "post",
+                            url: "Course.jsp",
+                            data: "action=batchdel&ids=" + ids + "",
+                            success: function (msg) {
+                                art.dialog({id: 'tisID'}).close();
+                                if (msg.type == true) {
+                                    art.dialog({
+                                        id: 'tisID',
+                                        content: msg.msg,
+                                        lock: true,
+                                        icon: "succeed",
+                                        cancelVal: '确定',
+                                        cancel: function () {
+                                            window.location.reload();
+                                            art.dialog({id: "tisID"}).close();
+                                        }
+                                    });
+                                } else {
+                                    art.dialog.alert(msg.msg);
+                                }
+                            }
+                        });
+                        return false;
+                    },
+                    focus: true
+                },
+                {
+                    name: '取消'
+                }
+            ]
+        });
+    }
+    function editStudent(id, title) {
+        openurl('course_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+    }
+</script>
 <%@ include file="../end.jsp" %><!--End Sidebar--></body>
 </html>

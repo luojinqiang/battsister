@@ -159,12 +159,12 @@
                         <%} %>
                     </ul>
                 </li>
-                <li class="ncc_01"><a href="javascript:jianyi2('teacher/courses.jsp','课程管理')">课程管理</a>
+                <li class="ncc_01"><a href="javascript:jianyi2('course/courses.jsp','课程管理')">课程管理</a>
                     <ul class="nav_list">
                      	<%
                      		if(current_flags.contains("4001")){
                      	%>
-                     	 <li><a href="javascript:window.parent.jianyi2('course/courses.jsp','课程管理')">课程管理</a></li>
+                     	 <li><a href="javascript:window.parent.jianyi2(Course,'课程管理')">课程管理</a></li>
                      	<%
                      		}
                      	%>
