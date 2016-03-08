@@ -2,6 +2,9 @@ package com.qiniu.common;
 
 import java.nio.charset.Charset;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 // CHECKSTYLE:OFF
 
 public final class Config {
@@ -52,5 +55,19 @@ public final class Config {
 
     private Config() {
     }
+
+    public static void main(String[] args) {
+		JSONArray array=new JSONArray();
+		JSONObject json=new JSONObject();
+		json.put("word_path","url");
+		json.put("title","标题");
+		JSONArray image_path=new JSONArray();
+		image_path.add("url");
+		image_path.add("url");
+		json.put("images_path",image_path);
+		array.add(json);
+		System.out.println(array);
+	}
 }
+
 // CHECKSTYLE:ON

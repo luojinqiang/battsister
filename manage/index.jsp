@@ -159,6 +159,17 @@
                         <%} %>
                     </ul>
                 </li>
+                <li class="ncc_01"><a href="javascript:jianyi2('teacher/courses.jsp','课程管理')">课程管理</a>
+                    <ul class="nav_list">
+                     	<%
+                     		if(current_flags.contains("4001")){
+                     	%>
+                     	 <li><a href="javascript:window.parent.jianyi2('course/courses.jsp','课程管理')">课程管理</a></li>
+                     	<%
+                     		}
+                     	%>
+                    </ul>
+                </li>
                 <li class="ncc_03"><a
                         href="javascript:window.parent.jianyi2('xinxi/news.jsp','信息内容')">信息内容</a>
                     <ul class="nav_list">

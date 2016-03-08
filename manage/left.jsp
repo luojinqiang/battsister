@@ -26,6 +26,20 @@
            %>
         </ul>
     </div>
+    <div class="sidebar" id="course" style="display:none">
+        <h3>
+            <span>课程管理</span>
+        </h3>
+        <ul class="nav_list">
+   			<%
+                if (current_flags.contains("1001")) {
+            %>
+            <li><a href="javascript:window.parent.jianyi2('course/courses.jsp','课程管理')">课程管理</a></li>
+            <%
+                 }
+           %>
+        </ul>
+    </div>
     <div class="sidebar" id="xinxi" style="display:none">
         <h3>
             <span>信息管理</span>
@@ -86,7 +100,7 @@
 <script type="text/javascript">
     $(document).ready(
             function () {
-                var leftarr = ['teacher', 'xinxi', 'xitong'];
+                var leftarr = ['teacher','course', 'xinxi', 'xitong'];
                 var nowhref = window.location.href;
                 for (l in leftarr) {
                     if (nowhref.indexOf(leftarr[l]) > -1) {
