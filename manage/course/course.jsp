@@ -128,7 +128,7 @@
                         }
                     %></td>
 
-                    <td><a href="javascript:editStudent('<%=doc.get("id")%>','编辑课程')">编辑</a> <a
+                    <td><a href="javascript:window.parent.jianyi2('course/chapters.jsp?course_id=<%=doc.getIn("id")%>','章节')">章节</a> <a href="javascript:editStudent('<%=doc.get("id")%>','编辑课程')">编辑</a> <a
                             href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
 
@@ -175,7 +175,7 @@
                             },
                             dataType: "json",
                             type: "post",
-                            url: "courses.jsp",
+                            url: "course.jsp",
                             data: "action=del&id=" + id + "",
                             success: function (msg) {
                                 art.dialog({id: 'tisID'}).close();
@@ -231,7 +231,7 @@
                             },
                             dataType: "json",
                             type: "post",
-                            url: "Course.jsp",
+                            url: "course.jsp",
                             data: "action=batchdel&ids=" + ids + "",
                             success: function (msg) {
                                 art.dialog({id: 'tisID'}).close();

@@ -34,7 +34,7 @@
    			<%
                 if (current_flags.contains("1001")) {
             %>
-            <li><a href="javascript:window.parent.jianyi2('course/courses.jsp','课程管理')">课程管理</a></li>
+            <li><a href="javascript:window.parent.jianyi2('course/course.jsp','课程管理')">课程管理</a></li>
             <%
                  }
            %>
