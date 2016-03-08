@@ -1,8 +1,7 @@
-<%@page import="com.baje.sz.ajax.AjaxXml" %>
+<%@page import="com.baje.sz.util.Doc" %>
 <%@ page contentType="text/html; charset=utf-8" %>
-<%@ page import="com.baje.sz.util.Doc" %>
 <%@ page import="com.baje.sz.util.RequestUtil" %>
-<%@ page import="com.battsister.admin.sys.News" %>
+<%@ page import="com.battsister.model.Course" %>
 <%@ page import="net.sf.json.JSONObject" %>
 <%@ include file="../ini_sys.jsp" %>
 <%
@@ -16,8 +15,9 @@
     RequestUtil ru = new RequestUtil(request);
     String action = ru.getString("action");
     if (action.equals("save")) {
-        News ste = new News();
-        JSONObject result = ste.editNews(request, user_id, user_name);
+
+        Course course = new Course();
+        JSONObject result = course.edit(request, user_id, user_name);
         out.print(result);
         return;
     }
@@ -30,16 +30,15 @@
     int id = ru.getInt("id");
     action = "save";
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("id,name,desc,add_time,is_recommend,pic,order", "course", "where id=?", "", new Object[]{new Integer(id)});
+        Doc doc = utildb.Get_Doc("id,name,desc,add_time,is_recommend,pic,order_num", "bs_course", "where id=?", "", new Object[]{new Integer(id)});
         if (doc != null) {
             name = doc.get("name");
             pic = doc.get("pic");
             is_recommend = doc.getIn("is_recommend");
-            order = doc.getIn("order");
+            order = doc.getIn("bs_course");
             desc = doc.getString("desc");
         }
     }
-    String logstarttime = AjaxXml.Get_Date("now", "YY04-MM-DD HH:MI:SS");
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
