@@ -39,9 +39,8 @@ public class BasicType {
     	}
 		return uploadManage;
 	}
-    public final static String myspace_url="http://7xouve.com1.z0.glb.clouddn.com/";//七牛myspace空间的域名，暂时只有后台在用
-    public final static String space_name="myspace";//空间名
-    public final static String pipeline_name="mps";//数据处理的专用队列名
+    public final static String myspace_url="http://7xrnsw.com2.z0.glb.qiniucdn.com/";//七牛myspace空间的域名，暂时只有后台在用
+    public final static String space_name="battsister";//空间名
     
     public static String getSysUserLock(int i) {
         if (i == 1) {
