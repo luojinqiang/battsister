@@ -16,7 +16,7 @@ $(function() {
         chunk_size: '4mb',
         get_new_uptoken: true,//是否每次上传的时候都获取新端token
         uptoken_url: '/uptoken.jsp',
-        domain: 'http://7xouve.com2.z0.glb.qiniucdn.com/',
+        domain: 'http://7xrnsw.com2.z0.glb.qiniucdn.com/',
         // downtoken_url: '/downtoken',
         // unique_names: true,
         // save_key: true,
@@ -65,12 +65,12 @@ $(function() {
             	
             	if($('input[name=video_path]').val()==undefined){
             		 /*console.log('undefined');*/
-            		$('#container').append("<input type=\"hidden\" name=\"video_path\" value=\""+("http://7xouve.com2.z0.glb.qiniucdn.com/"+json.key)+"\"/><span id=\"show_path\">"+("http://7xouve.com2.z0.glb.qiniucdn.com/"+json.key)+"</span>");
+            		$('#container').append("<input type=\"hidden\" name=\"video_path\" value=\""+("http://7xrnsw.com2.z0.glb.qiniucdn.com/"+json.key)+"\"/><span id=\"show_path\">"+("http://7xrnsw.com2.z0.glb.qiniucdn.com/"+json.key)+"</span>");
             		
             	}else{/*
             		 console.log('不是undefined');*/
-            		$('input[name=video_path]').val("http://7xouve.com2.z0.glb.qiniucdn.com/"+json.key);
-            		$("#show_path").html("http://7xouve.com2.z0.glb.qiniucdn.com/"+json.key);
+            		$('input[name=video_path]').val("http://7xrnsw.com2.z0.glb.qiniucdn.com/"+json.key);
+            		$("#show_path").html("http://7xrnsw.com2.z0.glb.qiniucdn.com/"+json.key);
             	}
                 /*var progress = new FileProgress(file, 'fsUploadProgress');
 
@@ -82,22 +82,22 @@ $(function() {
                 }).error(function(){
                     console.log('获取下载token失败');
                 });*/
-            	//调用接口生成缩略图
+            /*	//调用接口生成缩略图
             	 $.post('/manage/ajax/sysajax.jsp', 'action=getPic&file_name='+json.key, function(data) {
  		          if(data.type){
  		        	 console.log('获取缩略图成功:');
  		        	 if($('input[name=little_url]').val()==undefined){
- 	            		 /*console.log('undefined');*/
+ 	            		 console.log('undefined');
  	            		$('#container').append("<input type=\"hidden\" name=\"little_url\" value=\""+("http://7xouve.com2.z0.glb.qiniucdn.com/"+data.pic_name)+"\"/>");
  	            		
- 	            	}else{/*
- 	            		 console.log('不是undefined');*/
+ 	            	}else{
+ 	            		 console.log('不是undefined');
  	            		$('input[name=little_url]').val(("http://7xouve.com2.z0.glb.qiniucdn.com/"+data.pic_name));
  	            	}
  		          }else{
  		        	 console.log('获取缩略图失败:'+data.msg);
  		          }
- 		        }, 'json');
+ 		        }, 'json');*/
             	
             },
             'Error': function(up, err, errTip) {
