@@ -34,7 +34,7 @@
    			<%
                 if (current_flags.contains("1001")) {
             %>
-            <li><a href="javascript:window.parent.jianyi2(Course,'课程管理')">课程管理</a></li>
+            <li><a href="javascript:window.parent.jianyi2('course/courses.jsp','课程管理')">课程管理</a></li>
             <%
                  }
            %>
@@ -100,7 +100,7 @@
 <script type="text/javascript">
     $(document).ready(
             function () {
-                var leftarr = ['teacher','Course', 'xinxi', 'xitong'];
+                var leftarr = ['teacher','course', 'xinxi', 'xitong'];
                 var nowhref = window.location.href;
                 for (l in leftarr) {
                     if (nowhref.indexOf(leftarr[l]) > -1) {
