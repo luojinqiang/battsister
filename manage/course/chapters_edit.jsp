@@ -11,27 +11,27 @@
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
     if (!(current_flags.indexOf(",1001,") > -1)) {
-        out.print("<script>alert('没有对应的权限');</script>");
+        out.print("<script>alert('æ²¡æå¯¹åºçæé');</script>");
         return;
     }
     RequestUtil ru = new RequestUtil(request);
     String action = ru.getString("action");
     int id = ru.getInt("id");
-    if (action.equals("save")) {//更新
-    	Student student=new Student();
-    	out.print(student.editStudent(request, user_id, user_name));
+    if (action.equals("save")) {//
+    	Chapter chapter=new Chapter();
+    	out.print(chapter.editChapter(request, user_id, user_name));
     	return; 
     }
-	String name="",desc="";
+	String name="",content="";
 	int course_id=0,order_num=0;
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("name,desc,course_id,order_num", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+        Doc doc = utildb.Get_Doc("name,content,course_id,order_num", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
         if (doc == null) {
             out.print("信息不存在");
             return;
         } else {
         	name=doc.get("name");
-        	desc=doc.get("desc");
+        	content=doc.get("content");
         	course_id=doc.getIn("course_id");
         	order_num=doc.getIn("order_num");
         }
@@ -98,11 +98,12 @@
         <form id="form1" name="form1" method="post" action="">
             <input name="id" id="id" type="hidden" value="<%=id%>"/>
             <input name="action" id="action" type="hidden" value="save"/>
-            <ul class="row2 clearfix">
-                <li>章节名称：<input type="text" value="<%=name%>" name="chapter_name"/></li>
+            <ul class="row3 clearfix">
+                <li>章节名称<input type="text" value="<%=name%>" name="chapter_name"/></li>
                	<li>
+               	所属课程：
                		<select name="course_id">
-               			<option value="0">--所属课程--</option>
+               			<option value="0">--所属课程--</option>
                			<%
                				List<Doc> courseList=utildb.Get_List("id,name","bs_course"," where isdel=0","mysqlss");
                				if(courseList!=null){
@@ -114,14 +115,14 @@
                		</select>
                	</li>
                		<li>
-           		排序：
-           		<input type="text" name="order_num" value="<%=order_num%>"/>
+           		排序：
+           		<input type="text" name="order_num" value="<%=order_num%>" style="width:50px;"/>
            		</li>
             </ul>
             <ul class="row1 clearfix">
                 <li>
                     <script type="text/plain" id="contents" name="contents" class="ckeditor">
-                        <%=desc%>
+                        <%=content%>
                     </script>
                     <script type="text/javascript">var editor = new baidu.editor.ui.Editor(edit_options);
                     editor.render("contents");
@@ -129,7 +130,7 @@
                 </li>
             </ul>
             <div class="row_btn">
-                <button type="button" id="tjbutton" onclick="usersave()">确定提交</button>
+                <button type="button" id="tjbutton" onclick="usersave()">确认提交</button>
                 <span id="tisspan"></span>
             </div>
         </form>
