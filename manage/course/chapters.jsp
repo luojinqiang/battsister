@@ -168,6 +168,15 @@
         function editvideo(id, title) {
         	 openurl('chapter_video_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
 		}
+        function editword(id, title) {
+       	 openurl('chapter_word_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+		}
+        function editppt(id, title) {
+       	 openurl('chapter_ppt_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+		}
+        function editaimtation(id, title) {
+       	 openurl('chapter_aimtation_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+		}
     </script>
 </head>
 <body class="ifr">
