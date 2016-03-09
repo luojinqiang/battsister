@@ -98,7 +98,17 @@ $(function() {
  		        	 console.log('获取缩略图失败:'+data.msg);
  		          }
  		        }, 'json');*/
-            	
+            	//设置图片
+            	var show="<video id=\"really-cool-video\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls"+
+            			"preload=\"auto\" width=\"640\" height=\"264\" poster=\"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png\""+
+            					"data-setup='{}'>"+
+            		"<source src=\""+("http://7xrnsw.com2.z0.glb.qiniucdn.com/"+json.key)+"\" type='video/mp4' />"+
+            			"<p class=\"vjs-no-js\">"+
+            				"To view this video please enable JavaScript, and consider upgrading to a web browser"+
+            					"that <a href=\"http://videojs.com/html5-video-support/\" target=\"_blank\">supports HTML5 video</a>"+
+            							"</p>"+
+            								"</video>";
+            	$('#container').append(show);
             },
             'Error': function(up, err, errTip) {
                /* $('table').show();*/

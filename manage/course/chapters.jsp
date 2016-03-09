@@ -34,6 +34,7 @@
         pn = 20;
     }
     int course_id=ru.getInt("course_id");
+    course_id=1;
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -164,6 +165,9 @@
         function editChapter(id, title) {
             openurl('chapters_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
         }
+        function editvideo(id, title) {
+        	 openurl('chapter_video_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+		}
     </script>
 </head>
 <body class="ifr">
@@ -196,10 +200,10 @@
                 <%
 
                     String table = "bs_chapter a left join bs_course b on a.course_id=b.id ";
-                    String wheres = " where a.isdel=0 and a.course_id=?";
+                    String wheres = "a.isdel=0 and a.course_id=?";
                     List sqllist = new ArrayList();
                     sqllist.add(course_id);
-                    String file = "a.id,a.name as 'chapter_name',a.order_num,a.add_time,b.name as 'course_name'";
+                    String file = "a.id,a.name as 'chapter_name',a.order_num,a.add_time,b.name as 'course_name' ";
                     String order = " order by a.id desc";
                     String idd = "a.id";
                     int counts = utildb.Get_count(idd, table, wheres, "mysqlss", sqllist);

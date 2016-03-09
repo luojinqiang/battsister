@@ -159,7 +159,7 @@
                         <%} %>
                     </ul>
                 </li>
-                <li class="ncc_02"><a href="javascript:jianyi2('course/course.jsp','课程管理')">课程管理</a>
+                <li class="ncc_01"><a href="javascript:jianyi2('course/course.jsp','课程管理')">课程管理</a>
                     <ul class="nav_list">
                      	<%
                      		if(current_flags.contains("4001")){
@@ -195,7 +195,7 @@
                          %>
                     </ul>
                 </li>
-               <li class="ncc_04"><a href="javascript:jianyi2('xitong/rizhi.jsp','系统管理')">系统管理</a>
+               <li class="ncc_06"><a href="javascript:jianyi2('xitong/rizhi.jsp','系统管理')">系统管理</a>
                     <ul class="nav_list">
                        <%
                         if (current_flags.contains("6001")) { %>

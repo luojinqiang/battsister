@@ -5,7 +5,6 @@
 <%@ page import="net.sf.json.JSONObject" %>
 <%@ include file="../ini_sys.jsp" %>
 <%
-    request.setCharacterEncoding("utf-8");
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
@@ -16,27 +15,28 @@
     RequestUtil ru = new RequestUtil(request);
     String action = ru.getString("action");
     if (action.equals("save")) {
+
         Course course = new Course();
         JSONObject result = course.edit(request, user_id, user_name);
         out.print(result);
         return;
     }
 
-    int order_num = 0;
+    int order = 0;
     int is_recommend = 0;
-    String content = "";
+    String desc = "";
     String pic = "";
     String name = "";
     int id = ru.getInt("id");
     action = "save";
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("id,name,content,add_time,is_recommend,pic,order_num", "bs_course", "where id=?", "", new Object[]{new Integer(id)});
+        Doc doc = utildb.Get_Doc("id,name,desc,add_time,is_recommend,pic,order_num", "bs_course", "where id=?", "", new Object[]{new Integer(id)});
         if (doc != null) {
             name = doc.get("name");
             pic = doc.get("pic");
             is_recommend = doc.getIn("is_recommend");
-            order_num = doc.getIn("order_num");
-            content = doc.getString("content");
+            order = doc.getIn("bs_course");
+            desc = doc.getString("desc");
         }
     }
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -76,10 +76,13 @@
     </style>
 </head>
 <body class="ifr">
+<%@ include file="../left.jsp" %><!--End Sidebar-->
+<div class="iframe_box">
     <div class="box_input">
         <form id="form1" name="form1">
             <input name="id" id="id" type="hidden" value="<%=id%>"/>
             <input name="action" id="action" type="hidden" value="<%=action%>"/>
+            <input name="newstype" id="newstype" type="hidden" value="1"/>
             <ul class="row1 clearfix">
                 <li>
                     <label for="name">课程名称：</label>
@@ -104,8 +107,8 @@
                 </li>
             </ul>
             <ul class="row2 clearfix">
-                <li>排序：<input type="text" name="order_num" id="order_num" value="<%=order_num %>" style="width:50px;"/>数字越小排序越靠前</li>
-                <li>是否推荐到首页：<input type="checkbox" id="is_recommend" name="is_recommend" value="1" <%=is_recommend==1?" checked":""%>></li>
+                <li>排序：<input type="text" name="order" id="order" value="<%=order %>" style="width:50px;"/>数字越小排序越靠前</li>
+                <li>是否推荐到首页：<input type="checkbox" id="is_recommend" name="is_recommend" value="<%=is_recommend%>" <%=is_recommend==1?"checked":""%>></li>
             </ul>
             <script>
                 if ($('#smallfileUpload').size()) {
@@ -123,7 +126,9 @@
             </script>
             <ul class="row1 clearfix">
                 <li>
-                    <script type="text/plain" id="contents" name="contents" class="ckeditor"><%=content %></script>
+                    <script type="text/plain" id="contents" name="contents" class="ckeditor">
+                        <%=desc %>
+                    </script>
                     <script type="text/javascript">var editor = new baidu.editor.ui.Editor(edit_options);
                     editor.render("contents");
                     </script>
@@ -134,12 +139,13 @@
                 <span id="tisspan"></span>
             </div>
         </form>
+    </div>
 </div><!--r_iframe END-->
 
 <script type="text/javascript">
     function usersave() {
         var name = $("#name").val();
-        var content = editor.getContent();
+        var content = escape(escape(editor.getContent()));
         if (name == "") {
             window.parent.art.dialog.alert('请输入课程名称');
             return;
@@ -156,7 +162,7 @@
         $.ajax({
             type: "post",
             dataType: "json",
-            url: "course_edit.jsp",
+            url: "news_edit.jsp",
             data: $("#form1").serialize() + "&content=" + content + "",
             success: function (msg) {
                 if (msg.type) {
@@ -169,11 +175,9 @@
                         cancel: function () {
                             $("#tjbutton").attr("disabled", false);
                             $("#tisspan").html("");
-                            window.parent.location.reload();
                             window.parent.art.dialog({id: "tisID"}).close();
-                            window.parent.art.dialog({id:"user"}).close();
-                            //window.parent.jianyi2('/manage/course/course.jsp', '课程管理');
-                            //window.parent.tabclose("课程管理");
+                            window.parent.jianyi2('/manage/xinxi/news.jsp', '信息内容');
+                            window.parent.tabclose("编辑新闻");
                         }
                     });
                 } else {

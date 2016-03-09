@@ -23,13 +23,14 @@
     	out.print(teacher.editBuyClass(request, user_id, user_name));
     	return;
     }
-	String video_path="";
-    Doc doc = utildb.Get_Doc("id,video_path", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+	String video_path="",name="";
+    Doc doc = utildb.Get_Doc("id,video_path,name", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
     if (doc == null) {
         out.print("信息不存在");
         return;
     } else {
     	video_path=doc.get("video_path");
+    	name=doc.get("name");
     	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -41,16 +42,7 @@
     <link href="../css/base.css" rel="stylesheet" type="text/css"/>
     <script language="javascript" src='../js/sys.js'></script>
     <script type='text/javascript' src='/public/js/operamasks/operamasks-ui.min.js'></script>
-     <!-- 七牛上传相关开始 -->
-    <script type="text/javascript" src="/js/qiniu_js/demo/js/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/js/plupload/plupload.full.min.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/js/plupload/i18n/zh_CN.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/js/ui.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/src/qiniu.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/js/highlight/highlight.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/js/main.js"></script>
-    <!-- 结束 -->
+     <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript">
         function usersave() {
             $("#tjbutton").attr("disabled", true);
@@ -98,26 +90,7 @@
             <input name="action" id="action" type="hidden" value="save"/>
             	      <ul class="row1 clearfix">
                 <li>
-                        <label>
-                            视频路径：
-                        </label>
-                        <div class="container">
-							    <div class="body">
-       <div>
-        <div class="col-md-12">
-            <div id="container">
-               <input type="button" value="选择文件" id="pickfiles" style="width:80px;height:30px;background-color: #9AFF9A;border-style: ridge;"/>
-            	<%
-            		if(video_path!=null&&!"".equals(video_path)){
-            			out.print("<input type=\"hidden\" name=\"video_path\" value=\""+video_path+"\"/><span id=\"show_path\">"+video_path+"</span>");
-            		}
-            	%>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
- <div id="fsUploadProgress" style="width:opx;background-color:#9AFF9A;text-align: center;margin-top:3px;"></div>
+                       <h4 style="margin-bottom:20px;"><%=name%>--视频上传</h4>
                 </li>
             </ul>
             <div class="row_btn" style="margin-top:20px;">
