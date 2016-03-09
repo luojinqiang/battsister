@@ -95,19 +95,20 @@
                     <th width="7%">操作</th>
                 </tr>
                 <%
+
                     String table = "bs_course";
-                    String wheres = "isdel=0 ";
+                    String wheres = " isdel=0 ";
                     List sqllist = new ArrayList();
                     if (!name.equals("")) {
                         wheres = wheres + " and name like ?";
                         sqllist.add("%" + name + "%");
                     }
-                    if("".equals(is_recommend)){
+                    if(!"".equals(is_recommend)){
                     	 wheres = wheres + " and is_recommend = ?";
                          sqllist.add(is_recommend);
                     }
-                    String file = "name,desc,add_time,is_recommend,pic,order";
-                    String order = " order by orde_num asc";
+                    String file = "id,name,content,add_time,is_recommend,pic,order_num";
+                    String order = " order by order_num asc";
                     String idd = "id";
                     int counts = utildb.Get_count(idd, table, wheres, "mysqlss", sqllist);
                     List list = utildb.Get_List(pages, pn, counts, table, wheres, file, order, "mysqlss", sqllist);
@@ -117,22 +118,17 @@
                 %>
                 <tr onmousemove="tableMove(this);" onmouseout="tableOut(this)">
                     <td><input name="id" type="checkbox" id="id" value="<%=doc.get("id")%>"/></td>
-                    <td><%=doc.get("name", "")%>
-                    </td>
-                     <td><%=doc.get("desc", "")%>
-                    </td>
-                    <td><%=doc.getIn("is_recommend") == 0?"否":"是"%>
-                    </td>
-
-                   <td><%=(doc.get("pic") != null && !doc.get("pic").equals("")) ? "<img src=\"" + doc.get("pic") + "\" width=\"30\">" : "" %>
-                    </td>
-                     <td><%
+                    <td><%=doc.get("name", "")%></td>
+                    <td><%=doc.get("content", "")%></td>
+                    <td><%=(doc.get("pic") != null && !doc.get("pic").equals("")) ? "<img src=\"" + doc.get("pic") + "\" width=\"30\">" : "" %></td>
+                    <td><%=doc.getIn("is_recommend") == 0?"否":"是"%></td>
+                    <td><%
                         if (doc.getIn("add_time") > 0) {
                             out.print(AjaxXml.timeStamp2Date(doc.getIn("add_time"), "YY04-MM-DD HH:MI:SS"));
                         }
                     %></td>
 
-                    <td><a href="javascript:editStudent('<%=doc.get("id")%>','编辑课程')">编辑</a> <a
+                    <td><a href="javascript:window.parent.jianyi2('course/chapters.jsp?course_id=<%=doc.getIn("id")%>','章节')">章节</a> <a href="javascript:editStudent('<%=doc.get("id")%>','编辑课程')">编辑</a> <a
                             href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
 
@@ -179,7 +175,7 @@
                             },
                             dataType: "json",
                             type: "post",
-                            url: "courses.jsp",
+                            url: "course.jsp",
                             data: "action=del&id=" + id + "",
                             success: function (msg) {
                                 art.dialog({id: 'tisID'}).close();
@@ -235,7 +231,7 @@
                             },
                             dataType: "json",
                             type: "post",
-                            url: "Course.jsp",
+                            url: "course.jsp",
                             data: "action=batchdel&ids=" + ids + "",
                             success: function (msg) {
                                 art.dialog({id: 'tisID'}).close();
