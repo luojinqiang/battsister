@@ -95,7 +95,6 @@
                     <th width="7%">操作</th>
                 </tr>
                 <%
-
                     String table = "bs_course";
                     String wheres = " isdel=0 ";
                     List sqllist = new ArrayList();
