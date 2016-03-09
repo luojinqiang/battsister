@@ -43,19 +43,6 @@
     <script language="javascript" src='../js/sys.js'></script>
     <script type='text/javascript' src='/public/js/operamasks/operamasks-ui.min.js'></script>
      <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
-     <!-- 七牛上传相关开始 -->
-    <script type="text/javascript" src="/js/qiniu_js/demo/js/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/js/plupload/plupload.full.min.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/js/plupload/i18n/zh_CN.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/js/ui.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/src/qiniu.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/js/highlight/highlight.js"></script>
-	<script type="text/javascript" src="/js/qiniu_js/demo/js/main.js"></script>
-    <!-- 结束 -->
-    <!-- 视频插件 -->
-    <link href="/manage/css/video5/video-js.min.css" rel="stylesheet"/>
-<script src="/manage/js/video5/video.min.js"></script>
     <script type="text/javascript">
         function usersave() {
             $("#tjbutton").attr("disabled", true);
@@ -103,45 +90,7 @@
             <input name="action" id="action" type="hidden" value="save"/>
             	      <ul class="row1 clearfix">
                 <li>
-                            <h4 style="margin-bottom:20px;"><%=name%>--视频上传</h4>
-                       
-                        <div class="container">
-							    <div class="body">
-       <div>
-        <div class="col-md-12">
-            <div id="container">
-               <input type="button" value="选择文件" id="pickfiles" style="width:80px;height:30px;background-color: #9AFF9A;border-style: ridge;"/>
-            	<%
-            		if(video_path!=null&&!"".equals(video_path)){
-            			JSONArray path_array=JSONArray.fromObject(video_path);
-            			if(path_array!=null){
-            				for(int i=0;i<path_array.size();i++){
-            					%>
-            					<video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered" controls
- 						preload="auto" width="640" height="264" poster="https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"
- 					data-setup='{}'>
-			<source src="<%=path_array.get(i)%>" type='video/mp4' />
- 	 <p class="vjs-no-js">
-    To view this video please enable JavaScript, and consider upgrading to a web browser
-    that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-  </p>
-</video>
-
-            					<%
-            				}
-            			}
-            		}
-            	
-            		if(video_path!=null&&!"".equals(video_path)){
-            			out.print("<input type=\"hidden\" name=\"video_path\" value=\""+video_path+"\"/><span id=\"show_path\">"+video_path+"</span>");
-            		}
-            	%>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
- <div id="fsUploadProgress" style="width:opx;background-color:#9AFF9A;text-align: center;margin-top:3px;"></div>
+                       <h4 style="margin-bottom:20px;"><%=name%>--视频上传</h4>
                 </li>
             </ul>
             <div class="row_btn" style="margin-top:20px;">
