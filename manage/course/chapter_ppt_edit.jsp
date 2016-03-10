@@ -24,7 +24,7 @@
     	return;
     }
 	String video_path="",name="";
-    Doc doc = utildb.Get_Doc("id,video_path,name", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+    Doc doc = utildb.Get_Doc("id,ppt_path,name", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
     if (doc == null) {
         out.print("信息不存在");
         return;
@@ -40,9 +40,11 @@
     <title>table</title>
     <link href="../css/reset.css" rel="stylesheet" type="text/css"/>
     <link href="../css/base.css" rel="stylesheet" type="text/css"/>
+     <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
     <script language="javascript" src='../js/sys.js'></script>
     <script type='text/javascript' src='/public/js/operamasks/operamasks-ui.min.js'></script>
-     <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+     <script type='text/javascript' src='/public/js/global.js'></script>
+     <link href='/public/js/operamasks/operamasks-ui.css' rel='stylesheet' type='text/css'/>
     <script type="text/javascript">
         function usersave() {
             $("#tjbutton").attr("disabled", true);
@@ -54,7 +56,7 @@
             $.ajax({
                 dataType: "json",
                 type: "post",
-                url: "chapter_video_edit.jsp",
+                url: "chapter_ppt_edit.jsp",
                 data: $("#form1").serialize()+"&chapter_str="+chapter_str,
                 success: function (msg) {
                     if (msg.type) {
@@ -90,9 +92,39 @@
             <input name="action" id="action" type="hidden" value="save"/>
             	      <ul class="row1 clearfix">
                 <li>
-                       <h4 style="margin-bottom:20px;"><%=name%>--视频上传</h4>
+                       <h4 style="margin-bottom:20px;"><%=name%>--ppt上传</h4>
                 </li>
             </ul>
+             <ul class="row1 clearfix">
+                <li>
+                    <span class="input">
+                        <span class="upload_file">
+                            <div>
+                                <div class="up_input">
+                                    <input name="FileUpload" id="smallfileUpload" type="file"/>
+                                </div>
+                                <div class="tips"></div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="img" id="smallfileDetail"></div>
+                        </span>
+                    </span>
+                </li>
+            </ul>
+             <script>
+                if ($('#smallfileUpload').size()) {
+                    global_obj.file_upload($('#smallfileUpload'), $('#form1 input[name=pic]'), $('#smallfileDetail'), 'web_column');
+                    $('#smallfileDetail').html(global_obj.img_link($('#form1 input[name=pic]').val()));
+                    if ($('#form1 input[name=pic]').val() != '') {
+                        $('#smallfileDetail').append('<div class="del">删除</div>');
+                    }
+                    $('#smallfileDetail div').click(function () {
+                        $('#form1 input[name=pic]').val('');
+                        $(this).parent().html('');
+                    });
+                }
+
+            </script>
             <div class="row_btn" style="margin-top:20px;">
                 <button type="button" id="tjbutton" onclick="usersave()">确定提交</button>
                 <span id="tisspan"></span>
