@@ -49,7 +49,7 @@ var global_obj = {
                 if (jsonData.status == 1) {
                     if ($.isFunction(callback)) {
                     	//alert(jsonData.imgpath+"  "+jsonData.little_url);
-                        callback(jsonData.imgpath,jsonData.little_url);
+                        callback(jsonData.imgpath,jsonData.num);
                     } else {
                         filepath_input_obj.val(jsonData.imgpath);
                         img_detail_obj.html(global_obj.img_link(jsonData.imgpath, imgSize));

@@ -45,7 +45,7 @@ public class Pdf2Jpg {
 		Document document = null;
 		BufferedImage img = null;
 		float rotation = 0f;
-		float zoom = 1.5f;
+		float zoom = 1;
 		
 		//判断目录是否存在，如果不存在的话则创建
 		File file = new File(destFile);
@@ -65,7 +65,9 @@ public class Pdf2Jpg {
 		// maxPages = document.getPageTree().getNumberOfPages();
 		
 		//进行pdf文件图片的转化
+		int ppt_num=0;
 		for (int i = 0; i < document.getNumberOfPages(); i++) {
+			ppt_num++;
 			img = (BufferedImage) document.getPageImage(i,GraphicsRenderingHints.SCREEN,
 					Page.BOUNDARY_CROPBOX,rotation,zoom);
 			//设置图片的后缀名
@@ -73,7 +75,7 @@ public class Pdf2Jpg {
 			
 			ImageWriter writer = (ImageWriter) iter.next();
 			
-			File outFile = new File(destFile+FileName+"_"+(i+1)+".png");
+			File outFile = new File(destFile+(i+1)+SUFF_IMAGE);
 			
 			FileOutputStream out = new FileOutputStream(outFile);
 			
@@ -86,7 +88,7 @@ public class Pdf2Jpg {
 		img.flush();
 		document.dispose();
 		System.out.println("转化成功！！！ ");
-		return 0;
+		return ppt_num;
 	}
 	public static void main(String[] args) {
 		try {

@@ -556,18 +556,6 @@ public class swfUpfile {
                     Magup.cutImage(imgSPaht + "/" + file_name + "." + file_ext, imgSPaht + "/" + file_name + ".jpg", 0.7);
                     file_ext = "jpg";
                 }
-                if("ppt".equals(file_ext)||"pptx".equals(file_ext)){//如果是ppt
-                	File ppt_image_file=new File(AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name);
-                	if(!ppt_image_file.exists()){
-                		ppt_image_file.mkdirs();
-                	}
-                	//生成图片
-                	OfficeToPDF toPDF = new OfficeToPDF();
-                	toPDF.office2PDF(imgSPaht + "/" + file_name + "." + file_ext, imgSPaht + "/" + file_name + "_pdf.pdf"  );
-                	Pdf2Jpg pdf = new Pdf2Jpg();
-                	System.out.println("ppt_image_file-->"+ppt_image_file.getAbsolutePath());
-    				pdf.tranfer(imgSPaht + "/" + file_name + "_pdf.pdf",AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name+"/");
-                }
                 String db_file_name = imgSPaht + "/" + file_name + "." + file_ext;
                 String newfile = imgSPaht + "/" + file_name + "." + file_ext;
                 newfile = impa + "/" + file_name + "." + file_ext;
@@ -598,6 +586,20 @@ public class swfUpfile {
                 }
                 //System.out.println("file_showname:"+file_showname);
                 file_readme = "/" + file_path + "/" + file_name + "." + file_ext;
+                if("ppt".equals(file_ext)||"pptx".equals(file_ext)){//如果是ppt
+                	File ppt_image_file=new File(AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name);
+                	if(!ppt_image_file.exists()){
+                		ppt_image_file.mkdirs();
+                	}
+                	//生成图片
+                	OfficeToPDF toPDF = new OfficeToPDF();
+                	toPDF.office2PDF(imgSPaht + "/" + file_name + "." + file_ext, imgSPaht + "/" + file_name + "_pdf.pdf"  );
+                	Pdf2Jpg pdf = new Pdf2Jpg();
+                	System.out.println("ppt_image_file-->"+ppt_image_file.getAbsolutePath());
+    				int ppt_num=pdf.tranfer(imgSPaht + "/" + file_name + "_pdf.pdf",AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name+"/");
+    				backjson.put("num", ppt_num);//ppt图片张数
+    				file_readme=file_name;
+                }
                 String sqlx = "insert into bs_upfile (username,userid,logid,file_name,file_path,file_ext,"
                         + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
                         + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
