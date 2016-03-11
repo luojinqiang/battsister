@@ -37,9 +37,9 @@ public class Chapter {
 	            int id = ru.getInt("id");
 	            int course_id=ru.getInt("course_id");
 	            String chapter_name=ru.getString("chapter_name");
-	            String desc=ru.getString("desc");
-	            desc = AjaxXml.unescape(desc);
-	            desc = StringUtil.replace(desc, "^…", "&");
+	            String content=ru.getString("content");
+	            content = AjaxXml.unescape(content);
+	            content = StringUtil.replace(content, "^…", "&");
 	            int order_num=ru.getInt("order_num");
 	            if(chapter_name==null||"".equals(chapter_name)){
 	            	backjson.put("type", false);
@@ -54,15 +54,15 @@ public class Chapter {
 	            List valueList=new ArrayList();
 	            valueList.add(chapter_name);
 	            valueList.add(course_id);
-	            valueList.add(desc);
+	            valueList.add(content);
 	            valueList.add(order_num);
 	            if(id>0){
 	            	logtitle = "API--编辑章节";
 	            	valueList.add(id);
-	            	base.executeUpdate("update bs_chapter set name=?,course_id=?,desc=?,order_num=? where id=? ", valueList);
+	            	base.executeUpdate("update bs_chapter set name=?,course_id=?,content=?,order_num=? where id=? ", valueList);
 	            }else{
 	            	valueList.add(AjaxXml.getTimestamp("now"));
-	            	base.executeUpdate("insert into bs_cooperation_unit (name,course_id,desc,order_num,add_time) values(?,?,?,?,?)", valueList);
+	            	base.executeUpdate("insert into bs_cooperation_unit (name,course_id,content,order_num,add_time) values(?,?,?,?,?)", valueList);
 	            }
 	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
 	            backjson.put("type", true);
@@ -78,5 +78,10 @@ public class Chapter {
 	            dbc.closeConn();
 	        }
 	
+	}
+	
+	
+	public static void main(String[] args) {
+		System.out.println(AjaxXml.getTimestamp("now"));
 	}
 }

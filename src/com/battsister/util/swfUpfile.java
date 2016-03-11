@@ -36,6 +36,8 @@ import com.baje.sz.util.AppConf;
 import com.baje.sz.util.FileUtil;
 import com.baje.sz.util.Magick;
 import com.baje.sz.util.RequestUtil;
+import com.g.OfficeToPDF;
+import com.g.Tojpg.Pdf2Jpg;
 import com.soft4j.httpupload4j.SmartUpload;
 
 @SuppressWarnings("unchecked")
@@ -512,8 +514,7 @@ public class swfUpfile {
             file_path = "";
             //System.out.println("file_path="+file_path);
             if (file_path.equals("")) {
-                file_path = "upload/" + AjaxXml.Get_Date("now", "YY04MM") + "/" + AjaxXml.Get_Date("now", "DD");
-                ;
+            	 file_path = "upload/" + AjaxXml.Get_Date("now", "YY04MM") + "/" + AjaxXml.Get_Date("now", "DD");
             }
             String impa = "/" + file_path;//图片路径
             String file_name = "";//图片名字
@@ -528,7 +529,6 @@ public class swfUpfile {
             if (!imgsfile.exists()) {
                 imgsfile.mkdirs();
             }
-            String little_url="";//如果是视频则为视频缩略图的地址
             for (int i = 0; i < su.getFiles().getCount(); i++) {
                 suFile = su.getFiles().getFile(i);
                 //System.out.println(su.getFiles().getFile(i).getFieldName());
@@ -539,6 +539,14 @@ public class swfUpfile {
                 file_name = AjaxXml.Get_Date("now", "HH-MI-SS_") + AjaxXml.Getrandom(4);
                 file_readme = suFile.getFileName();
                 file_ext = file_readme.substring(file_readme.lastIndexOf(".") + 1, file_readme.length());
+                //判断是否是ppt文件
+                if("ppt".equals(file_ext)||"pptx".equals(file_ext)){
+                	imgSPaht=AppConf.getconf().get("Filepath")+("/ppt/origin");
+                	File ppt_file=new File(imgSPaht);
+                	if(!ppt_file.exists()){
+                		ppt_file.mkdirs();
+                	}
+                }
                 //System.out.println("file_readme:"+file_readme);
                 //FileUtil.copy(tmpFilePaths[i],imgSPaht+"/"+file_name+"."+file_ext,true);
                 System.out.println(imgSPaht + "/" + file_name + "." + file_ext);
@@ -547,6 +555,18 @@ public class swfUpfile {
                 if (file_ext.toLowerCase().equals("png") && filesize > 200) {
                     Magup.cutImage(imgSPaht + "/" + file_name + "." + file_ext, imgSPaht + "/" + file_name + ".jpg", 0.7);
                     file_ext = "jpg";
+                }
+                if("ppt".equals(file_ext)||"pptx".equals(file_ext)){//如果是ppt
+                	File ppt_image_file=new File(AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name);
+                	if(!ppt_image_file.exists()){
+                		ppt_image_file.mkdirs();
+                	}
+                	//生成图片
+                	OfficeToPDF toPDF = new OfficeToPDF();
+                	toPDF.office2PDF(imgSPaht + "/" + file_name + "." + file_ext, imgSPaht + "/" + file_name + "_pdf.pdf"  );
+                	Pdf2Jpg pdf = new Pdf2Jpg();
+                	System.out.println("ppt_image_file-->"+ppt_image_file.getAbsolutePath());
+    				pdf.tranfer(imgSPaht + "/" + file_name + "_pdf.pdf",AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name+"/");
                 }
                 String db_file_name = imgSPaht + "/" + file_name + "." + file_ext;
                 String newfile = imgSPaht + "/" + file_name + "." + file_ext;
@@ -575,13 +595,6 @@ public class swfUpfile {
                         }
                         file_readme = "/" + file_path + "/" + file_name + "." + file_ext;
                     }
-                }else if(file_ext.equals("wmv") || file_ext.equals("mp4") ){
-                	//上传的是视频，生成视频缩略图
-                	little_url="/" + file_path + "/" + file_name + ".jpg"; 
-                	  //上传成功后获取视频的缩略图
-                    String command = "/usr/local/ffmpeg/bin/ffmpeg  -i " + AppConf.getconf().get("Filepath") + "/" + file_path + "/" + file_name + "." + file_ext + " -y -f image2 -ss 00:00:02 -t 00:00:01 -s 550x240 " + AppConf.getconf().get("Filepath") + little_url;
-                    //LogUtility.log("command-->"+command);
-                    Runtime.getRuntime().exec(command);
                 }
                 //System.out.println("file_showname:"+file_showname);
                 file_readme = "/" + file_path + "/" + file_name + "." + file_ext;
@@ -613,7 +626,6 @@ public class swfUpfile {
             }
             backjson.put("status", 1);
             backjson.put("imgpath", file_readme);
-            backjson.put("little_url", little_url);
             return backjson.toString();
         } catch (Exception e) {
             e.printStackTrace();

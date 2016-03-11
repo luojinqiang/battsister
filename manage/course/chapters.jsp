@@ -34,7 +34,6 @@
         pn = 20;
     }
     int course_id=ru.getInt("course_id");
-    course_id=1;
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -168,6 +167,15 @@
         function editvideo(id, title) {
         	 openurl('chapter_video_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
 		}
+        function editword(id, title) {
+       	 openurl('chapter_word_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+		}
+        function editppt(id, title) {
+       	 openurl('chapter_ppt_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+		}
+        function editaimtation(id, title) {
+       	 openurl('chapter_aimtation_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+		}
     </script>
 </head>
 <body class="ifr">
@@ -190,11 +198,11 @@
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <th width="4%">&nbsp;</th>
-                     <th width="8%">章节名称</th>
-                    <th width="8%">所属课程</th>
-                    <th width="12%">添加时间</th>
-                    <th width="6%">排序</th>
-                     <th width="50%">案例资料</th>
+                     <th width="15%">章节名称</th>
+                    <th width="12%">所属课程</th>
+                    <th width="13%">添加时间</th>
+                    <th width="7%">排序</th>
+                     <th width="40%">案例资料</th>
                     <th width="">操作</th>
                 </tr>
                 <%
@@ -231,7 +239,7 @@
                             href="javascript:editaimtation('<%=doc.get("id")%>')">动画</a>&nbsp;
                             </td>
                             
-                    <td><a href="javascript:editStudent('<%=doc.get("id")%>','编辑学生')">编辑</a> <a
+                    <td><a href="javascript:editChapter('<%=doc.get("id")%>','编辑章节')">编辑</a> <a
                             href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
 
