@@ -1,3 +1,4 @@
+<%@page import="net.sf.json.JSONObject"%>
 <%@page import="net.sf.json.JSONArray"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="java.util.Iterator" %>
@@ -19,17 +20,17 @@
     String action = ru.getString("action");
     int id = ru.getInt("id");
     if (action.equals("save")) {//更新
-    	Teacher teacher=new Teacher();
-    	out.print(teacher.editBuyClass(request, user_id, user_name));
+    	Chapter chapter=new Chapter();
+    	out.print(chapter.editPPT(request, user_id, user_name));
     	return;
     }
-	String video_path="",name="";
+	String ppt_path="",name="";
     Doc doc = utildb.Get_Doc("id,ppt_path,name", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
     if (doc == null) {
         out.print("信息不存在");
         return;
     } else {
-    	video_path=doc.get("video_path");
+    	ppt_path=doc.get("ppt_path");
     	name=doc.get("name");
     	}
 %>
@@ -45,19 +46,43 @@
     <script type='text/javascript' src='/public/js/operamasks/operamasks-ui.min.js'></script>
      <script type='text/javascript' src='/public/js/global.js'></script>
      <link href='/public/js/operamasks/operamasks-ui.css' rel='stylesheet' type='text/css'/>
+        <style type="text/css">
+        .del {
+            bottom: 0;
+            height: 22px;
+            width: 100px;
+            line-height: 22px;
+            text-align: center;
+            background: #000;
+            color: #fff;
+            filter: alpha(opacity=70);
+            -moz-opacity: 0.7;
+            -khtml-opacity: 0.7;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+    </style>
     <script type="text/javascript">
         function usersave() {
             $("#tjbutton").attr("disabled", true);
             $("#tisspan").html("<img src='../images/loading.gif' />提交中，请稍候……");
-            var chapter_str="";
-            $("input:checked").each(function (){
-            	chapter_str+=","+$(this).val();
+            var title_str="";
+            var pic_str="";
+            var num_str="";
+            $("input[name=ppt_pic]").each(function (){
+            	pic_str+=","+$(this).val();
+            });
+            $("input[name=title]").each(function (){
+            	title_str+=","+$(this).val();
+            });
+            $("input[name=num]").each(function (){
+            	num_str+=","+$(this).val();
             });
             $.ajax({
                 dataType: "json",
                 type: "post",
                 url: "chapter_ppt_edit.jsp",
-                data: $("#form1").serialize()+"&chapter_str="+chapter_str,
+                data: $("#form1").serialize()+"&title_str="+title_str+"&pic_str="+pic_str+"&num_str="+num_str,
                 success: function (msg) {
                     if (msg.type) {
                         window.parent.art.dialog({
@@ -85,6 +110,22 @@
     </script>
 </head>
 <body class="ifr">
+<%
+	StringBuffer addBuffer=new StringBuffer("");
+	if(ppt_path!=null&&!"".equals(ppt_path)){
+		JSONArray pathArray=JSONArray.fromObject(ppt_path);
+		if(pathArray!=null){
+			for(int i=0;i<pathArray.size();i++){
+				JSONObject path_json=pathArray.getJSONObject(i);
+				addBuffer.append("<div style=\"margin-top:10px;\">请输入标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\""+path_json.optString("title")+"\"/>"+
+				"</div><div><a href=\"/manage/showppt.jsp?imgpath="+path_json.optString("pic_dir")+"&num="+path_json.optInt("num")+"\" target=\"_blank\"><img src=\""+("/ppt/images/"+path_json.optString("pic_dir")+"/1.png")+"\""+
+                        " height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"ppt_pic\" value=\""+
+                         ""+path_json.optString("pic_dir")+" \" /><input type=\"hidden\" name=\"num\" value=\""+path_json.optInt("num")+"\"/></div>");
+			}
+		}
+		
+	}
+%>
 <div id="dd" style="padding:5px;">
     <div class="box_input">
         <form id="form1" name="form1" method="post" action="">
@@ -111,19 +152,22 @@
                     </span>
                 </li>
             </ul>
-             <script>
-                if ($('#smallfileUpload').size()) {
-                    global_obj.file_upload($('#smallfileUpload'), $('#form1 input[name=pic]'), $('#smallfileDetail'), 'web_column');
-                    $('#smallfileDetail').html(global_obj.img_link($('#form1 input[name=pic]').val()));
-                    if ($('#form1 input[name=pic]').val() != '') {
-                        $('#smallfileDetail').append('<div class="del">删除</div>');
-                    }
-                    $('#smallfileDetail div').click(function () {
-                        $('#form1 input[name=pic]').val('');
-                        $(this).parent().html('');
+             <script type="text/javascript">
+                var callback = function (imgpath,num) {
+                	var append= '<div style="margin-top:10px;">请输入标题：<input type="text" name="title" style="width:120;"/></div><div><a href="/manage/showppt.jsp?imgpath='+(imgpath)+'&num='+num+'" target="_blank"><img src="'
+                        + '/ppt/images/'+imgpath+'/1.png'
+                        + '" height=150></a><div class="del">删除</div><input type="hidden" name="ppt_pic" value="'
+                        + imgpath + '" /><input type="hidden" name="num" value="'+num+'"/></div>';
+                    $('#smallfileDetail').append(append);
+                    $('#smallfileDetail div div').off('click').on('click', function () {
+                        $(this).parent().remove();
                     });
+                };
+                if ($('#smallfileUpload').size()) {
+                    var obj = $('#form1').find('input[name=ppt_pic]');
+                    global_obj.file_upload($('#smallfileUpload'), '', $('#smallfileDetail'),
+                            '', true, 10, callback, '');
                 }
-
             </script>
             <div class="row_btn" style="margin-top:20px;">
                 <button type="button" id="tjbutton" onclick="usersave()">确定提交</button>
@@ -132,5 +176,13 @@
         </form>
     </div>
 </div>
+<script type="text/javascript">
+	$(document).ready(function (){
+		$('#smallfileDetail').append('<%=addBuffer%>');
+		 $('#smallfileDetail div div').off('click').on('click', function () {
+             $(this).parent().remove();
+         });
+	});
+</script>
 <!--End Sidebar--> </body>
 </html>
