@@ -164,7 +164,8 @@
                      	<%
                      		if(current_flags.contains("4001")){
                      	%>
-                     	 <li><a href="javascript:window.parent.jianyi2('course/course.jsp','课程管理')">课程管理</a></li>
+                        <li><a href="javascript:window.parent.jianyi2('course/course.jsp','课程管理')">课程管理</a></li>
+                        <li><a href="javascript:window.parent.jianyi2('course/exercise_library.jsp','习题管理')">习题管理</a></li>
                      	<%
                      		}
                      	%>

@@ -24,4 +24,6 @@ public interface BasicInterface {
     JSONArray queryArrayByWhere(Doc where);
 
     int queryCountByWhere(Doc whereDoc);
+
+    JSONArray queryPageByWhere(int page, int pn, Doc whereDoc);
 }
