@@ -60,19 +60,19 @@
         function usersave() {
             $("#tjbutton").attr("disabled", true);
             $("#tisspan").html("<img src='../images/loading.gif' />提交中，请稍候……");
-            var content = escape(escape(editor.getContent()));
+         /*    var content = escape(escape(editor.getContent()));
             if (content == "") {
                 content = "<p></p>";
             }
             String.prototype.replaceAll = function (s1, s2) {
                 return this.replace(new RegExp(s1, "gm"), s2);
             };
-            content = content.replaceAll("&", "^…");
+            content = content.replaceAll("&", "^…"); */
             $.ajax({
                 dataType: "json",
                 type: "post",
-                url: "chapter_edit.jsp",
-                data: $("#form1").serialize()+"&desc="+content,
+                url: "chapters_edit.jsp",
+                data: $("#form1").serialize(),
                 success: function (msg) {
                     if (msg.type) {
                         window.parent.art.dialog({

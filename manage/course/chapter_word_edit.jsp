@@ -170,6 +170,7 @@
                     });
                 };
                 if ($('#smallfileUpload').size()) {
+                	/* alert('okoko'); */
                     //var obj = $('#form1').find('input[name=word_pic]');
                     global_obj.file_upload($('#smallfileUpload'), '', $('#smallfileDetail'),
                             '', true, 20, callback, '');

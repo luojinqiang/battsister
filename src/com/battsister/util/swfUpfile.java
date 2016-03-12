@@ -493,7 +493,7 @@ public class swfUpfile {
     }
 
     public static String fileUpload(SmartUpload su, PageContext pageContext, int userid, String username) throws Exception {
-        com.soft4j.httpupload4j.File suFile = null;
+    	com.soft4j.httpupload4j.File suFile = null;
         Dbc dbc = DbcFactory.getBbsInstance();
         Base base = new Base();
         JSONObject backjson=new JSONObject();
@@ -540,6 +540,7 @@ public class swfUpfile {
                 file_readme = suFile.getFileName();
                 file_ext = file_readme.substring(file_readme.lastIndexOf(".") + 1, file_readme.length());
                 //判断是否是ppt文件
+                LogUtility.log("imgSPaht-->"+imgSPaht);
                 if("ppt".equals(file_ext)||"pptx".equals(file_ext)){
                 	imgSPaht=AppConf.getconf().get("Filepath")+("/ppt/origin");
                 	File ppt_file=new File(imgSPaht);
@@ -553,6 +554,7 @@ public class swfUpfile {
                 		word_file.mkdirs();
                 	}
                 }
+                LogUtility.log("imgSPaht-->"+imgSPaht);
                 //System.out.println("file_readme:"+file_readme);
                 //FileUtil.copy(tmpFilePaths[i],imgSPaht+"/"+file_name+"."+file_ext,true);
                 System.out.println(imgSPaht + "/" + file_name + "." + file_ext);

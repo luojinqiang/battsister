@@ -39,7 +39,7 @@ public class Chapter {
 	            int id = ru.getInt("id");
 	            int course_id=ru.getInt("course_id");
 	            String chapter_name=ru.getString("chapter_name");
-	            String content=ru.getString("content");
+	            String content=ru.getString("content","");
 	            content = AjaxXml.unescape(content);
 	            content = StringUtil.replace(content, "^…", "&");
 	            int order_num=ru.getInt("order_num");
@@ -64,7 +64,7 @@ public class Chapter {
 	            	base.executeUpdate("update bs_chapter set name=?,course_id=?,content=?,order_num=? where id=? ", valueList);
 	            }else{
 	            	valueList.add(AjaxXml.getTimestamp("now"));
-	            	base.executeUpdate("insert into bs_cooperation_unit (name,course_id,content,order_num,add_time) values(?,?,?,?,?)", valueList);
+	            	base.executeUpdate("insert into bs_chapter (name,course_id,content,order_num,add_time) values(?,?,?,?,?)", valueList);
 	            }
 	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
 	            backjson.put("type", true);
