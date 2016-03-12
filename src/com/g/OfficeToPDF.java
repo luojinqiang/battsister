@@ -9,6 +9,7 @@ import com.artofsolving.jodconverter.DocumentConverter;
 import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
+import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.util.AppConf;
 import com.sun.star.bridge.oleautomation.Date;
 
@@ -41,7 +42,7 @@ public class OfficeToPDF {
 			if (!outputFile.getParentFile().exists()) {  
 				outputFile.getParentFile().mkdirs();  
 			}  
-
+/*
 			//这里是OpenOffice的安装目录, 在我的项目中,为了便于拓展接口,没有直接写成这个样子,但是这样是绝对没问题的  
 			String OpenOffice_HOME = AppConf.getconf().get("OpenOffice_HOME");
 
@@ -53,7 +54,7 @@ public class OfficeToPDF {
 			// 启动OpenOffice的服务  
 			String command = OpenOffice_HOME  
 			+ "program\\soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\"-nofirststartwizard";  
-			Process pro = Runtime.getRuntime().exec(command);  
+			Process pro = Runtime.getRuntime().exec(command);  */
 			// connect to an OpenOffice.org instance running on port 8100  
 			OpenOfficeConnection connection = new SocketOpenOfficeConnection(  
 					"127.0.0.1", 8100);  
@@ -67,15 +68,11 @@ public class OfficeToPDF {
 			//关闭链接  
 			connection.disconnect();  
 			// 关闭OpenOffice服务的进程  
-			pro.destroy();  
+			//pro.destroy();  
 			System.out.println("1234");
 			return 0;  
-		} catch (FileNotFoundException e) {  
-			e.printStackTrace();  
-			return -1;  
-		} catch (ConnectException e) {  
-			e.printStackTrace();  
-		} catch (IOException e) {  
+		} catch (Exception e) {  
+			LogUtility.log(e," to pdf is failure ");
 			e.printStackTrace();  
 		}  
 
