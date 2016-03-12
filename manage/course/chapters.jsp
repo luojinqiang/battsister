@@ -161,8 +161,8 @@
                 ]
             });
         }
-        function editChapter(id, title) {
-            openurl('chapters_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+        function editChapter(id,course_id,title) {
+            openurl('chapters_edit.jsp?id=' + id + '&course_id='+course_id, 'user', title, 700, 380, 0, 10, true);
         }
         function editvideo(id, title) {
         	 openurl('chapter_video_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
@@ -190,7 +190,7 @@
     </div>
     <div class="btnitem mb10 clearfix">
         <ul class="s_btn">
-            <li><a href="javascript:editStudent(0,'新增章节')">新增章节</a></li>
+            <li><a href="javascript:editChapter(0,'<%=course_id%>','新增章节')">新增章节</a></li>
         </ul>
     </div>
     <div class="form_table">
@@ -198,11 +198,11 @@
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <th width="4%">&nbsp;</th>
-                     <th width="15%">章节名称</th>
-                    <th width="12%">所属课程</th>
-                    <th width="13%">添加时间</th>
-                    <th width="7%">排序</th>
-                     <th width="40%">案例资料</th>
+                     <th width="18%">章节名称</th>
+                    <th width="15%">所属课程</th>
+                    <th width="15%">添加时间</th>
+                    <th width="10%">排序</th>
+                     <th width="30%">案例资料</th>
                     <th width="">操作</th>
                 </tr>
                 <%
@@ -231,15 +231,15 @@
                     </td>
                     <td><%=doc.getIn("order_num")%>
                     </td>
-                     <td><a href="javascript:editppt('<%=doc.get("id")%>','PPT')">ppt</a>&nbsp;<a
-                            href="javascript:editword('<%=doc.get("id")%>')">word</a>&nbsp;
+                     <td><a href="javascript:editppt('<%=doc.get("id")%>','PPT')" style="font-size:14px;">ppt</a>&nbsp;&nbsp;<a
+                            href="javascript:editword('<%=doc.get("id")%>','word')" style="font-size:14px;">word</a>&nbsp;&nbsp;
                              <a
-                            href="javascript:editvideo('<%=doc.get("id")%>')">视频</a>&nbsp;
+                            href="javascript:editvideo('<%=doc.get("id")%>','视频')" style="font-size:14px;">视频</a>&nbsp;&nbsp;
                              <a
-                            href="javascript:editaimtation('<%=doc.get("id")%>')">动画</a>&nbsp;
+                            href="javascript:editaimtation('<%=doc.get("id")%>','动画')" style="font-size:14px;">动画</a>&nbsp;&nbsp;
                             </td>
                             
-                    <td><a href="javascript:editChapter('<%=doc.get("id")%>','编辑章节')">编辑</a> <a
+                    <td><a href="javascript:editChapter('<%=doc.get("id")%>','<%=course_id%>','编辑章节')">编辑</a> <a
                             href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
 

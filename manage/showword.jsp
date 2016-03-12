@@ -5,7 +5,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>ppt预览</title>
+    <title>word预览</title>
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
@@ -17,7 +17,7 @@
  <body>
     <h1 style="font-size: 16px;"><a href="javascript:return false;" style="color: #666;"></a>　　<a href="javascript:return false;" style="color: #666;"></a></h1>
     <div class="wrapper">
-        <div class="ppt" id="ppt"></div>
+        <div class="doc" id="doc"></div>
     </div>
     <!-- var data = ['upload/1.jpg','upload/2.jpg','upload/3.jpg'];
 		$('#doc').MPreview({ data: data }); -->
@@ -28,24 +28,24 @@
 			StringBuffer dataBuffer=new StringBuffer("[");
 			for(int i=0;i<num;i++){
 				if(i==num){
-					dataBuffer.append("'/ppt/images/"+imagepath+"/"+(i+1)+""+Pdf2Jpg.SUFF_IMAGE+"'");
+					dataBuffer.append("'/word/images/"+imagepath+"/"+(i+1)+""+Pdf2Jpg.SUFF_IMAGE+"'");
 				}else{
-					dataBuffer.append("'/ppt/images/"+imagepath+"/"+(i+1)+""+Pdf2Jpg.SUFF_IMAGE+"',");
+					dataBuffer.append("'/word/images/"+imagepath+"/"+(i+1)+""+Pdf2Jpg.SUFF_IMAGE+"',");
 				}
 			}
 			dataBuffer.append("]");
-			//System.out.print(dataBuffer.toString());
+			System.out.print(dataBuffer.toString());
 		%>
 		<script type="text/javascript">
 			var data=<%=dataBuffer.toString()%>;
 		</script>
     <script type="text/javascript" src="/public/js/jquery.min.js"></script>
-    <script type="text/javascript" src="MPreview/js/MPreviewPPT.js"></script>
-    <script type="text/javascript">$('#ppt').MPreviewPPT({ data:data});</script>
+     <script type="text/javascript" src="MPreview/js/MPreview.js"></script>
+    <script type="text/javascript">$('#doc').MPreview({ data:data});</script>
     <script type="text/javascript">
-    $(document).ready(function (){
+   /*  $(document).ready(function (){
     	$('.wrapper').css('height','80%');
-    });
+    }); */
     </script>
 </body>
 </html>

@@ -17,20 +17,27 @@
     RequestUtil ru = new RequestUtil(request);
     String action = ru.getString("action");
     int id = ru.getInt("id");
+    int course_id=ru.getInt("course_id");
     if (action.equals("save")) {//
     	Chapter chapter=new Chapter();
     	out.print(chapter.editChapter(request, user_id, user_name));
     	return; 
     }
-	String name="",content="";
-	int course_id=0,order_num=0;
+	String chapter_name="",content="";
+	Doc courseDoc=utildb.Get_Doc("id,name","bs_course"," where id=? and isdel=0 ","mysqlss",new Object[]{course_id});
+	if(courseDoc==null||courseDoc.isEmpty()){
+		 out.print("课程信息不存在");
+         return;
+	}
+	String course_name=courseDoc.get("name");//课程
+	int order_num=0;
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("name,content,course_id,order_num", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+        Doc doc = utildb.Get_Doc("name as 'chapter_name',content,course_id,order_num", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
         if (doc == null) {
             out.print("信息不存在");
             return;
         } else {
-        	name=doc.get("name");
+        	chapter_name=doc.get("chapter_name");
         	content=doc.get("content");
         	course_id=doc.getIn("course_id");
         	order_num=doc.getIn("order_num");
@@ -97,29 +104,21 @@
     <div class="box_input">
         <form id="form1" name="form1" method="post" action="">
             <input name="id" id="id" type="hidden" value="<%=id%>"/>
+              <input name="course_id" id="course_id" type="hidden" value="<%=course_id%>"/>
             <input name="action" id="action" type="hidden" value="save"/>
             <ul class="row3 clearfix">
-                <li>章节名称<input type="text" value="<%=name%>" name="chapter_name"/></li>
-               	<li>
-               	所属课程：
-               		<select name="course_id">
-               			<option value="0">--所属课程--</option>
-               			<%
-               				List<Doc> courseList=utildb.Get_List("id,name","bs_course"," where isdel=0","mysqlss");
-               				if(courseList!=null){
-               					for(Doc doc:courseList){
-               						out.print("<option value=\""+doc.getIn("id")+"\" "+(course_id==doc.getIn("id")?"selected=\"selected\"":"")+">"+(doc.get("name"))+"</option>");
-               					}
-               				}
-               			%>
-               		</select>
+            	<li>
+               	所属课程：<span style="color: red;"><%=course_name%></span>
                	</li>
-               		<li>
+            </ul>
+            <ul class="row3 clearfix">
+                <li>章节名称：<input type="text" value="<%=chapter_name%>" name="chapter_name"/></li>
+               		<li>&nbsp;
            		排序：
            		<input type="text" name="order_num" value="<%=order_num%>" style="width:50px;"/>
            		</li>
             </ul>
-            <ul class="row1 clearfix">
+           <%--  <ul class="row1 clearfix">
                 <li>
                     <script type="text/plain" id="contents" name="contents" class="ckeditor">
                         <%=content%>
@@ -128,7 +127,7 @@
                     editor.render("contents");
                     </script>
                 </li>
-            </ul>
+            </ul> --%>
             <div class="row_btn">
                 <button type="button" id="tjbutton" onclick="usersave()">确认提交</button>
                 <span id="tisspan"></span>

@@ -1,3 +1,4 @@
+<%@page import="com.g.Tojpg.Pdf2Jpg"%>
 <%@page import="net.sf.json.JSONObject"%>
 <%@page import="net.sf.json.JSONArray"%>
 <%@ page contentType="text/html; charset=utf-8" %>
@@ -118,7 +119,7 @@
 			for(int i=0;i<pathArray.size();i++){
 				JSONObject path_json=pathArray.getJSONObject(i);
 				addBuffer.append("<div style=\"margin-top:10px;\">请输入标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\""+path_json.optString("title")+"\"/>"+
-				"</div><div><a href=\"/manage/showppt.jsp?imgpath="+path_json.optString("pic_dir")+"&num="+path_json.optInt("num")+"\" target=\"_blank\"><img src=\""+("/ppt/images/"+path_json.optString("pic_dir")+"/1.png")+"\""+
+				"</div><div><a href=\"/manage/showppt.jsp?imgpath="+path_json.optString("pic_dir")+"&num="+path_json.optInt("num")+"\" target=\"_blank\"><img src=\""+("/ppt/images/"+path_json.optString("pic_dir")+"/1"+(Pdf2Jpg.SUFF_IMAGE)+"")+"\""+
                         " height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"ppt_pic\" value=\""+
                          ""+path_json.optString("pic_dir")+" \" /><input type=\"hidden\" name=\"num\" value=\""+path_json.optInt("num")+"\"/></div>");
 			}
@@ -153,9 +154,10 @@
                 </li>
             </ul>
              <script type="text/javascript">
+             
                 var callback = function (imgpath,num) {
                 	var append= '<div style="margin-top:10px;">请输入标题：<input type="text" name="title" style="width:120;"/></div><div><a href="/manage/showppt.jsp?imgpath='+(imgpath)+'&num='+num+'" target="_blank"><img src="'
-                        + '/ppt/images/'+imgpath+'/1.png'
+                        + '/ppt/images/'+imgpath+'/1<%=Pdf2Jpg.SUFF_IMAGE%>'
                         + '" height=150></a><div class="del">删除</div><input type="hidden" name="ppt_pic" value="'
                         + imgpath + '" /><input type="hidden" name="num" value="'+num+'"/></div>';
                     $('#smallfileDetail').append(append);
@@ -164,9 +166,9 @@
                     });
                 };
                 if ($('#smallfileUpload').size()) {
-                    var obj = $('#form1').find('input[name=ppt_pic]');
+                    //var obj = $('#form1').find('input[name=ppt_pic]');
                     global_obj.file_upload($('#smallfileUpload'), '', $('#smallfileDetail'),
-                            '', true, 10, callback, '');
+                            '', true, 20, callback, '');
                 }
             </script>
             <div class="row_btn" style="margin-top:20px;">
