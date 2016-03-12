@@ -17,6 +17,8 @@ import org.icepdf.core.pobjects.Document;
 import org.icepdf.core.pobjects.Page;
 import org.icepdf.core.util.GraphicsRenderingHints;
 
+import com.baje.sz.ajax.LogUtility;
+
 public class Pdf2Jpg {
 	public static final String FILETYPE_PNG = "png";
 
@@ -63,7 +65,8 @@ public class Pdf2Jpg {
 		document.setFile(sourceFile);
 
 		// maxPages = document.getPageTree().getNumberOfPages();
-		
+		LogUtility.log(" is here ");
+		LogUtility.log(" document.getNumberOfPages()--> "+document.getNumberOfPages());
 		//进行pdf文件图片的转化
 		int ppt_num=0;
 		for (int i = 0; i < document.getNumberOfPages(); i++) {
@@ -87,6 +90,7 @@ public class Pdf2Jpg {
 		}
 		img.flush();
 		document.dispose();
+		LogUtility.log(" zhunahua chenggong la lalal  ");
 		System.out.println("转化成功！！！ ");
 		return ppt_num;
 	}
