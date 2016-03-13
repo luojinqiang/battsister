@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
+import com.baje.sz.ajax.LogUtility;
 import org.icepdf.core.exceptions.PDFException;
 import org.icepdf.core.exceptions.PDFSecurityException;
 import org.icepdf.core.pobjects.Document;
@@ -52,7 +53,8 @@ public class Pdf2Jpg {
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		
+
+		LogUtility.log("sourceFile=" + sourceFile);
 		File inputFile = new File(sourceFile);  
 		if (!inputFile.exists()) {  
 			System.out.println("找不到源文件");

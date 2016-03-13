@@ -9,6 +9,7 @@ import com.artofsolving.jodconverter.DocumentConverter;
 import com.artofsolving.jodconverter.openoffice.connection.OpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.connection.SocketOpenOfficeConnection;
 import com.artofsolving.jodconverter.openoffice.converter.OpenOfficeDocumentConverter;
+import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.util.AppConf;
 import com.sun.star.bridge.oleautomation.Date;
 
@@ -30,8 +31,11 @@ public class OfficeToPDF {
 	 *         则表示操作成功; 返回1, 则表示转换失败 
 	 */  
 	public static int office2PDF(String sourceFile, String destFile) {  
-		try {  
-			File inputFile = new File(sourceFile);  
+		try {
+
+            LogUtility.log("sourceFile=" + sourceFile);
+            LogUtility.log("destFile=" + destFile);
+			File inputFile = new File(sourceFile);
 			if (!inputFile.exists()) {  
 				return -1;// 找不到源文件, 则返回-1  
 			}  
@@ -51,8 +55,7 @@ public class OfficeToPDF {
 			}  
 
 			// 启动OpenOffice的服务  
-			String command = OpenOffice_HOME  
-			+ "program\\soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\"-nofirststartwizard";  
+			String command = "soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\"-nofirststartwizard";
 			Process pro = Runtime.getRuntime().exec(command);  
 			// connect to an OpenOffice.org instance running on port 8100  
 			OpenOfficeConnection connection = new SocketOpenOfficeConnection(  
@@ -70,15 +73,10 @@ public class OfficeToPDF {
 			pro.destroy();  
 			System.out.println("1234");
 			return 0;  
-		} catch (FileNotFoundException e) {  
+		} catch (Exception e) {
+			LogUtility.log(e, "异常");
 			e.printStackTrace();  
 			return -1;  
-		} catch (ConnectException e) {  
-			e.printStackTrace();  
-		} catch (IOException e) {  
-			e.printStackTrace();  
-		}  
-
-		return 1;  
-	}  
+		}
+	}
 }
