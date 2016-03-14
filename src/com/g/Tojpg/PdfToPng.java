@@ -27,7 +27,7 @@ public class PdfToPng {
 			document.setFile(source_file);
 			num=document.getNumberOfPages();
 			String command ="convert "+source_file+" "+des_file+"test"+Pdf2Jpg.SUFF_IMAGE;
-			LogUtility.log("command-->"+command);
+			//LogUtility.log("command-->"+command);
 			Process pro= Runtime.getRuntime().exec(command);  
 			//pro.destroy();
 		} catch (Exception e) {

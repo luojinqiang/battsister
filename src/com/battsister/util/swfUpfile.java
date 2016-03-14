@@ -540,22 +540,15 @@ public class swfUpfile {
                 file_name = AjaxXml.Get_Date("now", "HH-MI-SS_") + AjaxXml.Getrandom(4);
                 file_readme = suFile.getFileName();
                 file_ext = file_readme.substring(file_readme.lastIndexOf(".") + 1, file_readme.length());
-                //判断是否是ppt文件
-                LogUtility.log("imgSPaht-->"+imgSPaht);
-                if("ppt".equals(file_ext)||"pptx".equals(file_ext)){
-                	imgSPaht=AppConf.getconf().get("Filepath")+("/ppt/origin");
+                //判断是否是pdf文件
+                if("pdf".equals(file_ext)){
+                	imgSPaht=AppConf.getconf().get("Filepath")+("/document/origin");
                 	File ppt_file=new File(imgSPaht);
                 	if(!ppt_file.exists()){
                 		ppt_file.mkdirs();
                 	}
-                }else if("doc".equals(file_ext)||"docx".equals(file_ext)){
-                	imgSPaht=AppConf.getconf().get("Filepath")+("/word/origin");
-                	File word_file=new File(imgSPaht);
-                	if(!word_file.exists()){
-                		word_file.mkdirs();
-                	}
                 }
-                LogUtility.log("imgSPaht-->"+imgSPaht);
+               // LogUtility.log("imgSPaht-->"+imgSPaht);
                 //System.out.println("file_readme:"+file_readme);
                 //FileUtil.copy(tmpFilePaths[i],imgSPaht+"/"+file_name+"."+file_ext,true);
                 System.out.println(imgSPaht + "/" + file_name + "." + file_ext);
@@ -595,41 +588,14 @@ public class swfUpfile {
                 }
                 //System.out.println("file_showname:"+file_showname);
                 file_readme = "/" + file_path + "/" + file_name + "." + file_ext;
-                if("ppt".equals(file_ext)||"pptx".equals(file_ext)){//如果是ppt
-                	File ppt_image_file=new File(AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name);
+                if("pdf".equals(file_ext)){//如果是pdf
+                	File ppt_image_file=new File(AppConf.getconf().get("Filepath")+"/document/images/"+file_name);
                 	if(!ppt_image_file.exists()){
                 		ppt_image_file.mkdirs();
                 	}
-                	//生成图片
-                	OfficeToPDF toPDF = new OfficeToPDF();
-                	toPDF.office2PDF(imgSPaht + "/" + file_name + "." + file_ext, imgSPaht + "/" + file_name + "_pdf.pdf");
-                	//Pdf2Jpg pdf = new Pdf2Jpg();
-                	int ppt_num=PdfToPng.pdfToPng(imgSPaht + "/" + file_name + "_pdf.pdf", AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name+"/",file_name);
+                	int ppt_num=PdfToPng.pdfToPng(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/",file_name);
                 	backjson.put("num",ppt_num);//ppt图片张数
                 	file_readme=file_name;
-    				//去 掉该pdf文件
-    				/*File pdfFile=new File(imgSPaht + "/" + file_name + "_pdf.pdf");
-    				if(pdfFile.exists()){
-    					pdfFile.delete();
-    				}*/
-                }else if("doc".equals(file_ext)||"docx".equals(file_ext)){//如果是word文档
-                	File doc_image_file=new File(AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name);
-                	if(!doc_image_file.exists()){
-                		doc_image_file.mkdirs();
-                	}
-                	//生成图片
-                	OfficeToPDF toPDF = new OfficeToPDF();
-                	toPDF.office2PDF(imgSPaht + "/" + file_name + "." + file_ext, imgSPaht + "/" + file_name + "_pdf.pdf");
-                	Pdf2Jpg pdf = new Pdf2Jpg();
-                	//System.out.println("ppt_image_file-->"+ppt_image_file.getAbsolutePath());
-    				int ppt_num=pdf.tranfer(imgSPaht + "/" + file_name + "_pdf.pdf",AppConf.getconf().get("Filepath")+"/word/images/"+file_name+"/");
-    				backjson.put("num", ppt_num);//word图片张数
-    				file_readme=file_name;
-    				//去 掉该pdf文件
-    				File pdfFile=new File(imgSPaht + "/" + file_name + "_pdf.pdf");
-    				if(pdfFile.exists()){
-    					pdfFile.delete();
-    				}
                 }
                 String sqlx = "insert into bs_upfile (username,userid,logid,file_name,file_path,file_ext,"
                         + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
