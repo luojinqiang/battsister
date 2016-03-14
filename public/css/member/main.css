@@ -7,7 +7,7 @@ td, th, div, input, select, textarea, li, ol, dt, dd, h1, h2, h3, h4, h5, h6, fo
     min-width: 1000px;
     height: 56px;
     overflow: hidden;
-    background: #61a149 url(/public/images/member/static/header-bg.jpg) repeat-x;
+    background: #61a149 url(/public/images/static/header-bg.jpg) repeat-x;
     position: fixed;
 }
 
@@ -30,7 +30,7 @@ td, th, div, input, select, textarea, li, ol, dt, dd, h1, h2, h3, h4, h5, h6, fo
     width: 200px;
     height: 30px;
     line-height: 30px;
-    background: url(/public/images/member/static/logo_d.png) no-repeat;
+    background: url(/public/images/static/logo_d.png) no-repeat;
     margin-top: 15px;
     margin-right: 50px;
 }
@@ -38,14 +38,14 @@ td, th, div, input, select, textarea, li, ol, dt, dd, h1, h2, h3, h4, h5, h6, fo
 #header .logo_d a.live {
     float: left;
     text-indent: 23px;
-    background: url(/public/images/member/static/mem_live.png) left center no-repeat;
+    background: url(/public/images/static/mem_live.png) left center no-repeat;
 }
 
 #header .logo_d a.die {
     float: left;
     text-indent: 23px;
     color: #F00;
-    background: url(/public/images/member/static/mem_die.png) left center no-repeat;
+    background: url(/public/images/static/mem_die.png) left center no-repeat;
 }
 
 #header .logo_d a {
@@ -78,31 +78,31 @@ td, th, div, input, select, textarea, li, ol, dt, dd, h1, h2, h3, h4, h5, h6, fo
 }
 
 #header ul li.ico-0 {
-    background-image: url(/public/images/member/static/h-ico-0.png);
+    background-image: url(/public/images/static/h-ico-0.png);
 }
 
 #header ul li.ico-1 {
-    background-image: url(/public/images/member/static/h-ico-1.png);
+    background-image: url(/public/images/static/h-ico-1.png);
 }
 
 #header ul li.ico-2 {
-    background-image: url(/public/images/member/static/h-ico-2.jpg);
+    background-image: url(/public/images/static/h-ico-2.jpg);
 }
 
 #header ul li.ico-3 {
-    background-image: url(/public/images/member/static/h-ico-3.jpg);
+    background-image: url(/public/images/static/h-ico-3.jpg);
 }
 
 #header ul li.ico-4 {
-    background-image: url(/public/images/member/static/h-ico-4.png);
+    background-image: url(/public/images/static/h-ico-4.png);
 }
 
 #header ul li.ico-5 {
-    background-image: url(/public/images/member/static/h-ico-5.png);
+    background-image: url(/public/images/static/h-ico-5.png);
 }
 
 #header ul li.ico-6 {
-    background-image: url(/public/images/member/static/h-ico-6.png);
+    background-image: url(/public/images/static/h-ico-6.png);
 }
 
 #main {
@@ -116,7 +116,7 @@ td, th, div, input, select, textarea, li, ol, dt, dd, h1, h2, h3, h4, h5, h6, fo
     float: left;
     width: 220px;
     height: 100%;
-    background: url(/public/images/member/static/menu-bg.jpg) repeat-y;
+    background: url(/public/images/static/menu-bg.jpg) repeat-y;
     overflow: hidden;
 }
 
@@ -125,7 +125,7 @@ td, th, div, input, select, textarea, li, ol, dt, dd, h1, h2, h3, h4, h5, h6, fo
 }
 
 #main .menu dt {
-    background: url(/public/images/member/static/menu-item-bg.png);
+    background: url(/public/images/static/menu-item-bg.png);
     height: 44px;
     line-height: 44px;
     color: #fff;
@@ -137,7 +137,7 @@ td, th, div, input, select, textarea, li, ol, dt, dd, h1, h2, h3, h4, h5, h6, fo
 }
 
 #main .menu dt.cur {
-    background: url(/public/images/member/static/menu-item-bg-cur.png);
+    background: url(/public/images/static/menu-item-bg-cur.png);
 }
 
 #main .menu dt img {
@@ -178,11 +178,11 @@ i.n, i.h {
 }
 
 #main .menu i.n {
-    background: url(/public/images/member/new.gif);
+    background: url(/public/images/new.gif);
 }
 
 #main .menu i.h {
-    background: url(/public/images/member/hot.gif);
+    background: url(/public/images/hot.gif);
 }
 
 #main .iframe {
@@ -215,7 +215,7 @@ i.n, i.h {
     display: block;
     height: 30px;
     line-height: 30px;
-    background: url(/public/images/member/ok-btn-bg.jpg);
+    background: url(/public/images/ok-btn-bg.jpg);
     border: none;
     color: #fff;
     width: 145px;
@@ -230,7 +230,7 @@ i.n, i.h {
     display: block;
     height: 30px;
     line-height: 30px;
-    background: url(/public/images/member/cancel-btn-bg.jpg);
+    background: url(/public/images/cancel-btn-bg.jpg);
     border: none;
     width: 88px;
     border-radius: 5px;
@@ -241,10 +241,10 @@ i.n, i.h {
 
 #iframe_page .btn_w_120 {
     width: 120px;
-    background: url(/public/images/member/ok-btn-120-bg.jpg);
+    background: url(/public/images/ok-btn-120-bg.jpg);
 }
 
-.r_nav { /*background:url(/public/images/member/nav-bg.png) right no-repeat; */
+.r_nav { /*background:url(/public/images/nav-bg.png) right no-repeat; */
     height: 40px;
     overflow: hidden;
 }
@@ -257,7 +257,7 @@ i.n, i.h {
 
 .r_nav ul {
     height: 40px;
-    background: url(/public/images/member/nav-ul-bg.jpg) left top no-repeat;
+    background: url(/public/images/nav-ul-bg.jpg) left top no-repeat;
     padding-left: 12px;
 }
 
@@ -269,7 +269,7 @@ i.n, i.h {
     height: 28px;
     line-height: 28px;
     overflow: hidden;
-    background: url(/public/images/member/bg.png) -40px 0;
+    background: url(/public/images/bg.png) -40px 0;
     text-align: center;
 }
 
@@ -293,7 +293,7 @@ i.n, i.h {
     left: 400px;
     top: 40px;
     position: absolute;
-    background: url(/public/images/member/qr_code_img.png) left center no-repeat;
+    background: url(/public/images/qr_code_img.png) left center no-repeat;
     border: 1px dashed #ddd;
     overflow: hidden;
     float: left;
@@ -573,7 +573,7 @@ i.n, i.h {
 .r_con_config .submit input {
     height: 30px;
     line-height: 30px;
-    background: url(/public/images/member/ok-btn-bg.jpg);
+    background: url(/public/images/ok-btn-bg.jpg);
     border: none;
     border-radius: 8px;
     color: #fff;
@@ -685,7 +685,7 @@ i.n, i.h {
     width: 121px;
     height: 25px;
     line-height: 27px;
-    background: url(/public/images/member/bg.png) -164px -24px no-repeat;
+    background: url(/public/images/bg.png) -164px -24px no-repeat;
     border: none;
     text-align: left;
     text-indent: 47px;

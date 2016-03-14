@@ -52,7 +52,8 @@ public class OfficeToPDF {
 			}  
 
 			// 启动OpenOffice的服务  
-			String command = OpenOffice_HOME  
+
+			String command = OpenOffice_HOME
 			+ "program\\soffice -headless -accept=\"socket,host=127.0.0.1,port=8100;urp;\"-nofirststartwizard";  
 			Process pro = Runtime.getRuntime().exec(command);  */
 			// connect to an OpenOffice.org instance running on port 8100  
@@ -68,12 +69,12 @@ public class OfficeToPDF {
 			//关闭链接  
 			connection.disconnect();  
 			// 关闭OpenOffice服务的进程  
-			//pro.destroy();  
+			//pro.destroy();
 			System.out.println("1234");
 			return 0;  
-		} catch (Exception e) {  
+		} catch (Exception e) {
 			LogUtility.log(e," to pdf is failure ");
-			e.printStackTrace();  
+			e.printStackTrace();
 		}  
 
 		return 1;  

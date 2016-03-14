@@ -173,9 +173,13 @@
         function editppt(id, title) {
        	 openurl('chapter_ppt_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
 		}
-        function editanimation(id, title) {
-       	 openurl('chapter_animation_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
-		}
+        function editaimtation(id, title) {
+            openurl('chapter_aimtation_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+        }
+        function editEL(course_id, chapter_id, title) {
+            window.parent.jianyi2('course/exercise_library.jsp?course_id=' + course_id + '&chapter_id=' + chapter_id, '习题');
+            //openurl('exercise_library.jsp?course_id=' + course_id + '&chapter_id=' + chapter_id, 'user', title, 700, 380, 0, 10, true);
+        }
     </script>
 </head>
 <body class="ifr">
@@ -211,7 +215,7 @@
                     String wheres = "a.isdel=0 and a.course_id=?";
                     List sqllist = new ArrayList();
                     sqllist.add(course_id);
-                    String file = "a.id,a.name as 'chapter_name',a.order_num,a.add_time,b.name as 'course_name' ";
+                    String file = "a.id,a.name as 'chapter_name',a.order_num,a.add_time,b.name as 'course_name' ,a.course_id";
                     String order = " order by a.id desc";
                     String idd = "a.id";
                     int counts = utildb.Get_count(idd, table, wheres, "mysqlss", sqllist);
@@ -236,10 +240,11 @@
                              <a
                             href="javascript:editvideo('<%=doc.get("id")%>','视频')" style="font-size:14px;">视频</a>&nbsp;&nbsp;
                              <a
-                            href="javascript:editanimation('<%=doc.get("id")%>','动画')" style="font-size:14px;">动画</a>&nbsp;&nbsp;
+                            href="javascript:editaimtation('<%=doc.get("id")%>','动画')" style="font-size:14px;">动画</a>&nbsp;&nbsp;
                             </td>
                             
-                    <td><a href="javascript:editChapter('<%=doc.get("id")%>','<%=course_id%>','编辑章节')">编辑</a> <a
+                    <td><a href="javascript:editEL('<%=doc.get("course_id")%>','<%=doc.get("id")%>','习题')">习题</a>
+                        <a href="javascript:editChapter('<%=doc.get("id")%>','<%=course_id%>','编辑章节')">编辑</a> <a
                             href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
 

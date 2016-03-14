@@ -15,7 +15,7 @@ public class OpenOfficePdfConvert {
 	 * @param args
 	 */
 	private static OfficeManager officeManager;
-	private static String OFFICE_HOME = "C:\\Program Files (x86)\\OpenOffice 4";
+	private static String OFFICE_HOME = "/opt/openoffice4/";
 	private static int port[] = { 8100 };
     
 	/**
