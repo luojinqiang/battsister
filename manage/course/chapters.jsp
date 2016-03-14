@@ -173,8 +173,8 @@
         function editppt(id, title) {
        	 openurl('chapter_ppt_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
 		}
-        function editaimtation(id, title) {
-       	 openurl('chapter_aimtation_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+        function editanimation(id, title) {
+       	 openurl('chapter_animation_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
 		}
     </script>
 </head>
@@ -236,7 +236,7 @@
                              <a
                             href="javascript:editvideo('<%=doc.get("id")%>','视频')" style="font-size:14px;">视频</a>&nbsp;&nbsp;
                              <a
-                            href="javascript:editaimtation('<%=doc.get("id")%>','动画')" style="font-size:14px;">动画</a>&nbsp;&nbsp;
+                            href="javascript:editanimation('<%=doc.get("id")%>','动画')" style="font-size:14px;">动画</a>&nbsp;&nbsp;
                             </td>
                             
                     <td><a href="javascript:editChapter('<%=doc.get("id")%>','<%=course_id%>','编辑章节')">编辑</a> <a

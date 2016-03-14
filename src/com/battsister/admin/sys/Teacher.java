@@ -224,6 +224,5 @@ public class Teacher {
         } finally {
             dbc.closeConn();
         }
-    
     }
 }

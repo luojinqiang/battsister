@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tools.ant.types.FileList;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -13,11 +15,16 @@ import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
 import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
+import com.baje.sz.util.AppConf;
 import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.StringUtil;
 import com.battsister.admin.sys.Logdb;
+import com.qiniu.common.QiniuException;
+import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.UploadManager;
+import com.qiniu.storage.model.FileListing;
+import com.qiniu.util.Auth;
 /**
  * 系统数据字典类
  *
@@ -41,7 +48,8 @@ public class BasicType {
 	}
     public final static String myspace_url="http://7xrnsw.com2.z0.glb.qiniucdn.com/";//七牛myspace空间的域名，暂时只有后台在用
     public final static String space_name="battsister";//空间名
-    
+    public final static String video_prefix="video";//视频前缀
+    public final static String animation_prefix="animation";//动画前缀
     public static String getSysUserLock(int i) {
         if (i == 1) {
             return "锁定";
@@ -182,6 +190,44 @@ public class BasicType {
          dbc.closeConn();
      }
  }
+ 
+ /**
+  * 获取七牛空间的资源列表，1是获取视频，2是获取图片
+  * @param type
+  * @return
+  */
+ public static JSONArray getQiNiuResourse(int type,String prefix){
+	 	if(prefix==null||"".equals(prefix.trim())){
+	 		prefix=type==1?BasicType.video_prefix:BasicType.animation_prefix;
+	 	}
+	 	JSONArray resourceArray=new JSONArray();
+	 	//获取七牛空间的文件
+	    BucketManager bucketManager=new BucketManager(getAuth());
+	    FileListing fileList=null;
+		try {
+			fileList = bucketManager.listFiles(BasicType.space_name,prefix, "", 200, "");
+		} catch (QiniuException e) {
+			LogUtility.log(e,"getQiNiuResourse is failure");
+			return resourceArray;
+		}
+	    if(fileList!=null&&fileList.items!=null){
+	    	for(int i=0;i<fileList.items.length;i++){
+	    		JSONObject json=new JSONObject();
+	    		json.put("key", fileList.items[i].key);
+	    		resourceArray.add(json);
+	    	}
+	    }
+	 return resourceArray;
+ }
+ 
+ /**
+  * 获取七牛的凭证
+  * @return
+  */
+ public static Auth getAuth(){
+	 return Auth.create(AppConf.getconf().get("AccessKey"),AppConf.getconf().get("SecretKey"));
+ }
+ 
  public static void main(String[] args) {
 	JSONArray array=new JSONArray();
 	JSONObject json=new JSONObject();

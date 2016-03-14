@@ -158,6 +158,137 @@ public class Chapter {
 	}
 	
 	/**
+	 * 编辑视频
+	 * @param request
+	 * @param userid
+	 * @param username
+	 * @return
+	 */
+	public JSONObject editVideo(HttpServletRequest request, int userid, String username){
+		  Dbc dbc = DbcFactory.getBbsInstance();
+	        Base base = new Base();
+	        JSONObject backjson = new JSONObject();
+	        String ajaxRequest = "";
+	        String logtitle = "API--编辑视频";
+	        try {
+	            dbc.openConn("mysqlss");
+	            base.setDbc(dbc);
+	            ajaxRequest = AjaxXml.getParameterStr(request);
+	            RequestUtil ru = new RequestUtil(request);
+	            int id = ru.getInt("id");
+	            Doc chapterDoc=base.executeQuery2Docs("select id from bs_chapter where id=? and isdel=0",new Object[]{id},1)[0];
+	            if(chapterDoc==null||chapterDoc.isEmpty()){
+	            	backjson.put("type", false);
+	 	            backjson.put("msg", "章节不存在");
+	 	            return backjson;
+	            }
+	            String title_str=ru.getString("title_str");
+	            String key_str=ru.getString("key_str");
+	            String titles[]=null;
+	            String keys[]=null;
+	            JSONArray keyArray=new JSONArray();
+	            if(key_str!=null){
+	            	keys=key_str.split(",");
+	            	if(title_str!=null){
+	            		titles=title_str.split(",");
+	            	}
+	            	if(keys!=null){
+	            		for(int i=0;i<keys.length;i++){
+	            			JSONObject json=new JSONObject();
+	            			if(!"".equals(keys[i].trim())){
+	            				json.put("key",keys[i].trim());
+	            				if(titles!=null&&titles.length>i){
+	            					json.put("title", titles[i]);
+	            				}else{
+	            					json.put("title","");
+	            				}
+	            				keyArray.add(json);
+	            			}
+	            		}
+	            	}
+	            }
+	            base.executeUpdate("update bs_chapter set video_path=? where id=? ",new Object[]{keyArray.toString(),id});
+	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+	            backjson.put("type", true);
+	            backjson.put("msg", "操作成功");
+	            return backjson;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+	            backjson.put("type", false);
+	            backjson.put("msg", "系统忙，请稍候再试");
+	            return backjson;
+	        } finally {
+	            dbc.closeConn();
+	        }
+	}
+
+	/**
+	 * 章节动画编辑
+	 * @param request
+	 * @param userid
+	 * @param username
+	 * @return
+	 */
+	public JSONObject editAnimation(HttpServletRequest request, int userid, String username){
+		  Dbc dbc = DbcFactory.getBbsInstance();
+	        Base base = new Base();
+	        JSONObject backjson = new JSONObject();
+	        String ajaxRequest = "";
+	        String logtitle = "API--编辑动画";
+	        try {
+	            dbc.openConn("mysqlss");
+	            base.setDbc(dbc);
+	            ajaxRequest = AjaxXml.getParameterStr(request);
+	            RequestUtil ru = new RequestUtil(request);
+	            int id = ru.getInt("id");
+	            Doc chapterDoc=base.executeQuery2Docs("select id from bs_chapter where id=? and isdel=0",new Object[]{id},1)[0];
+	            if(chapterDoc==null||chapterDoc.isEmpty()){
+	            	backjson.put("type", false);
+	 	            backjson.put("msg", "章节不存在");
+	 	            return backjson;
+	            }
+	            String title_str=ru.getString("title_str");
+	            String key_str=ru.getString("key_str");
+	            String titles[]=null;
+	            String keys[]=null;
+	            JSONArray keyArray=new JSONArray();
+	            if(key_str!=null){
+	            	keys=key_str.split(",");
+	            	if(title_str!=null){
+	            		titles=title_str.split(",");
+	            	}
+	            	if(keys!=null){
+	            		for(int i=0;i<keys.length;i++){
+	            			JSONObject json=new JSONObject();
+	            			if(!"".equals(keys[i].trim())){
+	            				json.put("key",keys[i].trim());
+	            				if(titles!=null&&titles.length>i){
+	            					json.put("title", titles[i]);
+	            				}else{
+	            					json.put("title","");
+	            				}
+	            				keyArray.add(json);
+	            			}
+	            		}
+	            	}
+	            }
+	            base.executeUpdate("update bs_chapter set animation_path=? where id=? ",new Object[]{keyArray.toString(),id});
+	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+	            backjson.put("type", true);
+	            backjson.put("msg", "操作成功");
+	            return backjson;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+	            backjson.put("type", false);
+	            backjson.put("msg", "系统忙，请稍候再试");
+	            return backjson;
+	        } finally {
+	            dbc.closeConn();
+	        }
+	}
+	/**
 	 * 编辑章节word
 	 * @param request
 	 * @param userid

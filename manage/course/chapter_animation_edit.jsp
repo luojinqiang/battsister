@@ -25,19 +25,19 @@
     int id = ru.getInt("id");
     if (action.equals("save")) {//更新
     	Chapter chapter=new Chapter();
-    	out.print(chapter.editVideo(request, user_id, user_name));
+    	out.print(chapter.editAnimation(request, user_id, user_name));
     	return; 
     }
-	String video_path="",name="";
-    Doc doc = utildb.Get_Doc("id,video_path,name", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+	String animation_path="",name="";
+    Doc doc = utildb.Get_Doc("id,animation_path,name", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
     if (doc == null) {
         out.print("信息不存在");
         return;
     } else {
-    	video_path=doc.get("video_path");
+    	animation_path=doc.get("animation_path");
     	name=doc.get("name");
     }
-    JSONArray resource_array=BasicType.getQiNiuResourse(1,"");//获取七牛服务器的文件
+    JSONArray resource_array=BasicType.getQiNiuResourse(2,"");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -119,10 +119,10 @@
             <input name="action" id="action" type="hidden" value="save"/>
             	      <ul class="row2 clearfix">
                 <li>
-                       <h4 style="margin-bottom:20px;"><%=name%>--视频选择</h4>
+                       <h4 style="margin-bottom:20px;"><%=name%>--动画选择</h4>
                 </li>
                    <li>
-                       <h4 style="margin-bottom:20px;color: red;">请确保视频已上传到服务器</h4>
+                       <h4 style="margin-bottom:20px;color: red;">请确保动画已上传到服务器</h4>
                 </li>
             </ul>
             <ul class="row3 clearfix">
@@ -132,7 +132,7 @@
             </li>
             <li>
             <select name="resource" id="resource">
-            <option value="">--请选择视频--</option>
+            <option value="0">--请选择动画--</option>
            <%
            	if(resource_array!=null){
            		for(int i=0;i<resource_array.size();i++){
@@ -146,17 +146,17 @@
            </select>
              </li>
              <li>
-             	<button type="button" onclick="addVideo();">添加视频</button>
+             	<button type="button" onclick="addVideo();">添加动画</button>
              </li>
            </ul>
            <hr />
            <ul class="row1 clearfix" id="videos">
            <%
-           	if(video_path!=null&&!"".equals(video_path)){
-           		JSONArray video_array=JSONArray.fromObject(video_path);
-           		if(video_array!=null){
-           			for(int i=0;i<video_array.size();i++){
-           				JSONObject json=video_array.getJSONObject(i);
+           	if(animation_path!=null&&!"".equals(animation_path)){
+           		JSONArray animation_array=JSONArray.fromObject(animation_path);
+           		if(animation_array!=null){
+           			for(int i=0;i<animation_array.size();i++){
+           				JSONObject json=animation_array.getJSONObject(i);
            				%>
            				<li>
            			<span>
@@ -193,14 +193,14 @@
 	});
 	
 	function addVideo(){
-		 if($('input[name=input]').val()==''){
-			 window.parent.art.dialog.alert('请输入视频的标题');
+		if($('input[name=input]').val()==''){
+			 window.parent.art.dialog.alert('请输入动画的标题');
 			 return;
 		}
 		if($('#resource').val()==''){
-			 window.parent.art.dialog.alert('请选择添加的视频');
+			 window.parent.art.dialog.alert('请选择动画的视频');
 			 return;
-		} 
+		}
 		<%--  var path='<%=BasicType.myspace_url%>'+$('#resource').val();
 		/* var add="<li><span>标题：<input type=\"text\" name=\"title\" style=\"margin-bottom:10px;margin-top:10px;width:180px;\" value=\""+$('input[name=input]').val()+"\"/>"+
    			"<video id=\"really-cool-video\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls"+
@@ -227,7 +227,7 @@
          $.ajax({
              dataType: "json",
              type: "post",
-             url: "chapter_video_edit.jsp",
+             url: "chapter_animation_edit.jsp",
              data: $("#form1").serialize()+"&key_str="+key_str+"&title_str="+title_str,
              success: function (msg) {
                  if (msg.type) {
