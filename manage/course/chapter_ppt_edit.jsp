@@ -119,7 +119,7 @@
 			for(int i=0;i<pathArray.size();i++){
 				JSONObject path_json=pathArray.getJSONObject(i);
 				addBuffer.append("<div style=\"margin-top:10px;\">请输入标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\""+path_json.optString("title")+"\"/>"+
-				"</div><div><a href=\"/manage/showppt.jsp?imgpath="+path_json.optString("pic_dir")+"&num="+path_json.optInt("num")+"\" target=\"_blank\"><img src=\""+("/ppt/images/"+path_json.optString("pic_dir")+"/test-0"+(Pdf2Jpg.SUFF_IMAGE)+"")+"\""+
+				"</div><div><a href=\"/manage/showppt.jsp?imgpath="+path_json.optString("pic_dir")+"&num="+path_json.optInt("num")+"\" target=\"_blank\"><img src=\""+("/document/images/"+path_json.optString("pic_dir")+"/test-0"+(Pdf2Jpg.SUFF_IMAGE)+"")+"\""+
                         " height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"ppt_pic\" value=\""+
                          ""+path_json.optString("pic_dir")+" \" /><input type=\"hidden\" name=\"num\" value=\""+path_json.optInt("num")+"\"/></div>");
 			}
@@ -157,7 +157,7 @@
              
                 var callback = function (imgpath,num) {
                 	var append= '<div style="margin-top:10px;">请输入标题：<input type="text" name="title" style="width:120;"/></div><div><a href="/manage/showppt.jsp?imgpath='+(imgpath)+'&num='+num+'" target="_blank"><img src="'
-                        + '/ppt/images/'+imgpath+'/test-0<%=Pdf2Jpg.SUFF_IMAGE%>'
+                        + '/document/images/'+imgpath+'/test-0<%=Pdf2Jpg.SUFF_IMAGE%>'
                         + '" height=150></a><div class="del">删除</div><input type="hidden" name="ppt_pic" value="'
                         + imgpath + '" /><input type="hidden" name="num" value="'+num+'"/></div>';
                     $('#smallfileDetail').append(append);
