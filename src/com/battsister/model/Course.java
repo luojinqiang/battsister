@@ -27,7 +27,7 @@ public class Course extends BasicImp{
         Doc doc = new Doc();
         doc.put("name", name);
         doc.put("pic", ru.getString("pic"));
-        doc.put("order_num", ru.getString("order_num"));
+        doc.put("order_num", ru.getInt("order_num"));
         doc.put("content", ru.getString("content"));
         doc.put("is_recommend", ru.getInt("is_recommend"));
         Doc whereDoc = new Doc(2);

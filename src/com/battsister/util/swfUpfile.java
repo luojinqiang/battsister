@@ -38,6 +38,7 @@ import com.baje.sz.util.Magick;
 import com.baje.sz.util.RequestUtil;
 import com.g.OfficeToPDF;
 import com.g.Tojpg.Pdf2Jpg;
+import com.g.Tojpg.PdfToPng;
 import com.soft4j.httpupload4j.SmartUpload;
 
 @SuppressWarnings("unchecked")
@@ -601,17 +602,16 @@ public class swfUpfile {
                 	}
                 	//生成图片
                 	OfficeToPDF toPDF = new OfficeToPDF();
-                	toPDF.office2PDF(imgSPaht + "/" + file_name + "." + file_ext, imgSPaht + "/" + file_name + "_pdf.pdf"  );
-                	Pdf2Jpg pdf = new Pdf2Jpg();
-                	//System.out.println("ppt_image_file-->"+ppt_image_file.getAbsolutePath());
-    				int ppt_num=pdf.tranfer(imgSPaht + "/" + file_name + "_pdf.pdf",AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name+"/");
-    				backjson.put("num", ppt_num);//ppt图片张数
-    				file_readme=file_name;
+                	toPDF.office2PDF(imgSPaht + "/" + file_name + "." + file_ext, imgSPaht + "/" + file_name + "_pdf.pdf");
+                	//Pdf2Jpg pdf = new Pdf2Jpg();
+                	int ppt_num=PdfToPng.pdfToPng(imgSPaht + "/" + file_name + "_pdf.pdf", AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name+"/",file_name);
+                	backjson.put("num",ppt_num);//ppt图片张数
+                	file_readme=file_name;
     				//去 掉该pdf文件
-    				File pdfFile=new File(imgSPaht + "/" + file_name + "_pdf.pdf");
+    				/*File pdfFile=new File(imgSPaht + "/" + file_name + "_pdf.pdf");
     				if(pdfFile.exists()){
     					pdfFile.delete();
-    				}
+    				}*/
                 }else if("doc".equals(file_ext)||"docx".equals(file_ext)){//如果是word文档
                 	File doc_image_file=new File(AppConf.getconf().get("Filepath")+"/ppt/images/"+file_name);
                 	if(!doc_image_file.exists()){

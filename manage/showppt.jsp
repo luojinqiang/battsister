@@ -28,9 +28,9 @@
 			StringBuffer dataBuffer=new StringBuffer("[");
 			for(int i=0;i<num;i++){
 				if(i==num){
-					dataBuffer.append("'/ppt/images/"+imagepath+"/"+(i+1)+""+Pdf2Jpg.SUFF_IMAGE+"'");
+					dataBuffer.append("'/ppt/images/"+imagepath+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"'");
 				}else{
-					dataBuffer.append("'/ppt/images/"+imagepath+"/"+(i+1)+""+Pdf2Jpg.SUFF_IMAGE+"',");
+					dataBuffer.append("'/ppt/images/"+imagepath+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"',");
 				}
 			}
 			dataBuffer.append("]");

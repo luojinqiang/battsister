@@ -24,24 +24,33 @@ public class ExerciseLibrary extends BasicImp{
         ru = new RequestUtil(request);
         JSONObject backJson = new JSONObject();
         int id = ru.getInt("id");
+        int course_id = ru.getInt("course_id");
+        int chapter_id = ru.getInt("chapter_id");
+        int type = ru.getInt("type");
         String name = ru.getString("name");
-        Doc doc = new Doc();
-        doc.put("name", name);
-        doc.put("pic", ru.getString("pic"));
-        doc.put("order_num", ru.getString("order_num"));
-        doc.put("content", ru.getString("content"));
-        doc.put("is_recommend", ru.getInt("is_recommend"));
-        Doc whereDoc = new Doc(2);
+        Doc whereDoc = new Doc(5);
+        whereDoc.put("type", type);
+        whereDoc.put("course_id", course_id);
+        whereDoc.put("chapter_id", chapter_id);
         whereDoc.put("name", name);
         whereDoc.put("isdel", 0);
-        JSONObject courseObj = queryByWhere(whereDoc);
-        if (!courseObj.isEmpty()) {
-            if (courseObj.getInt("id") != id) {
+        JSONObject exerciseObj = queryByWhere(whereDoc);
+        if (!exerciseObj.isEmpty()) {
+            if (exerciseObj.getInt("id") != id) {
                 backJson.put("type", false);
-                backJson.put("msg", "该课程名称已经存在");
+                backJson.put("msg", "该问题已经存在");
                 return backJson;
             }
         }
+
+        Doc doc = new Doc();
+        doc.put("name", name);
+        doc.put("name_pic", ru.getString("name_pic"));
+        doc.put("order_num", ru.getInt("order_num"));
+        doc.put("thoughts", ru.getString("thoughts"));
+        doc.put("course_id", course_id);
+        doc.put("chapter_id", chapter_id);
+        doc.put("type", type);
         if (id == 0) {
             doc.put("add_time", AjaxXml.getTimestamp("now"));
             add(doc);

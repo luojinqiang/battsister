@@ -143,23 +143,17 @@ public abstract class BasicImp implements BasicInterface {
         Dbc dbc = DbcFactory.getRDbcInstance();
         Base base = new Base();
         JSONObject object = new JSONObject();
+        JSONArray array = new JSONArray();
+        if (whereDoc.isEmpty()) {
+            return object;
+        }
         try {
             dbc.openConn(mysqlss);
             base.setDbc(dbc, autoCommit);
 
             StringBuffer whereBuffer = new StringBuffer("select * from " + getTableName() + " where ");
-            List valueList = new ArrayList();
-            Set set = whereDoc.entrySet();
-            Iterator<Map.Entry<String, Object>> ite = set.iterator();
-            Map.Entry<String, Object> entry;
-            while (ite.hasNext()) {
-                entry = ite.next();
-                whereBuffer.append(entry.getKey() + " =? and ");
-                valueList.add(entry.getValue());
-            }
-
-            whereBuffer.setLength(whereBuffer.length() - 4);
-            object = base.executeQuery2Jsons(whereBuffer.toString(), valueList, 1)[0];
+            whereBuffer.append(generateWhereStr(whereDoc));
+            object = base.executeQuery2Jsons(whereBuffer.toString(), generateWhereList(whereDoc), 1)[0];
             base.commit();
         } catch (Exception e) {
             base.rollback();
@@ -175,38 +169,18 @@ public abstract class BasicImp implements BasicInterface {
         Dbc dbc = DbcFactory.getRDbcInstance();
         Base base = new Base();
         JSONArray array = new JSONArray();
+        if (whereDoc.isEmpty()) {
+            return array;
+        }
         try {
             dbc.openConn(mysqlss);
             base.setDbc(dbc, autoCommit);
 
             StringBuffer whereBuffer = new StringBuffer("select * from " + getTableName() + " where ");
-            List valueList = new ArrayList();
-            String limitStr = "";
-            String orderStr = "";
-            Set set = whereDoc.entrySet();
-            Iterator<Map.Entry<String, Object>> ite = set.iterator();
-            Map.Entry<String, Object> entry;
-            while (ite.hasNext()) {
-                entry = ite.next();
-                switch (entry.getKey()) {
-                    case "@in":
-                        whereBuffer.append(entry.getKey().replace("@", " ") + " ? and ");
-                        valueList.add("(" + entry.getValue() + ")");
-                    case "@like":
-                        whereBuffer.append(entry.getKey().replace("@", " ") + " ? and ");
-                        valueList.add("%" + entry.getValue() + "%");
-                    case "@limit":
-                        limitStr = " limit " + entry.getValue();
-                    case "@order":
-                        orderStr = " order by " + entry.getValue();
-                    default:
-                        whereBuffer.append(entry.getKey() + " =? and ");
-                        valueList.add(entry.getValue());
-                }
-            }
 
-            whereBuffer.setLength(whereBuffer.length() - 4);
-            array = base.executeQuery2JSONArray(whereBuffer.toString() + orderStr + limitStr, valueList);
+            whereBuffer.append(generateWhereStr(whereDoc));
+
+            array = base.executeQuery2JSONArray(whereBuffer.toString(), generateWhereList(whereDoc));
             base.commit();
         } catch (Exception e) {
             base.rollback();
@@ -222,32 +196,17 @@ public abstract class BasicImp implements BasicInterface {
         Dbc dbc = DbcFactory.getRDbcInstance();
         Base base = new Base();
         int count = 0;
+        if (whereDoc.isEmpty()) {
+            return count;
+        }
         try {
             dbc.openConn(mysqlss);
             base.setDbc(dbc, autoCommit);
 
             StringBuffer whereBuffer = new StringBuffer("select count(id) as counts from " + getTableName() + " where ");
-            List valueList = new ArrayList();
-            Set set = whereDoc.entrySet();
-            Iterator<Map.Entry<String, Object>> ite = set.iterator();
-            Map.Entry<String, Object> entry;
-            while (ite.hasNext()) {
-                entry = ite.next();
-                switch (entry.getKey()) {
-                    case "@in":
-                        whereBuffer.append(entry.getKey().replace("@", " ") + " ? and ");
-                        valueList.add("(" + entry.getValue() + ")");
-                    case "@like":
-                        whereBuffer.append(entry.getKey().replace("@", " ") + " ? and ");
-                        valueList.add("%" + entry.getValue() + "%");
-                    default:
-                        whereBuffer.append(entry.getKey() + " =? and ");
-                        valueList.add(entry.getValue());
-                }
-            }
 
-            whereBuffer.setLength(whereBuffer.length() - 4);
-            JSONObject object = base.executeQuery2Jsons(whereBuffer.toString(), valueList, 1)[0];
+            whereBuffer.append(generateWhereStr(whereDoc));
+            JSONObject object = base.executeQuery2Jsons(whereBuffer.toString(), generateWhereList(whereDoc), 1)[0];
             if (!object.isEmpty()) {
                 count = object.getInt("counts");
             }
@@ -267,38 +226,18 @@ public abstract class BasicImp implements BasicInterface {
         Dbc dbc = DbcFactory.getRDbcInstance();
         Base base = new Base();
         JSONArray array = new JSONArray();
+        if (whereDoc.isEmpty()) {
+            return array;
+        }
         try {
             dbc.openConn(mysqlss);
             base.setDbc(dbc, autoCommit);
 
             Selectic selectic = new Selectic();
 
-            StringBuffer whereBuffer = new StringBuffer("");
-            System.out.println("1:" + whereBuffer);
-            List valueList = new ArrayList();
-            String orderStr = "";
-            Set set = whereDoc.entrySet();
-            Iterator<Map.Entry<String, Object>> ite = set.iterator();
-            Map.Entry<String, Object> entry;
-            while (ite.hasNext()) {
-                entry = ite.next();
-                switch (entry.getKey()) {
-                    case "@in":
-                        whereBuffer.append(entry.getKey().replace("@", " ") + " ? and ");
-                        valueList.add("(" + entry.getValue() + ")");
-                    case "@like":
-                        whereBuffer.append(entry.getKey().replace("@", " ") + " ? and ");
-                        valueList.add("%" + entry.getValue() + "%");
-                    case "@order":
-                        orderStr = " order by " + entry.getValue();
-                    default:
-                        whereBuffer.append(entry.getKey() + " =? and ");
-                        valueList.add(entry.getValue());
-                }
-            }
-
-            whereBuffer.setLength(whereBuffer.length() - 4);
-            array = base.executeQuery2JSONArray(selectic.getPageSql(page, pn, queryCountByWhere(whereDoc), getTableName(), whereBuffer.toString(), "*", orderStr), valueList);
+            int counts = queryCountByWhere(whereDoc);
+            String sql = selectic.getPageSql(page, pn, counts, getTableName(), " where " + generateWhereStr(whereDoc), "*", "");
+            array = base.executeQuery2JSONArray(sql, generateWhereList(whereDoc));
             base.commit();
         } catch (Exception e) {
             base.rollback();
@@ -307,5 +246,68 @@ public abstract class BasicImp implements BasicInterface {
             dbc.closeConn();
         }
         return array;
+    }
+
+    private String generateWhereStr(Doc whereDoc) {
+        if (whereDoc == null || whereDoc.isEmpty()) {
+            return "";
+        }
+        StringBuffer whereBuffer = new StringBuffer("");
+        String orderStr = "";
+        String limitStr = "";
+        Set set = whereDoc.entrySet();
+        Iterator<Map.Entry<String, Object>> ite = set.iterator();
+        Map.Entry<String, Object> entry;
+        while (ite.hasNext()) {
+            entry = ite.next();
+            switch (entry.getKey()) {
+                case "@in":
+                    whereBuffer.append(entry.getKey().replace("@", " ") + " ? and ");
+                    break;
+                case "@like":
+                    whereBuffer.append(entry.getKey().replace("@", " ") + " ? and ");
+                    break;
+                case "@order":
+                    orderStr = " order by " + entry.getValue();
+                    break;
+                case "@limit":
+                    limitStr = " limit " + entry.getValue();
+                    break;
+                default:
+                    whereBuffer.append(entry.getKey() + " =? and ");
+                    break;
+            }
+        }
+        whereBuffer.setLength(whereBuffer.length() - 4);
+        return whereBuffer.toString() + orderStr + limitStr;
+    }
+
+    private List generateWhereList(Doc whereDoc) {
+        if (whereDoc == null || whereDoc.isEmpty()) {
+            return null;
+        }
+        List valueList = new ArrayList();
+        Set set = whereDoc.entrySet();
+        Iterator<Map.Entry<String, Object>> ite = set.iterator();
+        Map.Entry<String, Object> entry;
+        while (ite.hasNext()) {
+            entry = ite.next();
+            switch (entry.getKey()) {
+                case "@in":
+                    valueList.add("(" + entry.getValue() + ")");
+                    break;
+                case "@like":
+                    valueList.add("%" + entry.getValue() + "%");
+                    break;
+                case "@order":
+                    break;
+                case "@limit":
+                    break;
+                default:
+                    valueList.add(entry.getValue());
+                    break;
+            }
+        }
+        return valueList;
     }
 }
