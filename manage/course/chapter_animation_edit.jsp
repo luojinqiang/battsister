@@ -29,6 +29,8 @@
     	return; 
     }
 	String animation_path="",name="";
+	String titles=ru.getString("titles");
+	String keys=ru.getString("keys");
     Doc doc = utildb.Get_Doc("id,animation_path,name", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
     if (doc == null) {
         out.print("信息不存在");
@@ -83,7 +85,7 @@
             $.ajax({
                 dataType: "json",
                 type: "post",
-                url: "chapter_video_edit.jsp",
+                url: "chapter_animation_edit.jsp",
                 data: $("#form1").serialize()+"&key_str="+key_str+"&title_str="+title_str,
                 success: function (msg) {
                     if (msg.type) {
@@ -146,17 +148,35 @@
            </select>
              </li>
              <li>
-             	<button type="button" onclick="addVideo();">添加动画</button>
+             	<button type="button" onclick="addAnimation();">添加动画</button>
              </li>
            </ul>
            <hr />
            <ul class="row1 clearfix" id="videos">
            <%
-           	if(animation_path!=null&&!"".equals(animation_path)){
-           		JSONArray animation_array=JSONArray.fromObject(animation_path);
-           		if(animation_array!=null){
-           			for(int i=0;i<animation_array.size();i++){
-           				JSONObject json=animation_array.getJSONObject(i);
+           if(animation_path==null||"".equals(animation_path)){
+        	   animation_path="[]";
+          }
+      		JSONArray animation_array=JSONArray.fromObject(animation_path);
+      		animation_array=animation_array==null?new JSONArray():animation_array;
+           	if(keys!=null&&titles!=null){
+               		String ss[]=keys.split(",");
+               		String ts[]=titles.split(",");
+               		if(ss!=null&&ts!=null){
+               			for(int i=0;i<ss.length;i++){
+               				if(!"".equals(ss[i])){
+               					JSONObject json=new JSONObject();
+                   				json.put("key",ss[i]);
+        						if(ts.length>i){
+        							json.put("title",ts[i]);
+        						}
+        						animation_array.add(json);
+               				}
+               			}
+               		}
+               	}
+           		for(int i=0;i<animation_array.size();i++){
+           			JSONObject json=animation_array.getJSONObject(i);
            				%>
            				<li>
            			<span>
@@ -172,9 +192,7 @@
 </div>
 </span>
      </li>
-           				<%
-           			}
-           		}
+           	<%
            	}
            %>
            </ul>
@@ -192,7 +210,7 @@
          });
 	});
 	
-	function addVideo(){
+	function addAnimation(){
 		if($('input[name=input]').val()==''){
 			 window.parent.art.dialog.alert('请输入动画的标题');
 			 return;
@@ -201,43 +219,9 @@
 			 window.parent.art.dialog.alert('请选择动画的视频');
 			 return;
 		}
-		<%--  var path='<%=BasicType.myspace_url%>'+$('#resource').val();
-		/* var add="<li><span>标题：<input type=\"text\" name=\"title\" style=\"margin-bottom:10px;margin-top:10px;width:180px;\" value=\""+$('input[name=input]').val()+"\"/>"+
-   			"<video id=\"really-cool-video\" class=\"video-js vjs-default-skin vjs-big-play-centered\" controls"+
-		"preload=\"auto\" width=\"220\" height=\"132\" poster=\"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png\""+
-		"data-setup='{}'><source src=\""+path+"\" type='video/mp4' />"+
-		"</video><input type=\"hidden\" name=\"key\" value=\""+$('#resource').val()+"\"/><div class=\"del\">删除</div></span></li>"; */
-		var add="<li><span>标题：<input type=\"text\" name=\"title\" style=\"margin-bottom:10px;margin-top:10px;width:180px;\" value=\""+$('input[name=input]').val()+"\"/>"
-		+"<div><a target=\"_blank\" href=\""+path+"\"><img src=\"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png\" style=\"width:220px;height:132px;\"/></a></div>"+
-		"<input type=\"hidden\" name=\"key\" value=\""+$('#resource').val()+"\"/><div class=\"del\">删除</div></span></li>";
-		$('#videos').append(add); 
-		 $('div .del').off('click').on('click', function () {
-             $(this).parent().remove();
-         }); --%>
-         var title_str="";
-         var key_str="";
-         $("input[name=key]").each(function (){
-         	key_str+=","+$(this).val();
-         });
-         $("input[name=title]").each(function (){
-         	title_str+=","+$(this).val();
-         });
-         key_str+=","+$('#resource').val();
-         title_str+=","+$('input[name=input]').val();
-         $.ajax({
-             dataType: "json",
-             type: "post",
-             url: "chapter_animation_edit.jsp",
-             data: $("#form1").serialize()+"&key_str="+key_str+"&title_str="+title_str,
-             success: function (msg) {
-                 if (msg.type) {
-                    window.location.reload();
-                 } else {
-                     window.parent.art.dialog.alert(msg.msg);
-                     window.location.reload();
-                 }
-             }
-         });
+         var titles='<%=titles%>'+','+$('input[name=input]').val();
+         var keys='<%=keys%>'+','+$('#resource').val();
+         window.location.href='chapter_animation_edit.jsp?id=<%=id%>&titles='+titles+'&keys='+keys;
 	}
 </script>
 <!--End Sidebar--> </body>

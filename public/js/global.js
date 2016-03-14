@@ -20,11 +20,11 @@ var global_obj = {
         var multi = (typeof(arguments[4]) == 'undefined') ? false : arguments[4];
         var queueSizeLimit = (typeof(arguments[5]) == 'undefined') ? 5 : arguments[5];
         var callback = arguments[6];
-        var fileExt = (typeof(arguments[7]) == 'undefined') ? '*.jpg;*.png;*.gif;*.jpeg;*.bmp;*.pptx;*.ppt;*.doc;*.docx' : arguments[7];
+        var fileExt = (typeof(arguments[7]) == 'undefined') ? '*.jpg;*.png;*.gif;*.jpeg;*.bmp;*.pdf' : arguments[7];
         var fileSize = (typeof(arguments[8]) == 'undefined') ? 20480: arguments[8];
         var imgSize = (typeof(arguments[9]) == 'undefined') ? 100 : arguments[9];
         file_input_obj.omFileUpload({
-            action: 'http://bd.battsister.com/manage/upfile.jsp',
+            action: '/manage/upfile.jsp',
             actionData: {
                 do_action: 'action.file_upload',
                 size: size
