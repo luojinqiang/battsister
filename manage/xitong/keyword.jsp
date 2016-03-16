@@ -14,7 +14,7 @@
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
     RequestUtil ru = new RequestUtil(request);
-    if (current_flags.indexOf(",6002,") < 0) {
+    if (current_flags.indexOf(",4002,") < 0) {
         response.sendRedirect("../error.jsp?left=xitong");
         return;
     }

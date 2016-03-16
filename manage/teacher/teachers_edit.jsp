@@ -10,8 +10,8 @@
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
-    if (!(current_flags.indexOf(",1001,") > -1)) {
-        out.print("<script>alert('没有对应的权限');</script>");
+    if (current_flags.indexOf(",1001,") < 0) {
+        response.sendRedirect("../error.jsp?left=yonghu");
         return;
     }
     RequestUtil ru = new RequestUtil(request);
@@ -22,10 +22,10 @@
     	out.print(teacher.editTeacher(request, user_id, user_name));
     	return;
     }
-	String name="",username="",headpic="",account_status="";
+	String name="",username="",headpic="",account_status="",mobile="";
 	int sex=0,birth=0,school_id=0;
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("name,username,headpic,sex,birth,account_status,school_id", "bs_teachers", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+        Doc doc = utildb.Get_Doc("name,username,headpic,sex,birth,mobile,account_status,school_id", "bs_teachers", " where id=? and isdel=0", "mysqlss", new Object[]{id});
         if (doc == null) {
             out.print("信息不存在");
             return;
@@ -37,6 +37,7 @@
         	birth=doc.getIn("birth");
         	account_status=doc.get("account_status");
         	school_id=doc.getIn("school_id");
+        	mobile=doc.get("mobile");
         }
     }
 %>
@@ -54,7 +55,6 @@
     <script type='text/javascript' src='/public/js/operamasks/operamasks-ui.min.js'></script>
     <script type="text/javascript">
         function usersave() {
-
             $("#tjbutton").attr("disabled", true);
             $("#tisspan").html("<img src='../images/loading.gif' />提交中，请稍候……");
             $.ajax({
@@ -146,6 +146,11 @@
             			%>
             		</select>
             	</li>
+            </ul>
+            <ul class="row1 clearfix">
+            	 <li>
+            	手机号码：<input  type="text" name="mobile" value="<%=mobile%>" />
+            </li>
             </ul>
             <ul class="row1 clearfix">
                 <li>头像图：

@@ -16,7 +16,7 @@
     } else {
         out.print("<script>");
         out.print("alert('请登录后再操作');");
-        out.print("window.parent.location = '/manage/login.jsp'");
+        out.print("window.parent.parent.location = '/manage/login.jsp'");
         out.print("</script>");
         return;
     }

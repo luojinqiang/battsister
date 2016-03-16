@@ -12,7 +12,10 @@
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
     RequestUtil ru = new RequestUtil(request);
-
+    if (current_flags.indexOf(",2001,") < 0) {
+        response.sendRedirect("../error.jsp?left=yonghu");
+        return;
+    }
     ExerciseLibrary el = new ExerciseLibrary();
     ExerciseOption eo = new ExerciseOption();
     String action = ru.getString("action");

@@ -15,13 +15,13 @@
     int newsclass = ru.getInt("newsclass");
     int idtype = ru.getInt("idtype");
     if (idtype == 1) {
-        if (current_flags.indexOf(",4001,") < 0) {
+        if (current_flags.indexOf(",3001,") < 0) {
             response.sendRedirect("../error.jsp?left=xinxi");
             return;
         }
     }
     String action = ru.getString("action");
-    if (action.equals("del")) {
+/*     if (action.equals("del")) {
     	  out.print(BasicType.delBasic(request, user_id, user_name,"bs_news_class","API--删除新闻栏目"));
           return;
     }
@@ -29,7 +29,7 @@
         out.print(BasicType.batchDelBasic(request, user_id, user_name,"bs_news","API--批量删除新闻栏目"));
         return;
     }
-    int parentid = ru.getInt("parentid");
+ */    int parentid = ru.getInt("parentid");
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -206,7 +206,7 @@
         <form id="form2" name="form2" method="post" action="">
             <table cellpadding="0" cellspacing="0">
                 <tr>
-                    <th width="5%"></th>
+                   <!--  <th width="5%"></th> -->
                     <th width="8%">id</th>
                     <th width="48%">栏目</th>
                     <th width="11%">排序</th>
@@ -241,7 +241,7 @@
 
                 %>
                 <tr>
-                    <td><input name="id" type="checkbox" id="id" value="<%=doc.get("id")%>"/></td>
+                   <%--  <td><input name="id" type="checkbox" id="id" value="<%=doc.get("id")%>"/></td> --%>
                     <td><%=doc.get("id")%>
                     </td>
                     <td><%=doc.get("classname")%><%=doc.get("classename")%>
@@ -251,14 +251,14 @@
                     <td><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"),"YY04-MM-DD HH:MI:SS")%>
                     </td>
                     <td>
-                        <%
+                       <%--  <%
                             if (parentid == 0) {
                         %><a href="javascript:edit(<%=doc.get("id")%>,0,<%=idtype%>)">添加分类</a>
                         <a href="newsclass.jsp?parentid=<%=doc.get("id")%>&idtype=<%=idtype %>">查看分类</a><%
                         }
-                    %>
+                    %> --%>
                         <a href="javascript:edit(0,<%=doc.get("id")%>)">编辑</a>
-                        <a href="javascript:del(<%=doc.get("id")%>)">删除</a>
+                       <%--  <a href="javascript:del(<%=doc.get("id")%>)">删除</a> --%>
                     </td>
                 </tr>
 
@@ -267,12 +267,12 @@
                     }
                 %>
                 <tr>
-                    <td colspan="2" style="text-align:right">
+                   <!--  <td colspan="2" style="text-align:right">
                         <input type="checkbox" name="chkall" id="chkall" value="checkbox"
                                onclick="CheckAll(this.form);"/>选中/取消所有
-                    </td>
-                    <td colspan="6" style="text-align:right">
-                        <input name="tjdel " type="button" onclick="batchDel()" value="批量删除"/>
+                    </td> -->
+                    <td colspan="7" style="text-align:right">
+                       <!--  <input name="tjdel " type="button" onclick="batchDel()" value="批量删除"/> -->
                         <%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%>
                     </td>
                 </tr>

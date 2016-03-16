@@ -13,7 +13,7 @@
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
-    if (current_flags.indexOf(",6001,") < 0) {
+    if (current_flags.indexOf(",4001,") < 0) {
         response.sendRedirect("../error.jsp?left=xitong");
         return;
     }

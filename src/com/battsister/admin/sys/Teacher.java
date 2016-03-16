@@ -45,6 +45,7 @@ public class Teacher {
             int school_id=ru.getInt("school_id");
             int sex=ru.getInt("sex");
             String birth=ru.getString("birth");
+            String mobile=ru.getString("mobile");
             int birthTemp=0;
             if(birth!=null&&!"".equals(birth)){
             	birthTemp=AjaxXml.getTimestamp(birth+" 00:00:00");
@@ -59,6 +60,13 @@ public class Teacher {
                 backjson.put("msg", "请输入教师姓名");
                 return backjson;
            }
+            if(mobile!=null&&!"".equals(mobile)){
+            	if(!AjaxXml.checkPhone2(mobile)){
+            		backjson.put("type", false);
+                    backjson.put("msg", "教师手机号码格式不正确");
+                    return backjson;
+            	}
+            }
             String headpic=ru.getString("headpic");
             String password=ru.getString("password");
             String password1=ru.getString("password1");
@@ -81,6 +89,7 @@ public class Teacher {
             valueList.add(sex);
             valueList.add(birthTemp);
             valueList.add(headpic);
+            valueList.add(mobile);
             valueList.add(school_id);
             String addString="";
             String insertString="";
@@ -101,11 +110,11 @@ public class Teacher {
             if (id > 0) {
                 logtitle = "API--教师账号--编辑";
                 valueList.add(id);
-                base.executeUpdate("update bs_teachers set username=?,name=?,account_status=?,sex=?,birth=?,headpic=?,school_id=? "+addString+" where id=? ", valueList);
+                base.executeUpdate("update bs_teachers set username=?,name=?,account_status=?,sex=?,birth=?,headpic=?,mobile=?,school_id=? "+addString+" where id=? ", valueList);
             } else {
                 valueList.add(AjaxXml.getTimestamp("now"));
                 base.executeUpdate("insert into bs_teachers (username,name,account_status,sex,"
-                        + " birth,headpic,school_id"+insertSql+",addtime) values(?,?,?,?,?,?,?"+insertString+",?)", valueList);
+                        + " birth,headpic,mobile,school_id"+insertSql+",addtime) values(?,?,?,?,?,?,?,?"+insertString+",?)", valueList);
             }
             Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             backjson.put("type", true);

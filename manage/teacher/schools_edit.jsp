@@ -10,8 +10,8 @@
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
-    if (!(current_flags.indexOf(",1001,") > -1)) {
-        out.print("<script>alert('没有对应的权限');</script>");
+    if (current_flags.indexOf(",1001,") < 0) {
+        response.sendRedirect("../error.jsp?left=yonghu");
         return;
     }
     RequestUtil ru = new RequestUtil(request);

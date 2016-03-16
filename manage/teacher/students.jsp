@@ -11,7 +11,7 @@
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
     request.setCharacterEncoding("utf-8");
-    if (current_flags.indexOf(",1001,") < 0) {
+    if (current_flags.indexOf(",1003,") < 0) {
         response.sendRedirect("../error.jsp?left=yonghu");
         return;
     }

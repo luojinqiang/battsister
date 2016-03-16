@@ -9,8 +9,8 @@
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
-    if (current_flags.indexOf(",4002,") < 0) {
-        response.sendRedirect("../error.jsp?left=xinxi");
+    if (current_flags.indexOf(",2001,") < 0) {
+        response.sendRedirect("../error.jsp?left=yonghu");
         return;
     }
     RequestUtil ru = new RequestUtil(request);

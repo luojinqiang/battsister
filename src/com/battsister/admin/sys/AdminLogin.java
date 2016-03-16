@@ -277,7 +277,6 @@ public class AdminLogin {
                 logtitle = "编辑管理员";
                 if (!user_pwd.equals("")) {    // 密码为空则不修改密码
                     String pass1 = m.getkeyBeanofStr(user_pwd).toLowerCase();
-
                     p_t = "password=?,";
                     list.add(pass1);
                 }
@@ -293,7 +292,6 @@ public class AdminLogin {
             base.commit();
             backjson.put("type", true);
             backjson.put("msg", "操作成功");
-
             return backjson;
         } catch (Exception e) {
             base.rollback();
@@ -301,7 +299,6 @@ public class AdminLogin {
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
             backjson.put("type", true);
             backjson.put("msg", "系统忙，请稍候再试");
-
             return backjson;
         } finally {
             dbc.closeConn();

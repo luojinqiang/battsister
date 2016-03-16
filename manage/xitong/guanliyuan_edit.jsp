@@ -12,8 +12,8 @@
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
-    if (current_flags.indexOf(",6006,") < 0) {
-        response.sendRedirect("../error.jsp?left=order");
+    if (current_flags.indexOf(",4003,") < 0) {
+        response.sendRedirect("../error.jsp?left=xitong");
         return;
     }
     RequestUtil ru = new RequestUtil(request);
@@ -55,12 +55,7 @@
         username = news.get("username");
         islock = news.getIn("islock");
         login_err = news.getIn("login_err");
-        gymGroupId = news.getIn("gym_group_id");
-        gymId = news.getIn("gym_id");
-        flags = news.get("userflag", "");
-    }
-    if (admin_zu == null) {
-        admin_zu = "";
+        flags = news.get("flag", "");
     }
     String admin_flag = flags;
     String logstarttime = AjaxXml.Get_Date("now", "YY04-MM-DD HH:MI:SS");
@@ -84,15 +79,11 @@
             var password = $("#password").val();
             var password1 = $("#password1").val();
             var login_err = $("#login_err").val();
-            var gym_group_id = $("#gymGroupId").val();
-            var gym_id = $("#gymId").val();
             var flag1 = getcheckbox("flag1");
             var flag2 = getcheckbox("flag2");
             var flag3 = getcheckbox("flag3");
             var flag4 = getcheckbox("flag4");
-            var flag5 = getcheckbox("flag5");
-            var flag6 = getcheckbox("flag6");
-            var flag = flag1 + "," + flag2 + "," + flag3 + "," + flag4 + "," + flag5 + "," + flag6;
+            var flag = flag1 + "," + flag2 + "," + flag3 + "," + flag4 +",";
             if (user_name == "") {
                 window.parent.art.dialog.alert('请输入账号');
                 return;
@@ -105,14 +96,13 @@
                 window.parent.art.dialog.alert('两次输入的密码不一致');
                 return;
             }
-            // var user_flag=getcheckbox("flag");
             $("#tjbutton").attr("disabled", true);
             $("#tisspan").html("<img src='../images/loading.gif' />提交中，请稍候……");
             $.ajax({
                 dataType: "json",
                 type: "post",
                 url: "guanliyuan_edit.jsp",
-                data: "id=" + id + "&action=" + action + "&user_flag=" + flag + "&user_name=" + user_name + "&islock=" + islock + "&gym_group_id=" + gym_group_id + "&gym_id=" + gym_id +
+                data: "id=" + id + "&action=" + action + "&user_flag=" + flag + "&user_name=" + user_name + "&islock=" + islock +
                 "&user_pwd=" + password + "&user_pwd2=" + password1 + "&login_err=" + login_err + "&logstarttime=<%=logstarttime%>",
                 success: function (data) {
                     if (data.type) {
@@ -183,61 +173,78 @@
                         if (admin_flag.indexOf(",1001,") > -1) {
                             out.print("checked");
                         }
-                    %>/>用户管理
+                    %>/>学校管理
+                     <input name="flag1" type="checkbox" value="1002" <%
+                        if (admin_flag.indexOf(",1002,") > -1) {
+                            out.print("checked");
+                        }
+                    %>/>教师管理
+                     <input name="flag1" type="checkbox" value="1003" <%
+                        if (admin_flag.indexOf(",1003,") > -1) {
+                            out.print("checked");
+                        }
+                    %>/>学生管理
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag1" type="checkbox" id="selectAll_flag1"
                                                          onchange="selectall(1)"/><span style="color:green;">全选</span>
                 </li>
             </ul>
+               <ul class="row1 clearfix">
+                <li>课程管理：
+                    <input name="flag2" type="checkbox" value="2001" <%
+                        if (admin_flag.indexOf(",2001,") > -1) {
+                            out.print("checked");
+                        }
+                    %>/>课程管理
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag2" type="checkbox" id="selectAll_flag2"
+                                                         onchange="selectall(2)"/><span style="color:green;">全选</span>
+                </li>
+            </ul>
             <ul class="row1 clearfix">
                 <li>信息管理：
-                    <input name="flag4" type="checkbox" value="4001" <%
-                        if (admin_flag.indexOf(",4001,") > -1) {
+                    <input name="flag3" type="checkbox" value="3001" <%
+                        if (admin_flag.indexOf(",3001,") > -1) {
                             out.print("checked");
                         }
                     %>/>信息栏目
-                    <input name="flag4" type="checkbox" value="4002" <%
-                        if (admin_flag.indexOf(",4002,") > -1) {
+                    <input name="flag3" type="checkbox" value="3002" <%
+                        if (admin_flag.indexOf(",3002,") > -1) {
                             out.print("checked");
                         }
                     %>/>信息内容
-                    <input name="flag4" type="checkbox" value="4003" <%
-                        if (admin_flag.indexOf(",4003,") > -1) {
+                    <input name="flag3" type="checkbox" value="3003" <%
+                        if (admin_flag.indexOf(",3003,") > -1) {
                             out.print("checked");
                         }
-                    %>/>发布信息
-                    <input name="flag4" type="checkbox" value="4004" <%
-                        if (admin_flag.indexOf(",4004,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>信息管理
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag4" type="checkbox" id="selectAll_flag4"
-                                                         onchange="selectall(4)"/><span style="color:green;">全选</span>
+                    %>/>校企合作
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag3" type="checkbox" id="selectAll_flag3"
+                                                         onchange="selectall(3)"/><span style="color:green;">全选</span>
                 </li>
             </ul>
             <ul class="row1 clearfix">
                 <li>系统：
-                    <input name="flag6" type="checkbox" value="6001" <%
-                        if (admin_flag.indexOf(",6001,") > -1) {
+                    <input name="flag4" type="checkbox" value="4001" <%
+                        if (admin_flag.indexOf(",4001,") > -1) {
                             out.print("checked");
                         }
                     %>/>日志管理
-                    <input name="flag6" type="checkbox" value="6002" <%
-                        if (admin_flag.indexOf(",6002,") > -1) {
+                    <input name="flag4" type="checkbox" value="4002" <%
+                        if (admin_flag.indexOf(",4002,") > -1) {
                             out.print("checked");
                         }
                     %>/>关键字管理
-                    <input name="flag6" type="checkbox" value="6003" <%
-                        if (admin_flag.indexOf(",6003,") > -1) {
-                            out.print("checked");
-                        }
-                    %>/>用户反馈
-                    <input name="flag6" type="checkbox" value="6006" <%
-                        if (admin_flag.indexOf(",6006,") > -1) {
+                   
+                    <input name="flag4" type="checkbox" value="4003" <%
+                        if (admin_flag.indexOf(",4003,") > -1) {
                             out.print("checked");
                         }
                     %>/>后台管理员管理
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag6" type="checkbox" id="selectAll_flag6"
-                                                         onchange="selectall(6)"/><span style="color:green;">全选</span>
+                     <input name="flag4" type="checkbox" value="4004" <%
+                        if (admin_flag.indexOf(",4004,") > -1) {
+                            out.print("checked");
+                        }
+                    %>/>用户反馈
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag4" type="checkbox" id="selectAll_flag4"
+                                                         onchange="selectall(4)"/><span style="color:green;">全选</span>
                 </li>
             </ul>
             <div class="row_btn">
@@ -247,11 +254,6 @@
         </form>
     </div>
 </div>
-</body>
-<script>
-    $(document).ready(getGyms('select[name=gymGroupId]', '<%=gymId%>'));
-    <%--当页面加载完就调用 getGyms事件方法,gymId是让它选中健身房--%>
-</script>
 <script type="text/javascript" language="javascript">
     function selectall(num) {
         switch (num) {
@@ -299,30 +301,8 @@
                     });
                 }
                 break;
-            case 5:
-                if ($("#selectAll_flag5").attr("checked")) {
-                    $("input[name='flag5']").each(function () {
-                        $(this).attr("checked", true);
-                    });
-                } else {
-                    $("input[name='flag5']").each(function () {
-                        $(this).attr("checked", false);
-                    });
-                }
-                break;
-            case 6:
-                if ($("#selectAll_flag6").attr("checked")) {
-                    $("input[name='flag6']").each(function () {
-                        $(this).attr("checked", true);
-                    });
-                } else {
-                    $("input[name='flag6']").each(function () {
-                        $(this).attr("checked", false);
-                    });
-                }
-                break;
-
         }
     }
 </script>
+</body>
 </html>
