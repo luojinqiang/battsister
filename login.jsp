@@ -1,14 +1,13 @@
 <%@page import="com.battsister.teacher.TeacherApi"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
-<%@ page language="java" pageEncoding="utf-8"%>
+<%@page contentType="text/html; charset=utf-8" %>
 <%
 	RequestUtil ru=new RequestUtil(request);
 	String action=ru.getString("action");
 	if("login".equals(action)){
 		int loginType=ru.getInt("loginType");
 		if(loginType==0){
-			TeacherApi teacherApi=new TeacherApi();
-			out.print(teacherApi.checkTeacherLogin(request));
+			out.print(new TeacherApi().checkTeacherLogin(request));
 			return;
 		}else if(loginType==1){
 			
@@ -160,7 +159,7 @@
              url: "login.jsp",
              data: "action=login&loginType=" + loginType + "&loginName=" + loginName + "&loginPassword="+loginPassword, 
              success: function (msg) {
-                 if (msg.type == true) {
+                 if (msg.type) {
                     if(loginType==0){//教师登录
                     	window.location.href='/teacher/teacher_home.jsp';
                     }else if(loginType==1){//学生登录

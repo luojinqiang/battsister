@@ -1,24 +1,6 @@
 <%@page import="com.baje.sz.ajax.AjaxXml"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
-<%@ page language="java" pageEncoding="utf-8"%>
-<%
-	RequestUtil ru=new RequestUtil(request);
-	int last_login_time=0;
-	Object object=session.getAttribute("last_login_time");
-	if(object!=null){
-		String time_string=String.valueOf(object);
-		if(time_string!=null&&!"".equals(time_string)){
-			last_login_time=Integer.parseInt(time_string);
-		}
-	}
-	int now=Integer.parseInt(AjaxXml.Get_Date("now","HH"));
-	String nowString="上午好";
-	if(now>5&&now<8){
-		nowString="早上好";
-	}else if(now>12&&now<18){
-		nowString="晚上好";
-	}
-%>
+<%@ page contentType="text/html; charset=utf-8" %>
 <!doctype html>
 <html>
 <head>
@@ -33,19 +15,12 @@
 </head>
 
 <body>
+<!-- 引入头部 -->
 <jsp:include page="head.jsp">
 	<jsp:param value="1" name="type"/>
 </jsp:include>
-<div class="topbg">
-	<div class="container">
-    	<div class="top_img"><img src="/front_style/images/user02.png"></div>
-        <div class="top_word">
-        	<div class="welcome"><%=nowString%>，<%=session.getAttribute("teacher_name")%></div>
-            <div class="xuehao">账号：<%=session.getAttribute("username")%><a href="personal.jsp">修改个人资料</a><a href="using_instructions.html">平台使用手册</a><span>上次登录时间：<%=last_login_time>0?AjaxXml.timeStamp2Date(last_login_time, "YY04-MM-DD HH:MI:SS"):"首次登录"%></span></div>
-        </div>
-        <div class="clear"></div>
-    </div>
-</div>
+<!-- 引入第二个头部 -->
+<%@include file="head1.jsp" %>
 <div class="container">
   <div class="left_nav">
       <div class="operate">
@@ -90,7 +65,7 @@
   </div>
   <div class="clear"></div>
 </div>
-
+<!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

@@ -3,6 +3,7 @@ package com.battsister.teacher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import com.baje.sz.ajax.AjaxXml;
@@ -101,4 +102,368 @@ public class TeacherApi {
             dbc.closeConn();
         }
 	}
+	
+	 /**
+     * 教师更新信息
+     * @param request
+     * @return
+     */
+    public JSONObject updateInfo(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--教师更新信息";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            Object teacher_id =request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc=base.executeQuery2Docs("select id,username from bs_teachers where id=? and isdel=0", new Object[]{teacher_id},1)[0];
+            if(teacherDoc==null||teacherDoc.isEmpty()){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "教师账号不存在");
+                 return backjson;
+            }
+            String name=ru.getString("name");
+            String mobile=ru.getString("mobile");
+            String password=ru.getString("password");
+            String password_comfirm=ru.getString("password_comfirm");
+            int sex=ru.getInt("sex");
+            if(name==null||name.trim().equals("")){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "姓名不能为空");
+                 return backjson;
+            }
+            if(mobile==null||mobile.equals("")){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "手机号码不能为空");
+                 return backjson;
+            }else if(!AjaxXml.checkPhone2(mobile)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "手机号码格式不正确");
+                 return backjson;
+            }
+            Doc updateDoc=new Doc();
+            updateDoc.put("name",name);
+            updateDoc.put("mobile", mobile);
+            updateDoc.put("sex", sex);
+            if(password!=null&&!password.trim().equals("")){
+            	if(!password.equals(password_comfirm)){
+            		 backjson.put("type", false);
+                     backjson.put("msg", "两次输入密码不一致");
+                     return backjson;
+            	}else{
+            		 updateDoc.put("password",new KeyBean().getkeyBeanofStr(password).toLowerCase());
+            	}
+            }
+            Doc whereDoc=new Doc();
+            whereDoc.put("id",teacher_id);
+            base.executeUpdateByDoc("bs_teachers", updateDoc,whereDoc);
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "教师更改个人信息", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "操作成功");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
+    
+    /**
+     * 删除学生
+     * @param request
+     * @return
+     */
+    public JSONObject delStudent(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--删除学生";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            int student_id=ru.getInt("student_id");
+            Object teacher_id =request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc=base.executeQuery2Docs("select id,username from bs_teachers where id=? and isdel=0", new Object[]{teacher_id},1)[0];
+            if(teacherDoc==null||teacherDoc.isEmpty()){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "教师账号不存在");
+                 return backjson;
+            }
+            base.executeUpdate("update bs_students set isdel=1 where id=? and teacher_id=? ",new Object[]{student_id,teacher_id});
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "教师删除学生", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "操作成功");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
+    
+    /**
+     * 删除全部学生
+     * @param request
+     * @return
+     */
+    public JSONObject delAllStudent(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--删除全部学生";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            Object teacher_id =request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc=base.executeQuery2Docs("select id,username from bs_teachers where id=? and isdel=0", new Object[]{teacher_id},1)[0];
+            if(teacherDoc==null||teacherDoc.isEmpty()){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "教师账号不存在");
+                 return backjson;
+            }
+            base.executeUpdate("update bs_students set isdel=1 where teacher_id=? ",new Object[]{teacher_id});
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "教师删除全部学生", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "操作成功");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
+    
+    /**
+     * 添加学生
+     * @param request
+     * @return
+     */
+    public JSONObject addStudent(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--添加学生";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            Object teacher_id =request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc=base.executeQuery2Docs("select id,username from bs_teachers where id=? and isdel=0", new Object[]{teacher_id},1)[0];
+            if(teacherDoc==null||teacherDoc.isEmpty()){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "教师账号不存在");
+                 return backjson;
+            }
+            String username=ru.getString("username");
+            String name=ru.getString("name");
+            String mobile=ru.getString("mobile");
+            int sex=ru.getInt("sex");
+            if(username==null||"".equals(username)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "请输入学生学号");
+                 return backjson;
+            }
+            if(name==null||"".equals(name)){
+           	 	backjson.put("type", false);
+                backjson.put("msg", "请输入学生姓名");
+                return backjson;
+            }
+            if(mobile!=null&&!"".equals(mobile)){
+            	if(!AjaxXml.checkPhone2(mobile)){
+            		backjson.put("type", false);
+                    backjson.put("msg", "请输入正确格式的学生手机号码");
+                    return backjson;
+            	}
+            }
+            if(sex!=1&&sex!=2){
+            	backjson.put("type", false);
+                backjson.put("msg", "请选择学生性别");
+                return backjson;
+           	}
+            Doc insertDoc=new Doc();
+            insertDoc.put("username", username);
+            insertDoc.put("password",new KeyBean().getkeyBeanofStr(username).toLowerCase());
+            insertDoc.put("name",name);
+            insertDoc.put("mobile",mobile);
+            insertDoc.put("sex",sex);
+            insertDoc.put("teacher_id",teacher_id);
+            insertDoc.put("addtime",AjaxXml.getTimestamp("now"));
+            base.executeInsertByDoc("bs_students",insertDoc);
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "添加学生", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "操作成功");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
+    
+    /**
+     * 更新学生信息
+     * @param request
+     * @return
+     */
+    public JSONObject updateStudent(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--修改学生";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            Object teacher_id =request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc=base.executeQuery2Docs("select id,username from bs_teachers where id=? and isdel=0", new Object[]{teacher_id},1)[0];
+            if(teacherDoc==null||teacherDoc.isEmpty()){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "教师账号不存在");
+                 return backjson;
+            }
+            String username=ru.getString("username");
+            String name=ru.getString("name");
+            String mobile=ru.getString("mobile");
+            int sex=ru.getInt("sex");
+            String password=ru.getString("password");
+            int student_id=ru.getInt("student_id");
+            if(username==null||"".equals(username)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "请输入学生学号");
+                 return backjson;
+            }
+            if(name==null||"".equals(name)){
+           	 	backjson.put("type", false);
+                backjson.put("msg", "请输入学生姓名");
+                return backjson;
+            }
+            if(mobile!=null&&!"".equals(mobile)){
+            	if(!AjaxXml.checkPhone2(mobile)){
+            		backjson.put("type", false);
+                    backjson.put("msg", "请输入正确格式的学生手机号码");
+                    return backjson;
+            	}
+            }
+            if(sex!=1&&sex!=2){
+            	backjson.put("type", false);
+                backjson.put("msg", "请选择学生性别");
+                return backjson;
+           	}
+            Doc updateDoc=new Doc();
+            updateDoc.put("username", username);
+            updateDoc.put("name",name);
+            updateDoc.put("mobile",mobile);
+            updateDoc.put("sex",sex);
+            if(password!=null&&!"".equals(password)){
+           	 updateDoc.put("password",new KeyBean().getkeyBeanofStr(password).toLowerCase());
+            }
+            Doc whereDoc=new Doc();
+            whereDoc.put("id",student_id);
+            whereDoc.put("teacher_id",teacher_id);
+            base.executeUpdateByDoc("bs_students",updateDoc,whereDoc);
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "修改学生", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "操作成功");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
+    
+    /**
+     * 反馈问题
+     * @param request
+     * @return
+     */
+    public JSONObject feedBack(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--反馈问题";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            Object teacher_id =request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc=base.executeQuery2Docs("select id,username from bs_teachers where id=? and isdel=0", new Object[]{teacher_id},1)[0];
+            if(teacherDoc==null||teacherDoc.isEmpty()){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "教师账号不存在");
+                 return backjson;
+            }
+            int type=ru.getInt("type");
+            String content=ru.getString("content");
+            if(type!=1&&type!=2){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "请选择您的反馈类型");
+                 return backjson;
+            }
+            if(content==null||"".equals(content)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "请输入您要反馈的内容");
+                 return backjson;
+            }
+            if(content.length()>500){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "您的反馈内容大于500字，请尽量简短点");
+                 return backjson;
+            }
+            Doc insertDoc=new Doc();
+            insertDoc.put("type",type);
+            insertDoc.put("teacher_id",teacher_id);
+            insertDoc.put("content",content);
+            insertDoc.put("add_time",AjaxXml.getTimestamp("now"));
+            base.executeInsertByDoc("bs_sys_feedback",insertDoc);
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "教师反馈", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "操作成功");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
 }
