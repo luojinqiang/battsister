@@ -47,12 +47,21 @@
 </head>
 
 <body class="bg_white">
-<div class="header_bg">
+
+<div class="headerbg">
+   <div class="header">
+   		<div class="logo"><img src="front_style/images/logo.png"></div>
+        <div class="logo_info">用户登录</div>
+   </div>
+</div>
+
+
+<!-- <div class="header_bg">
    <div class="header_con">
    		<div class="logo_index"><img src="front_style/images/logo.png"></div>
         <div class="logo_info">用户登录</div>
    </div>
-</div>
+</div> -->
 
 <div class="container b_top">
 	<div class="login_img"><img src="front_style/images/login.jpg"></div>  
