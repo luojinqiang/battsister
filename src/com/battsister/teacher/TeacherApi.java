@@ -272,7 +272,7 @@ public class TeacherApi {
             ajaxRequest = AjaxXml.getParameterStr(request);
             RequestUtil ru = new RequestUtil(request);
             Object teacher_id =request.getSession().getAttribute("teacher_id");
-            Doc teacherDoc=base.executeQuery2Docs("select id,username from bs_teachers where id=? and isdel=0", new Object[]{teacher_id},1)[0];
+            Doc teacherDoc=base.executeQuery2Docs("select id,username,school_id from bs_teachers where id=? and isdel=0", new Object[]{teacher_id},1)[0];
             if(teacherDoc==null||teacherDoc.isEmpty()){
             	 backjson.put("type", false);
                  backjson.put("msg", "教师账号不存在");
@@ -310,6 +310,8 @@ public class TeacherApi {
             insertDoc.put("name",name);
             insertDoc.put("mobile",mobile);
             insertDoc.put("sex",sex);
+            insertDoc.put("account_status","Y");
+            insertDoc.put("school_id",teacherDoc.getIn("school_id"));
             insertDoc.put("teacher_id",teacher_id);
             insertDoc.put("addtime",AjaxXml.getTimestamp("now"));
             base.executeInsertByDoc("bs_students",insertDoc);
