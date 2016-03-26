@@ -362,7 +362,57 @@ public class Chapter {
 	        } finally {
 	            dbc.closeConn();
 	        }
+	}
 	
+	/**
+	 * 编辑图片
+	 * @param request
+	 * @param userid
+	 * @param username
+	 * @return
+	 */
+	public JSONObject ediPic(HttpServletRequest request, int userid, String username){
+		  Dbc dbc = DbcFactory.getBbsInstance();
+	        Base base = new Base();
+	        JSONObject backjson = new JSONObject();
+	        String ajaxRequest = "";
+	        String logtitle = "API--编辑图片";
+	        try {
+	            dbc.openConn("mysqlss");
+	            base.setDbc(dbc);
+	            ajaxRequest = AjaxXml.getParameterStr(request);
+	            RequestUtil ru = new RequestUtil(request);
+	            int id = ru.getInt("id");
+	            Doc chapterDoc=base.executeQuery2Docs("select id from bs_chapter where id=? and isdel=0",new Object[]{id},1)[0];
+	            if(chapterDoc==null||chapterDoc.isEmpty()){
+	            	backjson.put("type", false);
+	 	            backjson.put("msg", "章节不存在");
+	 	            return backjson;
+	            }
+	            String upload_pics=ru.getString("upload_pics");
+	            JSONArray pic_array=new JSONArray();
+	            if(upload_pics!=null){
+	            	String ss[]=upload_pics.split(",");
+	            	if(ss!=null){
+	            		for(int i=0;i<ss.length&&!"".equals(ss[i]);i++){
+	            			pic_array.add(ss[i]);
+	            		}
+	            	}
+	            }
+	            base.executeUpdate("update bs_chapter set pics=? where id=? ",new Object[]{pic_array.toString(),id});
+	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+	            backjson.put("type", true);
+	            backjson.put("msg", "操作成功");
+	            return backjson;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+	            backjson.put("type", false);
+	            backjson.put("msg", "系统忙，请稍候再试");
+	            return backjson;
+	        } finally {
+	            dbc.closeConn();
+	        }
 	}
 	
 	public static void main(String[] args) {

@@ -142,7 +142,7 @@
             <!--left down-->
 
             <ul class="nc_cont" id="jsddm">
-				<li class="ncc_01"><a href="javascript:return false;">用户管理</a>
+				<li class="ncc_01"><a href="javascript:void(0);">用户管理</a>
                     <ul class="nav_list">
                      <%
                             if (current_flags.contains("1001")) {
@@ -160,7 +160,7 @@
                         	<%} %>
                     </ul>
                 </li>
-                <li class="ncc_01"><a href="javascript:return false;">课程管理</a>
+                <li class="ncc_01"><a href="javascript:void(0);">课程管理</a>
                     <ul class="nav_list">
                      	<%
                      		if(current_flags.contains("2001")){
@@ -172,7 +172,7 @@
                     </ul>
                 </li>
                 <li class="ncc_03"><a
-                        href="javascript:return false;">信息内容</a>
+                        href="javascript:void(0);">信息内容</a>
                     <ul class="nav_list">
                         <% if (current_flags.contains("3001")) {%>
                         <li><a href="javascript:window.parent.jianyi2('xinxi/newsclass.jsp','信息内容')">信息栏目</a></li>
@@ -192,7 +192,7 @@
                          %>
                     </ul>
                 </li>
-               <li class="ncc_06"><a href="javascript:return false;">系统管理</a>
+               <li class="ncc_06"><a href="javascript:void(0);">系统管理</a>
                     <ul class="nav_list">
                        <%
                         if (current_flags.contains("4001")) { %>

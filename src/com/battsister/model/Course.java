@@ -1,54 +1,185 @@
 package com.battsister.model;
 
-import com.baje.sz.ajax.AjaxXml;
-import com.baje.sz.util.Doc;
-import com.baje.sz.util.RequestUtil;
-import com.battsister.basic.BasicImp;
+import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import javax.servlet.http.HttpServletRequest;
+import com.baje.sz.ajax.AjaxXml;
+import com.baje.sz.ajax.LogUtility;
+import com.baje.sz.db.Base;
+import com.baje.sz.db.Dbc;
+import com.baje.sz.db.DbcFactory;
+import com.baje.sz.util.Doc;
+import com.baje.sz.util.RequestUtil;
+import com.battsister.admin.sys.Logdb;
 
 /**
  *
  * Created by 78544 on 3/3/2016.
  */
-public class Course extends BasicImp{
-    {
-        setTableName("bs_course");
-    }
+public class Course{
 
-    private static RequestUtil ru = null;
-
+	/**
+	 *  新增/编辑课程
+	 * @param request
+	 * @param userid
+	 * @param username
+	 * @return
+	 */
     public JSONObject edit(HttpServletRequest request, int userid, String username) {
-        ru = new RequestUtil(request);
-        JSONObject backJson = new JSONObject();
-        int id = ru.getInt("id");
-        String name = ru.getString("name");
-        Doc doc = new Doc();
-        doc.put("name", name);
-        doc.put("pic", ru.getString("pic"));
-        doc.put("order_num", ru.getInt("order_num"));
-        doc.put("content", ru.getString("content"));
-        doc.put("is_recommend", ru.getInt("is_recommend"));
-        Doc whereDoc = new Doc(2);
-        whereDoc.put("name", name);
-        whereDoc.put("isdel", 0);
-        JSONObject courseObj = queryByWhere(whereDoc);
-        if (!courseObj.isEmpty()) {
-            if (courseObj.getInt("id") != id) {
-                backJson.put("type", false);
-                backJson.put("msg", "该课程名称已经存在");
-                return backJson;
-            }
-        }
-        if (id == 0) {
-            doc.put("add_time", AjaxXml.getTimestamp("now"));
-            add(doc);
-        } else {
-            updateById(doc, id);
-        }
-        backJson.put("type", true);
-        backJson.put("msg", "操作成功");
-        return backJson;
+		  Dbc dbc = DbcFactory.getBbsInstance();
+	        Base base = new Base();
+	        JSONObject backjson = new JSONObject();
+	        String ajaxRequest = "";
+	        String logtitle = "API--新增课程";
+	        try {
+	            dbc.openConn("mysqlss");
+	            base.setDbc(dbc);
+	            ajaxRequest = AjaxXml.getParameterStr(request);
+	            RequestUtil ru = new RequestUtil(request);
+	            int id = ru.getInt("id");
+	            String name=ru.getString("name");
+	            String pic=ru.getString("pic");
+	            String content=ru.getString("content");
+	            int is_recommend=ru.getInt("is_recommend");
+	            int order_num=ru.getInt("order_num");
+	            Doc updateDoc=new Doc();
+	            updateDoc.put("name",name);
+	            updateDoc.put("pic",pic);
+	            updateDoc.put("content", content);
+	            updateDoc.put("is_recommend", is_recommend);
+	            updateDoc.put("order_num", order_num);
+	            if(id>0){
+	            	logtitle="编辑课程";
+	            	Doc whereDoc=new Doc();
+	            	whereDoc.put("id",id);
+	            	base.executeUpdateByDoc("bs_course",updateDoc, whereDoc);
+	            }else{
+	            	updateDoc.put("add_time",AjaxXml.getTimestamp("now"));
+	            	base.executeInsertByDoc("bs_course",updateDoc);
+	            }
+	            backjson.put("type", true);
+	            backjson.put("msg", "操作成功");
+	            return backjson;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+	            backjson.put("type", false);
+	            backjson.put("msg", "系统忙，请稍候再试");
+	            return backjson;
+	        } finally {
+	            dbc.closeConn();
+	        }
     }
+    
+    /**
+     * 编辑课程实训文档
+     * @param request
+     * @param userid
+     * @param username
+     * @return
+     */
+    public JSONObject editPracticWord(HttpServletRequest request, int userid, String username) {
+		  Dbc dbc = DbcFactory.getBbsInstance();
+	        Base base = new Base();
+	        JSONObject backjson = new JSONObject();
+	        String ajaxRequest = "";
+	        String logtitle = "API--编辑课程实训文档";
+	        try {
+	            dbc.openConn("mysqlss");
+	            base.setDbc(dbc);
+	            ajaxRequest = AjaxXml.getParameterStr(request);
+	            RequestUtil ru = new RequestUtil(request);
+	            int id = ru.getInt("id");
+	            Doc courseDoc=base.executeQuery2Docs("select id from bs_course where id=? and isdel=0 ",new Object[]{id},1)[0];
+	            if(courseDoc==null||courseDoc.isEmpty()){
+	            	 backjson.put("type", false);
+	 	            backjson.put("msg", "该课程不存在");
+	 	            return backjson;
+	            }
+	            String dir=ru.getString("word_dir");
+	            int num=ru.getInt("num");
+	            JSONObject word_json=new JSONObject();
+	            word_json.put("dir",dir);
+	            word_json.put("num", num);
+	            base.executeUpdate("update bs_course set practical_word_path=? where id=? ",new Object[]{word_json.toString(),id});
+	            backjson.put("type", true);
+	            backjson.put("msg", "操作成功");
+	            return backjson;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+	            backjson.put("type", false);
+	            backjson.put("msg", "系统忙，请稍候再试");
+	            return backjson;
+	        } finally {
+	            dbc.closeConn();
+	        }
+    }
+    /**
+     * 编辑实训视频
+     * @param request
+     * @param userid
+     * @param username
+     * @return
+     */
+    public JSONObject editVideo(HttpServletRequest request, int userid, String username){
+		  Dbc dbc = DbcFactory.getBbsInstance();
+	        Base base = new Base();
+	        JSONObject backjson = new JSONObject();
+	        String ajaxRequest = "";
+	        String logtitle = "API--编辑实训视频";
+	        try {
+	            dbc.openConn("mysqlss");
+	            base.setDbc(dbc);
+	            ajaxRequest = AjaxXml.getParameterStr(request);
+	            RequestUtil ru = new RequestUtil(request);
+	            int id = ru.getInt("id");
+	            Doc chapterDoc=base.executeQuery2Docs("select id from bs_course where id=? and isdel=0",new Object[]{id},1)[0];
+	            if(chapterDoc==null||chapterDoc.isEmpty()){
+	            	backjson.put("type", false);
+	 	            backjson.put("msg", "该课程不存在");
+	 	            return backjson;
+	            }
+	            String title_str=ru.getString("title_str");
+	            String key_str=ru.getString("key_str");
+	            String titles[]=null;
+	            String keys[]=null;
+	            JSONArray keyArray=new JSONArray();
+	            if(key_str!=null){
+	            	keys=key_str.split(",");
+	            	if(title_str!=null){
+	            		titles=title_str.split(",");
+	            	}
+	            	if(keys!=null){
+	            		for(int i=0;i<keys.length;i++){
+	            			JSONObject json=new JSONObject();
+	            			if(!"".equals(keys[i].trim())){
+	            				json.put("key",keys[i].trim());
+	            				if(titles!=null&&titles.length>i){
+	            					json.put("title", titles[i]);
+	            				}else{
+	            					json.put("title","");
+	            				}
+	            				keyArray.add(json);
+	            			}
+	            		}
+	            	}
+	            }
+	            base.executeUpdate("update bs_course set practical_video_path=? where id=? ",new Object[]{keyArray.toString(),id});
+	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+	            backjson.put("type", true);
+	            backjson.put("msg", "操作成功");
+	            return backjson;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+	            backjson.put("type", false);
+	            backjson.put("msg", "系统忙，请稍候再试");
+	            return backjson;
+	        } finally {
+	            dbc.closeConn();
+	        }
+	}
 }

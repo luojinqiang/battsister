@@ -8,7 +8,7 @@ import com.baje.sz.ajax.LogUtility;
 
 public class PdfToPng {
 	
-	public static int pdfToPng(String source_file,String des_file,String file_name){
+	public static int pdfToPng(String source_file,String des_file){
 		int num=0;
 		Document document = null;
 		//判断目录是否存在，如果不存在的话则创建

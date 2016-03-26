@@ -1,3 +1,4 @@
+<%@page import="com.battsister.model.Course"%>
 <%@page import="net.sf.json.JSONObject"%>
 <%@page import="com.battsister.util.BasicType"%>
 <%@page import="net.sf.json.JSONArray"%>
@@ -21,20 +22,20 @@
     String action = ru.getString("action");
     int id = ru.getInt("id");
     if (action.equals("save")) {//更新
-    	Chapter chapter=new Chapter();
-    	out.print(chapter.editVideo(request, user_id, user_name));
+    	Course course=new Course();
+    	out.print(course.editVideo(request, user_id, user_name));
     	return; 
     }
 	String video_path="",name="";
 	String titles=ru.getString("titles");
 	String keys=ru.getString("keys");
 			
-    Doc doc = utildb.Get_Doc("id,video_path,name", "bs_chapter", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+    Doc doc = utildb.Get_Doc("id,practical_video_path,name", "bs_course", " where id=? and isdel=0", "mysqlss", new Object[]{id});
     if (doc == null) {
         out.print("信息不存在");
         return;
     } else {
-    	video_path=doc.get("video_path");
+    	video_path=doc.get("practical_video_path");
     	name=doc.get("name");
     }
     JSONArray resource_array=BasicType.getQiNiuResourse(1,"");//获取七牛服务器的文件
@@ -83,7 +84,7 @@
             $.ajax({
                 dataType: "json",
                 type: "post",
-                url: "chapter_video_edit.jsp",
+                url: "practical_video_edit.jsp",
                 data: $("#form1").serialize()+"&key_str="+key_str+"&title_str="+title_str,
                 success: function (msg) {
                     if (msg.type) {
@@ -119,7 +120,7 @@
             <input name="action" id="action" type="hidden" value="save"/>
             	      <ul class="row2 clearfix">
                 <li>
-                       <h4 style="margin-bottom:20px;"><%=name%>--视频选择</h4>
+                       <h4 style="margin-bottom:20px;"><%=name%>--实训视频选择</h4>
                 </li>
                    <li>
                        <h4 style="margin-bottom:20px;color: red;">请确保视频已上传到服务器</h4>
@@ -219,7 +220,7 @@
 		} 
          var titles='<%=titles%>'+','+$('input[name=input]').val();
          var keys='<%=keys%>'+','+$('#resource').val();
-         window.location.href='chapter_video_edit.jsp?id=<%=id%>&titles='+titles+'&keys='+keys;
+         window.location.href='practical_video_edit.jsp?id=<%=id%>&titles='+titles+'&keys='+keys;
 	}
 </script>
 <!--End Sidebar--> </body>

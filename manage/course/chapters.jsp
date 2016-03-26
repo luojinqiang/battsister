@@ -176,6 +176,9 @@
         function editanimation(id, title) {
             openurl('chapter_animation_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
         }
+        function editPics(id, title){
+        	 openurl('chapter_pics_edit.jsp?id=' + id + '', 'user', title, 800, 380, 0, 10, true);
+        }
         function editEL(course_id, chapter_id, title) {
             window.parent.jianyi2('course/exercise_library.jsp?course_id=' + course_id + '&chapter_id=' + chapter_id, '习题');
             //openurl('exercise_library.jsp?course_id=' + course_id + '&chapter_id=' + chapter_id, 'user', title, 700, 380, 0, 10, true);
@@ -235,12 +238,14 @@
                     </td>
                     <td><%=doc.getIn("order_num")%>
                     </td>
-                     <td><a href="javascript:editppt('<%=doc.get("id")%>','PPT')" style="font-size:14px;">ppt</a>&nbsp;&nbsp;<a
-                            href="javascript:editword('<%=doc.get("id")%>','word')" style="font-size:14px;">word</a>&nbsp;&nbsp;
+                     <td><a href="javascript:editppt('<%=doc.get("id")%>','PPT')" >ppt</a>&nbsp;&nbsp;<a
+                            href="javascript:editword('<%=doc.get("id")%>','word')" >word</a>&nbsp;&nbsp;
                              <a
-                            href="javascript:editvideo('<%=doc.get("id")%>','视频')" style="font-size:14px;">视频</a>&nbsp;&nbsp;
+                            href="javascript:editvideo('<%=doc.get("id")%>','视频')">视频</a>&nbsp;&nbsp;
                              <a
-                            href="javascript:editanimation('<%=doc.get("id")%>','动画')" style="font-size:14px;">动画</a>&nbsp;&nbsp;
+                            href="javascript:editanimation('<%=doc.get("id")%>','动画')">动画</a>&nbsp;&nbsp;
+                              <a
+                            href="javascript:editPics('<%=doc.get("id")%>','图片')">图片</a>&nbsp;&nbsp;
                             </td>
                             
                     <td><a href="javascript:editEL('<%=doc.get("course_id")%>','<%=doc.get("id")%>','习题')">习题</a>

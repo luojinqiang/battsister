@@ -6,7 +6,6 @@
     int userid = 0;
     String user_name = "";
     request.setCharacterEncoding("utf-8");
-    LogUtility.log("imgSPaht-->hehehehehehhee ");
     System.out.println("到这里");
     Cookie[] urscookies = request.getCookies();
     SmartUpload su = new SmartUpload();

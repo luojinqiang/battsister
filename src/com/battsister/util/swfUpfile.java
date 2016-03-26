@@ -593,7 +593,8 @@ public class swfUpfile {
                 	if(!ppt_image_file.exists()){
                 		ppt_image_file.mkdirs();
                 	}
-                	int ppt_num=PdfToPng.pdfToPng(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/",file_name);
+                	int ppt_num=new Pdf2Jpg().tranfer(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/");
+                	//int ppt_num=PdfToPng.pdfToPng(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/",file_name);
                 	backjson.put("num",ppt_num);//ppt图片张数
                 	file_readme=file_name;
                 }

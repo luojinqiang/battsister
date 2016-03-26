@@ -87,12 +87,12 @@
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <th width="4%">&nbsp;</th>
-                    <th width="8%">课程名称</th>
-                    <th width="8%">介绍</th>
-                    <th width="12%">图片</th>
-                    <th width="6%">是否推荐到首页</th>
-                    <th width="10%">添加时间</th>
-                    <th width="7%">操作</th>
+                    <th width="15%">课程名称</th>
+                   <!--  <th width="8%">介绍</th> -->
+                    <th width="15%">图片</th>
+                    <th width="15%">是否推荐到首页</th>
+                    <th width="15%">添加时间</th>
+                    <th width="">操作</th>
                 </tr>
                 <%
 
@@ -119,7 +119,7 @@
                 <tr onmousemove="tableMove(this);" onmouseout="tableOut(this)">
                     <td><input name="id" type="checkbox" id="id" value="<%=doc.get("id")%>"/></td>
                     <td><%=doc.get("name", "")%></td>
-                    <td><%=doc.get("content", "")%></td>
+                  <%--   <td><%=doc.get("content", "")%></td> --%>
                     <td><%=(doc.get("pic") != null && !doc.get("pic").equals("")) ? "<img src=\"" + doc.get("pic") + "\" width=\"30\">" : "" %></td>
                     <td><%=doc.getIn("is_recommend") == 0?"否":"是"%></td>
                     <td><%
@@ -128,7 +128,10 @@
                         }
                     %></td>
 
-                    <td><a href="javascript:window.parent.jianyi2('course/chapters.jsp?course_id=<%=doc.getIn("id")%>','章节')">章节</a> <a href="javascript:editStudent('<%=doc.get("id")%>','编辑课程')">编辑</a> <a
+                    <td><a href="javascript:window.parent.jianyi2('course/chapters.jsp?course_id=<%=doc.getIn("id")%>','章节')">章节</a>&nbsp;&nbsp;&nbsp;
+                    <a href="javascript:editPracticalWord('<%=doc.getIn("id")%>','实训文档')">实训文档</a>&nbsp;&nbsp;
+                    <a href="javascript:editPracticalVideo('<%=doc.getIn("id")%>','实训视频')">实训视频</a>
+                    &nbsp;&nbsp;&nbsp;<a href="javascript:editCourse('<%=doc.get("id")%>','编辑课程')">编辑</a>&nbsp;&nbsp;&nbsp;<a
                             href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
 
@@ -141,7 +144,7 @@
                                                                      value="checkbox" onclick="CheckAll(this.form);"/>
                         选中/取消所有
                     </td>
-                    <td colspan="10" style="text-align:right"><input name="tjczft" type="button" onclick="batchdel()"
+                    <td colspan="6" style="text-align:right"><input name="tjczft" type="button" onclick="batchdel()"
                                                                     value="批量删除"/><%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%>
                     </td>
                 </tr>
@@ -262,8 +265,14 @@
             ]
         });
     }
-    function editStudent(id, title) {
-        openurl('course_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+    function editCourse(id, title) {
+        openurl('course_edit.jsp?id=' + id + '', 'user', title, 1000, 420, 0, 10, true);
+    }
+    function editPracticalWord(id, title) {
+        openurl('practical_word_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+    }
+    function editPracticalVideo(id, title) {
+        openurl('practical_video_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
     }
 </script>
 <%@ include file="../end.jsp" %><!--End Sidebar--></body>
