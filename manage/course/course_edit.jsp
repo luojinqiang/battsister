@@ -25,18 +25,19 @@
     int order_num = 0;
     int is_recommend = 0;
     String content = "";
-    String pic = "";
+    String pic = "",introduce="";
     String name = "";
     int id = ru.getInt("id");
     action = "save";
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("id,name,content,add_time,is_recommend,pic,order_num", "bs_course", "where id=?", "", new Object[]{new Integer(id)});
+        Doc doc = utildb.Get_Doc("id,name,introduce,content,add_time,is_recommend,pic,order_num", "bs_course", "where id=?", "", new Object[]{new Integer(id)});
         if (doc != null) {
             name = doc.get("name");
             pic = doc.get("pic");
             is_recommend = doc.getIn("is_recommend");
             order_num = doc.getIn("order_num");
             content = doc.getString("content");
+            introduce=doc.get("introduce");
         }
     }
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -106,6 +107,12 @@
             <ul class="row2 clearfix">
                 <li>排序：<input type="text" name="order_num" id="order_num" value="<%=order_num %>" style="width:50px;"/>数字越小排序越靠前</li>
                 <li>是否推荐到首页：<input type="checkbox" id="is_recommend" name="is_recommend" value="1" <%=is_recommend==1?" checked":""%>></li>
+            </ul>
+            <ul class="row1 clearfix">
+            	<li>
+            		简短介绍：
+            		<textarea rows="6" cols="60" name="introduce"><%=introduce%></textarea>
+            	</li>
             </ul>
             <script>
                 if ($('#smallfileUpload').size()) {

@@ -79,7 +79,7 @@
     </div>
     <div class="btnitem mb10 clearfix">
         <ul class="s_btn">
-            <li><a href="javascript:editStudent(0,'新增课程')">新增课程</a></li>
+            <li><a href="javascript:editCourse(0,'新增课程')">新增课程</a></li>
         </ul>
     </div>
     <div class="form_table">
@@ -130,9 +130,12 @@
 
                     <td><a href="javascript:window.parent.jianyi2('course/chapters.jsp?course_id=<%=doc.getIn("id")%>','章节')">章节</a>&nbsp;&nbsp;&nbsp;
                     <a href="javascript:editPracticalWord('<%=doc.getIn("id")%>','实训文档')">实训文档</a>&nbsp;&nbsp;
-                    <a href="javascript:editPracticalVideo('<%=doc.getIn("id")%>','实训视频')">实训视频</a>
-                    &nbsp;&nbsp;&nbsp;<a href="javascript:editCourse('<%=doc.get("id")%>','编辑课程')">编辑</a>&nbsp;&nbsp;&nbsp;<a
-                            href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
+                    <a href="javascript:editPracticalVideo('<%=doc.getIn("id")%>','实训视频')">实训视频</a>&nbsp;&nbsp;&nbsp;
+                     <a href="javascript:editTeachingGuide('<%=doc.getIn("id")%>','教学指南')">教学指南</a>&nbsp;&nbsp;&nbsp;
+                      <a href="javascript:editTeachingPlan('<%=doc.getIn("id")%>','教案')">教案</a>&nbsp;&nbsp;&nbsp;
+                       <a href="javascript:editTeachingEvalution('<%=doc.getIn("id")%>','教学评价')">教学评价</a>&nbsp;&nbsp;&nbsp;
+                    <a href="javascript:editCourse('<%=doc.get("id")%>','编辑课程')">编辑</a>&nbsp;&nbsp;&nbsp;
+                    <a href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
 
                 <%
@@ -273,6 +276,15 @@
     }
     function editPracticalVideo(id, title) {
         openurl('practical_video_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+    }
+    function editTeachingGuide(id, title) {
+        openurl('teaching_guide_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+    }
+    function editTeachingPlan(id, title) {
+        openurl('teaching_plan_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+    }
+    function editTeachingEvalution(id, title) {
+        openurl('teaching_evalution_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
     }
 </script>
 <%@ include file="../end.jsp" %><!--End Sidebar--></body>

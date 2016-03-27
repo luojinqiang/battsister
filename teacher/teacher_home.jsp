@@ -11,6 +11,8 @@
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
+<link rel="stylesheet" href="/front_style/ppt_word/css/base.css">
+<link rel="stylesheet" href="/front_style/ppt_word/css/MPreview.css">
 
 </head>
 
@@ -27,7 +29,7 @@
         <ul id="juheweb">
         <h3>课程体系</h3>
           <li>
-            <h5 class="selected"><a href="teacher_home.html">课程标准</a></h5>
+            <h5 class="selected"><a href="teacher_home.jsp">课程标准</a></h5>
           </li>
           <li >
             <h5><a href="course_modules.html">课程模块</a></h5>
@@ -60,7 +62,21 @@
   <div class="right_w">
   	 <div class="title_r">课程标准</div>
   	 <div class="right_con">
-          <div class="default">word文档显示课程标准</div>
+          <div class="wrapper">
+        <div class="doc" id="doc" style="margin-left:-10px;width:800px;height:600px;margin-top:-30px;"></div>
+	 </div>
+	 <script type="text/javascript">
+			var data=['/document/images/18-47-05_6642/test-0.png',
+			          '/document/images/18-47-05_6642/test-1.png',
+			          '/document/images/18-47-05_6642/test-2.png',
+			          '/document/images/18-47-05_6642/test-3.png',
+			          '/document/images/18-47-05_6642/test-4.png',
+			          '/document/images/18-47-05_6642/test-5.png',
+			          '/document/images/18-47-05_6642/test-6.png',
+			          '/document/images/18-47-05_6642/test-7.png'];
+		</script>
+   <script type="text/javascript" src="/front_style/ppt_word/js/MPreview.js"></script>
+   <script type="text/javascript">$('#doc').MPreview({ data: data });</script>
      </div>
   </div>
   <div class="clear"></div>

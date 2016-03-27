@@ -12,6 +12,7 @@ import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
 import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
+import com.baje.sz.util.StringUtil;
 import com.battsister.admin.sys.Logdb;
 
 /**
@@ -42,6 +43,8 @@ public class Course{
 	            String name=ru.getString("name");
 	            String pic=ru.getString("pic");
 	            String content=ru.getString("content");
+	            content = AjaxXml.unescape(content);
+	            content = StringUtil.replace(content, "^…", "&");
 	            int is_recommend=ru.getInt("is_recommend");
 	            int order_num=ru.getInt("order_num");
 	            Doc updateDoc=new Doc();
@@ -182,4 +185,229 @@ public class Course{
 	            dbc.closeConn();
 	        }
 	}
+    
+   /**
+    * 课程--教学指南编辑
+    * @param request
+    * @return
+    */
+    public JSONObject editTeachingGuide(HttpServletRequest request, int userid, String username){
+		  Dbc dbc = DbcFactory.getBbsInstance();
+	        Base base = new Base();
+	        JSONObject backjson = new JSONObject();
+	        String ajaxRequest = "";
+	        String logtitle = "API--课程--教学指南编辑";
+	        try {
+	            dbc.openConn("mysqlss");
+	            base.setDbc(dbc);
+	            ajaxRequest = AjaxXml.getParameterStr(request);
+	            RequestUtil ru = new RequestUtil(request);
+	            int id = ru.getInt("id");
+	            Doc chapterDoc=base.executeQuery2Docs("select id from bs_course where id=? and isdel=0",new Object[]{id},1)[0];
+	            if(chapterDoc==null||chapterDoc.isEmpty()){
+	            	backjson.put("type", false);
+	 	            backjson.put("msg", "课程不存在");
+	 	            return backjson;
+	            }
+	            String title_str=ru.getString("title_str");
+	            String word_str=ru.getString("word_str");
+	            String num_str=ru.getString("num_str");
+	            String titles[]=null;
+	            String pics[]=null;
+	            String nums[]=null;
+	            JSONArray pathArray=new JSONArray();
+	            if(word_str!=null){
+	            	pics=word_str.split(",");
+	            	if(title_str!=null){
+	            		titles=title_str.split(",");
+	            	}
+	            	if(num_str!=null){
+	            		nums=num_str.split(",");
+	            	}
+	            	if(pics!=null){
+	            		for(int i=0;i<pics.length;i++){
+	            			JSONObject json=new JSONObject();
+	            			if(!"".equals(pics[i].trim())){
+	            				json.put("pic_dir",pics[i].trim());
+	            				if(titles!=null&&titles.length>i){
+	            					json.put("title", titles[i]);
+	            				}else{
+	            					json.put("title","");
+	            				}
+	            				if(nums!=null&&nums.length>i){
+	            					json.put("num", nums[i]);
+	            				}else{
+	            					json.put("num",0);
+	            				}
+	            				pathArray.add(json);
+	            			}
+	            		}
+	            	}
+	            }
+	            base.executeUpdate("update bs_course set teaching_guide=? where id=? ",new Object[]{pathArray.toString(),id});
+	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+	            backjson.put("type", true);
+	            backjson.put("msg", "操作成功");
+	            return backjson;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+	            backjson.put("type", false);
+	            backjson.put("msg", "系统忙，请稍候再试");
+	            return backjson;
+	        } finally {
+	            dbc.closeConn();
+	        }
+    }
+    /**
+     * 课程--教案编辑
+     * @param request
+     * @param userid
+     * @param username
+     * @return
+     */
+    public JSONObject editTeachingPlan(HttpServletRequest request, int userid, String username){
+		  Dbc dbc = DbcFactory.getBbsInstance();
+	        Base base = new Base();
+	        JSONObject backjson = new JSONObject();
+	        String ajaxRequest = "";
+	        String logtitle = "API--课程--教案编辑";
+	        try {
+	            dbc.openConn("mysqlss");
+	            base.setDbc(dbc);
+	            ajaxRequest = AjaxXml.getParameterStr(request);
+	            RequestUtil ru = new RequestUtil(request);
+	            int id = ru.getInt("id");
+	            Doc chapterDoc=base.executeQuery2Docs("select id from bs_course where id=? and isdel=0",new Object[]{id},1)[0];
+	            if(chapterDoc==null||chapterDoc.isEmpty()){
+	            	backjson.put("type", false);
+	 	            backjson.put("msg", "课程不存在");
+	 	            return backjson;
+	            }
+	            String title_str=ru.getString("title_str");
+	            String word_str=ru.getString("word_str");
+	            String num_str=ru.getString("num_str");
+	            String titles[]=null;
+	            String pics[]=null;
+	            String nums[]=null;
+	            JSONArray pathArray=new JSONArray();
+	            if(word_str!=null){
+	            	pics=word_str.split(",");
+	            	if(title_str!=null){
+	            		titles=title_str.split(",");
+	            	}
+	            	if(num_str!=null){
+	            		nums=num_str.split(",");
+	            	}
+	            	if(pics!=null){
+	            		for(int i=0;i<pics.length;i++){
+	            			JSONObject json=new JSONObject();
+	            			if(!"".equals(pics[i].trim())){
+	            				json.put("pic_dir",pics[i].trim());
+	            				if(titles!=null&&titles.length>i){
+	            					json.put("title", titles[i]);
+	            				}else{
+	            					json.put("title","");
+	            				}
+	            				if(nums!=null&&nums.length>i){
+	            					json.put("num", nums[i]);
+	            				}else{
+	            					json.put("num",0);
+	            				}
+	            				pathArray.add(json);
+	            			}
+	            		}
+	            	}
+	            }
+	            base.executeUpdate("update bs_course set teaching_plan=? where id=? ",new Object[]{pathArray.toString(),id});
+	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+	            backjson.put("type", true);
+	            backjson.put("msg", "操作成功");
+	            return backjson;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+	            backjson.put("type", false);
+	            backjson.put("msg", "系统忙，请稍候再试");
+	            return backjson;
+	        } finally {
+	            dbc.closeConn();
+	        }
+    }
+    
+    /**
+     * 教学评价编辑
+     * @param request
+     * @param userid
+     * @param username
+     * @return
+     */
+    public JSONObject editTeachingEvalution(HttpServletRequest request, int userid, String username){
+		  Dbc dbc = DbcFactory.getBbsInstance();
+	        Base base = new Base();
+	        JSONObject backjson = new JSONObject();
+	        String ajaxRequest = "";
+	        String logtitle = "API--课程--教学评价编辑";
+	        try {
+	            dbc.openConn("mysqlss");
+	            base.setDbc(dbc);
+	            ajaxRequest = AjaxXml.getParameterStr(request);
+	            RequestUtil ru = new RequestUtil(request);
+	            int id = ru.getInt("id");
+	            Doc chapterDoc=base.executeQuery2Docs("select id from bs_course where id=? and isdel=0",new Object[]{id},1)[0];
+	            if(chapterDoc==null||chapterDoc.isEmpty()){
+	            	backjson.put("type", false);
+	 	            backjson.put("msg", "课程不存在");
+	 	            return backjson;
+	            }
+	            String title_str=ru.getString("title_str");
+	            String word_str=ru.getString("word_str");
+	            String num_str=ru.getString("num_str");
+	            String titles[]=null;
+	            String pics[]=null;
+	            String nums[]=null;
+	            JSONArray pathArray=new JSONArray();
+	            if(word_str!=null){
+	            	pics=word_str.split(",");
+	            	if(title_str!=null){
+	            		titles=title_str.split(",");
+	            	}
+	            	if(num_str!=null){
+	            		nums=num_str.split(",");
+	            	}
+	            	if(pics!=null){
+	            		for(int i=0;i<pics.length;i++){
+	            			JSONObject json=new JSONObject();
+	            			if(!"".equals(pics[i].trim())){
+	            				json.put("pic_dir",pics[i].trim());
+	            				if(titles!=null&&titles.length>i){
+	            					json.put("title", titles[i]);
+	            				}else{
+	            					json.put("title","");
+	            				}
+	            				if(nums!=null&&nums.length>i){
+	            					json.put("num", nums[i]);
+	            				}else{
+	            					json.put("num",0);
+	            				}
+	            				pathArray.add(json);
+	            			}
+	            		}
+	            	}
+	            }
+	            base.executeUpdate("update bs_course set teaching_evalution=? where id=? ",new Object[]{pathArray.toString(),id});
+	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+	            backjson.put("type", true);
+	            backjson.put("msg", "操作成功");
+	            return backjson;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+	            backjson.put("type", false);
+	            backjson.put("msg", "系统忙，请稍候再试");
+	            return backjson;
+	        } finally {
+	            dbc.closeConn();
+	        }
+  }
 }
