@@ -196,9 +196,9 @@ h6 { font-size:12px; font-weight:normal; padding:0px; margin:0px;}
 .botton3 a { display:block; text-align:center; color:#fff; background:#01ab30; padding:10px 20px; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
 .botton3 a:hover { display:block; text-align:center; color:#fff; background:#02a32e;}
 
-.project_w { background:#fff; border:1px solid #ddd; width:1098px; margin-bottom:20px;}
+.project_w { background:#fff; width:818px; margin-bottom:20px;}
 .project_con { padding:0px 19px; width:780px;}
-.project_teach { width:1098px; border-bottom:1px solid #ddd;}
+.project_teach { width:818px; border-bottom:1px solid #ddd;}
 .project_con h5 { font-size:14px; color:#999; line-height:60px;} 
 .title_c { text-align:center; padding:20px; font-size:16px; border-bottom:1px solid #ddd;}
 .title_c span { float:right; color:#999;}

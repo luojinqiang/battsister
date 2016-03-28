@@ -47,12 +47,14 @@ public class Course{
 	            content = StringUtil.replace(content, "^…", "&");
 	            int is_recommend=ru.getInt("is_recommend");
 	            int order_num=ru.getInt("order_num");
+	            String introduce=ru.getString("introduce");
 	            Doc updateDoc=new Doc();
 	            updateDoc.put("name",name);
 	            updateDoc.put("pic",pic);
 	            updateDoc.put("content", content);
 	            updateDoc.put("is_recommend", is_recommend);
 	            updateDoc.put("order_num", order_num);
+	            updateDoc.put("introduce",introduce);
 	            if(id>0){
 	            	logtitle="编辑课程";
 	            	Doc whereDoc=new Doc();
@@ -145,32 +147,16 @@ public class Course{
 	 	            backjson.put("msg", "该课程不存在");
 	 	            return backjson;
 	            }
-	            String title_str=ru.getString("title_str");
-	            String key_str=ru.getString("key_str");
-	            String titles[]=null;
-	            String keys[]=null;
-	            JSONArray keyArray=new JSONArray();
-	            if(key_str!=null){
-	            	keys=key_str.split(",");
-	            	if(title_str!=null){
-	            		titles=title_str.split(",");
-	            	}
-	            	if(keys!=null){
-	            		for(int i=0;i<keys.length;i++){
-	            			JSONObject json=new JSONObject();
-	            			if(!"".equals(keys[i].trim())){
-	            				json.put("key",keys[i].trim());
-	            				if(titles!=null&&titles.length>i){
-	            					json.put("title", titles[i]);
-	            				}else{
-	            					json.put("title","");
-	            				}
-	            				keyArray.add(json);
-	            			}
-	            		}
-	            	}
+	            String title=ru.getString("title");
+	            String word_dir=ru.getString("word_dir");
+	            int num=ru.getInt("num");
+	            JSONObject json=new JSONObject();
+	            if(word_dir!=null&&!"".equals(word_dir)){
+	            	json.put("title", title);
+	 	            json.put("word_dir", word_dir);
+	 	            json.put("num", num);
 	            }
-	            base.executeUpdate("update bs_course set practical_video_path=? where id=? ",new Object[]{keyArray.toString(),id});
+	            base.executeUpdate("update bs_course set practical_video_path=? where id=? ",new Object[]{json.toString(),id});
 	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
 	            backjson.put("type", true);
 	            backjson.put("msg", "操作成功");
@@ -209,42 +195,16 @@ public class Course{
 	 	            backjson.put("msg", "课程不存在");
 	 	            return backjson;
 	            }
-	            String title_str=ru.getString("title_str");
-	            String word_str=ru.getString("word_str");
-	            String num_str=ru.getString("num_str");
-	            String titles[]=null;
-	            String pics[]=null;
-	            String nums[]=null;
-	            JSONArray pathArray=new JSONArray();
-	            if(word_str!=null){
-	            	pics=word_str.split(",");
-	            	if(title_str!=null){
-	            		titles=title_str.split(",");
-	            	}
-	            	if(num_str!=null){
-	            		nums=num_str.split(",");
-	            	}
-	            	if(pics!=null){
-	            		for(int i=0;i<pics.length;i++){
-	            			JSONObject json=new JSONObject();
-	            			if(!"".equals(pics[i].trim())){
-	            				json.put("pic_dir",pics[i].trim());
-	            				if(titles!=null&&titles.length>i){
-	            					json.put("title", titles[i]);
-	            				}else{
-	            					json.put("title","");
-	            				}
-	            				if(nums!=null&&nums.length>i){
-	            					json.put("num", nums[i]);
-	            				}else{
-	            					json.put("num",0);
-	            				}
-	            				pathArray.add(json);
-	            			}
-	            		}
-	            	}
+	            String title=ru.getString("title");
+	            String word_dir=ru.getString("word_dir");
+	            int num=ru.getInt("num");
+	            JSONObject json=new JSONObject();
+	            if(word_dir!=null&&!"".equals(word_dir)){
+	            	json.put("title", title);
+	 	            json.put("word_dir", word_dir);
+	 	            json.put("num", num);
 	            }
-	            base.executeUpdate("update bs_course set teaching_guide=? where id=? ",new Object[]{pathArray.toString(),id});
+	            base.executeUpdate("update bs_course set teaching_guide=? where id=? ",new Object[]{json.toString(),id});
 	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
 	            backjson.put("type", true);
 	            backjson.put("msg", "操作成功");
@@ -284,42 +244,16 @@ public class Course{
 	 	            backjson.put("msg", "课程不存在");
 	 	            return backjson;
 	            }
-	            String title_str=ru.getString("title_str");
-	            String word_str=ru.getString("word_str");
-	            String num_str=ru.getString("num_str");
-	            String titles[]=null;
-	            String pics[]=null;
-	            String nums[]=null;
-	            JSONArray pathArray=new JSONArray();
-	            if(word_str!=null){
-	            	pics=word_str.split(",");
-	            	if(title_str!=null){
-	            		titles=title_str.split(",");
-	            	}
-	            	if(num_str!=null){
-	            		nums=num_str.split(",");
-	            	}
-	            	if(pics!=null){
-	            		for(int i=0;i<pics.length;i++){
-	            			JSONObject json=new JSONObject();
-	            			if(!"".equals(pics[i].trim())){
-	            				json.put("pic_dir",pics[i].trim());
-	            				if(titles!=null&&titles.length>i){
-	            					json.put("title", titles[i]);
-	            				}else{
-	            					json.put("title","");
-	            				}
-	            				if(nums!=null&&nums.length>i){
-	            					json.put("num", nums[i]);
-	            				}else{
-	            					json.put("num",0);
-	            				}
-	            				pathArray.add(json);
-	            			}
-	            		}
-	            	}
+	            String title=ru.getString("title");
+	            String word_dir=ru.getString("word_dir");
+	            int num=ru.getInt("num");
+	            JSONObject json=new JSONObject();
+	            if(word_dir!=null&&!"".equals(word_dir)){
+	            	json.put("title", title);
+	 	            json.put("word_dir", word_dir);
+	 	            json.put("num", num);
 	            }
-	            base.executeUpdate("update bs_course set teaching_plan=? where id=? ",new Object[]{pathArray.toString(),id});
+	            base.executeUpdate("update bs_course set teaching_plan=? where id=? ",new Object[]{json.toString(),id});
 	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
 	            backjson.put("type", true);
 	            backjson.put("msg", "操作成功");

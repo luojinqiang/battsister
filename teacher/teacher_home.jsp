@@ -32,7 +32,7 @@
             <h5 class="selected"><a href="teacher_home.jsp">课程标准</a></h5>
           </li>
           <li >
-            <h5><a href="course_modules.html">课程模块</a></h5>
+            <h5><a href="course_modules.jsp">课程模块</a></h5>
           </li>
          <h3>教学资源</h3>
           <li>

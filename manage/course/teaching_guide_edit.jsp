@@ -68,27 +68,11 @@
         function usersave() {
             $("#tjbutton").attr("disabled", true);
             $("#tisspan").html("<img src='../images/loading.gif' />提交中，请稍候……");
-            var title_str="";
-            var word_str="";
-            var num_str="";
-            $("input[name=word_pic]").each(function (){
-            	word_str+=","+$(this).val();
-            });
-            $("input[name=title]").each(function (){
-            	title_str+=","+$(this).val();
-            });
-            $("input[name=num]").each(function (){
-            	num_str+=","+$(this).val();
-            });
-            var chapter_str="";
-            $("input:checked").each(function (){
-            	chapter_str+=","+$(this).val();
-            });
             $.ajax({
                 dataType: "json",
                 type: "post",
                 url: "teaching_guide_edit.jsp",
-                data: $("#form1").serialize()+"&title_str="+title_str+"&word_str="+word_str+"&num_str="+num_str,
+                data: $("#form1").serialize(),
                 success: function (msg) {
                     if (msg.type) {
                         window.parent.art.dialog({
@@ -119,15 +103,12 @@
 <%
 	StringBuffer addBuffer=new StringBuffer("");
 	if(teaching_guide!=null&&!"".equals(teaching_guide)){
-		JSONArray pathArray=JSONArray.fromObject(teaching_guide);
-		if(pathArray!=null){
-			for(int i=0;i<pathArray.size();i++){
-				JSONObject path_json=pathArray.getJSONObject(i);
-				addBuffer.append("<div style=\"margin-top:10px;\">请输入标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\""+path_json.optString("title")+"\"/>"+
-				"</div><div><a href=\"/manage/showword.jsp?imgpath="+path_json.optString("pic_dir")+"&num="+path_json.optInt("num")+"\" target=\"_blank\"><img src=\""+("/document/images/"+path_json.optString("pic_dir")+"/test-0"+(Pdf2Jpg.SUFF_IMAGE)+"")+"\""+
-                        " height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"word_pic\" value=\""+
-                         ""+path_json.optString("pic_dir")+" \" /><input type=\"hidden\" name=\"num\" value=\""+path_json.optInt("num")+"\"/></div>");
-			}
+		JSONObject path_json=JSONObject.fromObject(teaching_guide);
+		if(path_json!=null){
+		addBuffer.append("<div style=\"margin-top:10px;\">请输入标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\""+path_json.optString("title")+"\"/>"+
+		"</div><div><a href=\"/manage/showword.jsp?imgpath="+path_json.optString("word_dir")+"&num="+path_json.optInt("num")+"\" target=\"_blank\"><img src=\""+("/document/images/"+path_json.optString("word_dir")+"/test-0"+(Pdf2Jpg.SUFF_IMAGE)+"")+"\""+
+                      " height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"word_dir\" value=\""+
+                       ""+path_json.optString("word_dir")+" \" /><input type=\"hidden\" name=\"num\" value=\""+path_json.optInt("num")+"\"/></div>");
 		}
 		
 	}
@@ -163,9 +144,9 @@
                 var callback = function (imgpath,num) {
                 	var append= '<div style="margin-top:10px;">请输入标题：<input type="text" name="title" style="width:120;"/></div><div><a href="/manage/showword.jsp?imgpath='+(imgpath)+'&num='+num+'" target="_blank"><img src="'
                         + '/document/images/'+imgpath+'/test-0<%=Pdf2Jpg.SUFF_IMAGE%>'
-                        + '" height=150></a><div class="del">删除</div><input type="hidden" name="word_pic" value="'
+                        + '" height=150></a><div class="del">删除</div><input type="hidden" name="word_dir" value="'
                         + imgpath + '" /><input type="hidden" name="num" value="'+num+'"/></div>';
-                    $('#smallfileDetail').append(append);
+                    $('#smallfileDetail').html(append);
                     $('#smallfileDetail div div').off('click').on('click', function () {
                         $(this).parent().remove();
                     });
@@ -186,7 +167,7 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function (){
-		$('#smallfileDetail').append('<%=addBuffer%>');
+		$('#smallfileDetail').html('<%=addBuffer%>');
 		 $('#smallfileDetail div div').off('click').on('click', function () {
              $(this).parent().remove();
          });
