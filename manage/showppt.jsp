@@ -27,7 +27,7 @@
 			int num=ru.getInt("num");
 			StringBuffer dataBuffer=new StringBuffer("[");
 			for(int i=0;i<num;i++){
-				if(i==num){
+				if(i==(num-1)){
 					dataBuffer.append("'/document/images/"+imagepath+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"'");
 				}else{
 					dataBuffer.append("'/document/images/"+imagepath+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"',");

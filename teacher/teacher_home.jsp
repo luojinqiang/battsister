@@ -13,7 +13,7 @@
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
 <link rel="stylesheet" href="/front_style/ppt_word/css/base.css">
 <link rel="stylesheet" href="/front_style/ppt_word/css/MPreview.css">
-
+ <script type="text/javascript" src="/front_style/ppt_word/js/MPreview.js"></script>
 </head>
 
 <body>
@@ -63,7 +63,7 @@
   	 <div class="title_r">课程标准</div>
   	 <div class="right_con">
           <div class="wrapper">
-        <div class="doc" id="doc" style="margin-left:-10px;width:800px;height:600px;margin-top:-30px;"></div>
+        <div class="doc" id="doc" style="margin-left:-10px;width:80%;height:600px;margin-top:-30px;"></div>
 	 </div>
 	 <script type="text/javascript">
 			var data=['/document/images/18-47-05_6642/test-0.png',
@@ -75,7 +75,6 @@
 			          '/document/images/18-47-05_6642/test-6.png',
 			          '/document/images/18-47-05_6642/test-7.png'];
 		</script>
-   <script type="text/javascript" src="/front_style/ppt_word/js/MPreview.js"></script>
    <script type="text/javascript">$('#doc').MPreview({ data: data });</script>
      </div>
   </div>

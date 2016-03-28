@@ -68,7 +68,7 @@
 												// Change window location to add URL params
 												if (window.history && history.pushState) {
 												  // NOTE: doesn't take into account existing params
-													history.replaceState("", "", "?" + base.options.param + "=" + listID);
+													//history.replaceState("", "", "?" + base.options.param + "=" + listID);
 												}    
                     });
                     
