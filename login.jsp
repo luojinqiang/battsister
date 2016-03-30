@@ -1,5 +1,6 @@
-<%@page import="com.battsister.teacher.TeacherApi"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
+<%@page import="com.battsister.student.StudentApi"%>
+<%@ page import="com.battsister.teacher.TeacherApi" %>
 <%@page contentType="text/html; charset=utf-8" %>
 <%
 	RequestUtil ru=new RequestUtil(request);
@@ -10,7 +11,8 @@
 			out.print(new TeacherApi().checkTeacherLogin(request));
 			return;
 		}else if(loginType==1){
-			
+            out.print(new StudentApi().checkStudentLogin(request));
+            return;
 		}
 	}
 %>
@@ -78,7 +80,7 @@
                     	<div class="l_input">
                         <input name="teacher_password" type="password" class="input_txt pw" placeholder="密码" />
                     	</div>
-                        <div class="botton_login fl"><a href="javascript:login();">登&nbsp;&nbsp;录</a></div>
+                        <div class="botton_login fl"><a href="javascript:login(0);">登&nbsp;&nbsp;录</a></div>
                         <div class="color_grey l_input"><a href="forget_password.html">忘记密码？</a></div>	  
                     </li>
                     <li>
@@ -88,7 +90,7 @@
                     	<div class="l_input">
                         	<input name="student_password" type="password" class="input_txt pw" placeholder="密码" />
                     	</div>
-                       <div class="botton_login fl"><a href="student_home.html">登&nbsp;&nbsp;录</a></div>
+                       <div class="botton_login fl"><a href="javascript:login(1);">登&nbsp;&nbsp;录</a></div>
                        <div class="color_grey l_input">忘记密码？请联系您的老师</div>	  
                   </li>
               </ul>
@@ -143,8 +145,7 @@
     </div>
 </div>
 <script type="text/javascript">
-	function login(){
-		var loginType=$("input[name=loginType]").val();
+	function login(loginType){
 		var loginName="";
 		var loginPassword="";
 		if(loginType==0){//教师登录
@@ -166,13 +167,13 @@
              dataType: "json",
              type: "post", 
              url: "login.jsp",
-             data: "action=login&loginType=" + loginType + "&loginName=" + loginName + "&loginPassword="+loginPassword, 
+             data: "action=login&loginType=" + loginType + "&loginName=" + loginName + "&loginPassword="+loginPassword,
              success: function (msg) {
                  if (msg.type) {
                     if(loginType==0){//教师登录
                     	window.location.href='/teacher/teacher_home.jsp';
                     }else if(loginType==1){//学生登录
-                    	
+                        window.location.href='/student/student_home.jsp';
                     }
                  } else {
                      alert(msg.msg);

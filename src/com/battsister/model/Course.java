@@ -235,6 +235,57 @@ public class Course{
 	            dbc.closeConn();
 	        }
     }
+
+
+	/**
+	 * 课程--学习指导编辑
+	 * @param request
+	 * @param userid
+	 * @param username
+     * @return
+     */
+	public JSONObject editLearningGuide(HttpServletRequest request, int userid, String username){
+		Dbc dbc = DbcFactory.getBbsInstance();
+		Base base = new Base();
+		JSONObject backjson = new JSONObject();
+		String ajaxRequest = "";
+		String logtitle = "API--课程--学习指导编辑";
+		try {
+			dbc.openConn("mysqlss");
+			base.setDbc(dbc);
+			ajaxRequest = AjaxXml.getParameterStr(request);
+			RequestUtil ru = new RequestUtil(request);
+			int id = ru.getInt("id");
+			Doc chapterDoc=base.executeQuery2Docs("select id from bs_course where id=? and isdel=0",new Object[]{id},1)[0];
+			if(chapterDoc==null||chapterDoc.isEmpty()){
+				backjson.put("type", false);
+				backjson.put("msg", "课程不存在");
+				return backjson;
+			}
+			String title=ru.getString("title");
+			String word_dir=ru.getString("word_dir");
+			int num=ru.getInt("num");
+			JSONObject json=new JSONObject();
+			if(word_dir!=null&&!"".equals(word_dir)){
+				json.put("title", title);
+				json.put("word_dir", word_dir);
+				json.put("num", num);
+			}
+			base.executeUpdate("update bs_course set learning_guide=? where id=? ",new Object[]{json.toString(),id});
+			Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+			backjson.put("type", true);
+			backjson.put("msg", "操作成功");
+			return backjson;
+		} catch (Exception e) {
+			e.printStackTrace();
+			LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+			backjson.put("type", false);
+			backjson.put("msg", "系统忙，请稍候再试");
+			return backjson;
+		} finally {
+			dbc.closeConn();
+		}
+	}
     /**
      * 课程--教案编辑
      * @param request

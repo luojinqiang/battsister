@@ -34,8 +34,8 @@ public class StudentApi {
             dbc.openConn();
             base.setDbc(dbc, false);
             long createTime = SetupUtil.getTimestamp("");
-            String user_name = ru.getString("user_name").trim();
-            String user_pwd = ru.getString("user_pwd").trim();
+            String user_name = ru.getString("loginName").trim();
+            String user_pwd = ru.getString("loginPassword").trim();
             if (user_name.equals("") || user_pwd.equals("")) {
                 backjson.put("type", false);
                 backjson.put("msg", "帐号、密码不能为空");
@@ -47,7 +47,7 @@ public class StudentApi {
                 backjson.put("msg", "帐号不存在");
                 return backjson;
             }
-            if (!"Y".equals(teacherDoc.getIn("account_status"))) {
+            if (!"Y".equals(teacherDoc.get("account_status"))) {
                 backjson.put("type", false);
                 backjson.put("msg", "帐号已被锁定");
                 return backjson;
@@ -66,7 +66,7 @@ public class StudentApi {
             }
             if (UserPasswordDes.equals(teacherDoc.get("password"))) {
                 base.executeUpdate("update bs_students set login_err_times=0,last_login_ip=?,last_login_time=? where id=?", new Object[]{ru.getIps(), createTime, teacherDoc.getI("id")});
-                Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "教师登录成功", user_name, teacherDoc.getIn("id"), ru.getIps(), 0, base);
+                Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "学生登录成功", user_name, teacherDoc.getIn("id"), ru.getIps(), 0, base);
                 backjson.put("type", true);
                 backjson.put("msg", "登陆成功");
                 //将用户的登录信息放到session中，
@@ -75,6 +75,7 @@ public class StudentApi {
                 session.setAttribute("student_id",teacherDoc.getIn("id"));
                 session.setAttribute("student_name",teacherDoc.get("name"));
                 session.setAttribute("username",teacherDoc.get("username"));
+                session.setAttribute("last_login_time", AjaxXml.timeStamp2Date(teacherDoc.getIn("last_login_time"), "YY04-MM-DD HH:MI:SS"));
             } else {
                 shengxia = 5 - login_err;
                 if (login_err + 1 == 6) {

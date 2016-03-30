@@ -1,10 +1,11 @@
-<%@page import="com.battsister.util.BasicType"%>
+<%@page import="com.baje.sz.ajax.AjaxXml"%>
 <%@ page contentType="text/html; charset=utf-8" %>
+<%@ page import="com.baje.sz.util.Doc" %>
+<%@ page import="com.baje.sz.util.RequestUtil" %>
+<%@ page import="com.battsister.util.BasicType" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.baje.sz.ajax.*" %>
-<%@ page import="com.baje.sz.util.*" %>
 <%@ include file="../ini_sys.jsp" %>
 <%
     response.setHeader("Pragma", "No-cache");
@@ -89,9 +90,9 @@
                     <th width="4%">&nbsp;</th>
                     <th width="15%">课程名称</th>
                    <!--  <th width="8%">介绍</th> -->
-                    <th width="15%">图片</th>
-                    <th width="15%">是否推荐到首页</th>
-                    <th width="15%">添加时间</th>
+                    <th width="10%">图片</th>
+                    <th width="10%">是否推荐到首页</th>
+                    <th width="13%">添加时间</th>
                     <th width="">操作</th>
                 </tr>
                 <%
@@ -131,7 +132,8 @@
                     <td><a href="javascript:window.parent.jianyi2('course/chapters.jsp?course_id=<%=doc.getIn("id")%>','章节')">章节</a>&nbsp;&nbsp;&nbsp;
                     <a href="javascript:editPracticalWord('<%=doc.getIn("id")%>','实训文档')">实训文档</a>&nbsp;&nbsp;
                     <a href="javascript:editPracticalVideo('<%=doc.getIn("id")%>','实训视频')">实训视频</a>&nbsp;&nbsp;&nbsp;
-                     <a href="javascript:editTeachingGuide('<%=doc.getIn("id")%>','教学指南')">教学指南</a>&nbsp;&nbsp;&nbsp;
+                        <a href="javascript:editTeachingGuide('<%=doc.getIn("id")%>','教学指南')">教学指南</a>&nbsp;&nbsp;&nbsp;
+                        <a href="javascript:editLearningGuide('<%=doc.getIn("id")%>','学习指导')">学习指导</a>&nbsp;&nbsp;&nbsp;
                       <a href="javascript:editTeachingPlan('<%=doc.getIn("id")%>','教案')">教案</a>&nbsp;&nbsp;&nbsp;
                        <a href="javascript:editTeachingEvalution('<%=doc.getIn("id")%>','教学评价')">教学评价</a>&nbsp;&nbsp;&nbsp;
                     <a href="javascript:editCourse('<%=doc.get("id")%>','编辑课程')">编辑</a>&nbsp;&nbsp;&nbsp;
@@ -279,6 +281,9 @@
     }
     function editTeachingGuide(id, title) {
         openurl('teaching_guide_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+    }
+    function editLearningGuide(id, title) {
+        openurl('learning_guide_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
     }
     function editTeachingPlan(id, title) {
         openurl('teaching_plan_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);

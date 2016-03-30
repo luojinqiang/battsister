@@ -1,7 +1,6 @@
-<%@page import="com.g.Tojpg.Pdf2Jpg"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
-<%@page import="java.io.File"%>
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@page import="com.g.Tojpg.Pdf2Jpg"%>
+<%@ page language="java" pageEncoding="utf-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
