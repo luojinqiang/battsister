@@ -127,7 +127,7 @@ public class TeacherApi {
                  return backjson;
             }
             String name=ru.getString("name");
-            String mobile=ru.getString("mobile");
+            String email=ru.getString("email");
             String password=ru.getString("password");
             String password_comfirm=ru.getString("password_comfirm");
             int sex=ru.getInt("sex");
@@ -136,18 +136,18 @@ public class TeacherApi {
                  backjson.put("msg", "姓名不能为空");
                  return backjson;
             }
-            if(mobile==null||mobile.equals("")){
+            if(email==null||email.equals("")){
             	 backjson.put("type", false);
-                 backjson.put("msg", "手机号码不能为空");
+                 backjson.put("msg", "邮箱地址不能为空");
                  return backjson;
-            }else if(!AjaxXml.checkPhone2(mobile)){
+            }else if(!AjaxXml.checkEmail(email)){
             	 backjson.put("type", false);
-                 backjson.put("msg", "手机号码格式不正确");
+                 backjson.put("msg", "邮箱地址格式不正确");
                  return backjson;
             }
             Doc updateDoc=new Doc();
             updateDoc.put("name",name);
-            updateDoc.put("mobile", mobile);
+            updateDoc.put("email", email);
             updateDoc.put("sex", sex);
             if(password!=null&&!password.trim().equals("")){
             	if(!password.equals(password_comfirm)){

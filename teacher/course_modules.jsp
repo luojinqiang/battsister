@@ -9,10 +9,12 @@
 	Selectic selectic=new Selectic();
 	if(teacher_id==null){
 		out.print("	<script>alert(\"请先登录\");window.location.href='/login.jsp';</script>");
+		return;
 	}
 	Doc teacherDoc=selectic.Get_Doc("id,course_flag", "bs_teachers", " where id=? ","mysqlss",new Object[]{teacher_id});
 	if(teacherDoc==null||teacherDoc.isEmpty()){
 		out.print("	<script>alert(\"请先登录\");window.location.href='/login.jsp';</script>");
+		return;
 	}
 	JSONArray course_array=new JSONArray();
 	if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag"))){

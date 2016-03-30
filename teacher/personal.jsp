@@ -15,9 +15,10 @@
 	if(teacher_id==null){
 		out.print("	<script>alert(\"请先登录\");window.location.href='/login.jsp';</script>");
 	}
-	Doc teacherDoc=selectic.Get_Doc("name,username,sex,mobile", "bs_teachers", " where id=? ","mysqlss",new Object[]{teacher_id});
+	Doc teacherDoc=selectic.Get_Doc("name,username,sex,email", "bs_teachers", " where id=? ","mysqlss",new Object[]{teacher_id});
 	if(teacherDoc==null||teacherDoc.isEmpty()){
 		out.print("	<script>alert(\"请先登录\");window.location.href='/login.jsp';</script>");
+		return;
 	}
 %>
 <!doctype html>
@@ -85,8 +86,8 @@
             <div class="clear"></div>
         </div> -->
         <div class="input_c">
-            <div class="input_word">联系电话</div>
-            <div class="input_text"><input name="mobile" value="<%=teacherDoc.get("mobile")%>" type="text" class="input_k"  placeholder="<%=teacherDoc.get("mobile")%>"></div>
+            <div class="input_word">邮箱地址</div>
+            <div class="input_text"><input name="email" value="<%=teacherDoc.get("email")%>" type="text" class="input_k"  placeholder="<%=teacherDoc.get("email")%>"></div>
             <div class="clear"></div>
         </div>
         <div class="input_c">
@@ -111,20 +112,20 @@
 	function checkParam(){
 		var name=$("input[name=name]").val();
 		var sex=$("#sex").val();
-		var mobile=$("input[name=mobile]").val();
+		var email=$("input[name=email]").val();
 		var password=$("input[name=password]").val();
 		var password_comfirm=$("input[name=password_comfirm]").val();
 		if(name==""||name==undefined){
 			alert("请输入您的姓名");
 			return;
 		}
-		if(mobile==""||mobile==undefined){
-			alert("请输入您的电话号码");
+		if(email==""||email==undefined){
+			alert("请输入您的邮箱地址");
 			return;
 		}else{
 			var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/; 
-			if(!myreg.test(mobile)){
-				alert("请输入正确格式的手机号");
+			if(!myreg.test(email)){
+				alert("请输入正确格式的邮箱地址");
 				return false;
 			}
 		}
@@ -143,7 +144,7 @@
             dataType: "json",
             type: "post", 
             url: "personal.jsp",
-            data: "action=update&name="+name+"&sex="+sex+"&mobile="+mobile+"&password="+password+"&password_comfirm="+password_comfirm, 
+            data: "action=update&name="+name+"&sex="+sex+"&email="+email+"&password="+password+"&password_comfirm="+password_comfirm, 
             success: function (msg) {
                 if (msg.type) {
                   	alert("更新成功");

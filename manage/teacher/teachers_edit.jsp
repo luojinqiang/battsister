@@ -22,10 +22,10 @@
     	out.print(teacher.editTeacher(request, user_id, user_name));
     	return;
     }
-	String name="",username="",headpic="",account_status="",mobile="";
+	String name="",username="",headpic="",account_status="",email="";
 	int sex=0,birth=0,school_id=0;
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("name,username,headpic,sex,birth,mobile,account_status,school_id", "bs_teachers", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+        Doc doc = utildb.Get_Doc("name,username,headpic,sex,birth,email,account_status,school_id", "bs_teachers", " where id=? and isdel=0", "mysqlss", new Object[]{id});
         if (doc == null) {
             out.print("信息不存在");
             return;
@@ -37,7 +37,7 @@
         	birth=doc.getIn("birth");
         	account_status=doc.get("account_status");
         	school_id=doc.getIn("school_id");
-        	mobile=doc.get("mobile");
+        	email=doc.get("email");
         }
     }
 %>
@@ -97,8 +97,8 @@
             <input name="action" id="action" type="hidden" value="save"/>
 
             <ul class="row3 clearfix">
-                <li>登录帐号：<input type="text" name="username" value="<%=username%>" />（字母或数字）</li>
-                <li>会员名称：<input type="text" value="<%=name%>" name="name"/></li>
+                <li>登录帐号：<input type="text" name="username" value="<%=username%>" style="width: 100px;"/>（字母或数字）</li>
+                <li>会员名称：<input type="text" value="<%=name%>" name="name" style="width: 100px;"/></li>
                 <li>账号状态：
                 	<select name="account_status">
                 		<option value="Y" <%="Y".equals(account_status)?"selected=\"selected\"":""%> >--正常--</option>
@@ -149,7 +149,7 @@
             </ul>
             <ul class="row1 clearfix">
             	 <li>
-            	手机号码：<input  type="text" name="mobile" value="<%=mobile%>" />
+            	邮箱地址：<input  type="text" name="email" value="<%=email%>" />
             </li>
             </ul>
             <ul class="row1 clearfix">
