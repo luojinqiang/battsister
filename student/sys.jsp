@@ -10,6 +10,7 @@
     Object student_id = session.getAttribute("student_id");
     Object student_name = session.getAttribute("student_name");
     Object last_login_time = session.getAttribute("last_login_time");
+    Object username = session.getAttribute("username");
     if (student_id == null) {
         out.print("	<script>alert(\"请先登录\");window.location.href='/login.jsp';</script>");
         return;

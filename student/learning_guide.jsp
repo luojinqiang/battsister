@@ -48,7 +48,7 @@
                 <%
                     if (courseList != null && !courseList.isEmpty()) {
                         for (Doc doc : courseList) {
-                            out.print("<li><h5 class=\"selected\" onclick=\"javascript:showPdf(this);\" data=" + doc.get("learning_guide") + "><a>" + doc.get("name") + "</a></h5></li>");
+                            out.print("<li><h5 onclick=\"javascript:showPdf(this);\" data=" + doc.get("learning_guide") + "><a>" + doc.get("name") + "</a></h5></li>");
                         }
                     }
                 %>
@@ -61,8 +61,8 @@
     <div class="right_w">
         <div class="right_con">
 
-            <div class="wrapper">
-                <div class="doc" id="doc" style="margin-left:-10px;width:800px;height:600px;margin-top:-30px;"></div>
+            <div class="">
+                <div class="doc" id="doc" style="margin-left:-19px;margin-top:-20px;width:818px;height:600px;"></div>
                 <!--  <div class="ppt" id="ppt" style="margin-left:-10px;width:800px;height:600px;margin-top:-30px;"></div>-->
             </div>
 
@@ -72,17 +72,17 @@
 </div>
 <script type="text/javascript" src="../front_style/ppt_word/js/MPreview.js"></script>
 <script type="text/javascript">
-    var data=[];
     function showPdf(obj) {
+        var data=[];
+        $('.selected').attr('class', '');
+        $(obj).attr('class', 'selected');
         var json = eval('('+$(obj).attr("data")+')');
         var url = json.word_dir;
         var num = json.num;
-        console.log(url);
         for (var i = 1; i <= num; i ++) {
             data.push('/document/images/' + url + '/test-'+(i - 1)+'.png');
         }
-        console.log(data);
-        $('#doc').MPreview({ data: data });
+        $('#doc').html('').MPreview({ data: data });
     }
 </script>
 <jsp:include page="footer.jsp"></jsp:include>
