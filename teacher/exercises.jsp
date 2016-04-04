@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="net.sf.json.JSONObject"%>
 <%@page import="net.sf.json.JSONArray"%>
 <%@page import="com.baje.sz.util.Doc"%>
@@ -18,7 +20,11 @@ if(teacherDoc==null||teacherDoc.isEmpty()){
 	out.print("	<script>alert(\"请先登录\");window.location.href='/login.jsp';</script>");
 	return;
 }
-JSONArray course_array=new JSONArray();
+JSONArray course_array=new JSONArray();//老师拥有的课程
+StringBuffer wenhao=new StringBuffer();
+List valueList=new ArrayList();
+int pages=ru.getInt("pages");//页码
+pages=pages==0?1:pages;
 if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag"))){
 	JSONArray hasArray=JSONArray.fromObject(teacherDoc.get("course_flag"));
 	if(hasArray!=null){
@@ -44,6 +50,8 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 								chapterJson.put("name",chapterDoc.get("name"));
 								chapter_array.add(chapterJson);
 							}
+			             	wenhao.append("?,");
+			             	valueList.add(chapterDoc.getIn("id"));
 						}
 					}
 					course_json.put("chapter_array", chapter_array);
@@ -53,42 +61,48 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 		}
 	}
 }
+//习题库
+String table="bs_exercise_library a left join bs_course b on a.course_id=b.id left join bs_chapter c on a.chapter_id=c.id";
+String file="a.id,b.name as 'course_name',c.name as 'chapter_name'";
+String wheres="a.isdel=0 and a.chapter_id in ("+(wenhao.length()>0?wenhao.substring(0,wenhao.length()-1):"")+")";
+int counts=selectic.Get_count("a.id",table,wheres, "mysqlss",valueList);
+List<Doc> exeList=selectic.Get_List(pages,5, counts,table,wheres,file," order by a.course_id desc ","mysqlss",valueList);
+int page_size=selectic.getPageSize(counts,5);
 %>
 <!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
-<title>我要备课</title>
+<title>习题库</title>
 <meta name="keywords"  content="#" />
 <meta name="description" content="#" />
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/front_style/ppt_word/css/base.css">
-<link rel="stylesheet" href="/front_style/ppt_word/css/MPreview.css">
- <script type="text/javascript" src="/front_style/ppt_word/js/MPreview.js"></script>
 </head>
-
 <body>
+<!--=== Header ===-->
 <!-- 引入头部 -->
 <jsp:include page="head.jsp">
 	<jsp:param value="1" name="type"/>
 </jsp:include>
+<!--=== End Header ===-->
 <!-- 引入第二个头部 -->
 <%@include file="head1.jsp" %>
+
 <div class="container">
   <div class="left_nav">
       <div class="operate">
         <ul id="juheweb">
         <h3>课程体系</h3>
           <li>
-            <h5 class="selected"><a href="teacher_home.jsp">课程标准</a></h5>
+            <h5><a href="teacher_home.jsp">课程标准</a></h5>
           </li>
           <li >
             <h5><a href="course_modules.jsp">课程模块</a></h5>
           </li>
          <h3>教学资源</h3>
-        <%
+       	 <%
          for(int i=0;i<course_array.size();i++){
          		JSONObject course_json=course_array.getJSONObject(i);
          		JSONArray chapter_array=course_json.optJSONArray("chapter_array");
@@ -113,7 +127,7 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
          	%>
           <h3>习题库</h3>
           <li>
-            <h5><a href="exercises.jsp">习题库</a></h5>
+            <h5 class="selected"><a href="exercises.jsp">习题库</a></h5>
           </li>
         </ul>
         <script type="text/javascript" language="javascript">
@@ -122,22 +136,34 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
       </div>
   </div>
   <div class="right_w">
-  	 <div class="title_r">课程标准</div>
+  	 <div class="title_r">习题库</div>
   	 <div class="right_con">
-          <div class="wrapper">
-        <div class="doc" id="doc" style="margin-left:-10px;width:80%;height:600px;margin-top:-30px;"></div>
-	 </div>
-	 <script type="text/javascript">
-			var data=['/document/images/18-47-05_6642/test-0.png',
-			          '/document/images/18-47-05_6642/test-1.png',
-			          '/document/images/18-47-05_6642/test-2.png',
-			          '/document/images/18-47-05_6642/test-3.png',
-			          '/document/images/18-47-05_6642/test-4.png',
-			          '/document/images/18-47-05_6642/test-5.png',
-			          '/document/images/18-47-05_6642/test-6.png',
-			          '/document/images/18-47-05_6642/test-7.png'];
-		</script>
-   <script type="text/javascript">$('#doc').MPreview({ data: data });</script>
+  	 <%
+  	 	if(exeList!=null&&exeList.size()>0){
+  	 		for(Doc doc:exeList){
+  	 			%>
+  	 			 <div class="mod">
+           			<div class="mod_word">
+              			<h3><%=doc.get("course_name")%>-<%=doc.get("chapter_name")%>&nbsp;习题</h3>
+               		</div>
+               		<div class="mod_botton"><a href="exercises_details.jsp?exe_id=<%=doc.getIn("id")%>">查看详情</a></div>
+                	<div class="clear"></div>
+          		 </div>	
+  	 			<%
+  	 		}
+  	 	}else{
+  	 		out.print("暂无习题");
+  	 	}
+  	 %>
+           <ul class="pre">
+                <li><a href="#"><</a></li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li class="active_pre"><a href="#">5</a></li>
+                <li><a href="#">></a></li>
+            </ul>
      </div>
   </div>
   <div class="clear"></div>

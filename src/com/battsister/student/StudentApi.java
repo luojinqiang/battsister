@@ -34,7 +34,7 @@ public class StudentApi {
         try {
             dbc.openConn();
             base.setDbc(dbc, false);
-            long createTime = SetupUtil.getTimestamp("");
+            long createTime = AjaxXml.getTimestamp("now");
             String user_name = ru.getString("loginName").trim();
             String user_pwd = ru.getString("loginPassword").trim();
             if (user_name.equals("") || user_pwd.equals("")) {
@@ -76,7 +76,7 @@ public class StudentApi {
                 session.setAttribute("student_id",studentDoc.getIn("id"));
                 session.setAttribute("student_name",studentDoc.get("name"));
                 session.setAttribute("username",studentDoc.get("username"));
-                session.setAttribute("last_login_time", AjaxXml.timeStamp2Date(studentDoc.get("last_login_time"), "YY04-MM-DD HH:MI"));
+                session.setAttribute("last_login_time", AjaxXml.timeStamp2Date(studentDoc.getIn("last_login_time"), "YY04-MM-DD HH:MI"));
             } else {
                 shengxia = 5 - login_err;
                 if (login_err + 1 == 6) {

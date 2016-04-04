@@ -136,6 +136,7 @@
                     }
                  } else {
                      alert(msg.msg);
+                     return false;
                  }
              }
          });

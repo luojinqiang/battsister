@@ -246,9 +246,11 @@
                             href="javascript:editanimation('<%=doc.get("id")%>','动画')">动画</a>&nbsp;&nbsp;
                               <a
                             href="javascript:editPics('<%=doc.get("id")%>','图片')">图片</a>&nbsp;&nbsp;
+                            <a 
+                            href="javascript:editEL('<%=doc.get("course_id")%>','<%=doc.get("id")%>','习题')">习题</a>
                             </td>
                             
-                    <td><a href="javascript:editEL('<%=doc.get("course_id")%>','<%=doc.get("id")%>','习题')">习题</a>
+                    <td>
                         <a href="javascript:editChapter('<%=doc.get("id")%>','<%=course_id%>','编辑章节')">编辑</a> <a
                             href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>

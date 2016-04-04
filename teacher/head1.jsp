@@ -1,5 +1,5 @@
-<%@page import="com.baje.sz.ajax.AjaxXml"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
+<%@page import="com.baje.sz.ajax.AjaxXml"%>
 <%@page contentType="text/html; charset=utf-8" %>
 <%
 	int last_login_time=0;
@@ -12,9 +12,11 @@
 	}
 	int now=Integer.parseInt(AjaxXml.Get_Date("now","HH"));
 	String nowString="上午好";
-	if(now>5&&now<8){
+	if(now>0&&now<9){
 		nowString="早上好";
 	}else if(now>12&&now<18){
+		nowString="下午好";
+	}else if(now>=18&&now<24){
 		nowString="晚上好";
 	}
 %>

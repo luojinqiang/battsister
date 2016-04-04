@@ -1,3 +1,4 @@
+<%@page import="com.battsister.util.BasicType"%>
 <%@page import="com.g.Tojpg.Pdf2Jpg"%>
 <%@page import="net.sf.json.JSONObject"%>
 <%@page import="com.baje.sz.util.Doc"%>
@@ -23,9 +24,9 @@
 			String word_dir=json.optString("word_dir");
 			for(int i=0;i<num;i++){
 				if(i==(num-1)){
-					teachingGuideBuffer.append("'/document/images/"+word_dir+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"'");
+					teachingGuideBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"'");
 				}else{
-					teachingGuideBuffer.append("'/document/images/"+word_dir+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"',");
+					teachingGuideBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"',");
 				}
 			}
 		}
@@ -37,9 +38,9 @@
 			String word_dir=json.optString("word_dir");
 			for(int i=0;i<num;i++){
 				if(i==(num-1)){
-					teachingEvalutionBuffer.append("'/document/images/"+word_dir+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"'");
+					teachingEvalutionBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"'");
 				}else{
-					teachingEvalutionBuffer.append("'/document/images/"+word_dir+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"',");
+					teachingEvalutionBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"',");
 				}
 			}
 		}
@@ -51,9 +52,9 @@
 			String word_dir=json.optString("word_dir");
 			for(int i=0;i<num;i++){
 				if(i==(num-1)){
-					teachingPlanBuffer.append("'/document/images/"+word_dir+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"'");
+					teachingPlanBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"'");
 				}else{
-					teachingPlanBuffer.append("'/document/images/"+word_dir+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"',");
+					teachingPlanBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"',");
 				}
 			}
 		}
