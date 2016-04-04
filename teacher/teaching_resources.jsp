@@ -46,9 +46,9 @@
 									chapter_array.add(chapterJson);
 									if(chapter_id==chapterDoc.getIn("id")){
 										getDoc=new Doc();//说明该章节存在老师拥有的课程中
-										getDoc.put("id",chapterDoc.getIn("id"));
+										getDoc.put("id",chapterDoc.get("id"));
 										getDoc.put("name",chapterDoc.get("name"));
-										getDoc.put("course_id",chapterDoc.getIn("course_id"));
+										getDoc.put("course_id",chapterDoc.get("course_id"));
 										getDoc.put("video_path",chapterDoc.get("video_path"));
 										getDoc.put("animation_path",chapterDoc.get("animation_path"));
 										getDoc.put("pics",chapterDoc.get("pics"));
