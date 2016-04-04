@@ -5,7 +5,6 @@
 <%@page import="com.baje.sz.util.Selectic"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%
-	RequestUtil ru=new RequestUtil(request);
 	Object teacher_id=session.getAttribute("teacher_id");
 	Selectic selectic=new Selectic();
 	if(teacher_id==null){

@@ -36,6 +36,7 @@ import com.baje.sz.util.AppConf;
 import com.baje.sz.util.FileUtil;
 import com.baje.sz.util.Magick;
 import com.baje.sz.util.RequestUtil;
+import com.g.Tojpg.Pdf2Jpg;
 import com.g.Tojpg.PdfToPng;
 import com.soft4j.httpupload4j.SmartUpload;
 
@@ -591,8 +592,8 @@ public class swfUpfile {
                 	if(!ppt_image_file.exists()){
                 		ppt_image_file.mkdirs();
                 	}
-                	//int ppt_num=new Pdf2Jpg().tranfer(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/");
-                	int ppt_num=PdfToPng.pdfToPng(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/");
+                	int ppt_num=new Pdf2Jpg().tranfer(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/");
+                	//int ppt_num=PdfToPng.pdfToPng(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/");
                 	backjson.put("num",ppt_num);//ppt图片张数
                 	file_readme=file_name;
                 }

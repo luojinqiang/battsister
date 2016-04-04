@@ -24,7 +24,7 @@ var global_obj = {
         var fileSize = (typeof(arguments[8]) == 'undefined') ? 20480: arguments[8];
         var imgSize = (typeof(arguments[9]) == 'undefined') ? 100 : arguments[9];
         file_input_obj.omFileUpload({
-            action: 'http://www.evcaredu.com/manage/upfile.jsp',
+            action: '/manage/upfile.jsp',
             actionData: {
                 do_action: 'action.file_upload',
                 size: size
