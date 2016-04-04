@@ -92,7 +92,7 @@
                 <div class="clear"></div>
             </div>
             <div class="input_c">
-                <div class="botton2"><a href="#" onclick="userSave(this);">确认修改</a></div>
+                <div class="botton2"><a href="javascript:void(0)" onclick="userSave(this);">确认修改</a></div>
             </div>
         </div>
     </form>
@@ -105,13 +105,15 @@
 
 <script>
     function userSave(obj) {
-        if(global_obj.check_form($('*[notnull]'))){return false}
+        if(global_obj.check_form($('*[notnull]'))){return false;}
         $(obj).html('提交中...').attr('onclick', 'void(0);');
         $.post('?',$('#userInfo').serialize(),function (data) {
-            $(obj).html(data.msg);
-            setTimeout(function () {
-                $(obj).attr('onclick', 'userSave(this);').html('确认修改');
-            }, 3000);
+        	if(data.type){
+        		alert(data.msg);
+        		window.location.href='student_home.jsp';
+        	}else{
+        		alert(data.msg);
+        	}
         },'json');
     }
 </script>

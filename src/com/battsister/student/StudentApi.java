@@ -119,7 +119,7 @@ public class StudentApi {
         JSONObject backjson = new JSONObject();
         try {
             dbc.openConn();
-            base.setDbc(dbc, false);
+            base.setDbc(dbc);
             String name = ru.getString("name").trim();
             String password = ru.getString("password").trim();
             String mobile = ru.getString("mobile").trim();
@@ -132,12 +132,10 @@ public class StudentApi {
                 doc.put("password", new KeyBean().getkeyBeanofStr(password).toLowerCase());
             }
             base.updateById("bs_students", doc, student_id);
-            base.commit();
             backjson.put("type", true);
             backjson.put("msg", "更新成功");
             return backjson;
         } catch (Exception e) {
-            base.rollback();
             e.printStackTrace();
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
             backjson.put("type", true);
