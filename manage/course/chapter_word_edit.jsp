@@ -166,7 +166,7 @@
                         + imgpath + '" /><input type="hidden" name="num" value="'+num+'"/></div>';
                     $('#smallfileDetail').append(append);
                     $('#smallfileDetail div div').off('click').on('click', function () {
-                        $(this).parent().remove();
+                        $(this).parent().parent().remove();
                     });
                 };
                 if ($('#smallfileUpload').size()) {
@@ -187,7 +187,7 @@
 	$(document).ready(function (){
 		$('#smallfileDetail').append('<%=addBuffer%>');
 		 $('#smallfileDetail div div').off('click').on('click', function () {
-             $(this).parent().remove();
+             $(this).parent().parent().remove();
          });
 	});
 </script>
