@@ -145,7 +145,7 @@
            <script type="text/javascript">
              
                 var callback = function (imgpath,num) {
-                	var html= "<div><a href=\"/manage/showword.jsp?imgpath="+imgpath+"&num="+num+"\" target=\"_blank\"><img src=\"/document/images/"+imgpath+"/test-0<%=Pdf2Jpg.SUFF_IMAGE%>"+
+                	var html= "<div><a href=\"/manage/showword.jsp?imgpath="+imgpath+"&num="+num+"\" target=\"_blank\"><img src=\"<%-- /document/images/'+imgpath+'/test-0<%=Pdf2Jpg.SUFF_IMAGE%> --%>/images/test.jpg"+
                         "\" height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"word_dir\" value=\""+imgpath+"\"/><input type=\"hidden\" name=\"num\" value=\""+num+"\"/></div>";
                     $('#smallfileDetail').html(html);
                     $('#smallfileDetail div div').off('click').on('click', function () {
