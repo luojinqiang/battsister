@@ -222,6 +222,36 @@ public class BasicType {
  }
  
  /**
+  * 获取选项
+  * @param i
+  * @return
+  */
+ public  static String getOption(int i){
+	 String opt="";
+	switch (i) {
+	case 0:
+		opt= "A";
+		break;
+	case 1:
+		opt="B";
+		break;
+	case 2:
+		opt= "C";
+		break;
+	case 3:
+		opt= "D";
+		break;
+	case 4:
+		opt= "E";
+		break;
+	default:
+		opt= "";
+		break;
+	}
+	return opt;
+ }
+ 
+ /**
   * 获取七牛的凭证
   * @return
   */

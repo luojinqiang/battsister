@@ -1,3 +1,4 @@
+<%@page import="com.battsister.util.BasicType"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="net.sf.json.JSONObject"%>
@@ -21,10 +22,6 @@ if(teacherDoc==null||teacherDoc.isEmpty()){
 	return;
 }
 JSONArray course_array=new JSONArray();//老师拥有的课程
-StringBuffer wenhao=new StringBuffer();
-List valueList=new ArrayList();
-int pages=ru.getInt("pages");//页码
-pages=pages==0?1:pages;
 if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag"))){
 	JSONArray hasArray=JSONArray.fromObject(teacherDoc.get("course_flag"));
 	if(hasArray!=null){
@@ -50,8 +47,6 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 								chapterJson.put("name",chapterDoc.get("name"));
 								chapter_array.add(chapterJson);
 							}
-			             	wenhao.append("?,");
-			             	valueList.add(chapterDoc.getIn("id"));
 						}
 					}
 					course_json.put("chapter_array", chapter_array);
@@ -62,12 +57,38 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 	}
 }
 //习题库
-String table="bs_exercise_library a left join bs_course b on a.course_id=b.id left join bs_chapter c on a.chapter_id=c.id";
-String file="a.id,b.name as 'course_name',c.name as 'chapter_name'";
-String wheres="a.isdel=0 and a.chapter_id in ("+(wenhao.length()>0?wenhao.substring(0,wenhao.length()-1):"")+")";
-int counts=selectic.Get_count("a.id",table,wheres, "mysqlss",valueList);
-List<Doc> exeList=selectic.Get_List(pages,5, counts,table,wheres,file," order by a.course_id desc ","mysqlss",valueList);
-int page_size=selectic.getPageSize(counts,5);
+int pages=ru.getInt("pages");//页码
+pages=pages==0?1:pages;
+int chapter_id=ru.getInt("chapter_id");
+List<Doc> exeList=null;
+int page_size=0;
+int course_id=0;
+int counts=0;
+int pn=5;//每页几个题目
+if(chapter_id>0){
+	Doc chapterDoc=selectic.Get_Doc("id,course_id", "bs_chapter", "where isdel=0 and id=?","mysqlss",new Object[]{chapter_id});
+	if(chapterDoc==null||chapterDoc.isEmpty()){
+		out.print("	<script>alert(\"该课程不存在\");window.location.href='/teacher/exercises.jsp';</script>");
+		return;
+	}
+	course_id=chapterDoc.getIn("course_id");//该章节所属的课程id
+	List valueList=new ArrayList();
+	valueList.add(chapter_id);
+	String table="bs_exercise_library";
+	String file="id,name,name_pic,type,order_num,thoughts";
+	String wheres="isdel=0 and chapter_id=? ";
+	counts=selectic.Get_count("id",table,wheres, "mysqlss",valueList);
+	exeList=selectic.Get_List(pages,pn, counts,table,wheres,file," order by order_num desc ","mysqlss",valueList);
+	page_size=selectic.getPageSize(counts,pn);
+	if(exeList!=null){
+		for(Doc doc:exeList){
+			List<Doc> opt_List=selectic.Get_List("name,pic,is_answer,order_num", "bs_exercise_option", " where isdel=0 and exercise_library_id=? ","mysqlss",new Object[]{doc.getIn("id")});
+			opt_List=opt_List==null?new ArrayList():opt_List;
+			doc.putO("opt_list",opt_List);
+		}
+	}
+	exeList=exeList==null?new ArrayList():exeList;
+}
 %>
 <!doctype html>
 <html>
@@ -79,6 +100,28 @@ int page_size=selectic.getPageSize(counts,5);
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
+<script type="text/javascript">
+//=点击展开关闭效果=
+function open_zzjs_net(oSourceObj,oTargetObj,shutAble,oOpenTip,oShutTip){
+var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
+var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+var openTip = oOpenTip || "";
+var shutTip = oShutTip || "";
+if(targetObj.style.display!="none"){
+   if(shutAble) return;
+   targetObj.style.display="none";
+   if(openTip  &&  shutTip){
+    sourceObj.innerHTML = shutTip;
+   }
+} else {
+   targetObj.style.display="block";
+   if(openTip  &&  shutTip){
+    sourceObj.innerHTML = openTip;
+   }
+}
+}
+</script>
+
 </head>
 <body>
 <!--=== Header ===-->
@@ -94,14 +137,7 @@ int page_size=selectic.getPageSize(counts,5);
   <div class="left_nav">
       <div class="operate">
         <ul id="juheweb">
-        <h3>课程体系</h3>
-          <li>
-            <h5><a href="teacher_home.jsp">课程标准</a></h5>
-          </li>
-          <li >
-            <h5><a href="course_modules.jsp">课程模块</a></h5>
-          </li>
-         <h3>教学资源</h3>
+         <h3 style="background-color:#2490eb;color: #fff;">习题库</h3>
        	 <%
          for(int i=0;i<course_array.size();i++){
          		JSONObject course_json=course_array.getJSONObject(i);
@@ -109,13 +145,13 @@ int page_size=selectic.getPageSize(counts,5);
          %>
          	<li>
             	<h4><%=course_json.optString("name")%></h4>
-            		<div class="list-item none">
+            		<div class="list-item<%=course_id==course_json.optInt("id")?"":" none"%>">
               			<%
               				if(chapter_array!=null){
               					for(int j=0;j<chapter_array.size();j++){
               						JSONObject chapter_json=chapter_array.getJSONObject(j);
               						%>
-              						<p><a href="teaching_resources.jsp?chapter_id=<%=chapter_json.optInt("id")%>" target="_blank"><%=chapter_json.optString("name")%></a></p>
+              						<p <%=chapter_id==chapter_json.optInt("id")?"class=\"on\"":""%>><a href="exercises.jsp?chapter_id=<%=chapter_json.optInt("id")%>"><%=chapter_json.optString("name")%></a></p>
               						<%
               					}
               				}
@@ -125,48 +161,96 @@ int page_size=selectic.getPageSize(counts,5);
          			<%
          		}
          	%>
-          <h3>习题库</h3>
-          <li>
-            <h5 class="selected"><a href="exercises.jsp">习题库</a></h5>
-          </li>
         </ul>
         <script type="text/javascript" language="javascript">
 			navList(12);
 		</script>
       </div>
   </div>
-  <div class="right_w">
-  	 <div class="title_r">习题库</div>
-  	 <div class="right_con">
-  	 <%
-  	 	if(exeList!=null&&exeList.size()>0){
-  	 		for(Doc doc:exeList){
-  	 			%>
-  	 			 <div class="mod">
-           			<div class="mod_word">
-              			<h3><%=doc.get("course_name")%>-<%=doc.get("chapter_name")%>&nbsp;习题</h3>
-               		</div>
-               		<div class="mod_botton"><a href="exercises_details.jsp?exe_id=<%=doc.getIn("id")%>">查看详情</a></div>
-                	<div class="clear"></div>
-          		 </div>	
-  	 			<%
-  	 		}
-  	 	}else{
-  	 		out.print("暂无习题");
-  	 	}
-  	 %>
-           <ul class="pre">
-                <li><a href="#"><</a></li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li class="active_pre"><a href="#">5</a></li>
-                <li><a href="#">></a></li>
-            </ul>
-     </div>
-  </div>
-  <div class="clear"></div>
+ <div class="right_w">
+    <%
+    	if(chapter_id==0){
+    		%>
+    		 <p>
+	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
+	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
+	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
+	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
+	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
+	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
+	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
+	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
+	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
+  		</p>
+    		<%
+    	}else{
+    		int size=exeList.size();
+    		%>
+   <div class="title_r">习题库<em>共<%=counts%>题</em></div>
+   <%
+   	for(int i=0;i<size;i++){
+   		Doc questionDoc=exeList.get(i);
+   %>
+   	 <div class="ex_one">
+        <div class="ex_one_title"><em><%=questionDoc.getIn("type")==0?"单选":"多选"%></em><span><%=(i+1)+(pn*(pages-1))%>/<%=counts%></span><%=questionDoc.get("name")%></div>
+        <ul>
+           <%
+           List<Doc> opt_list=(List<Doc>)questionDoc.getO("opt_list");
+           if(opt_list!=null){
+        	   for(int j=0;j<opt_list.size();j++){
+        		   Doc optDoc=opt_list.get(j);
+           %>
+            <li>
+               <%=questionDoc.getIn("type")==0?"<input name=\""+i+"\" type=\"radio\" value=\"0\" class=\"input_radio\">":" <input name=\""+i+"\" type=\"checkbox\" value=\"1\" class=\"input_checkbox\">"%>
+                <div class="da_an">
+                    <%
+                    String optString=BasicType.getOption(j)+"   ";
+                    if(optDoc.get("name")!=null&&!"".equals(optDoc.get("name"))){
+                    	out.print("<p>"+optString+optDoc.get("name")+"</p>" );
+                    	optString="";//当显示了abcd时第二个不显示
+                    }
+                    %>
+                    <%=optDoc.get("pic")!=null&&!"".equals(optDoc.get("pic"))?"<div class=\"da_an_img\">"+optString+"<img src=\""+optDoc.get("pic")+"\"></div>":""%>
+                </div>
+                <div class="clear"></div>
+            </li>
+           <%
+           		}
+           }
+           %>
+        </ul>
+        <div class="ex_botton"><a onclick="open_zzjs_net(this,'zzjs_net<%=i%>')">本题答案以及解释</a></div>
+        <div id="zzjs_net<%=i%>" class="zzjs_net" style="display:none"><%=questionDoc.get("thoughts")%></div>
+    </div>
+    <%
+   	}
+    %>
+	<!-- 分页 -->
+     <ul class="pre">
+      <%=page_size>0?"<li><a href=\""+(pages!=1?"exercises.jsp?pages="+(pages-1)+"&chapter_id="+chapter_id+"":"javascript:void(0);")+"\"><</a></li>":""%>
+       <%
+       	int index=1;
+       	int index2=page_size;
+       	if(page_size>=5){
+	       	if(pages+5<=page_size){
+	       		index=pages;
+	       		index2=pages+4;
+	       	}
+	       	if(pages+5>page_size){
+	       		index=page_size-4;
+	       	}
+       	}
+       	for(int i=index;i<=index2;i++){
+       		out.print("<li"+(i==pages?" class=\"active_pre\"":"")+"><a href=\"exercises.jsp?pages="+i+"&chapter_id="+chapter_id+"\">"+i+"</a></li>");
+       	}
+       %>
+       <%=page_size>0?"<li><a href=\""+(pages!=page_size?"exercises.jsp?pages="+(pages+1)+"&chapter_id="+chapter_id+"":"javascript:void(0);")+"\">></a></li>":""%>
+    </ul>
+    		<%
+    	}
+    %>
+  </div> 
+  <div class="clear"></div> 
 </div>
 <!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
