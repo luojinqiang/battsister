@@ -1,11 +1,5 @@
 package com.battsister.teacher;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
@@ -15,7 +9,10 @@ import com.baje.sz.util.Doc;
 import com.baje.sz.util.KeyBean;
 import com.baje.sz.util.RequestUtil;
 import com.battsister.admin.sys.Logdb;
-import com.battsister.util.SetupUtil;
+import net.sf.json.JSONObject;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class TeacherApi {
 	/**
@@ -95,7 +92,7 @@ public class TeacherApi {
             base.rollback();
             e.printStackTrace();
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
-            backjson.put("type", true);
+            backjson.put("type", false);
             backjson.put("msg", "系统忙，请稍候再试");
             return backjson;
         } finally {

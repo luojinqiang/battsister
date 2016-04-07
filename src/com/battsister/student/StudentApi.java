@@ -1,8 +1,5 @@
 package com.battsister.student;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
@@ -10,12 +7,13 @@ import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
 import com.baje.sz.util.Doc;
 import com.baje.sz.util.KeyBean;
-import com.baje.sz.util.MD5;
 import com.baje.sz.util.RequestUtil;
 import com.battsister.admin.sys.Logdb;
 import com.battsister.util.SetupUtil;
-
 import net.sf.json.JSONObject;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class StudentApi {
 
@@ -96,7 +94,7 @@ public class StudentApi {
             base.rollback();
             e.printStackTrace();
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
-            backjson.put("type", true);
+            backjson.put("type", false);
             backjson.put("msg", "系统忙，请稍候再试");
             return backjson;
         } finally {
@@ -126,8 +124,11 @@ public class StudentApi {
             String birth = ru.getString("birth").trim();
             int sex = ru.getInt("sex");
             Object student_id = request.getSession().getAttribute("student_id");
-            Doc doc = new Doc();
-            doc.put("name", name).putIn("sex", sex).put("mobile", mobile).putIn("birth", AjaxXml.getTimestamp(birth + " 00:00:00"));
+            Doc doc = new Doc()
+                    .put("name", name)
+                    .put("sex", sex)
+                    .put("mobile", mobile)
+                    .put("birth", AjaxXml.getTimestamp(birth + " 00:00:00"));
             if (!"".equals(password)) {
                 doc.put("password", new KeyBean().getkeyBeanofStr(password).toLowerCase());
             }
@@ -140,7 +141,7 @@ public class StudentApi {
             base.rollback();
             e.printStackTrace();
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
-            backjson.put("type", true);
+            backjson.put("type", false);
             backjson.put("msg", "系统忙，请稍候再试");
             return backjson;
         } finally {
@@ -167,9 +168,11 @@ public class StudentApi {
                 backjson.put("msg", "学生信息不存在,请重新登录");
                 return backjson;
             }
-            Doc doc = new Doc();
-            doc.put("content", content).putIn("type", type).put("teacher_id", studentDoc.get("teacher_id")).putIn("student_id", (Integer) student_id).putIn("add_time", AjaxXml.getTimestamp("now"));
-            base.executeInsertByDoc("bs_sys_feedback", doc);
+            base.executeInsertByDoc("bs_sys_feedback", new Doc()
+                    .put("content", content)
+                    .put("type", type).put("teacher_id", studentDoc.get("teacher_id"))
+                    .put("student_id", student_id)
+                    .put("add_time", AjaxXml.getTimestamp("now")));
             base.commit();
             backjson.put("type", true);
             backjson.put("msg", "反馈成功");
@@ -178,7 +181,7 @@ public class StudentApi {
             base.rollback();
             e.printStackTrace();
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
-            backjson.put("type", true);
+            backjson.put("type", false);
             backjson.put("msg", "系统忙，请稍候再试");
             return backjson;
         } finally {

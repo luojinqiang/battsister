@@ -136,7 +136,7 @@ public class AdminLogin {
             base.rollback();
             e.printStackTrace();
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
-            backjson.put("type", true);
+            backjson.put("type", false);
             backjson.put("msg", "系统忙，请稍候再试");
             return backjson;
         } finally {
@@ -297,7 +297,7 @@ public class AdminLogin {
             base.rollback();
             e.printStackTrace();
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
-            backjson.put("type", true);
+            backjson.put("type", false);
             backjson.put("msg", "系统忙，请稍候再试");
             return backjson;
         } finally {
@@ -357,7 +357,7 @@ public class AdminLogin {
 
             e.printStackTrace();
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
-            backjson.put("type", true);
+            backjson.put("type", false);
             backjson.put("msg", "系统忙，请稍候再试");
 
             return backjson;

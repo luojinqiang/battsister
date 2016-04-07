@@ -20,7 +20,7 @@
                 <h5 <%=type==2?"class=\"selected\"":""%>><a href="st_feedback.jsp">意见反馈</a></h5>
             </li>
             <li >
-                <h5 <%=type==3?"class=\"selected\"":""%>><a href="st_using_instructions.html">平台使用手册</a></h5>
+                <h5 <%=type==3?"class=\"selected\"":""%>><a href="st_using_instructions.jsp">平台使用手册</a></h5>
             </li>
         </ul>
     </div>

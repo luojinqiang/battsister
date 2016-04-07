@@ -1,7 +1,7 @@
 <%@ page import="com.baje.sz.util.Doc" %>
 <%@ page import="com.baje.sz.util.RequestUtil" %>
-<%@ page import="java.util.List" %>
 <%@ page import="com.baje.sz.util.Selectic" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@include file="sys.jsp" %>
 <%

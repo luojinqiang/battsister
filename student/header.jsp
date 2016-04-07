@@ -7,8 +7,8 @@
 --%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%
-    RequestUtil ru=new RequestUtil(request);
-    int type=ru.getInt("type");
+    RequestUtil requestUtil=new RequestUtil(request);
+    int type=requestUtil.getInt("type");
 %>
 <div class="headerbg_stu">
     <div class="header_stu">

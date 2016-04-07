@@ -1,4 +1,3 @@
-<%@ page import="com.baje.sz.util.Selectic" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@include file="sys.jsp"%>
 <%
@@ -37,8 +36,8 @@
       <div class="side_tongdao">
        	  <div class="tongdao_t">快速通道</div> 
           <div class="tongdao_ul">
-          	  <div class="tongdao_li1"><a href="take_test.html">参加考试</a></div>
-              <div class="tongdao_li2"><a href="ask_question.html">快速提问</a></div>
+          	  <div class="tongdao_li1"><a href="take_test.jsp">参加考试</a></div>
+              <div class="tongdao_li2"><a href="ask_question.jsp">快速提问</a></div>
           </div>  
       </div>
   </div>
