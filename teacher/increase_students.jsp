@@ -36,7 +36,7 @@ if("add".equals(action)){
 		<div class="title_r">新增学员</div>
         <div class="input_c">
             <div class="input_word">学号</div>
-            <div class="input_text"><input name="username" type="text" class="input_k" placeholder="学生学号"><span style="color: red;font-size: 12px;">首次密码默认为学号</span></div>
+            <div class="input_text"><input name="username" type="text" class="input_k" placeholder="首次密码默认为学号"></div>
             <div class="clear"></div>
         </div>
         <!--  <div class="input_c">

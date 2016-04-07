@@ -161,12 +161,12 @@
              
                 var callback = function (imgpath,num) {
                 	var append= '<div style="margin-top:10px;">请输入标题：<input type="text" name="title" style="width:120;"/></div><div><a href="/manage/showword.jsp?imgpath='+(imgpath)+'&num='+num+'" target="_blank"><img src="'
-                        + '/document/images/'+imgpath+'/test-0<%=Pdf2Jpg.SUFF_IMAGE%>'
+                        + '<%-- /document/images/'+imgpath+'/test-0<%=Pdf2Jpg.SUFF_IMAGE%> --%>/images/test.jpg'
                         + '" height=150></a><div class="del">删除</div><input type="hidden" name="word_pic" value="'
                         + imgpath + '" /><input type="hidden" name="num" value="'+num+'"/></div>';
                     $('#smallfileDetail').append(append);
                     $('#smallfileDetail div div').off('click').on('click', function () {
-                        $(this).parent().remove();
+                        $(this).parent().parent().remove();
                     });
                 };
                 if ($('#smallfileUpload').size()) {
@@ -187,7 +187,7 @@
 	$(document).ready(function (){
 		$('#smallfileDetail').append('<%=addBuffer%>');
 		 $('#smallfileDetail div div').off('click').on('click', function () {
-             $(this).parent().remove();
+             $(this).parent().parent().remove();
          });
 	});
 </script>

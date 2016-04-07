@@ -1,11 +1,11 @@
+<%@ page contentType="text/html; charset=utf-8" %>
+<%@page import="com.battsister.util.BasicType"%>
 <%@page import="net.sf.json.JSONObject"%>
 <%@page import="net.sf.json.JSONArray"%>
 <%@page import="com.baje.sz.util.Doc"%>
 <%@page import="com.baje.sz.util.Selectic"%>
-<%@page import="com.baje.sz.ajax.AjaxXml"%>
-<%@page import="com.baje.sz.util.RequestUtil"%>
-<%@ page contentType="text/html; charset=utf-8" %>
 <%
+
 RequestUtil ru=new RequestUtil(request);
 Object teacher_id=session.getAttribute("teacher_id");
 Selectic selectic=new Selectic();
@@ -58,37 +58,30 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 <html>
 <head>
 <meta charset="utf-8">
-<title>我要备课</title>
+<title>考试系统</title>
 <meta name="keywords"  content="#" />
 <meta name="description" content="#" />
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/front_style/ppt_word/css/base.css">
-<link rel="stylesheet" href="/front_style/ppt_word/css/MPreview.css">
- <script type="text/javascript" src="/front_style/ppt_word/js/MPreview.js"></script>
 </head>
 
 <body>
+<!--=== Header ===-->
 <!-- 引入头部 -->
 <jsp:include page="head.jsp">
-	<jsp:param value="1" name="type"/>
+	<jsp:param value="3" name="type"/>
 </jsp:include>
+<!--=== End Header ===-->
 <!-- 引入第二个头部 -->
 <%@include file="head1.jsp" %>
+
 <div class="container">
   <div class="left_nav">
       <div class="operate">
         <ul id="juheweb">
-        <h3>课程体系</h3>
-          <li>
-            <h5 class="selected"><a href="teacher_home.jsp">课程标准</a></h5>
-          </li>
-          <li >
-            <h5><a href="course_modules.jsp">课程模块</a></h5>
-          </li>
-         <h3>教学资源</h3>
-        <%
+        <h3>课程目录 </h3>
+         <%
          for(int i=0;i<course_array.size();i++){
          		JSONObject course_json=course_array.getJSONObject(i);
          		JSONArray chapter_array=course_json.optJSONArray("chapter_array");
@@ -101,7 +94,7 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
               					for(int j=0;j<chapter_array.size();j++){
               						JSONObject chapter_json=chapter_array.getJSONObject(j);
               						%>
-              						<p><a href="teaching_resources.jsp?chapter_id=<%=chapter_json.optInt("id")%>" target="_blank"><%=chapter_json.optString("name")%></a></p>
+              						<p><a href="teaching_details.jsp?chapter_id=<%=chapter_json.optInt("id")%>" target="_blank"><%=chapter_json.optString("name")%></a></p>
               						<%
               					}
               				}
@@ -111,9 +104,12 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
          			<%
          		}
          	%>
-          <h3>习题库</h3>
+          <h3>其它目录</h3>
           <li>
-            <h5><a href="exercises.jsp">习题库</a></h5>
+            <h5 class="selected"><a href="examination_system.jsp">考试记录</a></h5>
+          </li>
+          <li>
+            <h5><a href="questions.jsp">学生提问</a></h5>
           </li>
         </ul>
         <script type="text/javascript" language="javascript">
@@ -122,23 +118,81 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
       </div>
   </div>
   <div class="right_w">
-  	 <div class="title_r">课程标准</div>
-  	 <div class="right_con">
-          <div class="wrapper">
-        <div class="doc" id="doc" style="margin-left:-10px;width:80%;height:600px;margin-top:-30px;"></div>
-	 </div>
-	 <script type="text/javascript">
-			var data=['/document/images/18-47-05_6642/test-0.png',
-			          '/document/images/18-47-05_6642/test-1.png',
-			          '/document/images/18-47-05_6642/test-2.png',
-			          '/document/images/18-47-05_6642/test-3.png',
-			          '/document/images/18-47-05_6642/test-4.png',
-			          '/document/images/18-47-05_6642/test-5.png',
-			          '/document/images/18-47-05_6642/test-6.png',
-			          '/document/images/18-47-05_6642/test-7.png'];
-		</script>
-   <script type="text/javascript">$('#doc').MPreview({ data: data });</script>
-     </div>
+  	 <div class="title_r">考试记录<a href="examination.html">发起考试</a></div>
+     <div class="right_con">
+        <div class="kaoshi">
+        	<table width="100%" border="0" cellspacing="1" cellpadding="0">
+              <tr>
+                <td colspan="5" class="table_title">考试名称1 <span>参考人员：全体学员</span></td>
+              </tr>
+              <tr>
+                <th>课程名称</th>
+                <th>总分</th>
+                <th>考试人数</th>
+                <th>时长</th>
+                <th>&nbsp;</th>
+              </tr>
+              <tr>
+                <td>小车驾驶考试 </td>
+                <td>100分</td>
+                <td>45个</td>
+                <td>120分钟</td>
+                <td><div class="kaoshi_botton"><a href="examination_record.html">查看详情</a></div></td>
+              </tr>
+            </table>
+        </div>
+        <div class="kaoshi">
+        	<table width="100%" border="0" cellspacing="1" cellpadding="0">
+              <tr>
+                <td colspan="5" class="table_title">考试名称2<span>参考人员：全体学员</span></td>
+              </tr>
+              <tr>
+                <th>课程名称</th>
+                <th>总分</th>
+                <th>考试人数</th>
+                <th>时长</th>
+                <th>&nbsp;</th>
+              </tr>
+              <tr>
+                <td>小车驾驶考试 </td>
+                <td>100分</td>
+                <td>45个</td>
+                <td>120分钟</td>
+                <td><div class="kaoshi_botton"><a href="examination_record.html">查看详情</a></div></td>
+              </tr>
+            </table>
+        </div>
+        <div class="kaoshi">
+        	<table width="100%" border="0" cellspacing="1" cellpadding="0">
+              <tr>
+                <td colspan="5" class="table_title">考试名称3<span>参考人员：全体学员</span></td>
+              </tr>
+              <tr>
+                <th>课程名称</th>
+                <th>总分</th>
+                <th>考试人数</th>
+                <th>时长</th>
+                <th>&nbsp;</th>
+              </tr>
+              <tr>
+                <td>小车驾驶考试 </td>
+                <td>100分</td>
+                <td>45个</td>
+                <td>120分钟</td>
+                <td><div class="kaoshi_botton"><a href="examination_record.html">查看详情</a></div></td>
+              </tr>
+            </table>
+        </div>
+        <ul class="pre">
+        	<li><a href="#"><</a></li>
+          	<li><a href="#">1</a></li>
+          	<li><a href="#">2</a></li>
+          	<li><a href="#">3</a></li>
+          	<li><a href="#">4</a></li>
+       	  	<li class="active_pre"><a href="#">5</a></li>
+          	<li><a href="#">></a></li>
+        </ul>
+    </div>
   </div>
   <div class="clear"></div>
 </div>

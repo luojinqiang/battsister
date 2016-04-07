@@ -81,7 +81,7 @@
                         <input name="teacher_password" type="password" class="input_txt pw" placeholder="密码" />
                     	</div>
                         <div class="botton_login fl"><a href="javascript:login(0);">登&nbsp;&nbsp;录</a></div>
-                        <div class="color_grey l_input"><a href="forget_password.html">忘记密码？</a></div>	  
+                        <div class="color_grey l_input"><a href="/teacher/forget_password.jsp">忘记密码？</a></div>	  
                     </li>
                     <li>
                        	<div class="l_input">
@@ -99,51 +99,10 @@
     </div>
     <div class="clear"></div>
 </div>
-<div class="bg_s5">
-    <div class="container">
-    	<div class="section5">
-           <div class="s5_left">
-                <div class="title_s5">联系我们</div>
-                <h6>Get in  touch with us </h6>
-                <p>深圳市派司德科技有限公司</p>
-                <ul>
-                	<li class="ic_ad">地址: 深圳市宝安区航空路索佳科技园商务大厦1层A101号</li>
-                    <li class="ic_email">网址：http://www.battsister.com</li>
-                    <li class="ic_tel">电话：0755-12345678</li>
-                </ul>
-           </div>
-           <div class="s5_center">
-          		<div class="title_s5">关注我们</div>
-                <h6>Pay attention to us</h6>
-                <p class="erweima"><img src="front_style/images/erweima.jpg"></p>
-                <p>扫描关注微信</p>		
-          </div>
-         <!--   <div class="s5_right">
-           		<div class="title_s5">留言板</div>
-                <h6>message board</h6>
-                <div class="s5_label">
-                	<input name="" type="text" class="s5_text" placeholder="姓名">
-                    <input name="" type="text" class="s5_text" placeholder="电话">
-                    <textarea name="" cols="" rows="" class="s5_textarea">请输入</textarea>
-                    <a href="#"><div class="s5_botton">提交</div></a>
-                    <div class="clear"></div>
-                </div>
-           </div> -->
-           <div class="clear"></div>
-        </div>
-    </div>
-</div>
-<div class="footer">
-    <div class="footer_con b_top">
-        <ul class="footer_nav">
-            <li><a href="about.html">关于我们</a></li>
-            <li><a href="contact.html">联系我们</a></li>
-            <li><a href="#">网站地图</a></li>
-            <div class="clear"></div>
-        </ul>
-        <p>Powered by EOS2011 © 2006-2013 深圳市汉优科技有限公司 粤ICP备13044128号-1</p>
-    </div>
-</div>
+<!-- 引入尾部 -->
+<jsp:include page="front_footer.jsp"></jsp:include>
+<!-- 引入尾部 -->
+<jsp:include page="/teacher/footer.jsp"></jsp:include>
 <script type="text/javascript">
 	function login(loginType){
 		var loginName="";
@@ -177,6 +136,7 @@
                     }
                  } else {
                      alert(msg.msg);
+                     return false;
                  }
              }
          });

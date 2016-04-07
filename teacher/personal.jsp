@@ -92,7 +92,7 @@
         </div>
         <div class="input_c">
             <div class="input_word">密码</div>
-            <div class="input_text"><input name="password" type="password" class="input_k"  placeholder="******"><span style="color: red;font-size: 12px;">不修改则不输入</span></div>
+            <div class="input_text"><input name="password" type="password" class="input_k"  placeholder="不修改则不输入"></div>
             <div class="clear"></div>
         </div>
         <div class="input_c">

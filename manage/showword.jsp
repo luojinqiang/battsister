@@ -1,3 +1,4 @@
+<%@page import="com.battsister.util.BasicType"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
 <%@page import="com.g.Tojpg.Pdf2Jpg"%>
 <%@ page language="java" pageEncoding="utf-8"%>
@@ -27,9 +28,9 @@
 			StringBuffer dataBuffer=new StringBuffer("[");
 			for(int i=0;i<num;i++){
 				if(i==(num-1)){
-					dataBuffer.append("'/document/images/"+imagepath+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"'");
+					dataBuffer.append("'"+BasicType.getWordPptPath(imagepath, i)+"'");
 				}else{
-					dataBuffer.append("'/document/images/"+imagepath+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"',");
+					dataBuffer.append("'"+BasicType.getWordPptPath(imagepath, i)+"',");
 				}
 			}
 			dataBuffer.append("]");

@@ -20,6 +20,7 @@ import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.StringUtil;
 import com.battsister.admin.sys.Logdb;
+import com.g.Tojpg.Pdf2Jpg;
 import com.qiniu.common.QiniuException;
 import com.qiniu.storage.BucketManager;
 import com.qiniu.storage.UploadManager;
@@ -221,24 +222,49 @@ public class BasicType {
  }
  
  /**
+  * 获取选项
+  * @param i
+  * @return
+  */
+ public  static String getOption(int i){
+	 String opt="";
+	switch (i) {
+	case 0:
+		opt= "A";
+		break;
+	case 1:
+		opt="B";
+		break;
+	case 2:
+		opt= "C";
+		break;
+	case 3:
+		opt= "D";
+		break;
+	case 4:
+		opt= "E";
+		break;
+	default:
+		opt= "";
+		break;
+	}
+	return opt;
+ }
+ 
+ /**
   * 获取七牛的凭证
   * @return
   */
  public static Auth getAuth(){
 	 return Auth.create(AppConf.getconf().get("AccessKey"),AppConf.getconf().get("SecretKey"));
  }
- 
- public static void main(String[] args) {
-	JSONArray array=new JSONArray();
-	JSONObject json=new JSONObject();
-	json.put("little_chapter_id",12);
-	json.put("add_time", "1422199009");
-	array.add(json);
-	System.out.println(array);
-	/**
-	 * [{"curse_id":"123","chapters":[{"chapter_id":"123","add_time":"1456751564"}]}]
-	 */
-	
+ /**
+  * 获取文档的路径
+  * @param dir
+  * @return
+  */
+ public static String getWordPptPath(String dir,int i){
+	 return "/document/images/"+dir+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"";
  }
 }
 

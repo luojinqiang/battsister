@@ -1,4 +1,4 @@
-﻿/* reset */
+/* reset */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -44,7 +44,7 @@ table {
 }
 
 /* common */
-body { font-size: 12px; line-height: 1.6; color: #333; font-family:"Microsoft Yahei", Arial; background: #F2F2F2; }
+body { font-size: 14px; line-height: 1.6; color: #333; font-family:"Microsoft Yahei", Arial; background: #F2F2F2; }
 .wrapper { width: 1000px; margin: 50px auto; }
 .doc { width: 1000px; height: 800px; margin: 0px auto; }
 .ppt { width: 1000px; height: 800px; margin: 0px auto; }

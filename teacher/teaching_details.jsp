@@ -46,9 +46,9 @@
 									chapter_array.add(chapterJson);
 									if(chapter_id==chapterDoc.getIn("id")){
 										getDoc=new Doc();//说明该章节存在老师拥有的课程中
-										getDoc.put("id",chapterDoc.get("id"));
+										getDoc.put("id",chapterDoc.getIn("id"));
 										getDoc.put("name",chapterDoc.get("name"));
-										getDoc.put("course_id",chapterDoc.get("course_id"));
+										getDoc.put("course_id",chapterDoc.getIn("course_id"));
 										getDoc.put("video_path",chapterDoc.get("video_path"));
 										getDoc.put("animation_path",chapterDoc.get("animation_path"));
 										getDoc.put("pics",chapterDoc.get("pics"));
@@ -74,36 +74,30 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>教学资源</title>
+<title>我要授课</title>
 <meta name="keywords"  content="#" />
 <meta name="description" content="#" />
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
 <SCRIPT src="/front_style/js/ScrollPic.js" type=text/javascript></SCRIPT>
+
 </head>
 
 <body>
 <!-- 引入头部 -->
 <jsp:include page="head.jsp">
-	<jsp:param value="1" name="type"/>
+	<jsp:param value="2" name="type"/>
 </jsp:include>
 <!-- 引入第二个头部 -->
 <%@include file="head1.jsp" %>
 
 <div class="container">
-  <div class="left_nav">
+	<div class="left_nav">
       <div class="operate">
         <ul id="juheweb">
-        <h3>课程体系</h3>
-          <li>
-            <h5><a href="teacher_home.jsp">课程标准</a></h5>
-          </li>
-          <li >
-            <h5><a href="course_modules.jsp">课程模块</a></h5>
-          </li>
-         <h3>教学资源</h3>
-         <%
+         <h3>课程目录</h3>
+          <%
          		for(int i=0;i<course_array.size();i++){
          			JSONObject course_json=course_array.getJSONObject(i);
          			JSONArray chapter_array=course_json.optJSONArray("chapter_array");
@@ -116,7 +110,7 @@
               					for(int j=0;j<chapter_array.size();j++){
               						JSONObject chapter_json=chapter_array.getJSONObject(j);
               						%>
-              						<p <%=chapter_id==chapter_json.optInt("id")?"class=\"on\"":""%>><a href="teaching_resources.jsp?chapter_id=<%=chapter_json.optInt("id")%>"><%=chapter_json.optString("name")%></a></p>
+              						<p <%=chapter_id==chapter_json.optInt("id")?"class=\"on\"":""%>><a href="teaching_details.jsp?chapter_id=<%=chapter_json.optInt("id")%>"><%=chapter_json.optString("name")%></a></p>
               						<%
               					}
               				}
@@ -126,9 +120,12 @@
          			<%
          		}
          	%>
-          <h3>习题库</h3>
+          <h3>其它目录</h3>
           <li>
-            <h5><a href="exercises.jsp">习题库</a></h5>
+            <h5><a href="examination_system.jsp">考试系统</a></h5>
+          </li>
+          <li>
+            <h5><a href="questions.jsp">学生提问</a></h5>
           </li>
         </ul>
         <script type="text/javascript" language="javascript">
@@ -137,55 +134,51 @@
       </div>
   </div>
   <div class="right_w">
-  	 <div class="title_r"><%=getDoc.get("name")%></div>
+  	 <div class="title_r">任务一 职业道德<a href="#">学生提问</a><a href="#">发起考试</a></div>
   	 <div class="right_teach">
      	<div class="default">ppt课件</div>  
      </div>
-     <div class="right_teach">
+      <div class="right_teach">
      	<div class="blk_29">
             <div class="LeftBotton" id="LeftArr"></div>
             <div class="Cont" id="ISL_Cont_1"><!-- 图片列表 begin -->
-            	<%
-            		if(getDoc.get("ppt_path")!=null&&!"".equals(getDoc.get("ppt_path"))){
-            			JSONArray ppt_array=JSONArray.fromObject(getDoc.get("ppt_path"));
-            			if(ppt_array!=null){
-            				for(int i=0;i<ppt_array.size();i++){
-            					JSONObject ppt_json=ppt_array.getJSONObject(i);
-            					%>
-            					<div class="box">
-                  			 		 <a class="imgBorder" href="#" target=_blank >
-                  			 		 <img height=84  src="<%=BasicType.getWordPptPath(ppt_json.optString("pic_dir"),0)%>" width=124 border=0></a> 
-                    				 <p><a href="#" target=_blank>ppt</a></p>
-               					</div>
-            					<%
-            				}
-            			}
-            		}else if(getDoc.get("word_path")!=null&&!"".equals(getDoc.get("word_path"))){
-            			
-            		}
-            	%>
-                <!-- 
+                <div class="box">
+                    <a class="imgBorder" href="#" target=_blank><img height=84   src="images/tu.jpg" width=124 border=0></A> 
+                    <P><A href="#"target=_blank>开幕式火炬传递</A></P>
+                </div>
                 <div class="box">
                     <A class="imgBorder" href="#" target=_blank><img height=84  src="images/tu.jpg" width=124 border=0></A> 
-                    <P><A href="#" target=_blank>2</A></P>
+                    <P><A href="#" target=_blank>开幕式精彩瞬间</A></P>
                 </div>
                 <div class="box">
                     <A class="imgBorder" href="#" target=_blank><img height=84   src="images/tu.jpg" width=124 border=0></A> 
-                    <P><A href="#" target=_blank>3</A></P>
+                    <P><A href="#" target=_blank>卡通玩偶组成会徽</A></P>
                 </div>
                 <div class="box">
                     <A class="imgBorder" href="#" target=_blank><img height=84   src="images/tu.jpg" width=124 border=0></A> 
-                    <P><A href="#" target=_blank>4</A></P>
+                    <P><A href="#" target=_blank>开幕式焰火表演</A></P>
                 </div>
                 <div class="box">
                     <A class="imgBorder" href="#" target=_blank><img height=84   src="images/tu.jpg" width=124 border=0></A> 
-                    <P><A href="#" target=_blank>5</A></P>
-                </div> -->
+                    <P><A href="#" target=_blank>中国代表团入场</A></P>
+                </div>
+                <div class="box">
+                    <A class="imgBorder" href="#" target=_blank><img height=84   src="images/tu.jpg" width=124border=0></A> 
+                    <P><A href="#" target=_blank>各代表团入场</A></P>
+                </div>
+                <div class="box">
+                    <A class="imgBorder" href="#" target=_blank><img height=84   src="images/tu.jpg" width=124 border=0></A> 
+                    <P><A href="#" target=_blank>开幕式暖场表演</A></P>
+                </div>
+                <div class="box">
+                    <A class="imgBorder" href="#" target=_blank><img height=84   src="images/tu.jpg" width=124 border=0></A> 
+                    <P><A href="#" target=_blank>开幕式即将举行</A></P>
+                </div>
             	<div class="clear"></div>
             <!-- 图片列表 end --></div>
             <div class=RightBotton id=RightArr></div>
             </div>
-            <SCRIPT language="javascript" type=text/javascript>
+            <SCRIPT language=javascript type=text/javascript>
                     <!--//--><![CDATA[//><!--
                     var scrollPic_02 = new ScrollPic();
                     scrollPic_02.scrollContId   = "ISL_Cont_1"; //内容容器ID
@@ -227,9 +220,22 @@
   <div class="clear"></div>
 </div>
 
-<!-- 引入尾部 -->
-<jsp:include page="footer.jsp"></jsp:include>
+
+<div class="footer">
+    <div class="footer_con">
+        <ul class="footer_nav">
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="using_instructions.html">平台使用手册</a></li>
+            <li><a href="contact.html">联系我们</a></li>
+            <li><a href="feedback.html">投诉&反馈 </a></li>
+            <div class="clear"></div>
+        </ul>
+        <p>Powered by EOS2011 © 2006-2013 深圳市汉优科技有限公司 粤ICP备13044128号-1</p>
+    </div>
+</div>
+
+
+
 
 </body>
 </html>
-

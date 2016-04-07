@@ -56,12 +56,7 @@
     <link href='/public/css/member/main.css?t=20140304' rel='stylesheet' type='text/css'/>
     <script type='text/javascript' src='/public/js/jquery.min.js'></script>
     <script type='text/javascript' src='/public/js/global.js?t=20140304'></script>
-</head>
-<body>
-
-<div id="iframe_page">
-    <div class="iframe_content">
-        <link href='/public/css/member/survey.css' rel='stylesheet' type='text/css'/>
+     <link href='/public/css/member/survey.css' rel='stylesheet' type='text/css'/>
         <script type='text/javascript' src='/public/js/survey.js'></script>
         <link href='/public/js/lean-modal/style.css' rel='stylesheet' type='text/css'/>
         <link href='/public/js/operamasks/operamasks-ui.css' rel='stylesheet' type='text/css'/>
@@ -69,7 +64,12 @@
         <script type='text/javascript' src='/public/js/lean-modal/lean-modal.min.js'></script>
         <script type="text/javascript" src="../js/artDialog4.1.6/artDialog.js?skin=green"></script>
         <script type="text/javascript" src="../js/artDialog4.1.6/plugins/iframeTools.source.js"></script>
-        <script language="javascript" src='../js/sys.js'></script>
+        <script type="text/javascript" src='../js/sys.js'></script>
+</head>
+<body>
+
+<div id="iframe_page">
+    <div class="iframe_content">
         <div id="survey_list" class="r_con_wrap">
             <div class="control_btn">
                 <a href="#add_topic" class="btn_green btn_w_120" onclick="exercise_add('0', '添加习题');">添加习题</a>
@@ -91,9 +91,9 @@
                 int j = 0;
                 //int counts = utildb.Get_count(idd, table, wheres, "", sqllist);
                 Doc whereDoc = new Doc();
-                whereDoc.put("course_id", course_id);
-                whereDoc.put("chapter_id", chapter_id);
-                whereDoc.put("isdel", 0);
+                whereDoc.putIn("course_id", course_id);
+                whereDoc.putIn("chapter_id", chapter_id);
+                whereDoc.putIn("isdel", 0);
                 whereDoc.put("@order", "order_num asc");
                 //counts = el.queryCountByWhere(whereDoc);
 

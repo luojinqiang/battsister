@@ -1,13 +1,21 @@
 package com.battsister.teacher;
 
+import javax.mail.internet.MimeUtility;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import net.sf.json.JSONObject;
+
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
 import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
+import com.baje.sz.util.AppConf;
 import com.baje.sz.util.Doc;
 import com.baje.sz.util.KeyBean;
 import com.baje.sz.util.RequestUtil;
+import com.baje.sz.util.SendEmail;
 import com.battsister.admin.sys.Logdb;
 import net.sf.json.JSONObject;
 
@@ -464,5 +472,183 @@ public class TeacherApi {
         } finally {
             dbc.closeConn();
         }
+    }
+
+    /**
+     * 教师忘记密码获取验证码
+     * @param request
+     * @return
+     */
+    public JSONObject getVerify(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--教师忘记密码获取验证码";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            String email=ru.getString("email");
+            if(email==null||"".equals(email)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "请输入您的预留电子邮箱");
+                 return backjson;
+            }else if(!AjaxXml.checkEmail(email)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "您输入的电子邮箱格式不正确");
+                 return backjson;
+            }
+            Doc mdoc = base.executeQuery2Docs("select id from bs_teachers where email=? and isdel=0", new Object[]{email}, 1)[0];
+            if (mdoc == null || mdoc.isEmpty()) {
+                backjson.put("type", false);
+                backjson.put("msg", "该邮箱未绑定账户");
+                return backjson;
+            }
+            boolean send = false;
+            String de_email_con_value = AjaxXml.Getrandom(6);
+            SendEmail sw = new SendEmail();
+            String subject = MimeUtility.encodeWord("派司德科技邮箱找回密码（此邮件回复无效）", "UTF-8", "Q");//标题
+            sw.setSubject(subject);
+            //内容
+            String content = "您在派司德科技教育平台找回密码的邮箱验证码是:" + de_email_con_value;
+            sw.setContent(content);
+            String strFrom = AppConf.getconf().get("emailfrom");//发送的邮箱
+            String smtp = AppConf.getconf().get("emailsmtp");//发送协议
+            String user = AppConf.getconf().get("emailfrom");//发送的邮箱
+            String epass = AppConf.getconf().get("emailpwd");//密码
+            boolean smail = sw.sendMail_x(email, strFrom, smtp, user, epass);
+            if (!smail) {
+                backjson.put("type", false);
+                backjson.put("msg", "邮件发送失败，请稍候再试");
+                return backjson;
+            }
+            send = true;
+            if (send) {
+            	Doc insertDoc=new Doc();
+            	insertDoc.put("teacher_id",mdoc.getIn("id"));
+            	insertDoc.put("send_time",AjaxXml.getTimestamp("now"));
+            	insertDoc.put("shou_mobile",email);
+            	insertDoc.put("verify",de_email_con_value);
+            	insertDoc.put("content",content);
+            	insertDoc.put("create_time", AjaxXml.getTimestamp("now"));
+            	insertDoc.put("type", 1);
+            	base.executeInsertByDoc("bs_sms",insertDoc);
+            	Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "教师忘记密码获取验证码", "", 0, ru.getIps(), 0, base);
+                backjson.put("type", true);
+                backjson.put("msg", "邮件发送成功，请登录邮箱验证");
+                return backjson;
+            } else {
+                backjson.put("type", false);
+                backjson.put("msg", "邮件发送失败，请稍候再试");
+                return backjson;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
+
+
+    /**
+     * 检查验证码是否正确
+     * @param request
+     * @return
+     */
+    public JSONObject checkVerify(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--检查验证码是否正确";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+        	String verify=ru.getString("verify");
+        	if(verify==null||"".equals(verify)){
+        		 backjson.put("type", false);
+                 backjson.put("msg", "请输入验证码");
+                 return backjson;
+        	}
+        	Doc verifyDoc=base.executeQuery2Docs("select id,send_time,teacher_id from bs_sms where verify=? order by send_time desc limit 1",new Object[]{verify},1)[0];
+        	if(verifyDoc==null||verifyDoc.isEmpty()){
+        		 backjson.put("type", false);
+                 backjson.put("msg", "验证码不正确");
+                 return backjson;
+        	}
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "检查验证码是否正确", "", verifyDoc.getIn("teacher_id"), ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "验证正确");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
+
+    /**
+     * 忘记密码--重新设置密码
+     * @param request
+     * @return
+     */
+    public JSONObject setPass(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--重新设置密码";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+        	String verify=ru.getString("verify");
+        	String pass=ru.getString("pass");
+        	String pass_comfirm=ru.getString("pass_comfirm");
+        	Doc verifyDoc=base.executeQuery2Docs("select id,send_time,teacher_id from bs_sms where verify=? order by send_time desc limit 1",new Object[]{verify},1)[0];
+        	if(verifyDoc==null||verifyDoc.isEmpty()){
+        		 backjson.put("type", false);
+                 backjson.put("msg", "验证码不正确");
+                 return backjson;
+        	}
+        	if(pass==null||"".equals(pass)){
+        		 backjson.put("type", false);
+                 backjson.put("msg", "新密码未输入");
+                 return backjson;
+        	}
+        	if(!pass.equals(pass_comfirm)){
+        		 backjson.put("type", false);
+                 backjson.put("msg", "两次输入密码不一致");
+                 return backjson;
+        	}
+        	pass=new KeyBean().getkeyBeanofStr(pass).toLowerCase();
+        	base.executeUpdate("update bs_teachers set password=? where id=? ",new Object[]{pass,verifyDoc.getIn("teacher_id")});
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "重新设置密码","",verifyDoc.getIn("teacher_id"), ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "验证正确");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+
     }
 }
