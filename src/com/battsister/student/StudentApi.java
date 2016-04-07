@@ -9,7 +9,6 @@ import com.baje.sz.util.Doc;
 import com.baje.sz.util.KeyBean;
 import com.baje.sz.util.RequestUtil;
 import com.battsister.admin.sys.Logdb;
-import com.battsister.util.SetupUtil;
 import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,7 +73,7 @@ public class StudentApi {
                 session.setAttribute("student_id",studentDoc.getIn("id"));
                 session.setAttribute("student_name",studentDoc.get("name"));
                 session.setAttribute("username",studentDoc.get("username"));
-                session.setAttribute("last_login_time", AjaxXml.timeStamp2Date(studentDoc.getIn("last_login_time"), "YY04-MM-DD HH:MI"));
+                session.setAttribute("last_login_time", AjaxXml.timeStamp2Date(studentDoc.get("last_login_time"), "MM-DD HH:MI"));
             } else {
                 shengxia = 5 - login_err;
                 if (login_err + 1 == 6) {

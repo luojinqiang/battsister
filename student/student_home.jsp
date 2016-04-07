@@ -29,7 +29,7 @@
       	  <div class="side_user_img"><img src="../front_style/images/user.jpg"></div>
           <div class="side_user_word">
        	    <h4>晚上好，<%=student_name%></h4>
-            <p>上次登录时间，<%=last_login_time%></p>
+            <p>上次登录时间：<%=last_login_time%></p>
           </div>
           <div class="clear"></div>
       </div>
