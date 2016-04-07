@@ -1,24 +1,15 @@
 package com.battsister.teacher;
 
-import javax.mail.internet.MimeUtility;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import net.sf.json.JSONObject;
-
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
 import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
-import com.baje.sz.util.AppConf;
-import com.baje.sz.util.Doc;
-import com.baje.sz.util.KeyBean;
-import com.baje.sz.util.RequestUtil;
-import com.baje.sz.util.SendEmail;
+import com.baje.sz.util.*;
 import com.battsister.admin.sys.Logdb;
 import net.sf.json.JSONObject;
 
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
