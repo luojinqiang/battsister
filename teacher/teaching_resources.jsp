@@ -80,9 +80,10 @@
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
-<SCRIPT src="/front_style/js/ScrollPic.js" type=text/javascript></SCRIPT>
+<!-- video5 -->
+<link href="/front_style/video5/css/video-js.min.css" rel="stylesheet">
+<script src="/front_style/video5/js/video.min.js"></script>
 </head>
-
 <body>
 <!-- 引入头部 -->
 <jsp:include page="head.jsp">
@@ -138,91 +139,103 @@
   </div>
   <div class="right_w">
   	 <div class="title_r"><%=getDoc.get("name")%></div>
-  	 <div class="right_teach">
-     	<div class="default">ppt课件</div>  
-     </div>
      <div class="right_teach">
-     	<div class="blk_29">
-            <div class="LeftBotton" id="LeftArr"></div>
-            <div class="Cont" id="ISL_Cont_1"><!-- 图片列表 begin -->
-            	<%
-            		if(getDoc.get("ppt_path")!=null&&!"".equals(getDoc.get("ppt_path"))){
-            			JSONArray ppt_array=JSONArray.fromObject(getDoc.get("ppt_path"));
-            			if(ppt_array!=null){
-            				for(int i=0;i<ppt_array.size();i++){
-            					JSONObject ppt_json=ppt_array.getJSONObject(i);
+         <div class="right_con">
+            <div class="one_t"><h5>PPT资料</h5></div>
+            <ul class="ziliao">
+            <%
+            	if(getDoc.get("ppt_path")!=null&&!"".equals(getDoc.get("ppt_path"))){
+            		JSONArray ppt_array=JSONArray.fromObject(getDoc.get("ppt_path"));
+            		if(ppt_array!=null){
+            			for(int i=0;i<ppt_array.size();i++){
+            				JSONObject ppt_json=ppt_array.getJSONObject(i);
             					%>
-            					<div class="box">
-                  			 		 <a class="imgBorder" href="#" target=_blank >
-                  			 		 <img height=84  src="<%=BasicType.getWordPptPath(ppt_json.optString("pic_dir"),0)%>" width=124 border=0></a> 
-                    				 <p><a href="#" target=_blank>ppt</a></p>
-               					</div>
+	            		<li class="mr_15">
+	                   		 <div class="ziliao_img"><a href="show_ppt.jsp?pic_dir=<%=ppt_json.optString("pic_dir")%>&num=<%=ppt_json.optInt("num")%>" target="_blank"><img src="<%=BasicType.getWordPptPath(ppt_json.optString("pic_dir"),0)%>"/></a></div>
+	                   		 <p><%=ppt_json.optString("title")%></p>
+	               		 </li>
             					<%
-            				}
             			}
-            		}else if(getDoc.get("word_path")!=null&&!"".equals(getDoc.get("word_path"))){
-            			
             		}
-            	%>
-                <!-- 
-                <div class="box">
-                    <A class="imgBorder" href="#" target=_blank><img height=84  src="images/tu.jpg" width=124 border=0></A> 
-                    <P><A href="#" target=_blank>2</A></P>
-                </div>
-                <div class="box">
-                    <A class="imgBorder" href="#" target=_blank><img height=84   src="images/tu.jpg" width=124 border=0></A> 
-                    <P><A href="#" target=_blank>3</A></P>
-                </div>
-                <div class="box">
-                    <A class="imgBorder" href="#" target=_blank><img height=84   src="images/tu.jpg" width=124 border=0></A> 
-                    <P><A href="#" target=_blank>4</A></P>
-                </div>
-                <div class="box">
-                    <A class="imgBorder" href="#" target=_blank><img height=84   src="images/tu.jpg" width=124 border=0></A> 
-                    <P><A href="#" target=_blank>5</A></P>
-                </div> -->
-            	<div class="clear"></div>
-            <!-- 图片列表 end --></div>
-            <div class=RightBotton id=RightArr></div>
-            </div>
-            <SCRIPT language="javascript" type=text/javascript>
-                    <!--//--><![CDATA[//><!--
-                    var scrollPic_02 = new ScrollPic();
-                    scrollPic_02.scrollContId   = "ISL_Cont_1"; //内容容器ID
-                    scrollPic_02.arrLeftId      = "LeftArr";//左箭头ID
-                    scrollPic_02.arrRightId     = "RightArr"; //右箭头ID
-            
-                    scrollPic_02.frameWidth     = 908;//显示框宽度
-                    scrollPic_02.pageWidth      = 152; //翻页宽度
-            
-                    scrollPic_02.speed          = 10; //移动速度(单位毫秒，越小越快)
-                    scrollPic_02.space          = 10; //每次移动像素(单位px，越大越快)
-                    scrollPic_02.autoPlay       = false; //自动播放
-                    scrollPic_02.autoPlayTime   = 3; //自动播放间隔时间(秒)
-            
-                    scrollPic_02.initialize(); //初始化
-                                        
-                    //--><!]]>
-            </SCRIPT>
-     </div>
-     <div class="right_con">
-     	<h5>更多相关资料</h5>
-        <ul class="ziliao">
-        	<li class="mr_15">
-            	<div class="ziliao_img"><img src="images/tu.jpg"></div>
-           	  	<p>图片</p>
-            </li>
-            <li class="mr_15">
-            	<div class="ziliao_img"><img src="images/tu.jpg"></div>
-            	<p>视频</p>
-            </li>
-            <li>
-            	<div class="ziliao_img"><img src="images/tu.jpg"></div>
-            	<p>动画</p>
-            </li>
-        	<div class="clear"></div>
-        </ul>
-     </div>
+            	}
+            out.print(" <div class=\"clear\"></div>");
+            %>
+            </ul>
+         </div>
+         <div class="right_con">
+            <div class="two_t"><h5>word资料</h5></div>
+            <ul class="ziliao">
+              <%
+            	if(getDoc.get("word_path")!=null&&!"".equals(getDoc.get("word_path"))){
+            		JSONArray word_array=JSONArray.fromObject(getDoc.get("word_path"));
+            		if(word_array!=null){
+            			for(int i=0;i<word_array.size();i++){
+            				JSONObject word_json=word_array.getJSONObject(i);
+            					%>
+	            		<li class="mr_15">
+	                   		 <div class="ziliao_img"><a href="show_word.jsp?pic_dir=<%=word_json.optString("pic_dir")%>&num=<%=word_json.optInt("num")%>" target="_blank"><img src="<%=BasicType.getWordPptPath(word_json.optString("pic_dir"),0)%>" /></a></div>
+	                   		 <p><%=word_json.optString("title")%></p>
+	               		 </li>
+            					<%
+            			}
+            		}
+            	}
+            out.print(" <div class=\"clear\"></div>");
+            %>
+            </ul>
+         </div>
+         <div class="right_con">
+            <div class="three_t"><h5>视频、动画资料</h5></div>
+            <ul class="ziliao">
+            <%
+            	if(getDoc.get("video_path")!=null&&!"".equals(getDoc.get("video_path"))){
+            		JSONArray video_array=JSONArray.fromObject(getDoc.get("video_path"));
+            		if(video_array!=null){
+            			for(int i=0;i<video_array.size();i++){
+            				JSONObject video_json=video_array.getJSONObject(i);
+            				%>
+            			<li class="mr_15">
+                   			 <div class="ziliao_img">
+                       		 <div class="p_shipin">
+                   				<video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
+	                   				controls
+	 									preload="auto" width="252" height="158" 
+	 										data-setup='{}'>
+												<source src="<%=BasicType.getResoursePath(video_json.optString("key"))%>" type='video/mp4' />
+								</video>
+                       		 </div>
+                    		</div>
+                   			 <p><%=video_json.optString("title")%></p>
+               			</li>
+            				<%
+            			}
+            		}
+            	}
+            out.print(" <div class=\"clear\"></div>");
+            %>
+            </ul>
+         </div>
+         <div class="right_con">
+            <div class="four_t"><h5>图片资料</h5></div>
+            <ul class="ziliao">
+            <%
+            	if(getDoc.get("pics")!=null&&!"".equals(getDoc.get("pics"))){
+            		JSONArray pic_array=JSONArray.fromObject(getDoc.get("pics"));
+            		if(pic_array!=null){
+            			for(int i=0;i<pic_array.size();i++){
+            				%>
+            				<li class="mr_15">
+                    			<div class="ziliao_img"><img src="<%=pic_array.optString(i)%>"  /></div>
+               				</li>
+            				<%
+            			}
+            		}
+            	}
+            out.print(" <div class=\"clear\"></div>");
+            %>
+            </ul>
+         </div>
+       </div>
   </div>
   <div class="clear"></div>
 </div>

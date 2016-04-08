@@ -183,7 +183,7 @@
            			<video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered" controls
  			preload="auto" width="220" height="132" poster="https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"
  		data-setup='{}'>
-		<source src="<%=BasicType.myspace_url+json.optString("key")%>" type='video/mp4' />
+		<source src="<%=BasicType.getResoursePath(json.optString("key"))%>" type='video/mp4' />
 	</video>
 	<input type="hidden" name="key" value="<%=json.optString("key")%>"/>
 	<div class="del">

@@ -222,6 +222,14 @@ public class BasicType {
  }
  
  /**
+  * 获取视频，动画的路径
+  * @param key
+  * @return
+  */
+ public static String getResoursePath(String key){
+	 return BasicType.myspace_url+key;
+ }
+ /**
   * 获取选项
   * @param i
   * @return
