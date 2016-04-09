@@ -105,8 +105,8 @@
 	if(teaching_evalution!=null&&!"".equals(teaching_evalution)){
 		JSONObject path_json=JSONObject.fromObject(teaching_evalution);
 		if(path_json!=null){
-			addBuffer.append("<div style=\"margin-top:10px;\">请输入标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\""+path_json.optString("title")+"\"/>"+
-			"</div><div><a href=\"/manage/showword.jsp?imgpath="+path_json.optString("word_dir")+"&num="+path_json.optInt("num")+"\" target=\"_blank\"><img src=\""+("/document/images/"+path_json.optString("word_dir")+"/test-0"+(Pdf2Jpg.SUFF_IMAGE)+"")+"\""+
+			addBuffer.append("<div style=\"margin-top:10px;\"><div>请输入标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\""+path_json.optString("title")+"\"/>"+
+					"</div><a href=\"/manage/showword.jsp?imgpath="+path_json.optString("word_dir")+"&num="+path_json.optInt("num")+"\" target=\"_blank\"><img src=\""+("/document/images/"+path_json.optString("word_dir")+"/test-0"+(Pdf2Jpg.SUFF_IMAGE)+"")+"\""+
                        " height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"word_dir\" value=\""+
                         ""+path_json.optString("word_dir")+" \" /><input type=\"hidden\" name=\"num\" value=\""+path_json.optInt("num")+"\"/></div>");
 		}
@@ -142,13 +142,13 @@
            <script type="text/javascript">
              
                 var callback = function (imgpath,num) {
-                	var append= '<div style="margin-top:10px;">请输入标题：<input type="text" name="title" style="width:120;"/></div><div><a href="/manage/showword.jsp?imgpath='+(imgpath)+'&num='+num+'" target="_blank"><img src="'
+                	var append= '<div  style="margin-top:10px;"><div>请输入标题：<input type="text" name="title" style="width:120;"/></div><a href="/manage/showword.jsp?imgpath='+(imgpath)+'&num='+num+'" target="_blank"><img src="'
                         + '<%-- /document/images/'+imgpath+'/test-0<%=Pdf2Jpg.SUFF_IMAGE%> --%>/images/test.jpg'
                         + '" height=150></a><div class="del">删除</div><input type="hidden" name="word_dir" value="'
                         + imgpath + '" /><input type="hidden" name="num" value="'+num+'"/></div>';
                     $('#smallfileDetail').html(append);
-                    $('#smallfileDetail div div').off('click').on('click', function () {
-                        $(this).parent().parent().remove();
+                    $('.del').off('click').on('click', function () {
+                        $(this).parent().remove();
                     });
                 };
                 if ($('#smallfileUpload').size()) {
@@ -168,8 +168,8 @@
 <script type="text/javascript">
 	$(document).ready(function (){
 		$('#smallfileDetail').html('<%=addBuffer%>');
-		 $('#smallfileDetail div div').off('click').on('click', function () {
-             $(this).parent().parent().remove();
+		 $('.del').off('click').on('click', function () {
+             $(this).parent().remove();
          });
 	});
 </script>

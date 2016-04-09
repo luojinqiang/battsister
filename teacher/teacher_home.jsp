@@ -124,7 +124,7 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
   <div class="right_w">
   	 <div class="title_r">课程标准</div>
   	 <div class="right_con">
-          <div class="wrapper">
+          <!-- <div class="wrapper">
         <div class="doc" id="doc" style="margin-left:-10px;width:80%;height:600px;margin-top:-30px;"></div>
 	 </div>
 	 <script type="text/javascript">
@@ -137,7 +137,9 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 			          '/document/images/18-47-05_6642/test-6.png',
 			          '/document/images/18-47-05_6642/test-7.png'];
 		</script>
-   <script type="text/javascript">$('#doc').MPreview({ data: data });</script>
+   <script type="text/javascript">$('#doc').MPreview({ data: data });</script> -->
+   	这个是课程标准。。。请提供资料。。。
+   
      </div>
   </div>
   <div class="clear"></div>

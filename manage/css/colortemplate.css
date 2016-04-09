@@ -8,8 +8,8 @@ h1 {
     text-indent: 40px;
     margin-left: 20px;
     overflow: hidden;
-    background: url(../images/logo_ly2.png) no-repeat;
-    line-height: 40px;
+/*     background: url(../images/logo_ly2.png) no-repeat;
+ */    line-height: 40px;
     color: #aaa;
 }
 

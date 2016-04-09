@@ -91,9 +91,9 @@
                 int j = 0;
                 //int counts = utildb.Get_count(idd, table, wheres, "", sqllist);
                 Doc whereDoc = new Doc();
-                whereDoc.putIn("course_id", course_id);
-                whereDoc.putIn("chapter_id", chapter_id);
-                whereDoc.putIn("isdel", 0);
+                whereDoc.put("course_id", course_id);
+                whereDoc.put("chapter_id", chapter_id);
+                whereDoc.put("isdel", 0);
                 whereDoc.put("@order", "order_num asc");
                 //counts = el.queryCountByWhere(whereDoc);
 

@@ -84,7 +84,7 @@ if(chapter_id>0){
 		for(Doc doc:exeList){
 			List<Doc> opt_List=selectic.Get_List("name,pic,is_answer,order_num", "bs_exercise_option", " where isdel=0 and exercise_library_id=? ","mysqlss",new Object[]{doc.getIn("id")});
 			opt_List=opt_List==null?new ArrayList():opt_List;
-			doc.putO("opt_list",opt_List);
+			doc.put("opt_list",opt_List);
 		}
 	}
 	exeList=exeList==null?new ArrayList():exeList;
