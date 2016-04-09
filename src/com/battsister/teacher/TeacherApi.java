@@ -1,17 +1,24 @@
 package com.battsister.teacher;
 
+import java.util.List;
+
+import javax.mail.internet.MimeUtility;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import net.sf.json.JSONObject;
+
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
 import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
-import com.baje.sz.util.*;
+import com.baje.sz.util.AppConf;
+import com.baje.sz.util.Doc;
+import com.baje.sz.util.KeyBean;
+import com.baje.sz.util.RequestUtil;
+import com.baje.sz.util.SendEmail;
 import com.battsister.admin.sys.Logdb;
-import net.sf.json.JSONObject;
-
-import javax.mail.internet.MimeUtility;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class TeacherApi {
 	/**
@@ -640,6 +647,136 @@ public class TeacherApi {
         } finally {
             dbc.closeConn();
         }
-
     }
+    /**
+     * 发起考试
+     * @param request
+     * @return
+     */
+    public JSONObject sendExamination(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--发起考试";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            Object teacher_id =request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc=base.executeQuery2Docs("select id,username,course_flag from bs_teachers where id=? and isdel=0", new Object[]{teacher_id},1)[0];
+            if(teacherDoc==null||teacherDoc.isEmpty()){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "教师账号不存在");
+                 return backjson;
+            }
+            int type=ru.getInt("type");
+            int id=ru.getInt("id");
+            String name=ru.getString("name");
+            String end_time=ru.getString("end_time");
+            if(name==null||"".equals(name)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "请输入考试名称");
+                 return backjson;
+            }
+            if(end_time==null||"".equals(end_time)){
+            	backjson.put("type", false);
+                backjson.put("msg", "请选择考试截至时间");
+                return backjson;
+           }
+            if(teacherDoc.get("course_flag")==null||"".equals(teacherDoc.get("course_flag"))){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "您尚未购买该课程");
+                 return backjson;
+            }else if(!teacherDoc.get("course_flag").contains(id+"")){//简要判断
+            	 backjson.put("type", false);
+                 backjson.put("msg", "您尚未购买该课程");
+                 return backjson;
+            }
+            StringBuffer buffer=new StringBuffer("");
+            List<Doc> list=null;
+            if(type==1){//按照课程考试
+            	list=base.executeQuery2List("select id,type from bs_exercise_library where course_id=? and isdel=0 order by type asc ",new Object[]{id});
+            	if(list==null||list.isEmpty()){
+            		 backjson.put("type", false);
+                     backjson.put("msg", "该课程尚未有试题，敬请期待");
+                     return backjson;
+            	}
+            	int selectNum=0;//单选题数量，最多40道
+            	int boxNum=0;//多选题数量，最多40道
+            	int judgeNum=0;//选择题数量，最多偶20道
+            	if(list.size()>=100){
+            		for(Doc doc:list){
+            			switch (doc.getIn("type")) {
+    					case 0:
+    						if(selectNum<40){
+    							buffer.append(doc.getIn("id")+",");
+    						}
+    						break;
+    					case 1:
+    						if(boxNum<40){
+    							buffer.append(doc.getIn("id")+",");
+    						}
+    						break;
+    					case 2:
+    						if(judgeNum<20){
+    							buffer.append(doc.getIn("id")+",");
+    						}
+    						break;
+    					}
+            		}
+            	}else{
+            		for(Doc doc:list){//不够100道题目全选
+    					buffer.append(doc.getIn("id")+",");
+            		}
+            	}
+            }else{//按照章节考试
+            	list=base.executeQuery2List("select id,type from bs_exercise_library where chapter_id=? and isdel=0 order by type asc ",new Object[]{id});
+            	if(list==null||list.isEmpty()){
+            		 backjson.put("type", false);
+                     backjson.put("msg", "该课程尚未有试题，敬请期待");
+                     return backjson;
+            	}
+            	for(Doc doc:list){//章节全选
+					buffer.append(doc.getIn("id")+",");
+        		}
+            }
+            //插入一个考试
+            Doc insertDoc=new Doc();
+            insertDoc.put("name",name);
+            insertDoc.put("type",type);
+            insertDoc.put("question",type);
+            String  ids="";
+            if(!buffer.equals("")){
+            	ids=buffer.substring(0,buffer.length()-1);
+            }else{
+            	 backjson.put("type", false);
+                 backjson.put("msg", "该课程尚未有试题，敬请期待");
+                 return backjson;
+            }
+            insertDoc.put("question",ids);
+            insertDoc.put("limit_time",type==0?60:40);
+            insertDoc.put("end_time",AjaxXml.getTimestamp(end_time+" 23:59:59"));
+            insertDoc.put("teacher_id",teacher_id);
+            insertDoc.put("add_time",AjaxXml.getTimestamp("now"));
+            base.executeInsertByDoc("bs_examination", insertDoc);
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "发起考试",teacherDoc.get("username"),teacherDoc.getIn("id"), ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "发起成功");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
+    public static void main(String[] args) {
+		StringBuffer buffer=new StringBuffer("1,2,3,4,5,6,");
+		System.out.println(buffer.substring(0,buffer.length()-1));
+	}
 }

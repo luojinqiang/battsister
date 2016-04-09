@@ -119,7 +119,7 @@
         			for(int i=0;i<course_array.size();i++){
         				JSONObject course_json=course_array.getJSONObject(i);
         				%>
-        				<li class="mr_15" style="border: solid 1px #ddd;">
+        				<li class="mr_15">
             				<div class="ziliao_img"><img src="<%=course_json.optString("pic")%>"></div>
            	  				<p><%=course_json.optString("name")%></p>
            				</li>

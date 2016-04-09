@@ -121,7 +121,7 @@ wordBuffer.append("]");
 				if(wordBuffer.length()>2){
 			%>
 				 <div class="wrapper">
-        			<div class="doc" id="doc" style="margin-top: -30px;width: 80%;margin-left: 10px;"></div>
+        			<div class="doc" id="doc" style="margin-top: -20px;width: 85%;margin-left: 10px;"></div>
 				 </div>
 					 <script type="text/javascript">
 						var data=<%=wordBuffer.toString()%>;

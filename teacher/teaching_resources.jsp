@@ -152,7 +152,7 @@
             					%>
 	            		<li class="mr_15">
 	                   		 <div class="ziliao_img"><a href="show_ppt.jsp?pic_dir=<%=ppt_json.optString("pic_dir")%>&num=<%=ppt_json.optInt("num")%>" target="_blank"><img src="<%=BasicType.getWordPptPath(ppt_json.optString("pic_dir"),0)%>"/></a></div>
-	                   		 <p><%=ppt_json.optString("title")%></p>
+	                   		 <p> <%=ppt_json.optString("title")%></p>
 	               		 </li>
             					<%
             			}
