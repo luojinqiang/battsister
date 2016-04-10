@@ -38,7 +38,7 @@
             <h5 class="selected"><a href="test_history.jsp">未参加的考试</a></h5>
           </li>
           <li >
-            <h5><a href="test_history2.html">已参加的考试</a></h5>
+            <h5><a href="test_history2.jsp">已参加的考试</a></h5>
           </li>
         </ul>
       </div>
@@ -48,7 +48,7 @@
      	<div class="title_d">未参加的考试</div>
          <%
              Selectic selectic = new Selectic();
-             List<Doc> list = selectic.Get_List("id,name,limit_time,question "," bs_examination", "where isdel=0 and end_time > ?", "mysqlss", new Object[]{AjaxXml.getTimestamp("now")});
+             List<Doc> list = selectic.Get_List("be.id as be_id,be.name,be.limit_time,be.question "," bs_examination be right join bs_examination_anwser ba on be.id=ba.examination_id", "where be.isdel=0 and ba.isdel=0 and ba.student_id=?", "mysqlss", new Object[]{student_id});
              if (list != null && !list.isEmpty()) {
                  Doc examDoc;
                  for (Doc doc : list) {
