@@ -35,7 +35,7 @@
 						JSONArray hasChapterArray=hasJson.optJSONArray("chapters");
 						if(hasChapterArray!=null){
 							for(int j=0;j<hasChapterArray.size();j++){
-								Doc chapterDoc=selectic.Get_Doc("id,name,course_id,video_path,animation_path,pics,ppt_path,word_path", "bs_chapter", " where id=? ","mysqlss",new Object[]{hasChapterArray.optJSONObject(j).optInt("chapter_id")});
+								Doc chapterDoc=selectic.Get_Doc("id,name,course_id,video_path,animation_path,pics,ppt_path,word_path", "bs_chapter", " where id=? and isdel=0","mysqlss",new Object[]{hasChapterArray.optJSONObject(j).optInt("chapter_id")});
 								if(chapterDoc!=null&&!chapterDoc.isEmpty()){
 									JSONObject chapterJson=new JSONObject();
 									chapterJson.put("id",chapterDoc.getIn("id"));
@@ -118,9 +118,14 @@
         		if(course_array!=null){
         			for(int i=0;i<course_array.size();i++){
         				JSONObject course_json=course_array.getJSONObject(i);
+        				JSONArray chapter_array=course_json.optJSONArray("chapter_array");
+        				int chapter_id=0;
+        				if(chapter_array!=null&&chapter_array.size()>0){
+        					chapter_id=chapter_array.optJSONObject(0).optInt("id");
+        				}
         				%>
         				<li class="mr_15">
-            				<div class="ziliao_img"><img src="<%=course_json.optString("pic")%>"></div>
+            				<div class="ziliao_img"><a href="<%=chapter_id>0?"teaching_details.jsp?chapter_id="+chapter_id+"":"javascript:alert('该课程暂未有章节');"%>"><img src="<%=course_json.optString("pic")%>"></a></div>
            	  				<p><%=course_json.optString("name")%></p>
            				</li>
         				<%

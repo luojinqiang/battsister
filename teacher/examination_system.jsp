@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@page import="com.battsister.util.BasicType"%>
 <%@page import="net.sf.json.JSONObject"%>
@@ -53,6 +55,18 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 		}
 	}
 }
+//考试列表
+List valueList=new ArrayList();
+valueList.add(teacher_id);
+String table="bs_examination";
+String file="id,name,type,question,limit_time,end_time";
+String wheres="isdel=0 and teacher_id=?";
+int counts=selectic.Get_count("id", table, wheres, "mysqlss",valueList);
+int pages=ru.getInt("pages");
+pages=pages==0?1:pages;
+int pn=3;
+int page_size=selectic.getPageSize(counts, pn);
+List<Doc> examinationList=selectic.Get_List(pages, pn, counts, table, wheres, file, "order by add_time desc", "mysqlss",valueList);
 %>
 <!doctype html>
 <html>
@@ -120,78 +134,63 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
   <div class="right_w">
   	 <div class="title_r">考试记录<a href="examination.jsp">发起考试</a></div>
      <div class="right_con">
-        <div class="kaoshi">
-        	<table width="100%" border="0" cellspacing="1" cellpadding="0">
-              <tr>
-                <td colspan="5" class="table_title">考试名称1 <span>参考人员：全体学员</span></td>
-              </tr>
-              <tr>
-                <th>课程名称</th>
-                <th>总分</th>
-                <th>考试人数</th>
-                <th>时长</th>
-                <th>&nbsp;</th>
-              </tr>
-              <tr>
-                <td>小车驾驶考试 </td>
-                <td>100分</td>
-                <td>45个</td>
-                <td>120分钟</td>
-                <td><div class="kaoshi_botton"><a href="examination_record.html">查看详情</a></div></td>
-              </tr>
-            </table>
-        </div>
-        <div class="kaoshi">
-        	<table width="100%" border="0" cellspacing="1" cellpadding="0">
-              <tr>
-                <td colspan="5" class="table_title">考试名称2<span>参考人员：全体学员</span></td>
-              </tr>
-              <tr>
-                <th>课程名称</th>
-                <th>总分</th>
-                <th>考试人数</th>
-                <th>时长</th>
-                <th>&nbsp;</th>
-              </tr>
-              <tr>
-                <td>小车驾驶考试 </td>
-                <td>100分</td>
-                <td>45个</td>
-                <td>120分钟</td>
-                <td><div class="kaoshi_botton"><a href="examination_record.html">查看详情</a></div></td>
-              </tr>
-            </table>
-        </div>
-        <div class="kaoshi">
-        	<table width="100%" border="0" cellspacing="1" cellpadding="0">
-              <tr>
-                <td colspan="5" class="table_title">考试名称3<span>参考人员：全体学员</span></td>
-              </tr>
-              <tr>
-                <th>课程名称</th>
-                <th>总分</th>
-                <th>考试人数</th>
-                <th>时长</th>
-                <th>&nbsp;</th>
-              </tr>
-              <tr>
-                <td>小车驾驶考试 </td>
-                <td>100分</td>
-                <td>45个</td>
-                <td>120分钟</td>
-                <td><div class="kaoshi_botton"><a href="examination_record.html">查看详情</a></div></td>
-              </tr>
-            </table>
-        </div>
-        <ul class="pre">
-        	<li><a href="#"><</a></li>
-          	<li><a href="#">1</a></li>
-          	<li><a href="#">2</a></li>
-          	<li><a href="#">3</a></li>
-          	<li><a href="#">4</a></li>
-       	  	<li class="active_pre"><a href="#">5</a></li>
-          	<li><a href="#">></a></li>
-        </ul>
+        <%
+        	if(examinationList!=null){
+        		for(Doc doc:examinationList){
+        			int questionNum=0;
+        			if(doc.get("question")!=null&&!"".equals(doc.get("question"))){
+        				String ss[]=doc.get("question").split(",");
+        				if(ss!=null){
+        					questionNum=ss.length;
+        				}
+        			}
+        			%>
+		        <div class="kaoshi">
+			        	<table width="100%" border="0" cellspacing="1" cellpadding="0">
+			              <tr>
+			                <td colspan="5" class="table_title"><%=doc.get("name")%><span>参考人员：全体学员</span></td>
+			              </tr>
+			              <tr>
+			                <th>考试模式</th>
+			                <th>试题数量</th>
+			                <th>考试时长</th>
+			                <th>考试截止时间</th>
+			                <th>&nbsp;</th>
+			              </tr>
+			              <tr>
+			                <td><%=doc.getIn("type")==0?"按模块":"按任务"%></td>
+			                <td><%=questionNum%></td>
+			                <td><%=doc.get("limit_time")+"分钟"%></td>
+			                <td><%=AjaxXml.timeStamp2Date(doc.getIn("end_time"),"YY04-MM-DD")%></td>
+			                <td><div class="kaoshi_botton"><a href="examination_record.jsp">查看详情</a></div></td>
+			              </tr>
+			            </table>
+		        </div>
+        			<%
+        		}
+        	}
+        %>
+       <!-- 分页 -->
+     <ul class="pre">
+      <%=page_size>0?"<li><a href=\""+(pages!=1?"examination.jsp?pages="+(pages-1):"javascript:void(0);")+"\"><</a></li>":""%>
+       <%
+       	int index=1;
+       	int index2=page_size;
+       	if(page_size>=5){
+	       	if(pages+5<=page_size){
+	       		index=pages;
+	       		index2=pages+4;
+	       	}
+	       	if(pages+5>page_size){
+	       		index=page_size-4;
+	       	}
+       	}
+       	for(int i=index;i<=index2;i++){
+       		out.print("<li"+(i==pages?" class=\"active_pre\"":"")+"><a href=\"examination.jsp?pages="+i+"\">"+i+"</a></li>");
+       	}
+       %>
+       <%=page_size>0?"<li><a href=\""+(pages!=page_size?"examination.jsp?pages="+(pages+1):"javascript:void(0);")+"\">></a></li>":""%>
+    </ul>
     </div>
   </div>
   <div class="clear"></div>
