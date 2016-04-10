@@ -1,3 +1,4 @@
+<%@page import="com.battsister.util.BasicType"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.baje.sz.util.Doc"%>
@@ -6,37 +7,31 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%
 	RequestUtil ru=new RequestUtil(request);
-	int question_id=ru.getInt("question_id");
+	int examination_id=ru.getInt("examination_id");
 	Selectic selectic=new Selectic();
-	Doc questionDoc=selectic.Get_Doc("id,name,type,question,limit_time,end_time","bs_examination", " where isdel=0 and id=?","mysqlss",new Object[]{question_id});
-	if(questionDoc==null||questionDoc.isEmpty()){
+	Doc examDoc=selectic.Get_Doc("id,name,type,question_num,limit_time,end_time","bs_examination", " where isdel=0 and id=?","mysqlss",new Object[]{examination_id});
+	if(examDoc==null||examDoc.isEmpty()){
 		out.print("	<script>alert(\"该试题不存在\");window.location.href='/login.jsp';</script>");
 		return;
 	}
-	StringBuffer wenhaoBuffer=new StringBuffer("");
 	List valueList=new ArrayList();
-	if(questionDoc.get("question")!=null&&!"".equals(questionDoc.get("question"))){
-		String ss[]=questionDoc.get("question").split(",");
-		if(ss!=null){
-			for(int i=0;i<ss.length;i++){
-				valueList.add(ss[i]);
-				  if (i == 0) {
-					  	wenhaoBuffer.append("?");
-		             } else {
-		            	wenhaoBuffer.append(",?");
-		             }
-			}
-		}
-	}
-	String table="bs_exercise_library";
+	valueList.add(examination_id);
+	String table="bs_exercise_exam";
 	String file="name,name_pic,type,thoughts";
-	String wheres="isdel=0 and id in ("+wenhaoBuffer.toString()+")";
+	String wheres="isdel=0 and examination_id =? ";
 	int counts=selectic.Get_count("id", table, wheres, "mysqlss",valueList);
 	int pages=ru.getInt("pages");
 	pages=pages==0?1:pages;
 	int pn=5;
 	int page_size=selectic.getPageSize(counts, pn);
-	List<Doc> list=selectic.Get_List(pages, pn, counts, table, wheres, file, "", "mysqlss");
+	List<Doc> examList=selectic.Get_List(pages, pn, counts, table, wheres, file, "", "mysqlss",valueList);
+	if(examList!=null){
+		for(Doc doc:examList){
+			List<Doc> opt_List=selectic.Get_List("name,pic,is_answer,order_num", "bs_exercise_option", " where isdel=0 and id=? ","mysqlss",new Object[]{doc.getIn("id")});
+			opt_List=opt_List==null?new ArrayList():opt_List;
+			doc.put("opt_list",opt_List);
+		}
+	}
 %>
 <!doctype html>
 <html>
@@ -83,93 +78,87 @@ if(targetObj.style.display!="none"){
 </div>
 <div class="container">
 	<div class="ex_wrap">
-		<div class="title_r">考试名称<i>参考人员：全体学员</i><i>考试时长：<%=questionDoc.getIn("")%>分钟</i><i>试题数量：<%=counts%></i></div>
-        <div class="ex_one">
-            <div class="ex_one_title"><em>单选</em><span>1/20</span>驾驶机动车辆在道路上违反道路交通规则安全法的行为，属于什么行为？</div>
-            <ul>
-                 <li>
-                	<input name="" type="radio" value="0" class="input_radio">
-                    <div class="da_an">
-                        <p>A、违章行为</p>
-                        <div class="da_an_img"><img src="images/user1.jpg"></div>
-                    </div>
-                    <div class="clear"></div>
-               </li>
-               <li>
-                	<input name="" type="radio" value="0" class="input_radio">
-                    <div class="da_an">
-                        <p>B、违法行为</p>
-                        <div class="da_an_img"><img src="images/user.jpg"></div>
-                    </div>
-                    <div class="clear"></div>
-               </li>
-               <li>
-                	<input name="" type="radio" value="0" class="input_radio">
-                    <div class="da_an">
-                        <p>C、过失行为</p>
-                        <div class="da_an_img"><img src="images/user1.jpg"></div>
-                    </div>
-                    <div class="clear"></div>
-               </li>
-               <li>
-                	<input name="" type="radio" value="0" class="input_radio">
-                    <div class="da_an">
-                    	<p>D、违规行为</p>
-                        <div class="da_an_img"><img src="images/user.jpg"></div>
-                    </div>
-                    <div class="clear"></div>
-               </li>
-            </ul>
-            <div class="ex_botton"><a onclick="open_zzjs_net(this,'zzjs_net1')">本题答案以及解释</a></div>
-            <div id="zzjs_net1" class="zzjs_net" style="display:none">本题正确答案B。违反《道路交通安全法》，肯定是违反法律了，当然也就是违法行为了。现在已经没有违规行为和违章行为一说了，都是违法行为。</div>
-        </div>
-        <div class="ex_one">
-            <div class="ex_one_title"><em>单选</em><span>1/20</span>驾驶机动车辆在道路上违反道路交通规则安全法的行为，属于什么行为？</div>
-            <ul>
-               <li>
-                	<input name="" type="checkbox" value="0" class="input_checkbox">
-                    <div class="da_an">
-                    	<div class="da_an_img"><img src="images/user.jpg"></div>
-                    </div>
-                    <div class="clear"></div>
-                </li>
-                <li>
-                	<input name="" type="checkbox" value="1" class="input_checkbox">
-                    <div class="da_an">
-                    	<p>B、违法行为</p>
-                    </div>
-                    <div class="clear"></div>
-               </li>
-               <li>
-                	<input name="" type="checkbox" value="1" class="input_checkbox">
-                    <div class="da_an">
-                    	<p>C、过失行为</p>
-                    </div>
-                    <div class="clear"></div>
-               </li>
-               <li>
-                	<input name="" type="checkbox" value="1" class="input_checkbox">
-                    <div class="da_an">
-                    	<p>D、违规行为</p>
-                    </div>
-                    <div class="clear"></div>
-               </li>
-            </ul>
-            <div class="ex_botton"><a onclick="open_zzjs_net(this,'zzjs_net2')">本题答案以及解释</a></div>
-            <div id="zzjs_net2" class="zzjs_net" style="display:none">本题正确答案B。违反《道路交通安全法》，肯定是违反法律了，当然也就是违法行为了。现在已经没有违规行为和违章行为一说了，都是违法行为。</div>
-        </div>
-         <ul class="pre">
-        	<li><a href="#"><</a></li>
-          	<li><a href="#">1</a></li>
-          	<li><a href="#">2</a></li>
-          	<li><a href="#">3</a></li>
-          	<li><a href="#">4</a></li>
-       	  	<li class="active_pre"><a href="#">5</a></li>
-          	<li><a href="#">></a></li>
-        </ul>
-    </div>	
-</div>
-
+		<div class="title_r">考试名称<i>参考人员：全体学员</i><i>考试时长：<%=examDoc.getIn("limit_time")%>分钟</i><i>试题数量：<%=examDoc.getIn("question_num")%></i></div>
+    <%
+    if(examList!=null){
+   		for(int i=0;i<examList.size();i++){
+   			Doc questionDoc=examList.get(i);
+	   %>
+	   	 <div class="ex_one">
+	        <div class="ex_one_title"><em><%if(questionDoc.getIn("type")==0){out.print("单选");}else if(questionDoc.getIn("type")==1){out.print("多选");}else{out.print("判断题");}%></em><span><%=(i+1)+(pn*(pages-1))%>/<%=counts%></span><%=questionDoc.get("name")%></div>
+	        <ul>
+	           <%
+	           if(questionDoc.getIn("type")==0||questionDoc.getIn("type")==1){
+		           List<Doc> opt_list=(List<Doc>)questionDoc.getO("opt_list");
+		           if(opt_list!=null){
+		        	   for(int j=0;j<opt_list.size();j++){
+		        		   Doc optDoc=opt_list.get(j);
+	           %>
+		            <li>
+		               <%=questionDoc.getIn("type")==0?"<input name=\""+i+"\" type=\"radio\" value=\"0\" class=\"input_radio\">":" <input name=\""+i+"\" type=\"checkbox\" value=\"1\" class=\"input_checkbox\">"%>
+		                <div class="da_an">
+		                    <%
+		                    String optString=BasicType.getOption(j)+"   ";
+		                    if(optDoc.get("name")!=null&&!"".equals(optDoc.get("name"))){
+		                    	out.print("<p>"+optString+optDoc.get("name")+"</p>" );
+		                    	optString="";//当显示了abcd时第二个不显示
+		                    }
+		                    %>
+		                    <%=optDoc.get("pic")!=null&&!"".equals(optDoc.get("pic"))?"<div class=\"da_an_img\">"+optString+"<img src=\""+optDoc.get("pic")+"\"></div>":""%>
+		                </div>
+		                <div class="clear"></div>
+		            </li>
+	           <%
+	           			}
+	          		}
+	           }else{
+	        	 %>
+	        	  <li>
+	                <input name="<%=i%>" type="radio" value="1" class="input_radio">
+	                <div class="da_an">
+	                    <p>正确</p>
+	                </div>
+	                <div class="clear"></div>
+	            </li>
+	            <li>
+	                <input name="<%=i%>" type="radio" value="0" class="input_radio">
+	                <div class="da_an">
+	                    <p>错误</p>
+	                </div>
+	                <div class="clear"></div>
+	            </li>
+	        	<%
+	           }
+	           %>
+	        </ul>
+	        <div class="ex_botton"><a onclick="open_zzjs_net(this,'zzjs_net<%=i%>')">本题答案以及解释</a></div>
+	        <div id="zzjs_net<%=i%>" class="zzjs_net" style="display:none"><%=questionDoc.get("thoughts")%></div>
+	    </div>
+	    <%
+	   	}
+    }
+    %>
+      <!-- 分页 -->
+     <ul class="pre">
+      <%=page_size>0?"<li><a href=\""+(pages!=1?"examination_details.jsp?pages="+(pages-1):"javascript:void(0);")+"\"><</a></li>":""%>
+       <%
+       	int index=1;
+       	int index2=page_size;
+       	if(page_size>=5){
+	       	if(pages+5<=page_size){
+	       		index=pages;
+	       		index2=pages+4;
+	       	}
+	       	if(pages+5>page_size){
+	       		index=page_size-4;
+	       	}
+       	}
+       	for(int i=index;i<=index2;i++){
+       		out.print("<li"+(i==pages?" class=\"active_pre\"":"")+"><a href=\"examination_details.jsp?pages="+i+"\">"+i+"</a></li>");
+       	}
+       %>
+       <%=page_size>0?"<li><a href=\""+(pages!=page_size?"examination_details.jsp?pages="+(pages+1):"javascript:void(0);")+"\">></a></li>":""%>
+    </ul>
 <!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
 

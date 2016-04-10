@@ -59,7 +59,7 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 List valueList=new ArrayList();
 valueList.add(teacher_id);
 String table="bs_examination";
-String file="id,name,type,question,limit_time,end_time";
+String file="id,name,type,question_num,limit_time,end_time";
 String wheres="isdel=0 and teacher_id=?";
 int counts=selectic.Get_count("id", table, wheres, "mysqlss",valueList);
 int pages=ru.getInt("pages");
@@ -137,13 +137,6 @@ List<Doc> examinationList=selectic.Get_List(pages, pn, counts, table, wheres, fi
         <%
         	if(examinationList!=null){
         		for(Doc doc:examinationList){
-        			int questionNum=0;
-        			if(doc.get("question")!=null&&!"".equals(doc.get("question"))){
-        				String ss[]=doc.get("question").split(",");
-        				if(ss!=null){
-        					questionNum=ss.length;
-        				}
-        			}
         			%>
 		        <div class="kaoshi">
 			        	<table width="100%" border="0" cellspacing="1" cellpadding="0">
@@ -159,10 +152,10 @@ List<Doc> examinationList=selectic.Get_List(pages, pn, counts, table, wheres, fi
 			              </tr>
 			              <tr>
 			                <td><%=doc.getIn("type")==0?"按模块":"按任务"%></td>
-			                <td><%=questionNum%></td>
+			                <td><%=doc.getIn("question_num")%></td>
 			                <td><%=doc.get("limit_time")+"分钟"%></td>
 			                <td><%=AjaxXml.timeStamp2Date(doc.getIn("end_time"),"YY04-MM-DD")%></td>
-			                <td><div class="kaoshi_botton"><a href="examination_record.jsp">查看详情</a></div></td>
+			                <td><div class="kaoshi_botton"><a href="examination_record.jsp?examination_id=<%=doc.getIn("id")%>">查看详情</a></div></td>
 			              </tr>
 			            </table>
 		        </div>

@@ -1,4 +1,9 @@
+<%@page import="com.baje.sz.util.RequestUtil"%>
 <%@ page contentType="text/html; charset=utf-8" %>
+<%
+	RequestUtil ru=new RequestUtil(request);
+	int examination_id=ru.getInt("examination_id");
+%>
 <!doctype html>
 <html>
 <head>
@@ -16,12 +21,12 @@
 </jsp:include>
 <div class="container">
     <div class="info">
-    	<a href="teacher_home.html">首页</a><em>></em><a href="teaching.html">我要授课</a><em>></em><a href="examination_system.html">考试系统</a><em>></em><a href="examination_record.html">考试记录</a>
+    	<a href="teacher_home.jsp">首页</a><em>></em><a href="teaching.jsp">我要授课</a><em>></em><a href="examination_system.jsp">考试系统</a><em>></em><a href="examination_record.jsp">考试记录</a>
     </div>
 </div>
 <div class="container">
 	<div class="ex_wrap">
-		<div class="title_r">考试名称<i>参考人员：全体学员</i><i>考试时长：120分钟</i><i>考试总分：100分</i><a href="examination_details.jsp">试题详情</a></div> 
+		<div class="title_r">考试名称<i>参考人员：全体学员</i><i>考试时长：120分钟</i><i>考试总分：100分</i><a href="examination_details.jsp?examination_id=<%=examination_id%>">试题详情</a></div> 
         <div class="ex_two">
            <!--  <div class="ex_user"><img src="images/user.jpg"></div> -->
             <div class="ex_word">
