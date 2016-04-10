@@ -7,11 +7,14 @@ import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
 import com.baje.sz.util.*;
 import com.battsister.admin.sys.Logdb;
+
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import java.util.List;
 
 public class TeacherApi {
@@ -771,12 +774,11 @@ public class TeacherApi {
             int bs_id = base.executeInsertByDoc("bs_examination", insertDoc);
             base.executeUpdate("insert into bs_exercise_exam(exercise_library_id,examination_id,name,name_pic,type,course_id,chapter_id,add_time,answer,order_num,thoughts) select id," + bs_id + ",name,name_pic,type,course_id,chapter_id," + AjaxXml.getTimestamp("now") + ",answer,order_num,thoughts from bs_exercise_library where id in ("+ids+")", new Object[]{});
 
-
             String[] strings = ids.split(",");
             for (int i = 0; i < strings.length; i ++) {
+            	JSONArray opt_array=base.executeQuery2JSONArray("select id,name,pic,is_answer from bs_exercise_option where exercise_library_id=?" , new Object[]{strings[i]});
                 base.executeUpdateByDoc("bs_exercise_exam",
-                        new Doc().put("option_array", base.executeQuery2List("select id,name,pic,is_answer from bs_exercise_option where exercise_library_id=?" , new Object[]{strings[i]}).toString()),
-                        new Doc().put("exercise_library_id", strings[i]).put("examination_id", bs_id));
+                        new Doc().put("option_array",opt_array.toString()),new Doc().put("exercise_library_id", strings[i]).put("examination_id", bs_id));
             }
 
             base.commit();

@@ -1,3 +1,5 @@
+<%@page import="net.sf.json.JSONObject"%>
+<%@page import="net.sf.json.JSONArray"%>
 <%@page import="com.battsister.util.BasicType"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
@@ -11,13 +13,13 @@
 	Selectic selectic=new Selectic();
 	Doc examDoc=selectic.Get_Doc("id,name,type,question_num,limit_time,end_time","bs_examination", " where isdel=0 and id=?","mysqlss",new Object[]{examination_id});
 	if(examDoc==null||examDoc.isEmpty()){
-		out.print("	<script>alert(\"该试题不存在\");window.location.href='/login.jsp';</script>");
+		out.print("	<script>alert(\"该试题不存在\");window.history.back(-1);</script>");
 		return;
 	}
 	List valueList=new ArrayList();
 	valueList.add(examination_id);
 	String table="bs_exercise_exam";
-	String file="name,name_pic,type,thoughts";
+	String file="name,name_pic,option_array,type,thoughts";
 	String wheres="isdel=0 and examination_id =? ";
 	int counts=selectic.Get_count("id", table, wheres, "mysqlss",valueList);
 	int pages=ru.getInt("pages");
@@ -25,13 +27,6 @@
 	int pn=5;
 	int page_size=selectic.getPageSize(counts, pn);
 	List<Doc> examList=selectic.Get_List(pages, pn, counts, table, wheres, file, "", "mysqlss",valueList);
-	if(examList!=null){
-		for(Doc doc:examList){
-			List<Doc> opt_List=selectic.Get_List("name,pic,is_answer,order_num", "bs_exercise_option", " where isdel=0 and id=? ","mysqlss",new Object[]{doc.getIn("id")});
-			opt_List=opt_List==null?new ArrayList():opt_List;
-			doc.put("opt_list",opt_List);
-		}
-	}
 %>
 <!doctype html>
 <html>
@@ -89,22 +84,25 @@ if(targetObj.style.display!="none"){
 	        <ul>
 	           <%
 	           if(questionDoc.getIn("type")==0||questionDoc.getIn("type")==1){
-		           List<Doc> opt_list=(List<Doc>)questionDoc.getO("opt_list");
-		           if(opt_list!=null){
-		        	   for(int j=0;j<opt_list.size();j++){
-		        		   Doc optDoc=opt_list.get(j);
+	        	   JSONArray optArray=null;
+	        	   if(questionDoc.get("option_array")!=null&&!"".equals(questionDoc.get("option_array"))){
+	        		   optArray=JSONArray.fromObject(questionDoc.get("option_array"));
+	        	   }
+		           if(optArray!=null){
+		        	   for(int j=0;j<optArray.size();j++){
+		        		   JSONObject  optJson=optArray.optJSONObject(j);
 	           %>
 		            <li>
 		               <%=questionDoc.getIn("type")==0?"<input name=\""+i+"\" type=\"radio\" value=\"0\" class=\"input_radio\">":" <input name=\""+i+"\" type=\"checkbox\" value=\"1\" class=\"input_checkbox\">"%>
 		                <div class="da_an">
 		                    <%
 		                    String optString=BasicType.getOption(j)+"   ";
-		                    if(optDoc.get("name")!=null&&!"".equals(optDoc.get("name"))){
-		                    	out.print("<p>"+optString+optDoc.get("name")+"</p>" );
+		                    if(optJson.optString("name")!=null&&!"".equals(optJson.optString("name"))){
+		                    	out.print("<p>"+optString+optJson.optString("name")+"</p>" );
 		                    	optString="";//当显示了abcd时第二个不显示
 		                    }
 		                    %>
-		                    <%=optDoc.get("pic")!=null&&!"".equals(optDoc.get("pic"))?"<div class=\"da_an_img\">"+optString+"<img src=\""+optDoc.get("pic")+"\"></div>":""%>
+		                    <%=optJson.optString("pic")!=null&&!"".equals(optJson.optString("pic"))?"<div class=\"da_an_img\">"+optString+"<img src=\""+optJson.optString("pic")+"\"></div>":""%>
 		                </div>
 		                <div class="clear"></div>
 		            </li>
@@ -140,7 +138,7 @@ if(targetObj.style.display!="none"){
     %>
       <!-- 分页 -->
      <ul class="pre">
-      <%=page_size>0?"<li><a href=\""+(pages!=1?"examination_details.jsp?pages="+(pages-1):"javascript:void(0);")+"\"><</a></li>":""%>
+      <%=page_size>0?"<li><a href=\""+(pages!=1?"examination_details.jsp?pages="+(pages-1)+"&examination_id="+examination_id:"javascript:void(0);")+"\"><</a></li>":""%>
        <%
        	int index=1;
        	int index2=page_size;
@@ -154,10 +152,10 @@ if(targetObj.style.display!="none"){
 	       	}
        	}
        	for(int i=index;i<=index2;i++){
-       		out.print("<li"+(i==pages?" class=\"active_pre\"":"")+"><a href=\"examination_details.jsp?pages="+i+"\">"+i+"</a></li>");
+       		out.print("<li"+(i==pages?" class=\"active_pre\"":"")+"><a href=\"examination_details.jsp?pages="+i+"&examination_id="+examination_id+"\">"+i+"</a></li>");
        	}
        %>
-       <%=page_size>0?"<li><a href=\""+(pages!=page_size?"examination_details.jsp?pages="+(pages+1):"javascript:void(0);")+"\">></a></li>":""%>
+       <%=page_size>0?"<li><a href=\""+(pages!=page_size?"examination_details.jsp?pages="+(pages+1)+"&examination_id="+examination_id:"javascript:void(0);")+"\">></a></li>":""%>
     </ul>
 <!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
