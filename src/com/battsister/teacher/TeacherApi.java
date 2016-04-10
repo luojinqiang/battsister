@@ -667,7 +667,7 @@ public class TeacherApi {
         String logtitle = "派司德教育--发起考试";
         try {
             dbc.openConn("mysqlss");
-            base.setDbc(dbc);
+            base.setDbc(dbc,false);
             ajaxRequest = AjaxXml.getParameterStr(request);
             RequestUtil ru = new RequestUtil(request);
             Object teacher_id = request.getSession().getAttribute("teacher_id");
@@ -755,7 +755,6 @@ public class TeacherApi {
             Doc insertDoc = new Doc();
             insertDoc.put("name", name);
             insertDoc.put("type", type);
-            insertDoc.put("question", type);
             String ids = "";
             if (!buffer.equals("")) {
                 ids = buffer.substring(0, buffer.length() - 1);
@@ -764,21 +763,20 @@ public class TeacherApi {
                 backjson.put("msg", "该课程尚未有试题，敬请期待");
                 return backjson;
             }
-            insertDoc.put("question", ids);
+            insertDoc.put("question_num",ids.split(",").length);
             insertDoc.put("limit_time", type == 0 ? 60 : 40);
             insertDoc.put("end_time", AjaxXml.getTimestamp(end_time + " 23:59:59"));
             insertDoc.put("teacher_id", teacher_id);
             insertDoc.put("add_time", AjaxXml.getTimestamp("now"));
             int bs_id = base.executeInsertByDoc("bs_examination", insertDoc);
-
-
             base.executeUpdate("insert into bs_exercise_exam(examination_id,name,name_pic,type,course_id,chapter_id,add_time,answer,order_num,thoughts) select " + bs_id + ",name,name_pic,type,course_id,chapter_id," + AjaxXml.getTimestamp("now") + ",answer,order_num,thoughts from bs_exercise_library where id in ("+ids+")", new Object[]{});
-
+            base.commit();
             Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "发起考试", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
             backjson.put("type", true);
             backjson.put("msg", "发起成功");
             return backjson;
         } catch (Exception e) {
+        	base.rollback();
             e.printStackTrace();
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
             backjson.put("type", false);
