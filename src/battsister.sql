@@ -78,13 +78,13 @@ CREATE TABLE `bs_examination` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for bs_examination_anwser
+-- Table structure for bs_examination_answer
 -- ----------------------------
-DROP TABLE IF EXISTS `bs_examination_anwser`;
-CREATE TABLE `bs_examination_anwser` (
+DROP TABLE IF EXISTS `bs_examination_answer`;
+CREATE TABLE `bs_examination_answer` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `examination_id` int(11) DEFAULT '0' COMMENT '试卷ID',
-  `anwser` text COMMENT '选择题格式为[{type:0, data:{题目1:答案ID1}},{type:1,data:{题目2: 答案ID2}}]，判断题答案格式为[{type:2, data:{题目1:0},{题目2:1}}]0为错1为对',
+  `answer` text COMMENT '选择题格式为[{type:0, data:{题目1:答案ID1}},{type:1,data:{题目2: 答案ID2}}]，判断题答案格式为[{type:2, data:{题目1:0},{题目2:1}}]0为错1为对',
   `is_commit` int(11) DEFAULT '0' COMMENT '0为交卷、1为已交卷',
   `time_use` int(11) DEFAULT '0' COMMENT '已用时长',
   `student_id` int(11) DEFAULT '0' COMMENT '学生ID',
@@ -92,7 +92,7 @@ CREATE TABLE `bs_examination_anwser` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='学生考试答题表';
 
 -- ----------------------------
--- Records of bs_examination_anwser
+-- Records of bs_examination_answer
 -- ----------------------------
 
 -- ----------------------------
@@ -108,7 +108,7 @@ CREATE TABLE `bs_exercise_library` (
   `chapter_id` int(11) DEFAULT '0' COMMENT '章节',
   `isdel` int(11) DEFAULT '0',
   `add_time` bigint(20) DEFAULT '0' COMMENT '添加时间',
-  `anwser` varchar(125) DEFAULT '' COMMENT '选择题格式为[答案ID1, 答案ID2]，判断题答案格式为[0/1]0为错1为对',
+  `answer` varchar(125) DEFAULT '' COMMENT '选择题格式为[答案ID1, 答案ID2]，判断题答案格式为[0/1]0为错1为对',
   `order` int(11) DEFAULT '0' COMMENT '升序',
   `thoughts` text COMMENT '解题思路',
   PRIMARY KEY (`id`)
@@ -127,7 +127,7 @@ CREATE TABLE `bs_exercise_option` (
   `name` varchar(256) DEFAULT '' COMMENT '选项名称',
   `pic` varchar(256) DEFAULT '',
   `exercise_librarh_id` int(11) DEFAULT '0',
-  `is_anwser` int(11) DEFAULT '0' COMMENT '1为答案',
+  `is_answer` int(11) DEFAULT '0' COMMENT '1为答案',
   `order` int(11) DEFAULT '0' COMMENT '升序',
   `add_time` bigint(20) DEFAULT '0' COMMENT '添加时间',
   `course_id` int(11) DEFAULT '0' COMMENT '课程ID',

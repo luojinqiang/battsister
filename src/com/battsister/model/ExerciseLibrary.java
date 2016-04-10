@@ -43,14 +43,15 @@ public class ExerciseLibrary extends BasicImp{
             }
         }
 
-        Doc doc = new Doc();
-        doc.put("name", name);
-        doc.put("name_pic", ru.getString("name_pic"));
-        doc.put("order_num", ru.getInt("order_num"));
-        doc.put("thoughts", ru.getString("thoughts"));
-        doc.put("course_id", course_id);
-        doc.put("chapter_id", chapter_id);
-        doc.put("type", type);
+        Doc doc = new Doc()
+                .put("name", name)
+                .put("name_pic", ru.getString("name_pic"))
+                .put("order_num", ru.getInt("order_num"))
+                .put("thoughts", ru.getString("thoughts"))
+                .put("course_id", course_id)
+                .put("chapter_id", chapter_id)
+                .put("type", type)
+                .put("answer", ru.getInt("answer"));
         if (id == 0) {
             doc.put("add_time", AjaxXml.getTimestamp("now"));
             add(doc);

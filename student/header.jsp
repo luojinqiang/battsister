@@ -20,12 +20,7 @@
             <li <%=type==2?"class=\"active_stu\"":""%>><a href="learning_guide.jsp">学习指导</a></li>
             <li <%=type==3?"class=\"active_stu\"":""%>><a href="test_history.jsp">考试记录</a></li>
             <li <%=type==4?"class=\"active_stu\"":""%>><a href="my_questions.jsp">我的提问</a></li>
-            <div class="user_stu <%=type==5?"active_stu":""%>">
-                <a href="st_personal.jsp">
-                    <div class="user_stu_img"><img src="../front_style/images/user01.png"></div>
-                    <div class="down_stu">个人中心</div>
-                </a>
-            </div>
+            <li <%=type==5?"class=\"active_stu\"":""%>><a href="my_questions.jsp">个人中心</a></li>
         </ul>
         <div class="clear"></div>
     </div>
