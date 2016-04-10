@@ -66,7 +66,7 @@
             </div>
             <div class="q_answer"><%=doc.get("content")%></div>
             <%
-                List<Doc> rList = selectic.Get_List("id,content,add_time,teacher_id,student_id", "bs_question_reply ", "where question_id=? and isdel=0 order by id asc", "mysqlss", new Object[]{doc.get("id")});
+                List<Doc> rList = selectic.Get_List("id,content,add_time,teacher_id,student_id,reply_type", "bs_question_reply ", "where question_id=? and isdel=0 order by id asc", "mysqlss", new Object[]{doc.get("id")});
                 if (rList != null && !rList.isEmpty()) {
                     for (Doc rdoc : rList) {
                         name = "";
@@ -78,16 +78,16 @@
                         }
                         if (sDoc != null && !sDoc.isEmpty()) {
                             name = sDoc.get("name");
-                            headpic = sDoc.get("headpic");
+                           // headpic = sDoc.get("headpic");
                         }
                 %>
             <div class="q_reply">
                 <div class="q_reply_top">
                     <div class="q_reply_user"><img src="<%="".equals(headpic)?"../front_style/images/user01.png":headpic%>"></div>
-                    <div class="q_reply_title"><%=name%></div>
+                    <div class="q_reply_title"><%=rdoc.getIn("reply_type")==1?name+"老师回复":name%></div>
                     <div class="clear"></div>
                 </div>
-                <div class="q_reply_word">
+                <div class="<%=rdoc.getIn("reply_type")==1?"q_reply_word":"q_answer"%>">
                     <%=rdoc.get("content")%>
                 </div>
             </div>

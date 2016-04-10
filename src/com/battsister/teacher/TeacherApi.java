@@ -798,6 +798,63 @@ public class TeacherApi {
         }
     }
 
+    /**
+     * 回复学生提问
+     * @param request
+     * @return
+     */
+    public JSONObject replyStudent(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        RequestUtil ru = new RequestUtil(request);
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--教师回复";
+        JSONObject backjson = new JSONObject();
+        try {
+            dbc.openConn();
+            base.setDbc(dbc,false);
+            String content = ru.getString("content").trim();
+            int question_id = ru.getInt("question_id");
+            Object teacher_id = request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc = base.executeQuery2Docs("select id,username,course_flag from bs_teachers where id=? and isdel=0", new Object[]{teacher_id}, 1)[0];
+            if (teacherDoc == null || teacherDoc.isEmpty()) {
+                backjson.put("type", false);
+                backjson.put("msg", "教师账号不存在");
+                return backjson;
+            }
+            Doc questionDoc=base.executeQuery2Docs("select id,student_id from bs_question where id=? ",new Object[]{question_id},1)[0];
+            if (questionDoc == null || questionDoc.isEmpty()) {
+                backjson.put("type", false);
+                backjson.put("msg", "学生提问不存在");
+                return backjson;
+            }
+            base.executeInsertByDoc("bs_question_reply", new Doc()
+                    .put("content", content)
+                    .put("question_id", question_id)
+                    .put("teacher_id", teacher_id)
+                    .put("student_id", questionDoc.getIn("student_id"))
+                    .put("add_time", AjaxXml.getTimestamp("now"))
+                    .put("reply_type",1));
+            //更新已回复
+            base.executeUpdate("update bs_question set is_read=1 where id=? ",new Object[]{question_id});
+            base.executeUpdate("update bs_question_reply set is_read=1 where question_id=? and is_read=0 ",new Object[]{question_id});
+            base.commit();
+            backjson.put("type", true);
+            backjson.put("msg", "回复成功");
+            return backjson;
+        } catch (Exception e) {
+        	base.rollback();
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    
+    }
+    
     public static void main(String[] args) {
         StringBuffer buffer = new StringBuffer("1,2,3,4,5,6,");
         System.out.println(buffer.substring(0, buffer.length() - 1));

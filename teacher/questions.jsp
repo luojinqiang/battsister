@@ -1,3 +1,6 @@
+<%@page import="com.battsister.teacher.TeacherApi"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="com.battsister.util.BasicType"%>
 <%@page import="net.sf.json.JSONObject"%>
 <%@page import="net.sf.json.JSONArray"%>
@@ -5,6 +8,13 @@
 <%@page import="com.baje.sz.util.Selectic"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%
+	RequestUtil ru=new RequestUtil(request);
+	String action=ru.getString("action");
+	if("save".equals(action)){
+		TeacherApi teacherApi=new TeacherApi();
+		out.print(teacherApi.replyStudent(request));
+		return;
+	}
 	Object teacher_id=session.getAttribute("teacher_id");
 	Selectic selectic=new Selectic();
 	if(teacher_id==null){
@@ -51,6 +61,39 @@
 			}
 		}
 	}
+//回复内容
+List valueList=new ArrayList();
+valueList.add(teacher_id);
+int pages=ru.getInt("pages");
+pages=pages==0?1:pages;
+String table="bs_question a left join bs_students b on a.student_id=b.id";
+String file="a.id,a.student_id,a.content,a.add_time,a.isdel,a.is_read,b.name";
+String wheres=" a.isdel=0 and a.teacher_id=? ";
+int pn=5;
+int counts=selectic.Get_count("a.id", table, wheres,"mysqlss",valueList);
+int page_size=selectic.getPageSize(counts, pn);
+List<Doc> questionList=selectic.Get_List(pages, pn, counts, table, wheres, file, "order by a.is_read asc,a.add_time desc ", "mysqlss",valueList);
+if(questionList!=null){
+	for(Doc doc:questionList){
+		List<Doc> replyList=selectic.Get_List("id,question_id,content,add_time,is_read,reply_type", "bs_question_reply", " where isdel=0 and question_id=? order by add_time asc  ","mysqlss",new Object[]{doc.getIn("id")});
+		JSONArray replyArray=new JSONArray();
+		if(replyList!=null){
+			for(Doc replyDoc:replyList){//更新是否有学生回复未读的
+				if(replyDoc.getIn("is_read")==0&&replyDoc.getIn("reply_type")==0){
+					doc.put("is_read",0);
+				}
+				JSONObject replyJson=new JSONObject();
+				replyJson.put("id",replyDoc.getIn("id"));
+				replyJson.put("question_id",replyDoc.getIn("question_id"));
+				replyJson.put("content",replyDoc.get("content"));
+				replyJson.put("add_time",replyDoc.getIn("add_time"));
+				replyJson.put("reply_type",replyDoc.getIn("reply_type"));
+				replyArray.add(replyJson);
+			}
+		}
+		doc.put("replyArray", replyArray);
+	}
+}
 %>
 <!doctype html>
 <html>
@@ -134,56 +177,75 @@ if(targetObj.style.display!="none"){
   </div>
   <div class="right_w">
   	  <div class="title_r">学生提问</div>
-   	   <div class="q_con">
+  	  <%
+  	  	if(questionList!=null){
+  	  		for(Doc doc:questionList){
+  	  			%>
+  	  	<div class="q_con">
             <div class="q_top">
-                <div class="ex_user"><img src="images/user.jpg"><span>1</span></div>
+                <div class="ex_user"><img src="/front_style/images/user01.png"><%=doc.getIn("is_read")==0?"<span>1</span>":""%></div>
                 <div class="q_word">
-                    <h4>张帆</h4>
-                    <div><em>2016-02-12 13:00</em></div>
+                    <h4><%=doc.get("name")%></h4>
+                    <div><em><%=AjaxXml.timeStamp2Date(doc.getIn("add_time"),"YY04-MM-DD HH:MI:SS")%></em></div>
                 </div>
-                <div class="rep_botton"><a onclick="open_zzjs_net(this,'zzjs_net1')">回复</a></div>
+               <!--  <div class="rep_botton"><a onclick="open_zzjs_net(this,'zzjs_net1')">回复</a></div> -->
                 <div class="clear"></div>
             </div>
-            <div class="q_answer">1、离合器和油门：起步行车换2档时候，可以缓慢送离合器的时候缓慢踩油门吗？这样车子会有动力吗？2、车子处于3,4档快速行驶时候，急踩离合器到底，意味着车子处于“空挡”下，此时车子没有主动制动力吗？3、车子起步行车，从1档换到2档到3档到4档等，离合器缓慢松开，油门缓慢加深，能不能处于离合器半离合半松开状态进行油门加速？4、换挡起步要踩离合器，其余时候是不是不需要踩离合器，左脚可以完全松开？</div>
-            <div id="zzjs_net1" class="q_shuru" style="display:none"><textarea name="" cols="" rows="" class="textarea_q"  placeholder="请直接输入您的答案"></textarea></div>
+            <div class="q_answer"><%=doc.get("content")%></div>
+            <%
+            	if(doc.get("replyArray")!=null&&!"".equals(doc.get("replyArray"))){
+            		JSONArray replyArray=JSONArray.fromObject(doc.get("replyArray"));
+            		if(replyArray!=null){
+            			for(int i=0;i<replyArray.size();i++){
+            				JSONObject replyJson=replyArray.getJSONObject(i);
+            				if(replyJson!=null){
+            					%>
+            				<div class="q_reply">
+                   				 <div class="q_reply_top">
+                       			 <div class="q_reply_user"><img src="/front_style/images/user01.png"></div>	
+                        		 <div class="q_reply_title"><%=replyJson.optInt("reply_type")==0?doc.get("name")+"追问":"我回复的"%></div>
+                        		 <div class="clear"></div>
+                    			</div>
+                   				 <div <%=replyJson.optInt("reply_type")==0?"":"class=\"q_reply_word\"class=\"q_answer\""%>><%=replyJson.optString("content")%></div>
+              				</div>
+            					<%
+            				}
+            			}
+            		}
+            	}
+            %>
+            <div id="zzjs_net1" class="q_shuru"><textarea name="content" cols="" rows="" class="textarea_q"  placeholder="请直接输入您的回复内容"></textarea></div>
+           <div class="rep_botton"><a onclick="reply(this,'<%=doc.getIn("id")%>');">回复</a></div>
+                <div class="clear"></div>
          </div>
-           <div class="q_con">
-                <div class="q_top">
-                    <div class="ex_user"><img src="images/user.jpg"></div>
-                    <div class="q_word">
-                        <h4>张帆</h4>
-                        <div><em>2016-02-12 13:00</em></div>
-                    </div>
-                    <div class="re_botton"><a href="#">已回复</a></div>
-                    <div class="clear"></div>
-                </div>
-                <div class="q_answer">化油器有哪几种装置？作用是什么？</div>
-               <div class="q_reply">
-                    <div class="q_reply_top">
-                        <div class="q_reply_user"><img src="images/user1.jpg"></div>	
-                        <div class="q_reply_title">我回复的</div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="q_reply_word">化油器的构造可分五种装置：答：起动装置；怠速装置；中等负荷装置；全负荷装置；加速装置。化油器的作用是：根据发动机在不同情况下的需要，将汽油气化，并与空气按一定比例混合成可燃混合气。及时适量进入气缸。</div>
-               </div>
-         </div>
-          <div class="q_con">
-                <div class="q_top">
-                    <div class="ex_user"><img src="images/user.jpg"><span>3</span></div>
-                    <div class="q_word">
-                        <h4>张帆</h4>
-                        <div><em>2016-02-12 13:00</em></div>
-                    </div>
-                    <div class="rep_botton"><a onclick="open_zzjs_net(this,'zzjs_net2')">回复</a></div>
-                    <div class="clear"></div>
-                </div>
-                <div class="q_answer">3、车子起步行车，从1档换到2档到3档到4档等，离合器缓慢松开，油门缓慢加深，能不能处于离合器半离合半松开状态进行油门加速？</div>
-                 <div id="zzjs_net2" class="q_shuru" style="display:none"><textarea name="" cols="" rows="" class="textarea_q"  placeholder="请直接输入您的答案"></textarea></div>
-         </div> 
+  	  			<%
+  	  		}
+  	  	}
+  	  %>
   </div>
   <div class="clear"></div>
 </div>
 <!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
+<script type="text/javascript">
+    function reply(obj, id) {
+        var content = $(obj).parent().parent().find('textarea').val();
+        if (content == '') {
+            alert('请输入要回复的内容');
+            return false;
+        }
+        $(obj).html('提交中...').attr('onclick', 'void(0);');
+        $.post('?', 'action=save&question_id=' + id + '&content=' + content,function (data) {
+            $(obj).html(data.msg);
+            setTimeout(function () {
+                if (data.type) {
+                    window.location.href='questions.jsp';
+                } else {
+                    $(obj).attr('onclick', 'userSave(this);').html('回复');
+                }
+            }, 500);
+        },'json');
+    }
+</script>
 </body>
 </html>

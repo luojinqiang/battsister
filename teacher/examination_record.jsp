@@ -1,8 +1,16 @@
+<%@page import="com.baje.sz.util.Doc"%>
+<%@page import="com.baje.sz.util.Selectic"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%
 	RequestUtil ru=new RequestUtil(request);
 	int examination_id=ru.getInt("examination_id");
+	Selectic selectic=new Selectic();
+	Doc examDoc=selectic.Get_Doc("id,name,type,question_num,limit_time,end_time","bs_examination", " where isdel=0 and id=?","mysqlss",new Object[]{examination_id});
+	if(examDoc==null||examDoc.isEmpty()){
+		out.print("	<script>alert(\"该试题不存在\");window.history.back(-1);</script>");
+		return;
+	}
 %>
 <!doctype html>
 <html>
@@ -26,7 +34,7 @@
 </div>
 <div class="container">
 	<div class="ex_wrap">
-		<div class="title_r">考试名称<i>参考人员：全体学员</i><i>考试时长：120分钟</i><i>考试总分：100分</i><a href="examination_details.jsp?examination_id=<%=examination_id%>">试题详情</a></div> 
+		<div class="title_r">考试名称<i>参考人员：全体学员</i><i>考试时长：<%=examDoc.getIn("limit_time")%>分钟</i><i>试题数量：<%=examDoc.getIn("question_num")%></i><a href="examination_details.jsp?examination_id=<%=examination_id%>">试题详情</a></div> 
         <div class="ex_two">
            <!--  <div class="ex_user"><img src="images/user.jpg"></div> -->
             <div class="ex_word">
