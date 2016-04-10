@@ -16,7 +16,7 @@
 	}
 	StringBuffer teachingGuideBuffer=new StringBuffer("[");
 	StringBuffer teachingEvalutionBuffer=new StringBuffer("[");
-	StringBuffer teachingPlanBuffer=new StringBuffer("[");
+	/* StringBuffer teachingPlanBuffer=new StringBuffer("["); */
 	if(coursedDoc.get("teaching_guide")!=null&&!"".equals(coursedDoc.get("teaching_guide"))){
 		JSONObject json=JSONObject.fromObject(coursedDoc.get("teaching_guide"));
 		if(json!=null){
@@ -44,8 +44,8 @@
 				}
 			}
 		}
-	}
-	if(coursedDoc.get("teaching_plan")!=null&&!"".equals(coursedDoc.get("teaching_plan"))){
+	}//教案不要了2016-04-07
+	/* if(coursedDoc.get("teaching_plan")!=null&&!"".equals(coursedDoc.get("teaching_plan"))){
 		JSONObject json=JSONObject.fromObject(coursedDoc.get("teaching_plan"));
 		if(json!=null){
 			int num=json.optInt("num");
@@ -58,10 +58,10 @@
 				}
 			}
 		}
-	}
+	} */
 	teachingGuideBuffer.append("]");
 	teachingEvalutionBuffer.append("]");
-	teachingPlanBuffer.append("]");
+	/* teachingPlanBuffer.append("]"); */
 %>
 <!doctype html>
 <html>
@@ -112,7 +112,7 @@ $(function() {
 	<div id="example-two">
 		<ul class="nav">
 			<li class="nav-one"><a href="#ab" class="current">教学指南</a></li>
-			<li class="nav-two"><a href="#bb">教案</a></li>
+			<!-- <li class="nav-two"><a href="#bb">教案</a></li> -->
 			<li class="nav-three"><a href="#cb">教学评价</a></li>
 		</ul>
 		<div class="list-wrap">
@@ -134,7 +134,7 @@ $(function() {
   			%>
   			 		
            </ul>
-			<ul id="bb" class="hide">
+			<%-- <ul id="bb" class="hide">
 			<%
 				if(teachingPlanBuffer.length()>2){
 			%>
@@ -151,6 +151,7 @@ $(function() {
 				}
   			%>
 			</ul>
+			--%>
 			<ul id="cb" class="hide">
 			<%
 				if(teachingEvalutionBuffer.length()>2){
@@ -167,7 +168,7 @@ $(function() {
 					out.print("<li class=\"one_mod\">暂无文档</li>");
 				}
   			%>
-			</ul>
+			</ul> 
 		</div>
 	</div>
 </div>

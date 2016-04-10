@@ -8,7 +8,7 @@
 <div class="headerbg_tea">               
     <div class="header_tea"> 
         <div class="logo_tea">                                           
-            <a href="teacher_home.html"><img src="/front_style/images/logo.png" alt="Logo" /></a>
+            <a href="teacher_home.jsp"><img src="/front_style/images/logo.png" alt="Logo" /></a>
         </div>                                               
          <ul class="navbar_tea">
             <li <%=type==1?"class=\"active_tea\"":""%>><a href="teacher_home.jsp">我要备课</a></li>

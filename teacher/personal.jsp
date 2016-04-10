@@ -52,7 +52,7 @@
             <h5><a href="feedback.jsp">意见反馈</a></h5>
           </li>
           <li >
-            <h5><a href="using_instructions.html">平台使用手册</a></h5>
+            <h5><a href="using_instructions.jsp">平台使用手册</a></h5>
           </li>
         </ul>
         <script type="text/javascript" language="javascript">

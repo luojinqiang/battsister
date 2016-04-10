@@ -70,7 +70,7 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 <!--=== Header ===-->
 <!-- 引入头部 -->
 <jsp:include page="head.jsp">
-	<jsp:param value="3" name="type"/>
+	<jsp:param value="2" name="type"/>
 </jsp:include>
 <!--=== End Header ===-->
 <!-- 引入第二个头部 -->
@@ -118,7 +118,7 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
       </div>
   </div>
   <div class="right_w">
-  	 <div class="title_r">考试记录<a href="examination.html">发起考试</a></div>
+  	 <div class="title_r">考试记录<a href="examination.jsp">发起考试</a></div>
      <div class="right_con">
         <div class="kaoshi">
         	<table width="100%" border="0" cellspacing="1" cellpadding="0">

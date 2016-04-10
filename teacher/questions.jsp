@@ -56,26 +56,47 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>我要授课</title>
+<title>学生提问</title>
 <meta name="keywords"  content="#" />
 <meta name="description" content="#" />
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
+<script type="text/javascript">
+//=点击展开关闭效果=
+function open_zzjs_net(oSourceObj,oTargetObj,shutAble,oOpenTip,oShutTip){
+var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
+var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+var openTip = oOpenTip || "";
+var shutTip = oShutTip || "";
+if(targetObj.style.display!="none"){
+   if(shutAble) return;
+   targetObj.style.display="none";
+   if(openTip  &&  shutTip){
+    sourceObj.innerHTML = shutTip;
+   }
+} else {
+   targetObj.style.display="block";
+   if(openTip  &&  shutTip){
+    sourceObj.innerHTML = openTip;
+   }
+}
+}
+</script>
 </head>
+<body>
 <!-- 引入头部 -->
 <jsp:include page="head.jsp">
-	<jsp:param value="2" name="type"/>
+	<jsp:param value="1" name="type"/>
 </jsp:include>
 <!-- 引入第二个头部 -->
 <%@include file="head1.jsp" %>
-
 <div class="container">
   <div class="left_nav">
       <div class="operate">
         <ul id="juheweb">
         <h3>课程目录 </h3>
-         <%
+          <%
          		for(int i=0;i<course_array.size();i++){
          			JSONObject course_json=course_array.getJSONObject(i);
          			JSONArray chapter_array=course_json.optJSONArray("chapter_array");
@@ -103,7 +124,7 @@
             <h5><a href="examination_system.jsp">考试记录</a></h5>
           </li>
           <li>
-            <h5><a href="questions.jsp">学生提问</a></h5>
+            <h5 class="selected"><a href="questions.jsp">学生提问</a></h5>
           </li>
         </ul>
         <script type="text/javascript" language="javascript">
@@ -112,29 +133,57 @@
       </div>
   </div>
   <div class="right_w">
-     <div class="right_con">
-        <ul class="ziliao mt_20">
-        	<%
-        		if(course_array!=null){
-        			for(int i=0;i<course_array.size();i++){
-        				JSONObject course_json=course_array.getJSONObject(i);
-        				%>
-        				<li class="mr_15">
-            				<div class="ziliao_img"><img src="<%=course_json.optString("pic")%>"></div>
-           	  				<p><%=course_json.optString("name")%></p>
-           				</li>
-        				<%
-        			}
-        		}
-        	%>
-        	<div class="clear"></div>
-        </ul>
-     </div>
+  	  <div class="title_r">学生提问</div>
+   	   <div class="q_con">
+            <div class="q_top">
+                <div class="ex_user"><img src="images/user.jpg"><span>1</span></div>
+                <div class="q_word">
+                    <h4>张帆</h4>
+                    <div><em>2016-02-12 13:00</em></div>
+                </div>
+                <div class="rep_botton"><a onclick="open_zzjs_net(this,'zzjs_net1')">回复</a></div>
+                <div class="clear"></div>
+            </div>
+            <div class="q_answer">1、离合器和油门：起步行车换2档时候，可以缓慢送离合器的时候缓慢踩油门吗？这样车子会有动力吗？2、车子处于3,4档快速行驶时候，急踩离合器到底，意味着车子处于“空挡”下，此时车子没有主动制动力吗？3、车子起步行车，从1档换到2档到3档到4档等，离合器缓慢松开，油门缓慢加深，能不能处于离合器半离合半松开状态进行油门加速？4、换挡起步要踩离合器，其余时候是不是不需要踩离合器，左脚可以完全松开？</div>
+            <div id="zzjs_net1" class="q_shuru" style="display:none"><textarea name="" cols="" rows="" class="textarea_q"  placeholder="请直接输入您的答案"></textarea></div>
+         </div>
+           <div class="q_con">
+                <div class="q_top">
+                    <div class="ex_user"><img src="images/user.jpg"></div>
+                    <div class="q_word">
+                        <h4>张帆</h4>
+                        <div><em>2016-02-12 13:00</em></div>
+                    </div>
+                    <div class="re_botton"><a href="#">已回复</a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="q_answer">化油器有哪几种装置？作用是什么？</div>
+               <div class="q_reply">
+                    <div class="q_reply_top">
+                        <div class="q_reply_user"><img src="images/user1.jpg"></div>	
+                        <div class="q_reply_title">我回复的</div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="q_reply_word">化油器的构造可分五种装置：答：起动装置；怠速装置；中等负荷装置；全负荷装置；加速装置。化油器的作用是：根据发动机在不同情况下的需要，将汽油气化，并与空气按一定比例混合成可燃混合气。及时适量进入气缸。</div>
+               </div>
+         </div>
+          <div class="q_con">
+                <div class="q_top">
+                    <div class="ex_user"><img src="images/user.jpg"><span>3</span></div>
+                    <div class="q_word">
+                        <h4>张帆</h4>
+                        <div><em>2016-02-12 13:00</em></div>
+                    </div>
+                    <div class="rep_botton"><a onclick="open_zzjs_net(this,'zzjs_net2')">回复</a></div>
+                    <div class="clear"></div>
+                </div>
+                <div class="q_answer">3、车子起步行车，从1档换到2档到3档到4档等，离合器缓慢松开，油门缓慢加深，能不能处于离合器半离合半松开状态进行油门加速？</div>
+                 <div id="zzjs_net2" class="q_shuru" style="display:none"><textarea name="" cols="" rows="" class="textarea_q"  placeholder="请直接输入您的答案"></textarea></div>
+         </div> 
   </div>
   <div class="clear"></div>
 </div>
 <!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
-
 </body>
 </html>

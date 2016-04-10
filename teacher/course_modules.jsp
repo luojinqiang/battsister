@@ -110,7 +110,7 @@
          
           <h3>习题库</h3>
           <li>
-            <h5><a href="exercises.html">习题库</a></h5>
+            <h5><a href="exercises.jsp">习题库</a></h5>
           </li>
         </ul>
         <script type="text/javascript" language="javascript">
