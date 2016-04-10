@@ -103,7 +103,7 @@
                			out.print("  <ul class=\"row1 clearfix\" style=\"margin-top:20px;\">");
                			out.print(courseDoc.get("name")+"：");
                			//该课程所有的章节
-               			List<Doc> chapterList=utildb.Get_List("id,name", "bs_chapter", " where isdel=0 and course_id=?","mysqlss",new Object[]{courseDoc.getIn("id")});
+               			List<Doc> chapterList=utildb.Get_List("id,name", "bs_chapter", " where isdel=0 and course_id=? order by order_num asc ","mysqlss",new Object[]{courseDoc.getIn("id")});
                			if(chapterList!=null){
                				for(Doc chapterDoc:chapterList){
                					String add_str="";

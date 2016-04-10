@@ -80,9 +80,14 @@ wordBuffer.append("]");
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
 <link rel="stylesheet" href="/front_style/ppt_word/css/base.css">
 <link rel="stylesheet" href="/front_style/ppt_word/css/MPreview.css">
- <script type="text/javascript" src="/front_style/ppt_word/js/MPreview.js"></script>
+<script type="text/javascript" src="/front_style/ppt_word/js/MPreview.js"></script>
+ <!-- video5 -->
+<link href="/front_style/video5/css/video-js.min.css" rel="stylesheet">
+<script src="/front_style/video5/js/video.min.js"></script>
+<script>
+    videojs.options.flash.swf = "/front_style/video5/js/video-js.swf";
+</script>
 </head>
-
 <body>
 <!--=== Header ===-->
 <!-- 引入头部 -->
@@ -135,18 +140,31 @@ wordBuffer.append("]");
          <div class="project_con" >
             <h5>更多相关资料</h5>
             <ul class="ziliao">
-                <li class="mr_15">
-                    <div class="ziliao_img"><img src="images/tu.jpg"></div>
-                    <p>图片</p>
-                </li>
-                <li class="mr_15">
-                    <div class="ziliao_img"><img src="images/tu.jpg"></div>
-                    <p>视频</p>
-                </li>
-                <li>
-                    <div class="ziliao_img"><img src="images/tu.jpg"></div>
-                    <p>动画</p>
-                </li>
+            <%
+            	if(getJson.optString("practical_video_path")!=null&&!"".equals(getJson.optString("practical_video_path"))){
+            		JSONArray video_array=JSONArray.fromObject(getJson.optString("practical_video_path"));
+            		if(video_array!=null){
+            			for(int i=0;i<video_array.size();i++){
+            				JSONObject video_json=video_array.getJSONObject(i);
+            				%>
+            			<li class="mr_15">
+                   			 <div class="ziliao_img">
+                       		 <div class="p_shipin">
+                   				<video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
+	                   				controls
+	 									preload="auto" width="268" height="154" 
+	 										data-setup='{}'>
+												<source src="<%=BasicType.getResoursePath(video_json.optString("key"))%>" type='video/mp4' />
+								</video>
+                       		 </div>
+                    		</div>
+                   			 <p><%=video_json.optString("title")%></p>
+               			</li>
+            				<%
+            			}
+            		}
+            	}
+            %>
                 <div class="clear"></div>
             </ul>
         </div>

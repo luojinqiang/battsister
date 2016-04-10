@@ -165,7 +165,7 @@ List<Doc> examinationList=selectic.Get_List(pages, pn, counts, table, wheres, fi
         %>
        <!-- 分页 -->
      <ul class="pre">
-      <%=page_size>0?"<li><a href=\""+(pages!=1?"examination.jsp?pages="+(pages-1):"javascript:void(0);")+"\"><</a></li>":""%>
+      <%=page_size>0?"<li><a href=\""+(pages!=1?"examination_system.jsp?pages="+(pages-1):"javascript:void(0);")+"\"><</a></li>":""%>
        <%
        	int index=1;
        	int index2=page_size;
@@ -179,10 +179,10 @@ List<Doc> examinationList=selectic.Get_List(pages, pn, counts, table, wheres, fi
 	       	}
        	}
        	for(int i=index;i<=index2;i++){
-       		out.print("<li"+(i==pages?" class=\"active_pre\"":"")+"><a href=\"examination.jsp?pages="+i+"\">"+i+"</a></li>");
+       		out.print("<li"+(i==pages?" class=\"active_pre\"":"")+"><a href=\"examination_system.jsp?pages="+i+"\">"+i+"</a></li>");
        	}
        %>
-       <%=page_size>0?"<li><a href=\""+(pages!=page_size?"examination.jsp?pages="+(pages+1):"javascript:void(0);")+"\">></a></li>":""%>
+       <%=page_size>0?"<li><a href=\""+(pages!=page_size?"examination_system.jsp?pages="+(pages+1):"javascript:void(0);")+"\">></a></li>":""%>
     </ul>
     </div>
   </div>

@@ -84,8 +84,10 @@
 <!-- video5 -->
 <link href="/front_style/video5/css/video-js.min.css" rel="stylesheet">
 <script src="/front_style/video5/js/video.min.js"></script>
+<script>
+    videojs.options.flash.swf = "/front_style/video5/js/video-js.swf";
+</script>
 </head>
-
 <body>
 <!-- 引入头部 -->
 <jsp:include page="head.jsp">
@@ -197,7 +199,7 @@
                        		 <div class="p_shipin">
                    				<video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
 	                   				controls
-	 									preload="auto" width="252" height="158" 
+	 									preload="auto" width="268" height="154" 
 	 										data-setup='{}'>
 												<source src="<%=BasicType.getResoursePath(video_json.optString("key"))%>" type='video/mp4' />
 								</video>

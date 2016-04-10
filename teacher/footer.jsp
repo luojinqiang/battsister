@@ -8,6 +8,6 @@
             <li><a href="feedback.html">投诉&反馈 </a></li>
             <div class="clear"></div>
         </ul>
-        <p>Powered by EOS2011 © 2006-2016 深圳市派司德科技有限公司 粤ICP备13044128号-1</p>
+        <p>Powered by EOS2011 © 2006-2016 深圳市派司德科技有限公司 粤ICP备09008542</p>
     </div>
 </div>

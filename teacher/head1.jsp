@@ -4,7 +4,7 @@
 <%
 	int last_login_time=0;
 	Object object=session.getAttribute("last_login_time");
-	int now=Integer.parseInt(AjaxXml.Get_Date(String.valueOf(object),"HH"));
+	int now=Integer.parseInt(AjaxXml.Get_Date("now","HH"));
 	String nowString="上午好";
 	if(now>0&&now<9){
 		nowString="早上好";
