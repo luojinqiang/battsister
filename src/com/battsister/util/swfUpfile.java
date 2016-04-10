@@ -592,8 +592,12 @@ public class swfUpfile {
                 	if(!ppt_image_file.exists()){
                 		ppt_image_file.mkdirs();
                 	}
-                	int ppt_num=new Pdf2Jpg().tranfer(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/");
-                	//int ppt_num=PdfToPng.pdfToPng(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/");
+                	int ppt_num=0;
+                	if("linux".equals(AppConf.getconf().get("servertype"))){
+                		ppt_num=PdfToPng.pdfToPng(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/");
+                	}else{
+                		ppt_num=new Pdf2Jpg().tranfer(imgSPaht + "/" + file_name + "." + file_ext, ppt_image_file+"/");
+                	}
                 	backjson.put("num",ppt_num);//ppt图片张数
                 	file_readme=file_name;
                 }
