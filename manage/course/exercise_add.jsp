@@ -28,6 +28,7 @@
     int course_id = ru.getInt("course_id");
     int chapter_id = ru.getInt("chapter_id");
     int type = 0;
+    int answer =0;
     action = "save";
     if (id > 0) {
         JSONObject doc = el.queryById(id);
@@ -37,6 +38,7 @@
             order_num = doc.getInt("order_num");
             thoughts = doc.getString("thoughts");
             type = doc.getInt("type");
+            answer = doc.getInt("answer");
         }
     }
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -105,12 +107,19 @@
                     </span>
                 </li>
             </ul>
-            <ul class="row2 clearfix">
+            <ul class="row3 clearfix">
                 <li>题目类型：
-                    <select name="type" id="type">
+                    <select name="type" id="type"  onchange="typeChange(this);">
                         <option value="0" <%=type==0?"selected":""%>>单选题</option>
                         <option value="1" <%=type==1?"selected":""%>>多选题</option>
+                        <option value="2" <%=type==2?"selected":""%>>判断题</option>
                     </select>
+                </li>
+                <li <%=type != 2 ? "style=\"display: none;\"":""%> id="answerColumn">
+                    答案：<select name="answer" id="answer">
+                    <option value="0" <%=answer==0?"selected":""%>>错误</option>
+                    <option value="1" <%=answer==1?"selected":""%>>正确</option>
+                </select>
                 </li>
                 <li>排序：<input type="text" name="order_num" id="order_num" value="<%=order_num %>" style="width:50px;"/>数字越小排序越靠前</li>
             </ul>
@@ -139,6 +148,13 @@
 </div><!--r_iframe END-->
 
 <script type="text/javascript">
+    function typeChange(obj) {
+        if ($(obj).val() == '2') {
+            $('#answerColumn').show();
+        } else {
+            $('#answerColumn').hide();
+        }
+    }
     function usersave() {
         var name = $("#name").val();
         if (name == "") {

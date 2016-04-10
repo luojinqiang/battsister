@@ -103,11 +103,13 @@
                     JSONArray answerList;
                     Doc answerWhereDoc;
                     JSONObject answerDoc;
+                    int type = 0;
                     for (Object o : questionList) {
                         doc = JSONObject.fromObject(o);
                         question = doc.getString("name");
                         question_pic = doc.getString("name_pic");
                         qid = doc.getInt("id");
+                        type = doc.getInt("type");
                         i++;
             %>
             <div class="topic">
@@ -118,17 +120,31 @@
                             if (!question_pic.equals("")) {
                                 out.print("【图】");
                             }
-                            if (doc.getInt("type") == 1) {
+                            if (1 == type) {
                                 out.print("多选题");
+                            } else if (2 ==type) {
+                                out.print("判断题 ");
+                                if (1 == doc.getInt("answer")) {
+                                    out.print("【√】");
+                                } else {
+                                    out.print("【X】");
+                                }
                             } else {
-
                                 out.print("单选题");
                             }
                         %>
                     </span>
+                    <%
+                        if (type != 2) {
+                            %>
                     <a href="javascript:exercise_option_add('0', '添加选项', '<%=qid%>', '<%=question%>', '<%=doc.getInt("type")%>')" title="添加选项">
                         <img src="/public/images/add.gif" align="absmiddle"/>
                     </a>
+                    <%
+                        } else {
+
+                        }
+                    %>
                     <a href="javascript:exercise_add('<%=qid%>', '修改习题');" title="修改习题">
                         <img src="/public/images/mod.gif" align="absmiddle"/>
                     </a>

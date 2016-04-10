@@ -1,12 +1,15 @@
-<%@page import="com.battsister.teacher.TeacherApi"%>
+<%@page import="com.baje.sz.util.Doc"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
 <%@ page contentType="text/html; charset=utf-8" %>
-<%@page import="com.battsister.util.BasicType"%>
-<%@page import="net.sf.json.JSONObject"%>
-<%@page import="net.sf.json.JSONArray"%>
-<%@page import="com.baje.sz.util.Doc"%>
 <%@page import="com.baje.sz.util.Selectic"%>
+<%@page import="com.battsister.teacher.TeacherApi"%>
+<%@page import="net.sf.json.JSONArray"%>
+<%@page import="net.sf.json.JSONObject"%>
 <%
+	request.setCharacterEncoding("utf-8");
+	response.setHeader("Pragma", "No-cache");
+	response.setHeader("Cache-Control", "no-cache");
+	response.setDateHeader("Expires", 0);
 RequestUtil ru=new RequestUtil(request);
 String action=ru.getString("action");
 if("send".equals(action)){
