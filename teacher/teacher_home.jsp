@@ -82,7 +82,7 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
         <ul id="juheweb">
         <h3>课程体系</h3>
           <li>
-            <h5 class="selected"><a href="teacher_home.jsp">课程标准</a></h5>
+            <h5 class="selected"><a href="teacher_home.jsp">课程大纲</a></h5>
           </li>
           <li >
             <h5><a href="course_modules.jsp">课程模块</a></h5>

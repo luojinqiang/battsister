@@ -134,7 +134,7 @@
                     <a href="javascript:editPracticalVideo('<%=doc.getIn("id")%>','实训视频')">实训视频</a>&nbsp;&nbsp;&nbsp;
                         <a href="javascript:editTeachingGuide('<%=doc.getIn("id")%>','教学指南')">教学指南</a>&nbsp;&nbsp;&nbsp;
                         <a href="javascript:editLearningGuide('<%=doc.getIn("id")%>','学习指导')">学习指导</a>&nbsp;&nbsp;&nbsp;
-                     <%--  <a href="javascript:editTeachingPlan('<%=doc.getIn("id")%>','教案')">教案</a>&nbsp;&nbsp;&nbsp; --%>
+                      <a href="javascript:editTeachingPlan('<%=doc.getIn("id")%>','课程标准')">课程标准</a>&nbsp;&nbsp;&nbsp; 
                        <a href="javascript:editTeachingEvalution('<%=doc.getIn("id")%>','教学评价')">教学评价</a>&nbsp;&nbsp;&nbsp;
                     <a href="javascript:editCourse('<%=doc.get("id")%>','编辑课程')">编辑</a>&nbsp;&nbsp;&nbsp;
                     <a href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
