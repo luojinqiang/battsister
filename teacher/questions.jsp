@@ -222,6 +222,27 @@ if(targetObj.style.display!="none"){
   	  		}
   	  	}
   	  %>
+  	  <!-- 分页 -->
+     <ul class="pre">
+      <%=page_size>0?"<li><a href=\""+(pages!=1?"questions.jsp?pages="+(pages-1):"javascript:void(0);")+"\"><</a></li>":""%>
+       <%
+       	int index=1;
+       	int index2=page_size;
+       	if(page_size>=5){
+	       	if(pages+5<=page_size){
+	       		index=pages;
+	       		index2=pages+4;
+	       	}
+	       	if(pages+5>page_size){
+	       		index=page_size-4;
+	       	}
+       	}
+       	for(int i=index;i<=index2;i++){
+       		out.print("<li"+(i==pages?" class=\"active_pre\"":"")+"><a href=\"questions.jsp?pages="+i+"\">"+i+"</a></li>");
+       	}
+       %>
+       <%=page_size>0?"<li><a href=\""+(pages!=page_size?"questions.jsp?pages="+(pages+1):"javascript:void(0);")+"\">></a></li>":""%>
+    </ul>
   </div>
   <div class="clear"></div>
 </div>
