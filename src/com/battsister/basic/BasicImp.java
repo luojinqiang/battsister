@@ -7,7 +7,6 @@ import com.baje.sz.util.Doc;
 import com.baje.sz.util.Selectic;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.bcel.generic.Select;
 
 import java.util.*;
 
