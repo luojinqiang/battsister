@@ -1,10 +1,5 @@
 package com.battsister.model;
 
-import javax.servlet.http.HttpServletRequest;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
@@ -14,6 +9,10 @@ import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.StringUtil;
 import com.battsister.admin.sys.Logdb;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
