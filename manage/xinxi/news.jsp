@@ -55,9 +55,8 @@
         $(function () {
             //$(this).contextMenu(menu1,{theme:'vista'});
         });
-        function edit(id) {
-            //openurl('news_edit.jsp?id='+id+'','xitong','编辑新闻',700,380,0,50,true);
-            window.parent.jianyi2('xinxi/news_edit.jsp?id=' + id + '', '编辑新闻');
+        function edit(id,title) {
+            window.parent.jianyi2('xinxi/news_edit.jsp?id=' + id + '',title);
         }
         artDialog.fn.shake = function () {
             var style = this.DOM.wrap[0].style,
@@ -194,7 +193,7 @@
 <body class="ifr">
 <%@ include file="../left.jsp" %><!--End Sidebar-->
 <div class="iframe_box">
-    <div class="form_info"><strong>新闻管理</strong></div>
+    <div class="form_info"><strong>信息管理</strong></div>
     <div class="form_cont mb10">
         <form id="form1" name="form1" method="get" action="">
 
@@ -252,8 +251,7 @@
     </div>
     <div class="btnitem mb10 clearfix">
         <ul class="s_btn">
-            <li><a href="javascript:edit(0)">新增新闻</a></li>
-
+            <li><a href="javascript:edit(0,'新增信息')">新增信息</a></li>
         </ul>
     </div>
     <div class="form_table">
@@ -298,7 +296,7 @@
                     </td>
                     <td><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"), "YY04-MM-DD HH:MI:SS")%>
                     </td>
-                    <td><a href="javascript:edit(<%=doc.get("id")%>)">编辑</a>
+                    <td><a href="javascript:edit('<%=doc.get("id")%>','编辑信息')">编辑</a>
                         <a href="javascript:del(<%=doc.get("id")%>)">删除</a></td>
                 </tr>
                 <%
@@ -311,7 +309,7 @@
                                onclick="CheckAll(this.form);"/>选中/取消所有
                     </td>
                     <td colspan="6" style="text-align:right">
-                        <input name="tjdel " type="button" onclick=" batchDel()" value="批量删除新闻"/>
+                        <input name="tjdel " type="button" onclick=" batchDel()" value="批量删除信息"/>
                         <%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%>
                     </td>
                 </tr>

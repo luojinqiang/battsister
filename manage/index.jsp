@@ -180,7 +180,7 @@
                             }
                             if (current_flags.contains("3002")) {
                         %>
-                        <li><a href="javascript:window.parent.jianyi2('xinxi/news.jsp','信息栏目')">信息内容</a></li>
+                        <li><a href="javascript:window.parent.jianyi2('xinxi/news.jsp','信息内容')">信息内容</a></li>
 
                         <%
                             }

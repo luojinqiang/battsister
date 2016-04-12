@@ -122,7 +122,7 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
       </div>
   </div>
   <div class="right_w">
-  	 <div class="title_r">课程标准</div>
+  	 <div class="title_r">课程大纲</div>
   	 <div class="right_con">
           <!-- <div class="wrapper">
         <div class="doc" id="doc" style="margin-left:-10px;width:80%;height:600px;margin-top:-30px;"></div>

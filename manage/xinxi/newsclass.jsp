@@ -196,10 +196,10 @@
 <div class="iframe_box">
     <div class="form_info"><strong>新闻栏目列表</strong></div>
     <div class="btnitem mb10 clearfix">
-        <ul class="s_btn">
+       <%--  <ul class="s_btn">
             <li><a href="javascript:edit(<%=parentid%>,0,<%=idtype%>)">新增栏目</a></li>
 
-        </ul>
+        </ul> --%>
     </div>
 
     <div class="form_table">
@@ -211,7 +211,7 @@
                     <th width="48%">栏目</th>
                     <th width="11%">排序</th>
                     <th width="12%">添加时间</th>
-                    <th width="15%">操作</th>
+                  <!--   <th width="15%">操作</th> -->
                 </tr>
 
                 <%
@@ -250,16 +250,16 @@
                     </td>
                     <td><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"),"YY04-MM-DD HH:MI:SS")%>
                     </td>
-                    <td>
-                       <%--  <%
+                   <%--  <td>
+                        <%
                             if (parentid == 0) {
                         %><a href="javascript:edit(<%=doc.get("id")%>,0,<%=idtype%>)">添加分类</a>
                         <a href="newsclass.jsp?parentid=<%=doc.get("id")%>&idtype=<%=idtype %>">查看分类</a><%
                         }
-                    %> --%>
+                    %>
                         <a href="javascript:edit(0,<%=doc.get("id")%>)">编辑</a>
-                       <%--  <a href="javascript:del(<%=doc.get("id")%>)">删除</a> --%>
-                    </td>
+                        <a href="javascript:del(<%=doc.get("id")%>)">删除</a>
+                    </td> --%>
                 </tr>
 
                 <%
