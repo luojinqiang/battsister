@@ -192,6 +192,14 @@
                         	   %>
                         	   <li><a href="javascript:window.parent.jianyi2('xinxi/banner.jsp','首页banner图')">首页banner图</a></li>
                         	   <%
+                           }if(current_flags.contains("3005")){
+                        	   %>
+                        	   <li><a href="javascript:window.parent.jianyi2('xinxi/info.jsp?type=1','课程大纲')">课程大纲</a></li>
+                        	   <%
+                           }if(current_flags.contains("3006")){
+                        	   %>
+                        	   <li><a href="javascript:window.parent.jianyi2('xinxi/info.jsp?type=2','习题库介绍')">习题库介绍</a></li>
+                        	   <%
                            }
                          %>
                     </ul>

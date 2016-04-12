@@ -93,6 +93,12 @@ if(chapter_id>0){
 	}
 	exeList=exeList==null?new ArrayList():exeList;
 }
+//习题库介绍
+String exercises_introduce="";
+Doc infoDoc=selectic.Get_Doc("exercises_introduce", "bs_info", "","mysqlss");
+if(infoDoc!=null){
+	exercises_introduce=infoDoc.get("exercises_introduce");
+}
 %>
 <!doctype html>
 <html>
@@ -174,19 +180,7 @@ if(targetObj.style.display!="none"){
  <div class="right_w">
     <%
     	if(chapter_id==0){
-    		%>
-    		 <p>
-	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
-	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
-	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
-	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
-	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
-	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
-	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
-	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
-	  	试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字试题库的介绍性文字
-  		</p>
-    		<%
+    		out.print("<p>"+exercises_introduce+"</p>");
     	}else{
     		int size=exeList.size();
     		%>

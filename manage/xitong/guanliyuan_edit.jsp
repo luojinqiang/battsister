@@ -113,8 +113,10 @@
                             icon: "succeed",
                             cancelVal: '确定',
                             cancel: function () {
-                                window.parent.location.reload();
+                            	 <%=id>0?"window.parent.parent.location = '/manage/login.jsp'":" window.parent.location.reload();"%>
                                 window.parent.art.dialog({id: "tisID"}).close();
+                               
+                                
                             }
                         });
                     } else {
@@ -221,6 +223,16 @@
                             out.print("checked");
                         }
                     %>/>首页banner图
+                    <input name="flag3" type="checkbox" value="3005" <%
+                        if (admin_flag.indexOf(",3005,") > -1) {
+                            out.print("checked");
+                        }
+                    %>/>课程大纲
+                     <input name="flag3" type="checkbox" value="3006" <%
+                        if (admin_flag.indexOf(",3006,") > -1) {
+                            out.print("checked");
+                        }
+                    %>/>习题库介绍
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag3" type="checkbox" id="selectAll_flag3"
                                                          onchange="selectall(3)"/><span style="color:green;">全选</span>
                 </li>

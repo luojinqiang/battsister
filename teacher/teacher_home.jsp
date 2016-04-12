@@ -53,6 +53,12 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 		}
 	}
 }
+//课程大纲
+String course_outline="";
+Doc infoDoc=selectic.Get_Doc("course_outline", "bs_info", "","mysqlss");
+if(infoDoc!=null){
+	course_outline=infoDoc.get("course_outline");
+}
 %>
 <!doctype html>
 <html>
@@ -64,8 +70,8 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
-<link rel="stylesheet" href="/front_style/ppt_word/css/base.css">
-<link rel="stylesheet" href="/front_style/ppt_word/css/MPreview.css">
+<!-- <link rel="stylesheet" href="/front_style/ppt_word/css/base.css">
+<link rel="stylesheet" href="/front_style/ppt_word/css/MPreview.css"> -->
  <script type="text/javascript" src="/front_style/ppt_word/js/MPreview.js"></script>
 </head>
 
@@ -122,8 +128,8 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
       </div>
   </div>
   <div class="right_w">
-  	 <div class="title_r">课程大纲</div>
-  	 <div class="right_con">
+  	<div class="title_r">课程大纲</div> 
+  	<!--  <div class="right_con"> -->
           <!-- <div class="wrapper">
         <div class="doc" id="doc" style="margin-left:-10px;width:80%;height:600px;margin-top:-30px;"></div>
 	 </div>
@@ -138,9 +144,9 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 			          '/document/images/18-47-05_6642/test-7.png'];
 		</script>
    <script type="text/javascript">$('#doc').MPreview({ data: data });</script> -->
-   	这个是课程标准。。。请提供资料。。。
    
-     </div>
+   <!--   </div> -->
+   	<%=course_outline%>
   </div>
   <div class="clear"></div>
 </div>

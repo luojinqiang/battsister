@@ -12,6 +12,7 @@ import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
 import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
+import com.baje.sz.util.StringUtil;
 
 public class InfoApi {
 	
@@ -91,6 +92,56 @@ public class InfoApi {
 	            	base.executeUpdate("update bs_info set banner_pics=? where id=? ",new Object[]{picArray.toString(),infoDoc.getIn("id")});
 	            }else{
 	            	base.executeUpdate("insert into bs_info (banner_pics) values(?)", new Object[]{picArray.toString()});
+	            }
+	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+	            backjson.put("type", true);
+	            backjson.put("msg", "操作成功");
+	            return backjson;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+	            backjson.put("type", false);
+	            backjson.put("msg", "系统忙，请稍候再试");
+	            return backjson;
+	        } finally {
+	            dbc.closeConn();
+	        }
+	}
+	/**
+	 * 编辑考试大纲、习题库介绍等
+	 * @param request
+	 * @param userid
+	 * @param username
+	 * @return
+	 */
+	public JSONObject editIntroduce(HttpServletRequest request, int userid, String username){
+		 Dbc dbc = DbcFactory.getBbsInstance();
+	        Base base = new Base();
+	        JSONObject backjson = new JSONObject();
+	        String ajaxRequest = "";
+	        String logtitle = "API--编辑考试大纲、习题库介绍等";
+	        try {
+	            dbc.openConn("mysqlss");
+	            base.setDbc(dbc);
+	            ajaxRequest = AjaxXml.getParameterStr(request);
+	            RequestUtil ru = new RequestUtil(request);
+	            int type=ru.getInt("type");
+	            String content = ru.getString("contentx").trim();
+	            content = AjaxXml.unescape(content);
+	            content = StringUtil.replace(content, "^…", "&");
+	            Doc updateDoc=new Doc();
+	            if(type==1){
+	            	updateDoc.put("course_outline", content);
+	            }else {
+	            	updateDoc.put("exercises_introduce", content);
+	            }
+	            Doc whereDoc=new Doc();
+	            Doc infoDoc=base.executeQuery2Docs("select id from bs_info limit 1",new Object[]{},1)[0];
+	            if(infoDoc!=null&&!infoDoc.isEmpty()){
+	            	whereDoc.put("id", infoDoc.getIn("id"));
+	            	base.executeUpdateByDoc("bs_info", updateDoc, whereDoc);
+	            }else{
+	            	base.executeInsertByDoc("bs_info",updateDoc);;
 	            }
 	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
 	            backjson.put("type", true);
