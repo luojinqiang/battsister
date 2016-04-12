@@ -216,6 +216,11 @@
                             out.print("checked");
                         }
                     %>/>校企合作
+                     <input name="flag3" type="checkbox" value="3004" <%
+                        if (admin_flag.indexOf(",3004,") > -1) {
+                            out.print("checked");
+                        }
+                    %>/>首页banner图
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag3" type="checkbox" id="selectAll_flag3"
                                                          onchange="selectall(3)"/><span style="color:green;">全选</span>
                 </li>

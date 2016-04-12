@@ -59,8 +59,12 @@
                 	%>
 			 <li><a href="javascript:window.parent.jianyi2('xinxi/cooperaton_unit.jsp','合作院校、企业')">合作院校、企业</a></li>
                 	<%
+                }if(current_flags.contains("3004")){
+             	   %>
+             	   <li><a href="javascript:window.parent.jianyi2('xinxi/banner.jsp','首页banner图')">首页banner图</a></li>
+             	   <%
                 }
-            %>
+              %>
         </ul>
     </div>
     <div class="sidebar" id="xitong" style="display:none">

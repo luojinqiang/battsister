@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=utf-8" %>
-<div class="footer">
+  <div class="footer">
     <div class="footer_con">
         <ul class="footer_nav">
             <li><a href="about.html">关于我们</a></li>

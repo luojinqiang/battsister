@@ -86,9 +86,7 @@
         </ul>
     </div>	
 </div>
-
 <!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
-
 </body>
 </html>

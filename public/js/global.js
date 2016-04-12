@@ -75,7 +75,7 @@ var global_obj = {
     },
     img_linkheight: function (img, height) {
         if (img) {
-            return '<a href="' + img + '" target="_blank"><img src="' + img + '" height="' + height + '"></a>';
+            return '<a href="' + img + '" target="_blank"><img src="' + img + '" height="' + 200 + '"></a>';
         }
     },
     check_form: function (obj) {
