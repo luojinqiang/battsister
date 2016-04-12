@@ -120,7 +120,7 @@
             <input name="action" id="action" type="hidden" value="save"/>
             	      <ul class="row1 clearfix">
                 <li>
-                       <h4 style="margin-bottom:20px;"><%=name%>--教案文档上传</h4>
+                       <h4 style="margin-bottom:20px;"><%=name%>--课程标准文档上传</h4>
                 </li>
             </ul>
             <ul class="row1 clearfix">
