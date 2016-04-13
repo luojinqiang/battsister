@@ -47,7 +47,7 @@
      	<div class="title_d">已参加的考试</div>
          <%
              Selectic selectic = new Selectic();
-             List<Doc> list = selectic.Get_List("be.id as be_id,be.name,be.limit_time,be.question_num,ba.is_commit,be.end_time,ba.time_use "," bs_examination be right join bs_examination_anwser ba on be.id=ba.examination_id", "where be.isdel=0 and ba.student_id=?", "mysqlss", new Object[]{student_id});
+             List<Doc> list = selectic.Get_List("be.id as be_id,be.name,be.limit_time,be.question_num,ba.is_commit,be.end_time,ba.time_use "," bs_examination be right join bs_examination_answer ba on be.id=ba.examination_id", "where be.isdel=0 and ba.student_id=?", "mysqlss", new Object[]{student_id});
              if (list != null && !list.isEmpty()) {
                  for (Doc doc : list) {
                      %>

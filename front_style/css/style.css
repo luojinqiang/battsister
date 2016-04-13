@@ -321,9 +321,9 @@ h6 { font-size:12px; font-weight:normal; padding:0px; margin:0px;}
 .test_b { padding:20px 0;}
 .test_botton,.test_botton1 { margin-top:10px; margin-right:20px; float:left;}
 .test_botton a { text-align:center;color:#fff; background:#57b02c;  padding:10px 50px; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
-.test_botton a:hover { background:#62c433;}
+/*.test_botton a:hover { background:#62c433;}*/
 .test_botton1 a { text-align:center;color:#fff; background:#ccc;  padding:10px 50px; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
-.test_botton1 a:hover { background:#62c433;}
+/*.test_botton1 a:hover { background:#62c433;}*/
 
 .default_test { padding:100px 0; text-align:center; font-size:16px; line-height:340px;} 
 .default_test_img { width:88px; height:88px; margin:0 auto 10px;}

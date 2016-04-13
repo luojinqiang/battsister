@@ -60,7 +60,7 @@
              </div>
              <%
 
-                 examDoc = selectic.Get_Doc("is_commit", "bs_examination_anwser", "where examination_id=? and student_id=?", "mysqlss", new Object[]{doc.getIn("id"), student_id});
+                 examDoc = selectic.Get_Doc("is_commit", "bs_examination_answer", "where examination_id=? and student_id=?", "mysqlss", new Object[]{doc.getIn("id"), student_id});
                  if (examDoc == null || examDoc.isEmpty()) {
                      %>
              <div class="kaoshi_right"><a href="take_test.jsp?examinationId=<%=doc.getIn("id")%>">马上考试</a></div>
