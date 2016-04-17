@@ -20,7 +20,7 @@
             <li <%=type==2?"class=\"active_stu\"":""%>><a href="learning_guide.jsp">学习指导</a></li>
             <li <%=type==3?"class=\"active_stu\"":""%>><a href="test_history.jsp">考试记录</a></li>
             <li <%=type==4?"class=\"active_stu\"":""%>><a href="my_questions.jsp">我的提问</a></li>
-            <li <%=type==5?"class=\"active_stu\"":""%>><a href="my_questions.jsp">个人中心</a></li>
+            <li <%=type==5?"class=\"active_stu\"":""%>><a href="st_personal.jsp">个人中心</a></li>
         </ul>
         <div class="clear"></div>
     </div>

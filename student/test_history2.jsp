@@ -53,14 +53,13 @@
                      %>
          <div class="kaoshi1">
              <div class="kaoshi_left">
-                 <h3><%=doc.get("name")%></h3>
-                 <div><em>考试时长：<%=doc.getIn("limit_time")%>分钟</em><em>参考人员：全体学员</em><em>题目数量：<%=doc.get("question_num")%></em></div>
+                 <h3><a href="test_history_details.jsp?examinationId=<%=doc.getIn("be_id")%>"><%=doc.get("name")%></a></h3>
+                 <div><em>考试时长：<%=doc.getIn("limit_time")/60%>分钟</em><em>参考人员：全体学员</em><em>题目数量：<%=doc.get("question_num")%></em></div>
              </div>
              <%
-
-                 if (0 == doc.getIn("is_commit") && doc.getIn("end_time") > AjaxXml.getTimestamp("now") && doc.getIn("time_use") <= doc.getIn("limit_time")) {
+                 if (0 == doc.getIn("is_commit") && (doc.getIn("end_time") > AjaxXml.getTimestamp("now")) && (doc.getIn("time_use") <= doc.getIn("limit_time"))) {
                      %>
-             <div class="kaoshi_right"><a href="take_test.jsp?examination=<%=doc.getIn("id")%>">马上考试</a></div>
+             <div class="kaoshi_right"><a href="take_test.jsp?examinationId=<%=doc.getIn("be_id")%>">马上考试</a></div>
              <%
                  }
              %>
