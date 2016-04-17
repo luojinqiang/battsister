@@ -145,22 +145,24 @@ public class ExaminationApi {
                 answerObj = JSONObject.fromObject(answerDoc.get("answer"));
                 JSONArray examOptionArray;
                 JSONArray myOptionArray;
+                JSONObject optionObj;
+                JSONArray examAnswerArray;
                 for (Doc doc : examList) {
                     isOk = false;
                     if (doc.getIn("type") != 2) {
+                        examAnswerArray = new JSONArray();
                         examOptionArray = JSONArray.fromObject(doc.get("option_array"));
-                        myOptionArray = answerObj.getJSONArray(doc.getString("id"));
-                        if (myOptionArray != null && !myOptionArray.isEmpty()) {
-                            for (Object myOptionObj : myOptionArray) {
-                                for (Object o : examOptionArray) {
-                                    JSONObject optionObj = JSONObject.fromObject(o);
-                                    if (optionObj.get("id").equals(myOptionObj) && "1".equals(optionObj.getString("is_answer"))) {
-                                        isOk = true;
-                                    } else {
-                                        isOk = false;
-                                    }
-                                }
+                        for (Object o : examOptionArray) {
+                            optionObj = JSONObject.fromObject(o);
+                            if ("1".equals(optionObj.getString("is_answer"))) {
+                                examAnswerArray.add(optionObj.getString("id"));
                             }
+                        }
+                        myOptionArray = answerObj.getJSONArray(doc.getString("id"));
+                        if (myOptionArray.equals(examAnswerArray)) {
+                            isOk = true;
+                        } else {
+                            isOk = false;
                         }
                     } else {
                         if (answerObj.getJSONArray(doc.getString("id")).contains(doc.getString("answer"))) {
@@ -206,4 +208,14 @@ public class ExaminationApi {
         }
     }
 
+    public static void main(String[] args) {
+        JSONArray a = new JSONArray();
+        a.add("1");
+        a.add("2");
+
+        JSONArray b = new JSONArray();
+        b.add("1");
+        b.add("2");
+        System.out.println(a.equals(b));
+    }
 }

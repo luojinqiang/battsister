@@ -103,10 +103,12 @@
                         }
                     }
                 %>
-
+                <div class="clear"></div>
             </div>
+            <div class="clear"></div>
         </div>
     </div>
+    <div class="clear"></div>
     <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

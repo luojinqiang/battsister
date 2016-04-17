@@ -44,6 +44,10 @@
             answerObj = JSONObject.fromObject(answerDoc.get("answer"));
         }
         questionNum = answerObj.size();
+        if (1 == answerDoc.getIn("is_commit")) {
+            out.print("<script>alert('该试题已考试');window.history.back(-1);</script>");
+            return;
+        }
     }
 %>
 <!doctype html>
