@@ -214,15 +214,15 @@
 <script src="../manage/js/sys.js"></script>
 <script type="text/javascript">
     /*window.onbeforeunload = function(event) {
-     event = event || window.event;
-     event.returnValue = '';
-     }*/
+        event = event || window.event;
+        event.returnValue = '';
+    }*/
     var time = parseInt($('#m').html());
     var s = 60;
     var c = 0;
     var sId = setInterval(function () {
         if (c == time * 60) {
-            stopInterval();
+            commitExam();
         } else {
             s--;
             if (-1 == s) {
@@ -306,7 +306,7 @@
                     window.location.href = '/login.jsp';
                 }
             } else {
-                window.location.href = '/test_history2.jsp';
+                window.location.href = 'test_history_details.jsp?examinationId=<%=examinationId%>';
             }
         }, 'json');
     }
