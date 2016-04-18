@@ -186,7 +186,7 @@
                             }
                             if (current_flags.contains("3003")) {
                             %>
-                            <li><a href="javascript:window.parent.jianyi2('xinxi/cooperaton_unit.jsp','合作院校、企业')">合作院校、企业</a></li>
+                            <li><a href="javascript:window.parent.jianyi2('xinxi/cooperation_unit.jsp','合作院校、企业')">合作院校、企业</a></li>
                             <%
                            }if(current_flags.contains("3004")){
                         	   %>

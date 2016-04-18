@@ -138,7 +138,7 @@
                     <%
                         if (type != 2) {
                             %>
-                    <a href="javascript:exercise_option_add('0', '添加选项', '<%=qid%>', '<%=URLEncoder.encode(question, "utf-8")%>', '<%=doc.getInt("type")%>')" title="添加选项">
+                    <a href="javascript:exercise_option_add('0', '添加选项', '<%=qid%>',  '<%=doc.getInt("type")%>')" title="添加选项">
                         <img src="/public/images/add.gif" align="absmiddle"/>
                     </a>
                     <%
@@ -173,7 +173,7 @@
 
                     <div class="list" >
                         <div class="t">
-                            <span class="fc_red">
+                            <%=j %>、<span class="fc_red">
                                 <%
                                     if (!answer_pic.equals("")) {
                                         out.print("【图】");
@@ -182,11 +182,10 @@
                                         out.print("【√】");
                                     }
                                 %>
-                            </span>
-                            <%=j %>、<%=answer %>
+                            </span><%=answer %>
                         </div>
                         <div class="opt">
-                            <a href="javascript:exercise_option_add('<%=aid%>', '修改问题选项', '<%=qid%>', '<%=URLEncoder.encode(question, "utf-8")%>', '<%=doc.getInt("type")%>')">
+                            <a href="javascript:exercise_option_add('<%=aid%>', '修改问题选项', '<%=qid%>',  '<%=doc.getInt("type")%>')">
                                 <img src="/public/images/mod.gif"/>
                             </a>
                             <a onclick="del_answer(<%=aid %>);">
@@ -299,8 +298,8 @@
     function exercise_add(id, title) {
         openurl('exercise_add.jsp?id=' + id + '&course_id=<%=course_id%>&chapter_id=<%=chapter_id%>' , 'user', title, 700, 380, 0, 10, true);
     }
-    function exercise_option_add(id, title, qid, qName, type) {
-        openurl('exercise_option_add.jsp?id=' + id + '&course_id=<%=course_id%>&chapter_id=<%=chapter_id%>&elId=' + qid + '&qName=' + qName + '&type=' + type, 'user', title, 700, 380, 0, 10, true);
+    function exercise_option_add(id, title, qid, type) {
+        openurl('exercise_option_add.jsp?id=' + id + '&course_id=<%=course_id%>&chapter_id=<%=chapter_id%>&elId=' + qid + '&type=' + type, 'user', title, 700, 380, 0, 10, true);
     }
 </script>
 </html>

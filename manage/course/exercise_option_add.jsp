@@ -1,10 +1,10 @@
+<%@page import="java.net.URLDecoder"%>
+<%@page contentType="text/html; charset=utf-8" %>
 <%@page import="com.baje.sz.util.RequestUtil" %>
-<%@ page contentType="text/html; charset=utf-8" %>
-<%@ page import="com.battsister.model.ExerciseOption" %>
-<%@ page import="net.sf.json.JSONObject" %>
-<%@ include file="../ini_sys.jsp" %>
+<%@page import="com.battsister.model.ExerciseOption" %>
+<%@page import="net.sf.json.JSONObject" %>
+<%@include file="../ini_sys.jsp" %>
 <%
-    request.setCharacterEncoding("utf-8");
     response.setHeader("Pragma", "No-cache");
     response.setHeader("Cache-Control", "no-cache");
     response.setDateHeader("Expires", 0);
@@ -23,11 +23,17 @@
     int order_num = 0;
     String pic = "";
     String name = "";
-    String qName = request.getParameter("qName");
+   /*  qName=new String(qName.getBytes("ISO-8859-1"),"UTF-8"); */
     int id = ru.getInt("id");
     int course_id = ru.getInt("course_id");
     int chapter_id = ru.getInt("chapter_id");
     int elId = ru.getInt("elId");
+    Doc questionDoc=utildb.Get_Doc("id,name","bs_exercise_library", "where id=? ","mysqlss",new Object[]{elId});
+    if(questionDoc==null||questionDoc.isEmpty()){
+    	out.print("信息不存在");
+    	return;
+    }
+    String qName = questionDoc.get("name");
     int type = ru.getInt("type");
     int is_answer = 0;
     action = "save";
