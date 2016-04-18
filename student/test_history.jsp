@@ -2,7 +2,6 @@
 <%@ page import="com.baje.sz.util.Doc" %>
 <%@ page import="com.baje.sz.util.Selectic" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.baje.sz.util.StringUtil" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@include file="sys.jsp"%>
 <%
@@ -48,7 +47,7 @@
      	<div class="title_d">未参加的考试</div>
          <%
              Selectic selectic = new Selectic();
-             List<Doc> list = selectic.Get_List("id,name,limit_time,question_num"," bs_examination", "where isdel=0 and end_time > ?", "mysqlss", new Object[]{AjaxXml.getTimestamp("now")});
+             List<Doc> list = selectic.Get_List("id,name,limit_time,question_num"," bs_examination ", "where isdel=0 and end_time > ? and teacher_id in(select teacher_id from bs_students where id=? and isdel=0) and id not in (select examination_id from bs_examination_answer where student_id=?)", "mysqlss", new Object[]{AjaxXml.getTimestamp("now"), student_id, student_id});
              if (list != null && !list.isEmpty()) {
                  Doc examDoc;
                  for (Doc doc : list) {
@@ -56,7 +55,7 @@
          <div class="kaoshi1">
              <div class="kaoshi_left">
                  <h3><%=doc.get("name")%></h3>
-                 <div><em>考试时长：<%=doc.getIn("limit_time")%>分钟</em><em>参考人员：全体学员</em><em>题目数量：<%=doc.getIn("question_num")%></em></div>
+                 <div><em>考试时长：<%=doc.getIn("limit_time")/60%>分钟</em><em>参考人员：全体学员</em><em>题目数量：<%=doc.getIn("question_num")%></em></div>
              </div>
              <%
 
