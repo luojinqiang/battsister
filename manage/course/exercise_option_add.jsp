@@ -23,7 +23,7 @@
     int order_num = 0;
     String pic = "";
     String name = "";
-    String qName = ru.getString("qName");
+    String qName = request.getParameter("qName");
     int id = ru.getInt("id");
     int course_id = ru.getInt("course_id");
     int chapter_id = ru.getInt("chapter_id");

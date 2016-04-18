@@ -6,6 +6,7 @@
 <%@ page import="net.sf.json.JSONArray" %>
 <%@ page import="net.sf.json.JSONObject" %>
 <%@ page import="com.battsister.util.BasicType" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ include file="../ini_sys.jsp" %>
 <%
     response.setHeader("Pragma", "No-cache");
@@ -86,7 +87,7 @@
                 int qid = 0;
                 int aid = 0;
                 int pages = ru.getInt("page");
-                int pn = 25;
+                int pn = 1000;
                 int i = 0;
                 int j = 0;
                 //int counts = utildb.Get_count(idd, table, wheres, "", sqllist);
@@ -137,7 +138,7 @@
                     <%
                         if (type != 2) {
                             %>
-                    <a href="javascript:exercise_option_add('0', '添加选项', '<%=qid%>', '<%=question%>', '<%=doc.getInt("type")%>')" title="添加选项">
+                    <a href="javascript:exercise_option_add('0', '添加选项', '<%=qid%>', '<%=URLEncoder.encode(question, "utf-8")%>', '<%=doc.getInt("type")%>')" title="添加选项">
                         <img src="/public/images/add.gif" align="absmiddle"/>
                     </a>
                     <%
@@ -172,7 +173,6 @@
 
                     <div class="list" >
                         <div class="t">
-                            <%=j %>、<%=answer %>
                             <span class="fc_red">
                                 <%
                                     if (!answer_pic.equals("")) {
@@ -183,9 +183,10 @@
                                     }
                                 %>
                             </span>
+                            <%=j %>、<%=answer %>
                         </div>
                         <div class="opt">
-                            <a href="javascript:exercise_option_add('<%=aid%>', '修改问题选项', '<%=qid%>', '<%=question%>', '<%=doc.getInt("type")%>')">
+                            <a href="javascript:exercise_option_add('<%=aid%>', '修改问题选项', '<%=qid%>', '<%=URLEncoder.encode(question, "utf-8")%>', '<%=doc.getInt("type")%>')">
                                 <img src="/public/images/mod.gif"/>
                             </a>
                             <a onclick="del_answer(<%=aid %>);">
