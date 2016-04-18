@@ -30,11 +30,11 @@
     String addtime = "", adduser = "";
     int adduserid = 0;
     String  content = "";
-    String keywords = "";
+    String keywords = "",note="";
     int id = ru.getInt("id");
     action = "save";
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("id,newstitle,newsclass,bossname,smallfile,bigfile,ordernum,isdel,addtime,adduser,adduserid," +
+        Doc doc = utildb.Get_Doc("id,newstitle,note,newsclass,bossname,smallfile,bigfile,ordernum,isdel,addtime,adduser,adduserid," +
                 "content,hits,keywords" +
                 "", "bs_news", "where id=?", "", new Object[]{new Integer(id)});
         if (doc != null) {
@@ -50,6 +50,7 @@
             isdel = doc.getIn("isdel");
             addtime = doc.get("addtime");
             adduser = doc.get("adduser");
+            note=doc.get("note");
 
         }
     }
@@ -201,7 +202,7 @@
                     </select>
 
                 </li>
-                <li>排序：<input type="text" name="ordernum" id="ordernum" value="<%=ordernum %>" style="width:50px;"/>从大到小
+                <li>排序：<input type="text" name="ordernum" id="ordernum" value="<%=ordernum %>" style="width:50px;"/>&nbsp;从小到大
                 </li>
 
             </ul>
@@ -209,6 +210,11 @@
                 <li>
                     <label for="textfield">标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</label>
                     <input type="text" name="newstitle" id="newstitle" value="<%=newstitle %>" style="width:300px;"/>
+                </li>
+                 <li>
+                    <label for="textfield">简&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;介：</label>
+                    <textarea rows="5" cols="50" name="note"><%=note%></textarea>
+                   &nbsp;(50字以内)
                 </li>
                 <li>
                     <label for="textfield">关键字：</label>
@@ -222,8 +228,10 @@
         <div class="up_input">
             <input name="FileUpload" id="smallfileUpload" type="file"/>
         </div>
-        <div class="tips">
-
+        <div class="tips" style="color: red;">
+			<!-- 专业资源类--推荐像素：（250x156px）
+			其他类--推荐像素：（250x156px） -->
+			推荐像素：（250x156px）
         </div>
         <div class="clear"></div>
         <input type="hidden" name="smallfile" value="<%=smallfile%>"/>
@@ -234,7 +242,7 @@
 							</span>
                 </li>
             </ul>
-            <ul class="row1 clearfix">
+           <%--  <ul class="row1 clearfix">
                 <li>
                     标识大图片：
     <span class="input"><span class="upload_file"><div>
@@ -253,7 +261,7 @@
 							</span>
 
                 </li>
-            </ul>
+            </ul> --%>
             <script>
                 if ($('#smallfileUpload').size()) {
                     global_obj.file_upload($('#smallfileUpload'), $('#form1 input[name=smallfile]'), $('#smallfileDetail'), 'web_column');

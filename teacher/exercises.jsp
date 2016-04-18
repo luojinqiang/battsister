@@ -180,7 +180,7 @@ if(targetObj.style.display!="none"){
  <div class="right_w">
     <%
     	if(chapter_id==0){
-    		out.print("<p>"+exercises_introduce+"</p>");
+    		out.print("<div class=\"title_r\">习题库介绍</div> <p>"+exercises_introduce+"</p>");
     	}else{
     		int size=exeList.size();
     		%>

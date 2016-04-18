@@ -114,8 +114,8 @@
                                         <div class="up_input">
                                             <input name="FileUpload" id="smallfileUpload1" type="file"/>
                                         </div>
-                                        <div class="tips">
-                                            图片尺寸建议：600*230px
+                                        <div class="tips" style="color: red;">
+                                            图片尺寸建议：188*79px
                                         </div>
                                         <div class="clear"></div>
                                         <input type="hidden" name="pic"

@@ -95,7 +95,9 @@
                                 <div class="up_input">
                                     <input name="FileUpload" id="smallfileUpload" type="file"/>
                                 </div>
-                                <div class="tips"></div>
+                                <div class="tips" style="color: red;">
+                                	推荐像素：268x154px;
+                                </div>
                                 <div class="clear"></div>
                                 <input type="hidden" name="pic" value="<%=pic%>"/>
                             </div>

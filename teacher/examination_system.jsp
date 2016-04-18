@@ -153,7 +153,7 @@ List<Doc> examinationList=selectic.Get_List(pages, pn, counts, table, wheres, fi
 			              <tr>
 			                <td><%=doc.getIn("type")==0?"按模块":"按任务"%></td>
 			                <td><%=doc.getIn("question_num")%></td>
-			                <td><%=doc.get("limit_time")+"分钟"%></td>
+			                <td><%=doc.getIn("limit_time")/60+"分钟"%></td>
 			                <td><%=AjaxXml.timeStamp2Date(doc.getIn("end_time"),"YY04-MM-DD")%></td>
 			                <td><div class="kaoshi_botton"><a href="examination_record.jsp?examination_id=<%=doc.getIn("id")%>">查看详情</a></div></td>
 			              </tr>

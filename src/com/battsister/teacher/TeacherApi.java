@@ -767,7 +767,7 @@ public class TeacherApi {
                 return backjson;
             }
             insertDoc.put("question_num",ids.split(",").length);
-            insertDoc.put("limit_time", type == 0 ? 60 : 40);
+            insertDoc.put("limit_time", type == 0 ? 60*60 : 40*60);
             insertDoc.put("end_time", AjaxXml.getTimestamp(end_time + " 23:59:59"));
             insertDoc.put("teacher_id", teacher_id);
             insertDoc.put("add_time", AjaxXml.getTimestamp("now"));
@@ -776,7 +776,7 @@ public class TeacherApi {
 
             String[] strings = ids.split(",");
             for (int i = 0; i < strings.length; i ++) {
-            	JSONArray opt_array=base.executeQuery2JSONArray("select id,name,pic,is_answer from bs_exercise_option where exercise_library_id=?" , new Object[]{strings[i]});
+            	JSONArray opt_array=base.executeQuery2JSONArray("select id,name,pic,is_answer from bs_exercise_option where exercise_library_id=? order by id desc " , new Object[]{strings[i]});
                 base.executeUpdateByDoc("bs_exercise_exam",
                         new Doc().put("option_array",opt_array.toString()),new Doc().put("exercise_library_id", strings[i]).put("examination_id", bs_id));
             }

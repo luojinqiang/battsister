@@ -258,7 +258,24 @@ public class BasicType {
 	}
 	return opt;
  }
- 
+
+ /**
+  * 取得答题所用时间
+  * @param seconds
+  * @return
+  */
+ public static String getAnswerTime(int seconds){
+	 if(seconds<=60){
+		 return seconds+"秒";
+	 }else{
+		 if(seconds%60==0){
+			 return seconds/60+"分钟";
+		 }else{
+			 int min=seconds/60;
+			 return min+"分钟"+(seconds-min*60)+"秒";
+		 }
+	 }
+ }
  /**
   * 获取七牛的凭证
   * @return

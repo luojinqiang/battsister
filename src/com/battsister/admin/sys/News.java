@@ -46,17 +46,27 @@ public class News {
             String bigfile = ru.getString("bigfile").trim();
             int newsclass = ru.getInt("newsclass");
             int ordernum = ru.getInt("ordernum");
+            String note=ru.getString("note");
             content = AjaxXml.unescape(content);
             if (newstitle.equals("")) {
             	backjson.put("type",false);
             	backjson.put("msg","请输入标题和内容");
                 return backjson;
             }
+            if(note==null||"".equals(note)){
+            	backjson.put("type",false);
+            	backjson.put("msg","请输入新闻简介");
+                return backjson;
+            }else if(note.length()>50){
+            	backjson.put("type",false);
+            	backjson.put("msg","新闻简介需50字以内");
+                return backjson;
+            }
             content = StringUtil.replace(content, "^…", "&");
             String sql = "insert into bs_news (newstitle,content,newsclass," +
-                    "smallfile,bigfile,ordernum,keywords,bossname," +
+                    "smallfile,bigfile,ordernum,keywords,bossname,note," +
                     "adduser,adduserid,addtime)" +
-                    " values (?,?,?,?,?,?,?,?,?,?,?)";
+                    " values (?,?,?,?,?,?,?,?,?,?,?,?)";
             List list = new ArrayList();
             list.add(newstitle);
             list.add(content);
@@ -66,10 +76,11 @@ public class News {
             list.add(ordernum);
             list.add(keywords);
             list.add(bossname);
+            list.add(note);
             if (id > 0) {
                 sql = "update bs_news set newstitle=?,content=?,newsclass=?," +
                         "smallfile=?,bigfile=?,ordernum=?,keywords=?," +
-                        "bossname=? where id=?";
+                        "bossname=?,note=?  where id=?";
                 list.add(id);
                 logtitle = "编辑新闻";
             } else {

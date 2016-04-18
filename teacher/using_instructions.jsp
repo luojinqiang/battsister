@@ -12,7 +12,7 @@
 <body>
 <!-- 引入头部 -->
 <jsp:include page="head.jsp">
-	<jsp:param value="2" name="type"/>
+	<jsp:param value="0" name="type"/>
 </jsp:include>
 
 <div class="container">

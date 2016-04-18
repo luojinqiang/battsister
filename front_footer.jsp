@@ -22,3 +22,15 @@
         </div>
     </div>
 </div>
+<div class="footer">
+    <div class="footer_con b_top">
+       <!--  <ul class="footer_nav">
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="contact.html">联系我们</a></li>
+            <li><a href="#">网站地图</a></li>
+            <div class="clear"></div>
+        </ul> -->
+        <p>Copyright © 2006-2016 深圳市派司德科技有限公司 All Rights Reserved 粤ICP备09008542号</p>
+    </div>
+</div>
+

@@ -1,5 +1,32 @@
+<%@page import="com.baje.sz.ajax.AjaxXml"%>
+<%@page import="java.util.List"%>
+<%@page import="net.sf.json.JSONArray"%>
+<%@page import="com.baje.sz.util.Doc"%>
+<%@page import="com.baje.sz.util.Selectic"%>
+<%@page import="com.baje.sz.util.RequestUtil"%>
 <%@page contentType="text/html; charset=utf-8" %>
-
+<%
+	RequestUtil ru=new RequestUtil(request);
+	Selectic selectic=new Selectic();
+/* 	//banner图
+	Doc bannerDoc=selectic.Get_Doc("id,banner_pics", "bs_info"," where isdel=0 and id=? ","mysqlss");
+	JSONArray bannerArray=null;
+	if(bannerDoc!=null&&bannerDoc.get("banner_pics")!=null&&!"".equals(bannerDoc.get("banner_pics"))){
+		bannerArray=JSONArray.fromObject(bannerDoc.get("banner_pics"));
+	}
+ 	*/
+ //推荐课程
+ List<Doc> courseList=selectic.Get_List("id,name,introduce,pic", "bs_course", " where isdel=0 and is_recommend=1 order by order_num asc ","mysqlss");
+ //新闻列表
+ int newsClassId=0;
+ Doc classDoc=selectic.Get_Doc("id,classname","bs_news_class"," where isdel=0 and classename=? ","mysqlss",new Object[]{"xinwendongtai"});
+ if(classDoc!=null){
+	 newsClassId=classDoc.getIn("id");
+ }
+ List<Doc> newsList=selectic.Get_List("id,newstitle,smallfile,addtime,note", "bs_news"," where isdel=0 and newsclass=? order by ordernum asc limit 6  ", "mysqlss",new Object[]{newsClassId});
+ //合作企业、院校
+ List<Doc> cooperationList=selectic.Get_List("id,type,name,pic,weburl", "bs_cooperation_unit", " where isdel=0","mysqlss");
+ %>
 <!doctype html>
 <html>
 <head>
@@ -28,69 +55,10 @@ $(function(){
 </head>
 
 <body class="bg_white">
-<div class="top_bg">
-	<div class="top_con">
-        <div class="top_nav">欢迎来到厚学网！您尚未 [<a href="login.jsp">登录</a>]</div>
-        <!-- <div class="search">
-        	<div class="search_botton"><a href="#">搜索</a></div>
-            <input name="" type="text" class="input_search" placeholder="请输入您要搜索的内容">
-            <div class="clear"></div>
-        </div> -->
-        <div class="clear"></div>
-    </div>
-</div>
 <!--=== Header ===-->
-<div class="headerbg">               
-    <div class="header"> 
-        <div class="logo">                                           
-            <a href="index.html"><img src="/front_style/images/logo.png" alt="Logo" /></a>
-        </div>                                               
-         <ul class="navbar">
-            <li  class="active_index">
-            	<a href="index.jsp">
-                	<h3>首页</h3>
-                    <p>home</p>
-                </a>
-            </li>
-            <li class="em_line">|</li>
-            <li>
-            	<a href="news.jsp">
-                	<h3>新闻动态</h3>
-                    <p>news</p>
-                </a>
-            </li>
-            <li class="em_line">|</li>
-            <li>
-            	<a href="course.jsp">
-                	<h3>课程推荐</h3>
-                    <p>courses</p>
-                </a>
-            </li> 
-            <li class="em_line">|</li>
-            <li>
-            	<a href="industry_resources.jsp">
-                	<h3>行业资源</h3>
-                    <p>industry</p>
-                </a>
-            </li>
-            <li class="em_line">|</li>
-            <li>
-            	<a href="professional_resources.jsp">
-                	<h3>专业资源</h3>
-                    <p>professional</p>
-                </a>
-             </li>
-            <li class="em_line">|</li>
-            <li>
-            	<a href="about.jsp">
-                	<h3>关于我们</h3>
-                    <p>about us</p>
-                </a>
-            </li>
-        </ul>
-        <div class="clear"></div>                
-  </div>           
-</div>   
+<jsp:include page="head.jsp">
+	<jsp:param value="1" name="type"/>
+</jsp:include>
 <!--=== End Header ===-->
 <div class="ct-banner">
     <div class="ct-focusbox">         
@@ -120,102 +88,22 @@ $(function(){
         <h6>Course recommendation</h6>
     </div>
 	<div id="scroll" class="owl-carousel">
+	<%
+		if(courseList!=null){
+			for(Doc doc:courseList){
+	%>
 		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
+			<img src="<%=doc.get("pic")%>" alt="<%=doc.get("name")%>">
 			<div class="shd"><a href="#"></a></div>
 			<div class="txt">
-				<h3><a href="#">课程标题1</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
+				<h3><a href="#"><%=doc.get("name")%></a></h3>
+				<p><%=doc.get("introduce")%></p>
 			</div>
 		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题2</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题3</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题4</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题5</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题6</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题7</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题8</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题9</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题10</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题11</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
-		<div class="item">
-			<img src="/front_style/images/tu.jpg" alt="">
-			<div class="shd"><a href="#"></a></div>
-			<div class="txt">
-				<h3><a href="#">课程标题12</a></h3>
-				<p>精通Java程序设计、JavaEE体系架构、主流开源框架、设计模式、项目管理等。擅长从浅入深，循序渐进。</p>
-			</div>
-		</div>
+	<%
+			}
+		}
+	%>
 	</div>
 </div>
 
@@ -228,197 +116,117 @@ $(function(){
                 <h6>news information</h6>
             </div>
             <div class="s1_con">
-                <div class="s1_left">
-                    <a href="#">
-                    <div class="news_list">
-                        <div class="date">
-                            <div class="month">
-                                <span>12</span>
-                                <span>月</span>
-                            </div>
-                            <div class="day">24</div>
-                        </div>
-                        <div class="news_index_con">
-                            <div class="news_index_img"><img src="/front_style/images/tu.jpg"></div>
-                            <div class="news_index_word">
-                                <h5>华晨客车有限公司员工电动汽车安全培训</h5>
-                              <p>对华晨客车（大连）有限公司员工进行电动汽车安全培训对华晨客车（大连）有限公训……</p>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
+           	 <div class="s1_left">
+            <%
+            	if(newsList!=null){
+            		for(int i=0;i<newsList.size()&&i<3;i++){
+            			Doc doc=newsList.get(i);
+            			%>
+                    <a href="news_details.jsp?news_id=<%=doc.getIn("id")%>">
+	                    <div class="news_list">
+	                        <div class="date">
+	                            <div class="month">
+	                                <span><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"), "MM")%></span>
+	                                <span>月</span>
+	                            </div>
+	                            <div class="day"><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"), "DD")%></div>
+	                        </div>
+	                        <div class="news_index_con">
+	                            <div class="news_index_img"><img src="<%=doc.get("smallfile")%>"></div>
+	                            <div class="news_index_word">
+	                                <h5><%=doc.get("newstitle")%></h5>
+	                              <p><%=doc.get("note")%></p>
+	                            </div>
+	                        </div>
+	                        <div class="clear"></div>
+	                    </div>
                     </a>
-                    <a href="#">
-                    <div class="news_list">
-                        <div class="date">
-                            <div class="month">
-                                <span>12</span>
-                                <span>月</span>
-                            </div>
-                            <div class="day">24</div>
-                        </div>
-                        <div class="news_index_con">
-                            <div class="news_index_img"><img src="/front_style/images/tu.jpg"></div>
-                            <div class="news_index_word">
-                                <h5>华晨客车有限公司员工电动汽车安全培训</h5>
-                              <p>对华晨客车（大连）有限公司员工进行电动汽车安全培训对华晨客车（大连）有限公训……</p>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>	
-                    </a>
-                    <a href="#">
-                    <div class="news_list">
-                        <div class="date">
-                            <div class="month">
-                                <span>12</span>
-                                <span>月</span>
-                            </div>
-                            <div class="day">24</div>
-                        </div>
-                        <div class="news_index_con">
-                            <div class="news_index_img"><img src="/front_style/images/tu.jpg"></div>
-                            <div class="news_index_word">
-                                <h5>华晨客车有限公司员工电动汽车安全培训</h5>
-                              <p>对华晨客车（大连）有限公司员工进行电动汽车安全培训对华晨客车（大连）有限公训……</p>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    </a>			
-                </div>
+            			<%
+            		}
+            	}
+            %>
+               </div>
                 <div  class="s1_right">
-                    <a href="#">
-                    <div class="news_list">
-                        <div class="date">
-                            <div class="month">
-                                <span>12</span>
-                                <span>月</span>
-                            </div>
-                            <div class="day">24</div>
-                        </div>
-                        <div class="news_index_con">
-                            <div class="news_index_img"><img src="/front_style/images/tu.jpg"></div>
-                            <div class="news_index_word">
-                                <h5>华晨客车有限公司员工电动汽车安全培训</h5>
-                              <p>对华晨客车（大连）有限公司员工进行电动汽车安全培训对华晨客车（大连）有限公训……</p>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
+                   <%
+                   		if(newsList!=null){
+                   			for(int i=3;i<newsList.size();i++){
+                   				Doc doc=newsList.get(i);
+                   				%>
+                   	<a href="news_details.jsp?news_id=<%=doc.getIn("id")%>">
+	                    <div class="news_list">
+	                        <div class="date">
+	                            <div class="month">
+	                                <span><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"), "MM")%></span>
+	                                <span>月</span>
+	                            </div>
+	                            <div class="day"><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"), "DD")%></div>
+	                        </div>
+	                        <div class="news_index_con">
+	                            <div class="news_index_img"><img src="<%=doc.get("smallfile")%>"></div>
+	                            <div class="news_index_word">
+	                                <h5><%=doc.get("newstitle")%></h5>
+	                              <p><%=doc.get("note")%></p>
+	                            </div>
+	                        </div>
+	                        <div class="clear"></div>
+	                    </div>
                     </a>
-                    <a href="#">
-                    <div class="news_list">
-                        <div class="date">
-                            <div class="month">
-                                <span>12</span>
-                                <span>月</span>
-                            </div>
-                            <div class="day">24</div>
-                        </div>
-                        <div class="news_index_con">
-                            <div class="news_index_img"><img src="/front_style/images/tu.jpg"></div>
-                            <div class="news_index_word">
-                                <h5>华晨客车有限公司员工电动汽车安全培训</h5>
-                              <p>对华晨客车（大连）有限公司员工进行电动汽车安全培训对华晨客车（大连）有限公训……</p>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>	
-                    </a>
-                    <a href="#">
-                    <div class="news_list">
-                        <div class="date">
-                            <div class="month">
-                                <span>12</span>
-                                <span>月</span>
-                            </div>
-                            <div class="day">24</div>
-                        </div>
-                        <div class="news_index_con">
-                            <div class="news_index_img"><img src="/front_style/images/tu.jpg"></div>
-                            <div class="news_index_word">
-                                <h5>华晨客车有限公司员工电动汽车安全培训</h5>
-                              <p>对华晨客车（大连）有限公司员工进行电动汽车安全培训对华晨客车（大连）有限公训……</p>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    </a>
+                   				<%
+                   			}
+                   %>
                 </div>	
                 <div class="clear"></div>
+                <%
+            		}
+                %>
             </div>
         </div>
     </div>
 </div>
 <!--===End wrapper1 ===-->
-
-
 <div class="system">
     <div class="system_con">
         <div class="system_word">
             <h1>考试系统</h1>
             <p>在线考试、在线学习、在线培训、在线练习功能随机试卷，人工组卷、自定义抽题百分百适应性强，科目、部门结构、功能名称等都可自定义试卷多样化在线考试、在线学习、在线培训、在线练习功能随机试卷，人工组卷、自定义抽题百分百适应性强，科目、部门结构、功能名称等都可自定义试卷多样化</p>
-            <div class="botton4"><a href="#">考试系统</a></div>
+            <div class="botton4"><a href="/login.jsp">考试系统</a></div>
         </div>
         <div class="clear"></div>
     </div>	
 </div>
-
 <div class="container">
 	<div class="title">
-        <h1>合作单位</h1>
-        <h6>Cooperative enterprises</h6>
+        <h1>合作企业</h1>
+        <h6>cooperative enterprise</h6>
     </div>
     <div class="s2_con">
     	<div class="mr_frbox">
-            <img class="mr_frBtnL prev" src="/front_style/images/mfrL.jpg" width="28" height="46" />
+            <img class="mr_frBtnL prev" src="/front_style/images/mfrL.png" width="28" height="46" />
             <div class="mr_frUl">
                 <ul>
-                    <li>
-                    	<p><img src="/front_style/images/mfr_1.jpg"/></p>
-                    	<p><img src="/front_style/images/mfr_2.jpg"/></p>
-                    	<p><img src="/front_style/images/mfr_2.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_1.jpg"/></p>
-                    </li>
-                    <li>
-                        <p><img src="/front_style/images/mfr_3.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_6.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_2.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_3.jpg"/></p>
-                    </li>
-                    <li>
-                        <p><img src="/front_style/images/mfr_4.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_7.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_2.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_3.jpg"/></p>
-                    </li>
-                    <li>
-                    	<p><img src="/front_style/images/mfr_5.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_8.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_2.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_3.jpg"/></p>
-                    </li>
-                    <li>
-                    	<p><img src="/front_style/images/mfr_1.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_2.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_2.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_3.jpg"/></p>
-                    </li>
-                    <li>
-                    	<p><img src="/front_style/images/mfr_3.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_6.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_2.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_3.jpg"/></p>
-                    </li>
-                    <li>
-                    	<p><img src="/front_style/images/mfr_4.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_7.jpg"/></p>
-                        <p><img src="/front_style/images/mfr_2.jpg" /></p>
-                    </li>
+                	<%
+                		if(cooperationList!=null){
+                			int s=0;
+                			for(Doc doc:cooperationList){
+                				if(doc.getIn("type")==1){
+                					continue;
+                				}
+                				if(s%3==0){
+                					out.print("<li>");
+                				}
+                				%>
+		                		<p><img src="<%=doc.get("pic")%>" style="width: 188px;" height="79px;"/></p>
+                				<%
+                				if(s%2==0&&s!=0){
+                					out.print("</li>");
+                				}
+                				s++;
+                			}
+                		}
+                	%>
                 </ul>
             </div>
-            <img class="mr_frBtnR next" src="/front_style/images/mfrR.jpg" width="28" height="46" />
+            <img class="mr_frBtnR next" src="/front_style/images/mfrR.png" width="28" height="46" />
         </div>
         <script type="text/javascript">
 		$(".mr_frbox").slide({
@@ -434,41 +242,67 @@ $(function(){
     <div class="clear"></div>
 </div>
 
-<!-- <div class="bg_s5">
+<!--=== wrapper1 ===-->
+<div class="wrapper1">
     <div class="container">
-    	<div class="section5">
-           <div class="s5_left">
-                <div class="title_s5">联系我们</div>
-                <h6>Get in  touch with us </h6>
-                <p>深圳市汉优科技有限公司</p>
-                <ul>
-                	<li class="ic_ad">地址: 深圳市龙华民治大道1083展滔科技大厦c座1411</li>
-                    <li class="ic_email">邮箱：hanyouapp@qq.com</li>
-                    <li class="ic_tel">电话：0755-28521510</li>
-                </ul>
-           </div>
-           <div class="s5_center">
-          		<div class="title_s5">关注我们</div>
-                <h6>Pay attention to us</h6>
-                <p class="erweima"><img src="/front_style/images/erweima.jpg"></p>
-                <p>扫描关注微信</p>		
-          </div>
-           <div class="s5_right">
-           		<div class="title_s5">留言板</div>
-                <h6>message board</h6>
-                <div class="s5_label">
-                	<input name="" type="text" class="s5_text" placeholder="姓名">
-                    <input name="" type="text" class="s5_text" placeholder="电话">
-                    <textarea name="" cols="" rows="" class="s5_textarea">请输入</textarea>
-                    <a href="#"><div class="s5_botton">提交</div></a>
-                    <div class="clear"></div>
-                </div>
-           </div>
-           <div class="clear"></div>
+        <div class="title">
+            <h1>合作院校</h1>
+            <h6>cooperative institutions</h6>
         </div>
+        <div class="s2_con">
+            <div class="mr_frbox">
+                <img class="mr_frBtnL prev" src="/front_style/images/mfrL.png" width="28" height="46" />
+                <div class="mr_frUl">
+                    <ul>
+                       <%
+                		if(cooperationList!=null){
+                			int s=0;
+                			for(Doc doc:cooperationList){
+                				if(doc.getIn("type")==2){
+                					continue;
+                				}
+                				if(s%3==0){
+                					out.print("<li>");
+                				}
+                				%>
+		                		<p><img src="<%=doc.get("pic")%>"  style="width: 188px;" height="79px;"/></p>
+                				<%
+                				if(s%3==0){
+                					out.print("</li>");
+                				}
+                			}
+                		}
+                	%>
+                    </ul>
+                </div>
+                <img class="mr_frBtnR next" src="/front_style/images/mfrR.png" width="28" height="46" />
+            </div>
+            <script type="text/javascript">
+            $(".mr_frbox").slide({
+                titCell:"",
+                mainCell:".mr_frUl ul",
+                autoPage:true,
+                effect:"leftLoop",
+                autoPlay:true,
+                vis:4
+            });
+            </script>
+        </div>
+        <div class="clear"></div>
     </div>
-</div> -->
+</div>
 <!-- 引入尾部 -->
 <%@include file="front_footer.jsp" %>
+<!-- <div class="footer">
+    <div class="footer_con b_top">
+        <ul class="footer_nav">
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="contact.html">联系我们</a></li>
+            <li><a href="#">网站地图</a></li>
+            <div class="clear"></div>
+        </ul>
+        <p>Copyright © 2012 深圳市派司德科技有限公司 All Rights Reserved 粤ICP备09008542号</p>
+    </div>
+</div> -->
 </body>
 </html>

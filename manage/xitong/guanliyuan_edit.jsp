@@ -218,11 +218,11 @@
                             out.print("checked");
                         }
                     %>/>校企合作
-                     <input name="flag3" type="checkbox" value="3004" <%
+                     <%-- <input name="flag3" type="checkbox" value="3004" <%
                         if (admin_flag.indexOf(",3004,") > -1) {
                             out.print("checked");
                         }
-                    %>/>首页banner图
+                    %>/>首页banner图 --%>
                     <input name="flag3" type="checkbox" value="3005" <%
                         if (admin_flag.indexOf(",3005,") > -1) {
                             out.print("checked");
