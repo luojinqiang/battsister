@@ -94,9 +94,9 @@ $(function(){
 	%>
 		<div class="item">
 			<img src="<%=doc.get("pic")%>" alt="<%=doc.get("name")%>">
-			<div class="shd"><a href="#"></a></div>
+			<div class="shd"><a href="course_details.jsp?course_id=<%=doc.getIn("id")%>"></a></div>
 			<div class="txt">
-				<h3><a href="#"><%=doc.get("name")%></a></h3>
+				<h3><a href="course_details.jsp?course_id=<%=doc.getIn("id")%>"><%=doc.get("name")%></a></h3>
 				<p><%=doc.get("introduce")%></p>
 			</div>
 		</div>

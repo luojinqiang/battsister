@@ -9,7 +9,7 @@
 %>
 <div class="top_bg">
 	<div class="top_con">
-        <div class="top_nav">欢迎来到厚学网！<%=teacher_name!=null&&!"".equals(teacher_name)?"[<a href=\"/teacher/teacher_home.jsp\">"+teacher_name+"</a>]":"您尚未 [<a href=\"login.jsp\">登录</a>]"%></div>
+        <div class="top_nav">欢迎来到派司德科技教育平台！<%=teacher_name!=null&&!"".equals(teacher_name)?"[<a href=\"/teacher/teacher_home.jsp\">"+teacher_name+"</a>]":"您尚未 [<a href=\"login.jsp\">登录</a>]"%></div>
         <!-- <div class="search">
         	<div class="search_botton"><a href="#">搜索</a></div>
             <input name="" type="text" class="input_search" placeholder="请输入您要搜索的内容">
