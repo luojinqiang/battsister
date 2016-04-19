@@ -13,7 +13,7 @@
 <div class="headerbg_stu">
     <div class="header_stu">
         <div class="logo_stu">
-            <a href="student_home.jsp"><img src="../front_style/images/logo1.png" alt="Logo" /></a>
+            <a href="/index.jsp"><img src="../front_style/images/logo1.png" alt="Logo" /></a>
         </div>
         <ul class="navbar_stu">
             <li <%=type==1?"class=\"active_stu\"":""%>><a href="student_home.jsp">首页</a></li>

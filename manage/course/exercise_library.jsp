@@ -95,7 +95,7 @@
                 whereDoc.put("course_id", course_id);
                 whereDoc.put("chapter_id", chapter_id);
                 whereDoc.put("isdel", 0);
-                whereDoc.put("@order", "order_num asc");
+                whereDoc.put("@order", "type asc,order_num asc");
                 //counts = el.queryCountByWhere(whereDoc);
 
                 JSONArray questionList = el.queryPageByWhere(pages, pn, whereDoc);
@@ -146,7 +146,7 @@
 
                         }
                     %>
-                    <a href="javascript:exercise_add('<%=qid%>', '修改习题');" title="修改习题">
+                    <a href="javascript:exercise_add('<%=qid%>','修改习题');" title="修改习题">
                         <img src="/public/images/mod.gif" align="absmiddle"/>
                     </a>
                     <a onclick="del_question(<%=qid %>);">
