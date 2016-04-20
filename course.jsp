@@ -9,7 +9,7 @@
 	Selectic selectic=new Selectic();
 	int pages=ru.getInt("pages");
 	pages=pages==0?1:pages;
-	int pn=10;
+	int pn=12;
 	String table="bs_course";
 	String file="id,name,introduce,pic,order_num,add_time";
 	String where="isdel=0";
