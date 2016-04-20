@@ -27,7 +27,7 @@ public class ExerciseOption extends BasicImp {
         int elId = ru.getInt("elId");
         int type = ru.getInt("type");
         String name = ru.getString("name");
-        Doc whereDoc = new Doc(5);
+        /*Doc whereDoc = new Doc(5);
         whereDoc.put("exercise_library_id", elId);
         whereDoc.put("course_id", course_id);
         whereDoc.put("chapter_id", chapter_id);
@@ -40,9 +40,9 @@ public class ExerciseOption extends BasicImp {
                 backJson.put("msg", "该选项已经存在");
                 return backJson;
             }
-        }
+        }*/
 
-        if (type == 0) {
+        if (type == 0 && ru.getInt("is_answer") == 1) {
             Doc doc = new Doc();
             doc.put("is_answer", 0);
             Doc wdoc = new Doc();

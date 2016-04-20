@@ -1,6 +1,5 @@
-<%@page import="java.net.URLDecoder"%>
+<%@page import="com.baje.sz.util.RequestUtil"%>
 <%@page contentType="text/html; charset=utf-8" %>
-<%@page import="com.baje.sz.util.RequestUtil" %>
 <%@page import="com.battsister.model.ExerciseOption" %>
 <%@page import="net.sf.json.JSONObject" %>
 <%@include file="../ini_sys.jsp" %>
