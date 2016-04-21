@@ -1,3 +1,4 @@
+<%@page import="net.sf.json.JSONArray"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="java.util.Iterator" %>
 <%@ page import="java.util.List" %>
@@ -23,9 +24,10 @@
     	return;
     }
 	String name="",username="",headpic="",account_status="",email="";
+	JSONArray ipArray=new JSONArray();
 	int sex=0,birth=0,school_id=0;
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("name,username,headpic,sex,birth,email,account_status,school_id", "bs_teachers", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+        Doc doc = utildb.Get_Doc("name,username,headpic,sex,birth,email,ip_limit,account_status,school_id", "bs_teachers", " where id=? and isdel=0", "mysqlss", new Object[]{id});
         if (doc == null) {
             out.print("信息不存在");
             return;
@@ -38,6 +40,10 @@
         	account_status=doc.get("account_status");
         	school_id=doc.getIn("school_id");
         	email=doc.get("email");
+        	if(doc.get("ip_limit")!=null&&!"".equals(doc.get("ip_limit"))){
+        		ipArray=JSONArray.fromObject(doc.get("ip_limit"));
+        		ipArray=ipArray!=null?ipArray:new JSONArray();
+        	}
         }
     }
 %>
@@ -57,11 +63,15 @@
         function usersave() {
             $("#tjbutton").attr("disabled", true);
             $("#tisspan").html("<img src='../images/loading.gif' />提交中，请稍候……");
+            var ips="";
+            $('input[name=ip_limit]').each(function (){
+            	ips=ips+","+$(this).val();
+            });
             $.ajax({
                 dataType: "json",
                 type: "post",
                 url: "teachers_edit.jsp",
-                data: $("#form1").serialize(),
+                data: $("#form1").serialize()+"&ips="+ips,
                 success: function (msg) {
                     if (msg.type) {
                         window.parent.art.dialog({
@@ -148,9 +158,26 @@
             	</li>
             </ul>
             <ul class="row1 clearfix">
-            	 <li>
+           	<li>
             	邮箱地址：<input  type="text" name="email" value="<%=email%>" />
             </li>
+            </ul>
+             <ul class="row3 clearfix">
+	           	<li>
+	            	IP限制1：<input type="text" name="ip_limit" value="<%=ipArray.size()>1?ipArray.optString(0):""%>"/>
+	            </li>
+	            	<li>
+	            	IP限制2：<input type="text" name="ip_limit" value="<%=ipArray.size()>1?ipArray.optString(1):""%>"/>
+	            </li>
+	            	<li>
+	            	IP限制3：<input type="text" name="ip_limit" value="<%=ipArray.size()>1?ipArray.optString(2):""%>"/>
+	            </li>
+	            	<li>
+	            	IP限制4：<input type="text" name="ip_limit" value="<%=ipArray.size()>1?ipArray.optString(3):""%>"/>
+	            </li>
+	            	<li>
+	            	IP限制5：<input type="text" name="ip_limit" value="<%=ipArray.size()>1?ipArray.optString(4):""%>"/>
+	            </li>
             </ul>
             <ul class="row1 clearfix">
                 <li>头像图：

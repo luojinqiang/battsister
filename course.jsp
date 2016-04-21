@@ -12,9 +12,9 @@
 	int pn=12;
 	String table="bs_course";
 	String file="id,name,introduce,pic,order_num,add_time";
-	String where="isdel=0";
+	String where="isdel=0 and is_recommend=1";
 	int counts=selectic.Get_count("id",table,where,"mysqlss",new ArrayList());
-	List<Doc> courselist=selectic.Get_List(pages, pn, counts, table, where, file, "order by is_recommend desc,order_num asc  ", "mysqlss",new ArrayList());
+	List<Doc> courselist=selectic.Get_List(pages, pn, counts, table, where, file, "order by order_num asc  ", "mysqlss",new ArrayList());
 	int page_size=selectic.getPageSize(counts, pn);
 %>
 <!doctype html>

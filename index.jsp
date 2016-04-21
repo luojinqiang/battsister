@@ -29,7 +29,7 @@
  if(classDoc!=null){
 	 newsClassId=classDoc.getIn("id");
  }
- List<Doc> newsList=selectic.Get_List("id,newstitle,smallfile,addtime,note", "bs_news"," where isdel=0 and newsclass=? order by ordernum asc limit 6  ", "mysqlss",new Object[]{newsClassId});
+ List<Doc> newsList=selectic.Get_List("id,newstitle,smallfile,addtime,note", "bs_news"," where isdel=0 and newsclass=? order by addtime desc, ordernum asc limit 6  ", "mysqlss",new Object[]{newsClassId});
  //合作企业、院校
  List<Doc> cooperationList=selectic.Get_List("id,type,name,pic,weburl", "bs_cooperation_unit", " where isdel=0","mysqlss");
  List<Doc> cooperationList1=new ArrayList();
