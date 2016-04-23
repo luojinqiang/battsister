@@ -12,7 +12,11 @@
 	if("logOut".equals(action)){
 		session.removeAttribute("teacher_id");
 		session.removeAttribute("teacher_name");
+		session.removeAttribute("student_id");
+		session.removeAttribute("student_name");
 	}
+	Object teacher_id=session.getAttribute("teacher_id");
+	Object student_id=session.getAttribute("student_id");
 	Selectic selectic=new Selectic();
 /* 	//banner图
 	Doc bannerDoc=selectic.Get_Doc("id,banner_pics", "bs_info"," where isdel=0 and id=? ","mysqlss");
@@ -214,7 +218,7 @@ $(function(){
             	<h3>自动评分</h3>
                 <p>支持自动评分、自动改卷、成绩排名、错题回顾、解题思路等功能模块</p>
             </div>
-            <div class="botton4"><a href="javascript:void(0)">考试系统</a></div>
+            <div class="botton4"><a href="<%if(teacher_id!=null&&!"".equals(teacher_id)){out.print("/teacher/examination_system.jsp");}else if(student_id!=null&&!"".equals(student_id)){out.print("/student/test_history.jsp");}else{out.print("/login.jsp");}%>">考试系统</a></div>
         </div>
         <div class="clear"></div>
     </div>	

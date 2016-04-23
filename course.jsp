@@ -53,8 +53,8 @@
    						<div class="re_one re_one_right">
 				        	<div class="re_one_img"><a href="course_details.jsp?course_id=<%=doc.getIn("id")%>"><img src="<%=doc.get("pic")%>"></a></div>
 				            <div class="re_one_word">
-				            	<h3><%=doc.get("name")%></h3>
-				                <p><%=doc.get("introduce")%></p>
+				            	 <h3><%=doc.get("name")%></h3>
+				                 <p><%=doc.get("introduce")%></p> 
 				            </div>
        					</div>
    						<%

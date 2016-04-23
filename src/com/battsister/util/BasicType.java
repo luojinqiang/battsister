@@ -1,11 +1,10 @@
 package com.battsister.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.tools.ant.types.FileList;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -222,6 +221,45 @@ public class BasicType {
  }
  
  /**
+  * 获取视频、动画资源文件（仅支持两级目录）
+  * @return
+  */
+public static JSONObject getVideoAnimationFiles(){
+	JSONObject backjson=new JSONObject();
+	File fileDir=new File(AppConf.getconf().get("filePath"));
+	if(!fileDir.exists()){
+		fileDir.mkdirs();
+	}
+	//获取该路径下的文件夹
+	File [] dirs=fileDir.listFiles();
+	JSONArray dirArray=new JSONArray();
+	if(dirs!=null){
+		for(File dirFile:dirs){
+			if(dirFile.isDirectory()){//如果是文件夹
+				JSONObject dirJson=new JSONObject();
+				dirJson.put("dirName",dirFile.getName());
+				JSONArray FileArray=new JSONArray();
+				File[] dirFiles=dirFile.listFiles();
+				JSONObject fileJson=new JSONObject();
+				if(dirFiles!=null){
+					for(File file:dirFiles){
+						fileJson.put("fileName",file.getName());
+						fileJson.put("filePath", "/file/"+dirFile.getName()+"/"+file.getName());
+						FileArray.add(fileJson);
+					}
+				}
+				dirJson.put("files",FileArray);
+				dirArray.add(dirJson);
+			}
+		}
+	}
+	backjson.put("type",true);
+	backjson.put("dirArray", dirArray);
+	return backjson;
+}
+ 
+
+ /**
   * 获取视频，动画的路径
   * @param key
   * @return
@@ -291,5 +329,9 @@ public class BasicType {
  public static String getWordPptPath(String dir,int i){
 	 return "/document/images/"+dir+"/"+("test-"+i)+""+Pdf2Jpg.SUFF_IMAGE+"";
  }
+ 
+ public static void main(String[] args) {
+	getVideoAnimationFiles();
+}
 }
 
