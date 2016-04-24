@@ -1,21 +1,25 @@
 package com.battsister.teacher;
 
-import com.baje.sz.ajax.AjaxXml;
-import com.baje.sz.ajax.LogUtility;
-import com.baje.sz.db.Base;
-import com.baje.sz.db.Dbc;
-import com.baje.sz.db.DbcFactory;
-import com.baje.sz.util.*;
-import com.battsister.admin.sys.Logdb;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import java.util.List;
 
 import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import java.util.List;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import com.baje.sz.ajax.AjaxXml;
+import com.baje.sz.ajax.LogUtility;
+import com.baje.sz.db.Base;
+import com.baje.sz.db.Dbc;
+import com.baje.sz.db.DbcFactory;
+import com.baje.sz.util.AppConf;
+import com.baje.sz.util.Doc;
+import com.baje.sz.util.KeyBean;
+import com.baje.sz.util.RequestUtil;
+import com.baje.sz.util.SendEmail;
+import com.battsister.admin.sys.Logdb;
 
 public class TeacherApi {
     /**
@@ -37,12 +41,13 @@ public class TeacherApi {
             long createTime = AjaxXml.getTimestamp("now");
             String user_name = ru.getString("loginName").trim();
             String user_pwd = ru.getString("loginPassword").trim();
+            String ip=ru.getIps();
             if (user_name.equals("") || user_pwd.equals("")) {
                 backjson.put("type", false);
                 backjson.put("msg", "帐号、密码不能为空");
                 return backjson;
             }
-            Doc teacherDoc = base.executeQuery2Docs("select id,password,account_status,name,username,login_err_times,last_login_time from bs_teachers where isdel=0 and username=? ", new Object[]{user_name}, 1)[0];
+            Doc teacherDoc = base.executeQuery2Docs("select id,password,account_status,ip_limit,name,username,login_err_times,last_login_time from bs_teachers where isdel=0 and username=? ", new Object[]{user_name}, 1)[0];
             if (teacherDoc == null || teacherDoc.isEmpty()) {
                 backjson.put("type", false);
                 backjson.put("msg", "帐号不存在");
@@ -58,6 +63,16 @@ public class TeacherApi {
                 backjson.put("msg", "密码错误超过5次已经被锁定");
                 return backjson;
             }
+            /*if(teacherDoc.get("ip_limit")==null||"".equals(teacherDoc.get("ip_limit"))){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "该账号未绑定ip地址");
+                 return backjson;
+            }
+            if(!teacherDoc.get("ip_limit").contains(ip)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "访问ip地址未绑定账号");
+                 return backjson;
+            }*/
             int login_err = teacherDoc.getIn("login_err_times");
             int shengxia = 5;
             String UserPasswordDes = "";
@@ -853,10 +868,5 @@ public class TeacherApi {
             dbc.closeConn();
         }
     
-    }
-    
-    public static void main(String[] args) {
-        StringBuffer buffer = new StringBuffer("1,2,3,4,5,6,");
-        System.out.println(buffer.substring(0, buffer.length() - 1));
     }
 }

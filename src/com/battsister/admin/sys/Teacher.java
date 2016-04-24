@@ -46,6 +46,18 @@ public class Teacher {
             int sex=ru.getInt("sex");
             String birth=ru.getString("birth");
             String email=ru.getString("email");
+            String ips=ru.getString("ips");
+            JSONArray ipArray=new JSONArray();
+            if(ips!=null){
+            	String ipss[]=ips.split(",");
+            	if(ipss!=null){
+            		for(int i=0;i<ipss.length;i++){
+            			if(ipss[i]!=null&&!"".equals(ipss[i])){
+            				ipArray.add(ipss[i]);
+            			}
+            		}
+            	}
+            }
             int birthTemp=0;
             if(birth!=null&&!"".equals(birth)){
             	birthTemp=AjaxXml.getTimestamp(birth+" 00:00:00");
@@ -91,6 +103,7 @@ public class Teacher {
             valueList.add(headpic);
             valueList.add(email);
             valueList.add(school_id);
+            valueList.add(ipArray.toString());
             String addString="";
             String insertString="";
             String insertSql="";
@@ -110,11 +123,11 @@ public class Teacher {
             if (id > 0) {
                 logtitle = "API--教师账号--编辑";
                 valueList.add(id);
-                base.executeUpdate("update bs_teachers set username=?,name=?,account_status=?,sex=?,birth=?,headpic=?,email=?,school_id=? "+addString+" where id=? ", valueList);
+                base.executeUpdate("update bs_teachers set username=?,name=?,account_status=?,sex=?,birth=?,headpic=?,email=?,school_id=?,ip_limit=? "+addString+" where id=? ", valueList);
             } else {
                 valueList.add(AjaxXml.getTimestamp("now"));
                 base.executeUpdate("insert into bs_teachers (username,name,account_status,sex,"
-                        + " birth,headpic,email,school_id"+insertSql+",addtime) values(?,?,?,?,?,?,?,?"+insertString+",?)", valueList);
+                        + " birth,headpic,email,school_id,ip_limit "+insertSql+",addtime) values(?,?,?,?,?,?,?,?,?"+insertString+",?)", valueList);
             }
             Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             backjson.put("type", true);

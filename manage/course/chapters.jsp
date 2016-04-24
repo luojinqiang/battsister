@@ -165,7 +165,7 @@
             openurl('chapters_edit.jsp?id=' + id + '&course_id='+course_id, 'user', title, 700, 380, 0, 10, true);
         }
         function editvideo(id, title) {
-        	 openurl('chapter_video_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+        	 openurl('video_animation_edit.jsp?id=' + id + '&type=2', 'user', title, 700, 380, 0, 10, true);
 		}
         function editword(id, title) {
        	 openurl('chapter_word_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
@@ -174,7 +174,7 @@
        	 openurl('chapter_ppt_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
 		}
         function editanimation(id, title) {
-            openurl('chapter_animation_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+            openurl('video_animation_edit.jsp?id=' + id + '&type=3', 'user', title, 700, 380, 0, 10, true);
         }
         function editPics(id, title){
         	 openurl('chapter_pics_edit.jsp?id=' + id + '', 'user', title, 800, 380, 0, 10, true);

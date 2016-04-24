@@ -277,7 +277,7 @@
         openurl('practical_word_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
     }
     function editPracticalVideo(id, title) {
-        openurl('practical_video_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+        openurl('video_animation_edit.jsp?id=' + id + '&type=1', 'user', title, 700, 380, 0, 10, true);
     }
     function editTeachingGuide(id, title) {
         openurl('teaching_guide_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);

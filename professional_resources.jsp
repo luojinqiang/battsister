@@ -36,7 +36,7 @@
  	String file="id,newstitle,smallfile,addtime,note";
  	String where="isdel=0 and newsclass=?";
 	int counts=selectic.Get_count("id",table,where, "mysqlss",valuelist);
-	List<Doc> newslist=selectic.Get_List(pages, pn, counts, table, where, file, "order by addtime desc ", "mysqlss",valuelist);
+	List<Doc> newslist=selectic.Get_List(pages, pn, counts, table, where, file, "order by addtime desc ,ordernum asc  ", "mysqlss",valuelist);
 	int page_size=selectic.getPageSize(counts, pn);
 %>
 <!doctype html>
@@ -120,9 +120,9 @@
 			for(Doc doc:newslist){
 				%>
 				<div class="news">
-			        <div class="news_img"><img src="<%=doc.get("smallfile")%>"></div>	
+			        <div class="news_img"><a href="professional_resources.jsp?news_id=<%=doc.getIn("id")%>&type=4"><img src="<%=doc.get("smallfile")%>"></a></div>	
 			        <div class="news_word">
-			          <h3><%=doc.get("newstitle")%></h3>
+			          <h3><a href="professional_resources.jsp?news_id=<%=doc.getIn("id")%>&type=4"><%=doc.get("newstitle")%></a></h3>
 			          <div class="time"><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"),"YY04-MM-DD")%></div>
 			          <p><%=doc.get("note")%></p>
 			            <div class="news_botton"><a href="news_details.jsp?news_id=<%=doc.getIn("id")%>&type=4">查看详情</a></div>

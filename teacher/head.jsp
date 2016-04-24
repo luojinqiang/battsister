@@ -20,7 +20,7 @@
                 <div class="user_tea_img"><img src="/front_style/images/user01.png"></div>
                 <div class="down_tea">个人中心</div>
                 </a>
-            </div>             
+            </div>
         </ul>
         <div class="clear"></div>                  
   </div>           

@@ -1,3 +1,6 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="net.sf.json.JSONObject"%>
+<%@page import="net.sf.json.JSONArray"%>
 <%@ page import="com.baje.sz.util.Doc" %>
 <%@ page import="com.baje.sz.util.RequestUtil" %>
 <%@ page import="com.baje.sz.util.Selectic" %>
@@ -10,13 +13,27 @@
     response.setDateHeader("Expires", 0);
     RequestUtil ru = new RequestUtil(request);
     Selectic selectic = new Selectic();
-    String learning_guide = "", name = "";
-    List<Doc> courseList = selectic.Get_List("id,learning_guide,name", "bs_course", " where isdel=0", "mysqlss", new Object[]{});
-
-    int course_id = ru.getInt("course_id");
-    if (course_id == 0) {
-
+    Doc studentDoc=selectic.Get_Doc("id,teacher_id","bs_students"," where isdel=0 and id=? ","mysqlss",new Object[]{student_id});
+    if(studentDoc==null||studentDoc.isEmpty()){
+    	 out.print("<script>alert(\"请先登录\");window.location.href='/login.jsp';</script>");
+         return;
     }
+    Doc teacherDoc=selectic.Get_Doc("id,course_flag", "bs_teachers", " where id=? ","mysqlss",new Object[]{studentDoc.getIn("teacher_id")});
+    List<Doc> courseList=new ArrayList();
+    if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag"))){
+		JSONArray hasArray=JSONArray.fromObject(teacherDoc.get("course_flag"));
+		if(hasArray!=null){
+			for(int i=0;i<hasArray.size();i++){
+				JSONObject hasJson=hasArray.optJSONObject(i);
+				if(hasJson!=null){
+					Doc coursedDoc=selectic.Get_Doc("id,learning_guide,name", "bs_course", " where id=? ","mysqlss",new Object[]{hasJson.optInt("course_id")});
+					if(coursedDoc!=null&&!coursedDoc.isEmpty()){
+						courseList.add(coursedDoc);
+					}
+				}
+			}
+		}
+	}
 %>
 <!doctype html>
 <html>

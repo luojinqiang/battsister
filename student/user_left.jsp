@@ -22,6 +22,9 @@
             <li >
                 <h5 <%=type==3?"class=\"selected\"":""%>><a href="st_using_instructions.jsp">平台使用手册</a></h5>
             </li>
+             <li >
+                <h5><a href="/index.jsp?action=logOut">退出登录</a></h5>
+            </li>
         </ul>
     </div>
 </div>

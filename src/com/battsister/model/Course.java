@@ -131,7 +131,7 @@ public class Course{
 	        }
     }
     /**
-     * 编辑实训视频
+     * 编辑视频
      * @param request
      * @param userid
      * @param username
@@ -156,31 +156,31 @@ public class Course{
 	 	            return backjson;
 	            }
 	            String title_str=ru.getString("title_str");
-	            String key_str=ru.getString("key_str");
+	            String filePath_str=ru.getString("filePath_str");
 	            String titles[]=null;
-	            String keys[]=null;
-	            JSONArray keyArray=new JSONArray();
-	            if(key_str!=null){
-	            	keys=key_str.split(",");
+	            String filePaths[]=null;
+	            JSONArray filePathArray=new JSONArray();
+	            if(filePath_str!=null){
+	            	filePaths=filePath_str.split(",");
 	            	if(title_str!=null){
 	            		titles=title_str.split(",");
 	            	}
-	            	if(keys!=null){
-	            		for(int i=0;i<keys.length;i++){
+	            	if(filePaths!=null){
+	            		for(int i=0;i<filePaths.length;i++){
 	            			JSONObject json=new JSONObject();
-	            			if(!"".equals(keys[i].trim())){
-	            				json.put("key",keys[i].trim());
+	            			if(!"".equals(filePaths[i].trim())){
+	            				json.put("filePath",filePaths[i].trim());
 	            				if(titles!=null&&titles.length>i){
 	            					json.put("title", titles[i]);
 	            				}else{
 	            					json.put("title","");
 	            				}
-	            				keyArray.add(json);
+	            				filePathArray.add(json);
 	            			}
 	            		}
 	            	}
 	            }
-	            base.executeUpdate("update bs_course set practical_video_path=? where id=? ",new Object[]{keyArray.toString(),id});
+	            base.executeUpdate("update bs_course set practical_video_path=? where id=? ",new Object[]{filePathArray.toString(),id});
 	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
 	            backjson.put("type", true);
 	            backjson.put("msg", "操作成功");

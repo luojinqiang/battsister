@@ -1,3 +1,4 @@
+<%@page import="com.battsister.util.SetupUtil"%>
 <%@page import="com.battsister.util.BasicType"%>
 <%@page import="net.sf.json.JSONObject"%>
 <%@page import="net.sf.json.JSONArray"%>
@@ -154,7 +155,7 @@ wordBuffer.append("]");
 	                   				controls
 	 									preload="auto" width="268" height="154" 
 	 										data-setup='{}'>
-												<source src="<%=BasicType.getResoursePath(video_json.optString("key"))%>" type='video/mp4' />
+												<source src="<%=SetupUtil.getAllAddress(video_json.optString("filePath"))%>" type='video/mp4' />
 								</video>
                        		 </div>
                     		</div>
@@ -172,7 +173,6 @@ wordBuffer.append("]");
   </div>
   <div class="clear"></div>
 </div>
-
 <!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
 

@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.baje.sz.ajax.AjaxXml"%>
 <%@page import="java.util.List"%>
 <%@page import="net.sf.json.JSONArray"%>
@@ -7,6 +8,15 @@
 <%@page contentType="text/html; charset=utf-8" %>
 <%
 	RequestUtil ru=new RequestUtil(request);
+	String action=ru.getString("action");
+	if("logOut".equals(action)){
+		session.removeAttribute("teacher_id");
+		session.removeAttribute("teacher_name");
+		session.removeAttribute("student_id");
+		session.removeAttribute("student_name");
+	}
+	Object teacher_id=session.getAttribute("teacher_id");
+	Object student_id=session.getAttribute("student_id");
 	Selectic selectic=new Selectic();
 /* 	//banner图
 	Doc bannerDoc=selectic.Get_Doc("id,banner_pics", "bs_info"," where isdel=0 and id=? ","mysqlss");
@@ -23,9 +33,20 @@
  if(classDoc!=null){
 	 newsClassId=classDoc.getIn("id");
  }
- List<Doc> newsList=selectic.Get_List("id,newstitle,smallfile,addtime,note", "bs_news"," where isdel=0 and newsclass=? order by ordernum asc limit 6  ", "mysqlss",new Object[]{newsClassId});
+ List<Doc> newsList=selectic.Get_List("id,newstitle,smallfile,addtime,note", "bs_news"," where isdel=0 and newsclass=? order by addtime desc, ordernum asc limit 6  ", "mysqlss",new Object[]{newsClassId});
  //合作企业、院校
  List<Doc> cooperationList=selectic.Get_List("id,type,name,pic,weburl", "bs_cooperation_unit", " where isdel=0","mysqlss");
+ List<Doc> cooperationList1=new ArrayList();
+ List<Doc> cooperationList2=new ArrayList();
+ if(cooperationList!=null){
+	 for(int i=0;i<cooperationList.size();i++){
+		 if(cooperationList.get(i).getIn("type")==1){
+			 cooperationList1.add(cooperationList.get(i));
+		 }else{
+			 cooperationList2.add(cooperationList.get(i));
+		 }
+	 }
+ }
  %>
 <!doctype html>
 <html>
@@ -67,15 +88,13 @@ $(function(){
                 <li class="ct-banner01"></li>
                 <li class="ct-banner02"></li>
                 <li class="ct-banner03"></li>
-                <li class="ct-banner04"></li>
             </ul>
         </div> 
-        <div class="ct-focustool w1100">
+        <div class="ct-focustool w100">
             <ul class="ct-ftoollist">
-                <li class="on"><a href="javascript:void(0);"><img src="/front_style/images/ct-banner01_s.jpg"></a></li>
-                <li><a href="javascript:void(0);"><img src="/front_style/images/ct-banner02_s.jpg"></a></li>
-                <li><a href="javascript:void(0);"><img src="/front_style/images/ct-banner03_s.jpg"></a></li>
-                <li><a href="javascript:void(0);"><img src="/front_style/images/ct-banner04_s.jpg"></a></li>
+                <li class="on"><a href="javascript:void(0)"><img src="/front_style/images/ct-banner01_s.jpg"></a></li>
+                <li><a href="javascript:void(0)"><img src="/front_style/images/ct-banner02_s.jpg"></a></li>
+                <li><a href="javascript:void(0)"><img src="/front_style/images/ct-banner03_s.jpg"></a></li>
             </ul>
         </div>
     </div>
@@ -116,8 +135,8 @@ $(function(){
                 <h6>news information</h6>
             </div>
             <div class="s1_con">
-           	 <div class="s1_left">
-            <%
+                <div class="s1_left">
+                     <%
             	if(newsList!=null){
             		for(int i=0;i<newsList.size()&&i<3;i++){
             			Doc doc=newsList.get(i);
@@ -145,7 +164,9 @@ $(function(){
             		}
             	}
             %>
-               </div>
+                </div>
+                
+                
                 <div  class="s1_right">
                    <%
                    		if(newsList!=null){
@@ -176,7 +197,7 @@ $(function(){
                    %>
                 </div>	
                 <div class="clear"></div>
-                <%
+                 <%
             		}
                 %>
             </div>
@@ -184,99 +205,58 @@ $(function(){
     </div>
 </div>
 <!--===End wrapper1 ===-->
+
 <div class="system">
     <div class="system_con">
         <div class="system_word">
             <h1>考试系统</h1>
-            <p>在线考试、在线学习、在线培训、在线练习功能随机试卷，人工组卷、自定义抽题百分百适应性强，科目、部门结构、功能名称等都可自定义试卷多样化在线考试、在线学习、在线培训、在线练习功能随机试卷，人工组卷、自定义抽题百分百适应性强，科目、部门结构、功能名称等都可自定义试卷多样化</p>
-            <div class="botton4"><a href="/login.jsp">考试系统</a></div>
+            <div class="sys_one">
+            	<h3>在线考试</h3>
+                <p>在线考试系统采用随机抽题、人工组卷、题库类型百分比等可自定义出题</p>
+            </div>
+            <div class="sys_two">
+            	<h3>自动评分</h3>
+                <p>支持自动评分、自动改卷、成绩排名、错题回顾、解题思路等功能模块</p>
+            </div>
+            <div class="botton4"><a href="<%if(teacher_id!=null&&!"".equals(teacher_id)){out.print("/teacher/examination_system.jsp");}else if(student_id!=null&&!"".equals(student_id)){out.print("/student/test_history.jsp");}else{out.print("/login.jsp");}%>">考试系统</a></div>
         </div>
         <div class="clear"></div>
     </div>	
 </div>
-<div class="container">
-	<div class="title">
-        <h1>合作企业</h1>
-        <h6>cooperative enterprise</h6>
-    </div>
-    <div class="s2_con">
-    	<div class="mr_frbox">
-            <img class="mr_frBtnL prev" src="/front_style/images/mfrL.png" width="28" height="46" />
-            <div class="mr_frUl">
-                <ul>
-                	<%
-                		if(cooperationList!=null){
-                			int s=0;
-                			for(Doc doc:cooperationList){
-                				if(doc.getIn("type")==1){
-                					continue;
-                				}
-                				if(s%3==0){
-                					out.print("<li>");
-                				}
-                				%>
-		                		<p><img src="<%=doc.get("pic")%>" style="width: 188px;" height="79px;"/></p>
-                				<%
-                				if(s%2==0&&s!=0){
-                					out.print("</li>");
-                				}
-                				s++;
-                			}
-                		}
-                	%>
-                </ul>
-            </div>
-            <img class="mr_frBtnR next" src="/front_style/images/mfrR.png" width="28" height="46" />
-        </div>
-        <script type="text/javascript">
-		$(".mr_frbox").slide({
-			titCell:"",
-			mainCell:".mr_frUl ul",
-			autoPage:true,
-			effect:"leftLoop",
-			autoPlay:true,
-			vis:4
-		});
-		</script>
-    </div>
-    <div class="clear"></div>
-</div>
-
-<!--=== wrapper1 ===-->
 <div class="wrapper1">
     <div class="container">
         <div class="title">
-            <h1>合作院校</h1>
-            <h6>cooperative institutions</h6>
+            <h1>合作企业</h1>
+            <h6>cooperative enterprise</h6>
         </div>
         <div class="s2_con">
+        <%
+        	if(cooperationList2.size()>0){
+        %>
             <div class="mr_frbox">
                 <img class="mr_frBtnL prev" src="/front_style/images/mfrL.png" width="28" height="46" />
                 <div class="mr_frUl">
                     <ul>
-                       <%
-                		if(cooperationList!=null){
-                			int s=0;
-                			for(Doc doc:cooperationList){
-                				if(doc.getIn("type")==2){
-                					continue;
-                				}
-                				if(s%3==0){
-                					out.print("<li>");
-                				}
-                				%>
-		                		<p><img src="<%=doc.get("pic")%>"  style="width: 188px;" height="79px;"/></p>
-                				<%
-                				if(s%3==0){
-                					out.print("</li>");
-                				}
-                			}
-                		}
-                	%>
+                     <%
+                    	
+                    	for(int i=0;i<cooperationList2.size();i++){
+                    		if(i%2==0){
+                    			out.print(" <li> ");
+                    		}
+                    			out.print("<p><img src=\""+cooperationList2.get(i).get("pic")+"\"/></p>");
+                    		if(i%3==0&&i!=0){
+                    			out.print(" </li> ");
+                    		}
+                    	}
+                    out.print("</li>");
+                    %> 
                     </ul>
                 </div>
                 <img class="mr_frBtnR next" src="/front_style/images/mfrR.png" width="28" height="46" />
             </div>
+            <%
+        		}
+            %>
             <script type="text/javascript">
             $(".mr_frbox").slide({
                 titCell:"",
@@ -291,18 +271,48 @@ $(function(){
         <div class="clear"></div>
     </div>
 </div>
+
+<div class="container">
+    <div class="title">
+        <h1>合作院校</h1>
+        <h6>cooperative institutions</h6>
+    </div>
+    <div class="s2_con">
+        <div class="mr_frbox">
+            <img class="mr_frBtnL prev" src="/front_style/images/mfrL.png" width="28" height="46" />
+            <div class="mr_frUl">
+                <ul>
+                 <%
+                    	
+                    	for(int i=0;i<cooperationList1.size();i++){
+                    		if(i%2==0){
+                    			out.print(" <li> ");
+                    		}
+                    			out.print("<p><img src=\""+cooperationList1.get(i).get("pic")+"\"/></p>");
+                    		if(i%3==0&&i!=0){
+                    			out.print(" </li> ");
+                    		}
+                    	}
+                    out.print("</li>");
+                    %> 
+                </ul>
+            </div>
+            <img class="mr_frBtnR next" src="/front_style/images/mfrR.png" width="28" height="46" />
+        </div>
+        <script type="text/javascript">
+        $(".mr_frbox").slide({
+            titCell:"",
+            mainCell:".mr_frUl ul",
+            autoPage:true,
+            effect:"leftLoop",
+            autoPlay:true,
+            vis:4
+        });
+        </script>
+    </div>
+    <div class="clear"></div>
+</div>
 <!-- 引入尾部 -->
 <%@include file="front_footer.jsp" %>
-<!-- <div class="footer">
-    <div class="footer_con b_top">
-        <ul class="footer_nav">
-            <li><a href="about.html">关于我们</a></li>
-            <li><a href="contact.html">联系我们</a></li>
-            <li><a href="#">网站地图</a></li>
-            <div class="clear"></div>
-        </ul>
-        <p>Copyright © 2012 深圳市派司德科技有限公司 All Rights Reserved 粤ICP备09008542号</p>
-    </div>
-</div> -->
 </body>
 </html>

@@ -54,6 +54,9 @@
           <li >
             <h5><a href="using_instructions.jsp">平台使用手册</a></h5>
           </li>
+          <li >
+            <h5><a href="/index.jsp?action=logOut">退出登录</a></h5>
+          </li>
         </ul>
         <script type="text/javascript" language="javascript">
 			navList(12);
