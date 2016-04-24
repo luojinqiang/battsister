@@ -62,7 +62,7 @@ int pageSize=selectic.getPageSize(counts,10);
     	<div class="stu_botton"><a href="increase_students.jsp">新增学员</a></div>
        	<%
        		if(studentList!=null&&!studentList.isEmpty()){
-       			out.print(" <div class=\"stu_botton\"><a href=\"javascript:delAll();\">删除全部学员</a></div>");
+       			out.print(" <div class=\"stu_botton1\"><a href=\"javascript:delAll();\">删除全部学员</a></div>");
        		}
        	%>
       	<div class="stu_top_right">
