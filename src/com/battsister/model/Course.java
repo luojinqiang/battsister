@@ -110,7 +110,7 @@ public class Course{
                     int i = 0;
 					for (String s : dir) {
                         object = new JSONObject();
-                        object.put("dir_pic", s);
+                        object.put("word_dir", s);
                         object.put("title", titles[i]);
                         array.add(object);
                         i ++;

@@ -85,9 +85,16 @@ h6 { font-size:12px; font-weight:normal; padding:0px; margin:0px;}
 .one_word { padding:5px 0px 5px 20px; float:left; width:560px;}
 .one_word h3 { font-size:18px; color:#333; line-height:1.5em; margin-bottom:6px; height:30px; overflow:hidden;}
 .one_word p { color:#999; line-height:1.5em; margin-bottom:15px; height:60px; overflow:hidden;}
-.botton1 { margin:10px 0;}
+
+.botton1 {
+    margin: 0 10px 10px 0;
+    float: left;}
 .botton1 a { display:block; width:80px; padding:5px 10px; background:#57b02c; color:#fff; text-align:center; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
 .botton1 a:hover { display:block; width:80px; padding:5px 10px; background:#62c433; color:#fff; text-align:center; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
+
+.botton2 { margin:10px 0;}
+.botton2 a { display:block; width:80px; padding:5px 10px; background:#57b02c; color:#fff; text-align:center; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
+.botton2 a:hover { display:block; width:80px; padding:5px 10px; background:#62c433; color:#fff; text-align:center; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
 
 .mod {border-bottom:1px solid #ddd; padding:20px 0;}
 .mod_word { padding:5px 20px; float:left;width:640px;}
@@ -109,7 +116,13 @@ h6 { font-size:12px; font-weight:normal; padding:0px; margin:0px;}
 .mr_15 { margin-right:10px;}
 .ziliao { padding:20px 0 0;}
 .ziliao_img { width:268px; height:154px; position:relative; border:1px solid #eee;}
-.ziliao_img img { width:100%; height:100%;} 
+.ziliao_img img { width:100%; height:100%;}
+
+.ziliao1 { padding:20px 0 0;}
+.ziliao_img { width:154px; height:154px; position:relative; border:1px solid #eee;}
+.ziliao_img img { width:100%; height:100%;}
+.ziliao1 li { float:left; width:154px; margin-bottom:20px;}
+.ziliao1 p { text-align:center; color:#999; padding:5px 10px; line-height:1.4em; height:20px;}
 .p_shipin { position:absolute; top:0px; left:0px; width:100%; height:100%; background-color:#000; background-color:rgba(0,0,0,0.4); filter:Alpha(opacity=0.4);}
 .p_shipin img { width:48px; height:48px; margin:54px 100px;}
 .title_r a { margin-top:-5px; background:#2490eb; float:right; display:block; color:#fff; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; padding:5px 20px; font-style:normal; margin-left:15px;}

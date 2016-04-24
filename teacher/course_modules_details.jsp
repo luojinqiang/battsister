@@ -1,67 +1,19 @@
-<%@page import="com.battsister.util.BasicType"%>
-<%@page import="com.g.Tojpg.Pdf2Jpg"%>
-<%@page import="net.sf.json.JSONObject"%>
 <%@page import="com.baje.sz.util.Doc"%>
-<%@page import="com.baje.sz.util.Selectic"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
+<%@page import="com.baje.sz.util.Selectic"%>
+<%@page import="com.battsister.util.BasicType"%>
+<%@page import="net.sf.json.JSONObject"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%
 	RequestUtil ru=new RequestUtil(request);
 	int course_id=ru.getInt("course_id");
 	Selectic selectic=new Selectic();
-	Doc coursedDoc=selectic.Get_Doc("id,name,introduce,pic,teaching_guide,teaching_evalution,teaching_plan", "bs_course", " where id=? ","mysqlss",new Object[]{course_id});
+	Doc coursedDoc=selectic.Get_Doc("id,name,introduce,pic,content", "bs_course", " where id=? ","mysqlss",new Object[]{course_id});
 	if(coursedDoc==null||coursedDoc.isEmpty()){
 		out.print("	<script>alert(\"该课程不存在\");window.location.href='/teacher/teacher_home.jsp';</script>");
 		return;
 	}
-	StringBuffer teachingGuideBuffer=new StringBuffer("[");
-	StringBuffer teachingEvalutionBuffer=new StringBuffer("[");
-	StringBuffer teachingPlanBuffer=new StringBuffer("["); 
-	if(coursedDoc.get("teaching_guide")!=null&&!"".equals(coursedDoc.get("teaching_guide"))){
-		JSONObject json=JSONObject.fromObject(coursedDoc.get("teaching_guide"));
-		if(json!=null){
-			int num=json.optInt("num");
-			String word_dir=json.optString("word_dir");
-			for(int i=0;i<num;i++){
-				if(i==(num-1)){
-					teachingGuideBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"'");
-				}else{
-					teachingGuideBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"',");
-				}
-			}
-		}
-	}
-	if(coursedDoc.get("teaching_evalution")!=null&&!"".equals(coursedDoc.get("teaching_evalution"))){
-		JSONObject json=JSONObject.fromObject(coursedDoc.get("teaching_evalution"));
-		if(json!=null){
-			int num=json.optInt("num");
-			String word_dir=json.optString("word_dir");
-			for(int i=0;i<num;i++){
-				if(i==(num-1)){
-					teachingEvalutionBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"'");
-				}else{
-					teachingEvalutionBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"',");
-				}
-			}
-		}
-	}//教案改课程标准2016-04-11
-	 if(coursedDoc.get("teaching_plan")!=null&&!"".equals(coursedDoc.get("teaching_plan"))){
-		JSONObject json=JSONObject.fromObject(coursedDoc.get("teaching_plan"));
-		if(json!=null){
-			int num=json.optInt("num");
-			String word_dir=json.optString("word_dir");
-			for(int i=0;i<num;i++){
-				if(i==(num-1)){
-					teachingPlanBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"'");
-				}else{
-					teachingPlanBuffer.append("'"+BasicType.getWordPptPath(word_dir, i)+"',");
-				}
-			}
-		}
-	} 
-	teachingGuideBuffer.append("]");
-	teachingEvalutionBuffer.append("]");
-	 teachingPlanBuffer.append("]"); 
+
 %>
 <!doctype html>
 <html>
@@ -110,65 +62,7 @@ $(function() {
 </div>
 <div class="container">
 	<div id="example-two">
-		<ul class="nav">
-			<li class="nav-one"><a href="#ab" class="current">教学指南</a></li>
-			<li class="nav-two"><a href="#bb">教学评价</a></li>
-			 <li class="nav-three"><a href="#cb">课程标准</a></li> 
-		</ul>
-		<div class="list-wrap">
-			<ul id="ab">
-			<%
-				if(teachingGuideBuffer.length()>2){
-			%>
-				 <div class="wrapper">
-        			<div class="doc" id="doc0" style="margin-top: -30px;"></div>
-				 </div>
-					 <script type="text/javascript">
-						var data0=<%=teachingGuideBuffer.toString()%>;
-					</script>
-  			 		<script type="text/javascript">$('#doc0').MPreview({ data: data0 });</script>
-  			<%
-				}else{
-					out.print("<li class=\"one_mod\">暂无文档</li>");
-				}
-  			%>
-  			 		
-           </ul>
-			 <ul id="bb" class="hide">
-			<%
-				if(teachingEvalutionBuffer.length()>2){
-			%>
-				 <div class="wrapper">
-        			<div class="doc" id="doc2" style="margin-top: -30px;"></div>
-				 </div>
-					 <script type="text/javascript">
-						var data2=<%=teachingEvalutionBuffer.toString()%>;
-					</script>
-  			 		<script type="text/javascript">$('#doc2').MPreview({ data: data2 });</script>
-  			 <%
-				}else{
-					out.print("<li class=\"one_mod\">暂无文档</li>");
-				}
-  			%>
-			</ul>
-			<ul id="cb" class="hide">
-  			<%
-				if(teachingPlanBuffer.length()>2){
-			%>
-				 <div class="wrapper">
-        			<div class="doc" id="doc1" style="margin-top: -30px;"></div>
-				 </div>
-					 <script type="text/javascript">
-						var data1=<%=teachingPlanBuffer.toString()%>;
-					</script>
-  			 		<script type="text/javascript">$('#doc1').MPreview({ data: data1 });</script>
-  			 <%
-				}else{
-					out.print("<li class=\"one_mod\">暂无文档</li>");
-				}
-  			%>
-			</ul> 
-		</div>
+		<%=coursedDoc.get("content")%>
 	</div>
 </div>
 

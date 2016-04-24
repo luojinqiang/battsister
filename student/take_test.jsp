@@ -16,6 +16,10 @@
     Selectic selectic = new Selectic();
     RequestUtil ru = new RequestUtil(request);
     String action = ru.getString("action");
+    if ("saveTime".equals(action)) {
+        out.print(new ExaminationApi().saveTime(request));
+        return;
+    }
     if ("answerCommit".equals(action)) {
         out.print(new ExaminationApi().answerExam(request));
         return;
@@ -78,9 +82,9 @@
 <div class="container" id="questionList">
     <div class="ex_wrap">
         <div class="title_test"><%=examDoc.get("name")%>
-            <div class="time_s">
+            <div class="time_s"><%--examDoc.getIn("limit_time")--%>
                 <i>考试时长：<%=examDoc.getIn("limit_time") / 60%>分钟</i>
-                剩余时间<%=UtilsTime.secToTime(examDoc.getIn("limit_time") - timeUse)%>
+                剩余时间<span id="limit_time"><%=UtilsTime.secToTime(examDoc.getIn("limit_time") - timeUse)%></span>
             </div>
         </div>
         <%--<div class="ex_one bg_grey">
@@ -221,27 +225,56 @@
         event = event || window.event;
         event.returnValue = '';
     }*/
-    var time = parseInt($('#m').html());
-    var s = 60;
-    var c = 0;
+
+    //倒计时
+    var c = (parseInt($('#h').html()) * 60 * 60) + (parseInt($('#m').html()) * 60) + parseInt($('#s').html());
+    var s = 0; //此次答题所用时长
+    var timeUse = <%=timeUse%>; //已用时长
+    var a = 0; //总用时长
     var sId = setInterval(function () {
-        if (c == time * 60) {
+        c --;
+        s ++;
+        $('#limit_time').html(secondToString(c));
+        if (0 == c) {
+            stopInterval(sId);
+            //alert('time out');
             commitExam();
-        } else {
-            s--;
-            if (-1 == s) {
-                s = 59;
-            }
-            $('#s').html(zero(s));
-            if (c % 60 == 0 || c == 0) {
-                $('#m').html(zero(parseInt($('#m').html(), 10) - 1));
-            }
-            c++;
         }
+        a = s + timeUse;
     }, 1000);
+    //三秒更新一次考试时间
+    var tId = setInterval(function () {
+        saveTime(a);
+        if (c == 0) {
+            clearInterval(tId);
+        }
+    }, 3000);
+
+    function secondToString(time) {
+        var hour = 0;
+        var minute = 0;
+        var second = 0;
+        if (time <= 0)
+            return "<em id=\"h\">" + zero(hour) + "</em>:<em id=\"m\">" + zero(minute) + "</em>:<em id=\"s\">" + zero(second) + "</em>";
+        else {
+            minute = time / 60;
+            if (minute < 60) {
+                second = time % 60;
+            } else {
+                hour = minute / 60;
+                if (hour > 99)
+                    return "99:59:59";
+                minute = minute % 60;
+                second = time - hour * 3600 - minute * 60;
+            }
+        }
+        return "<em id=\"h\">" + zero(hour) + "</em>:<em id=\"m\">" + zero(minute) + "</em>:<em id=\"s\">" + zero(second) + "</em>";
+    }
+
     function stopInterval() {
         clearInterval(sId);
     }
+
     function zero(n) {
         var p = parseInt(n, 10);
         if (p > 0) {
@@ -253,17 +286,13 @@
             return "00";
         }
     }
-    var examArray = [];
-    function getExamList() {
-        $.post('?', 'action=getExamList', function (data) {
-            examArray = data;
-            if (examArray.length > 0) {
-                for (var i = 0; i < examArray.length; i++) {
 
-                }
-            }
+    function saveTime(s) {
+        $.post('?', 'action=saveTime&time_use=' + s + '&examinationId=<%=examinationId%>', function (data) {
+
         }, 'json');
     }
+
     function nextExam(obj, qid, type, opt) {
         if (answerCommit(obj, type, opt)) {
             $('#exam_' + obj).hide();
@@ -282,7 +311,7 @@
             if (aid == undefined) {
                 aid = '';
             }
-            $.post('?', 'action=answerCommit&qid=' + obj + '&aid=' + aid + '&type=' + type + '&examinationId=<%=examinationId%>&time_use=' + c, function (data) {
+            $.post('?', 'action=answerCommit&qid=' + obj + '&aid=' + aid + '&type=' + type + '&examinationId=<%=examinationId%>', function (data) {
                 if (!data.type) {
                     alert(data.msg);
                     if (data.errorCode == -1) {
@@ -296,14 +325,16 @@
         }
         return true;
     }
+
     function examCommit(obj, type, opt) {
         if (answerCommit(obj, type, opt)) {
             $('#questionList').hide();
             $('#tips').show();
         }
     }
+
     function commitExam() {
-        $.post('?', 'action=commitExam&examinationId=<%=examinationId%>&time_use=' + c, function (data) {
+        $.post('?', 'action=commitExam&examinationId=<%=examinationId%>&time_use=' + a, function (data) {
             if (!data.type) {
                 alert(data.msg);
                 if (data.errorCode == -1) {

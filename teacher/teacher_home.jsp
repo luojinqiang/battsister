@@ -1,9 +1,7 @@
-<%@page import="net.sf.json.JSONObject"%>
-<%@page import="net.sf.json.JSONArray"%>
 <%@page import="com.baje.sz.util.Doc"%>
 <%@page import="com.baje.sz.util.Selectic"%>
-<%@page import="com.baje.sz.ajax.AjaxXml"%>
-<%@page import="com.baje.sz.util.RequestUtil"%>
+<%@page import="net.sf.json.JSONArray"%>
+<%@page import="net.sf.json.JSONObject"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%
 RequestUtil ru=new RequestUtil(request);

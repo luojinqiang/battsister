@@ -124,9 +124,9 @@
                                         for (int i = 0; i < pathArray.size(); i++) {
                                             path_json = pathArray.getJSONObject(i);
                                             addBuffer.append("<div style=\"margin-top:10px;\"><div>标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\"" + path_json.optString("title") + "\"/>" +
-                                                    "</div><a href=\"/pdf/web/viewer.html?file=" + path_json.optString("dir_pic") + "\" target=\"_blank\"><img src=\"/public/images/word.png\"" +
+                                                    "</div><a href=\"/pdf/web/viewer.html?file=" + path_json.optString("word_dir") + "\" target=\"_blank\"><img src=\"/public/images/word.png\"" +
                                                     " height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"word_dir\" value=\"" +
-                                                    "" + path_json.optString("dir_pic") + " \" /><input type=\"hidden\" name=\"num\" value=\"" + path_json.optInt("num") + "\"/></div>");
+                                                    "" + path_json.optString("word_dir") + " \" /><input type=\"hidden\" name=\"num\" value=\"" + path_json.optInt("num") + "\"/></div>");
                                         }
                                     }
                                     out.print(addBuffer);

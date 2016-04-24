@@ -141,7 +141,7 @@
                             + '/public/images/word.png'
                             + '" height=150></a><div class="del">删除</div><input type="hidden" name="word_dir" value="'
                             + imgpath + '" /></div>';
-                    $('#smallfileDetail').append(append);
+                    $('#smallfileDetail').html(append);
                     $('.del').off('click').on('click', function () {
                         $(this).parent().remove();
                     });
