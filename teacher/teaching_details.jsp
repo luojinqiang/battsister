@@ -139,105 +139,113 @@
       </div>
   </div>
   <div class="right_w">
-  	 <div class="title_r"><%=getDoc.get("name")%></div>
-     <div class="right_teach">
-         <div class="right_con">
-            <div class="one_t"><h5>PPT资料</h5></div>
-            <ul class="ziliao">
-            <%
-            	if(getDoc.get("ppt_path")!=null&&!"".equals(getDoc.get("ppt_path"))){
-            		JSONArray ppt_array=JSONArray.fromObject(getDoc.get("ppt_path"));
-            		if(ppt_array!=null){
-            			for(int i=0;i<ppt_array.size();i++){
-            				JSONObject ppt_json=ppt_array.getJSONObject(i);
-            					%>
-	            		<li class="mr_15">
-	                   		 <div class="ziliao_img"><a href="show_ppt.jsp?pic_dir=<%=ppt_json.optString("pic_dir")%>&num=<%=ppt_json.optInt("num")%>" target="_blank"><img src="<%=BasicType.getWordPptPath(ppt_json.optString("pic_dir"),0)%>"/></a></div>
-	                   		 <p> <%=ppt_json.optString("title")%></p>
-	               		 </li>
-            					<%
-            			}
-            		}
-            	}
-            out.print(" <div class=\"clear\"></div>");
-            %>
-            </ul>
-         </div>
-         <div class="right_con">
-            <div class="two_t"><h5>word资料</h5></div>
-            <ul class="ziliao">
-              <%
-            	if(getDoc.get("word_path")!=null&&!"".equals(getDoc.get("word_path"))){
-            		JSONArray word_array=JSONArray.fromObject(getDoc.get("word_path"));
-            		if(word_array!=null){
-            			for(int i=0;i<word_array.size();i++){
-            				JSONObject word_json=word_array.getJSONObject(i);
-            					%>
-	            		<li class="mr_15">
-	                   		 <div class="ziliao_img"><a href="show_word.jsp?pic_dir=<%=word_json.optString("pic_dir")%>&num=<%=word_json.optInt("num")%>" target="_blank"><img src="<%=BasicType.getWordPptPath(word_json.optString("pic_dir"),0)%>" /></a></div>
-	                   		 <p><%=word_json.optString("title")%></p>
-	               		 </li>
-            					<%
-            			}
-            		}
-            	}
-            out.print(" <div class=\"clear\"></div>");
-            %>
-            </ul>
-         </div>
-         <div class="right_con">
-            <div class="three_t"><h5>视频、动画资料</h5></div>
-            <ul class="ziliao">
-            <%
-            	if(getDoc.get("video_path")!=null&&!"".equals(getDoc.get("video_path"))){
-            		JSONArray video_array=JSONArray.fromObject(getDoc.get("video_path"));
-            		if(video_array!=null){
-            			for(int i=0;i<video_array.size();i++){
-            				JSONObject video_json=video_array.getJSONObject(i);
-            				%>
-            			<li class="mr_15">
-                   			 <div class="ziliao_img">
-                       		 <div class="p_shipin">
-                   				<video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
-	                   				controls
-	 									preload="auto" width="268" height="154" 
-	 										data-setup='{}'>
-												<source src="<%=SetupUtil.getAllAddress(video_json.optString("filePath"))%>" type='video/mp4' />
-								</video>
-                       		 </div>
-                    		</div>
-                   			 <p><%=video_json.optString("title")%></p>
-               			</li>
-            				<%
-            			}
-            		}
-            	}
-            out.print(" <div class=\"clear\"></div>");
-            %>
-            </ul>
-         </div>
-         <div class="right_con">
-            <div class="four_t"><h5>图片资料</h5></div>
-            <ul class="ziliao">
-            <%
-            	if(getDoc.get("pics")!=null&&!"".equals(getDoc.get("pics"))){
-            		JSONArray pic_array=JSONArray.fromObject(getDoc.get("pics"));
-            		if(pic_array!=null){
-            			for(int i=0;i<pic_array.size();i++){
-            				%>
-            				<li class="mr_15">
-                    			<div class="ziliao_img"><img src="<%=pic_array.optString(i)%>"  /></div>
-               				</li>
-            				<%
-            			}
-            		}
-            	}
-            out.print(" <div class=\"clear\"></div>");
-            %>
-            </ul>
-         </div>
-       </div>
-  </div>
+        <div class="title_r"><%=getDoc.get("name")%>
+        </div>
+        <div class="right_teach">
+            <div class="right_con">
+                <div class="one_t"><h5>PPT资料</h5></div>
+                <ul class="ziliao">
+                    <%
+                        if (getDoc.get("ppt_path") != null && !"".equals(getDoc.get("ppt_path"))) {
+                            JSONArray ppt_array = JSONArray.fromObject(getDoc.get("ppt_path"));
+                            if (ppt_array != null) {
+                                for (int i = 0; i < ppt_array.size(); i++) {
+                                    JSONObject ppt_json = ppt_array.getJSONObject(i);
+                    %>
+                    <li class="mr_15">
+                        <div class="ziliao_img"><a href="../pdf/web/viewer.html?file=<%=ppt_json.optString("pic_dir")%>"
+                                                   target="_blank"><img src="../public/images/ppt.png" style="width: 154px;height: 154px;margin-left: 57px;"/></a></div>
+                        <p><%=ppt_json.optString("title")%>
+                        </p>
+                    </li>
+                    <%
+                                }
+                            }
+                        }
+                        out.print(" <div class=\"clear\"></div>");
+                    %>
+                </ul>
+            </div>
+            <div class="right_con">
+                <div class="two_t"><h5>word资料</h5></div>
+                <ul class="ziliao">
+                    <%
+                        if (getDoc.get("word_path") != null && !"".equals(getDoc.get("word_path"))) {
+                            JSONArray word_array = JSONArray.fromObject(getDoc.get("word_path"));
+                            if (word_array != null) {
+                                for (int i = 0; i < word_array.size(); i++) {
+                                    JSONObject word_json = word_array.getJSONObject(i);
+                    %>
+                    <li class="mr_15">
+                        <div class="ziliao_img"><a
+                                href="../pdf/web/viewer.html?file=<%=word_json.optString("pic_dir")%>"
+                                target="_blank"><img src="../public/images/word.png" style="width: 154px;height: 154px;margin-left: 57px;"/></a></div>
+                        <p><%=word_json.optString("title")%>
+                        </p>
+                    </li>
+                    <%
+                                }
+                            }
+                        }
+                        out.print(" <div class=\"clear\"></div>");
+                    %>
+                </ul>
+            </div>
+            <div class="right_con">
+                <div class="three_t"><h5>视频、动画资料</h5></div>
+                <ul class="ziliao1">
+                    <%
+                        if (getDoc.get("video_path") != null && !"".equals(getDoc.get("video_path"))) {
+                            JSONArray video_array = JSONArray.fromObject(getDoc.get("video_path"));
+                            if (video_array != null) {
+                                for (int i = 0; i < video_array.size(); i++) {
+                                    JSONObject video_json = video_array.getJSONObject(i);
+                    %>
+                    <li class="mr_15">
+                        <div class="ziliao_img">
+                            <div class="p_shipin">
+                                <video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
+                                       controls
+                                       preload="auto" width="268" height="154"
+                                       data-setup='{}'>
+                                    <source src="<%=SetupUtil.getAllAddress(video_json.optString("filePath"))%>"
+                                            type='video/mp4'/>
+                                </video>
+                            </div>
+                        </div>
+                        <p><%=video_json.optString("title")%>
+                        </p>
+                    </li>
+                    <%
+                                }
+                            }
+                        }
+                        out.print(" <div class=\"clear\"></div>");
+                    %>
+                </ul>
+            </div>
+            <div class="right_con">
+                <div class="four_t"><h5>图片资料</h5></div>
+                <ul class="ziliao">
+                    <%
+                        if (getDoc.get("pics") != null && !"".equals(getDoc.get("pics"))) {
+                            JSONArray pic_array = JSONArray.fromObject(getDoc.get("pics"));
+                            if (pic_array != null) {
+                                for (int i = 0; i < pic_array.size(); i++) {
+                    %>
+                    <li class="mr_15">
+                        <div class="ziliao_img"><img src="<%=pic_array.optString(i)%>"/></div>
+                    </li>
+                    <%
+                                }
+                            }
+                        }
+                        out.print(" <div class=\"clear\"></div>");
+                    %>
+                </ul>
+            </div>
+        </div>
+    </div>
   <div class="clear"></div>
 </div>
 <!-- 引入尾部 -->
