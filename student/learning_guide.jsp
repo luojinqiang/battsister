@@ -53,9 +53,6 @@
                     }
                 %>
             </ul>
-            <script type="text/javascript" language="javascript">
-                navList(12);
-            </script>
         </div>
     </div>
     <div class="right_w">
@@ -65,13 +62,14 @@
                 <div class="doc" id="doc" style="margin-left:-19px;margin-top:-20px;width:818px;height:600px;"></div>
                 <!--  <div class="ppt" id="ppt" style="margin-left:-10px;width:800px;height:600px;margin-top:-30px;"></div>-->
             </div>
-
         </div>
     </div>
     <div class="clear"></div>
 </div>
 <script type="text/javascript" src="../front_style/ppt_word/js/MPreview.js"></script>
 <script type="text/javascript">
+
+    PDFViewerApplication.open('<%=ru.getString("file")%>', $('#viewerContainer'));
     function showPdf(obj) {
         var data=[];
         $('.selected').attr('class', '');

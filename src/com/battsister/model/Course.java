@@ -76,7 +76,7 @@ public class Course{
 	            dbc.closeConn();
 	        }
     }
-    
+
     /**
      * 编辑课程实训文档
      * @param request
@@ -102,12 +102,21 @@ public class Course{
 	 	            backjson.put("msg", "该课程不存在");
 	 	            return backjson;
 	            }
-	            String dir=ru.getString("word_dir");
-	            int num=ru.getInt("num");
-	            JSONObject word_json=new JSONObject();
-	            word_json.put("dir",dir);
-	            word_json.put("num", num);
-	            base.executeUpdate("update bs_course set practical_word_path=? where id=? ",new Object[]{word_json.toString(),id});
+	            String[] dir=ru.getStrings("word_dir");
+                String[] titles = ru.getStrings("title");
+                JSONArray array = new JSONArray();
+                JSONObject object;
+				if (dir.length > 0) {
+                    int i = 0;
+					for (String s : dir) {
+                        object = new JSONObject();
+                        object.put("dir_pic", s);
+                        object.put("title", titles[i]);
+                        array.add(object);
+                        i ++;
+					}
+				}
+	            base.executeUpdate("update bs_course set practical_word_path=? where id=? ",new Object[]{array.toString(),id});
 	            backjson.put("type", true);
 	            backjson.put("msg", "操作成功");
 	            return backjson;
@@ -186,7 +195,7 @@ public class Course{
 	            dbc.closeConn();
 	        }
 	}
-    
+
    /**
     * 课程--教学指南编辑
     * @param request
@@ -334,7 +343,7 @@ public class Course{
 	            dbc.closeConn();
 	        }
     }
-    
+
     /**
      * 教学评价编辑
      * @param request
