@@ -5,6 +5,8 @@
 <%@ page import="com.baje.sz.util.RequestUtil" %>
 <%@ page import="com.baje.sz.util.Selectic" %>
 <%@ page import="java.util.List" %>
+<%@ page import="sun.reflect.generics.tree.BaseType" %>
+<%@ page import="com.battsister.util.BasicType" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@include file="sys.jsp" %>
 <%
@@ -47,6 +49,10 @@
     <link rel="stylesheet" href="../front_style/ppt_word/css/MPreview.css">
     <script type="text/javascript" src="../front_style/js/jquery.min.js"></script>
     <script src="../front_style/js/showList.js" type="text/javascript"></script>
+    <style>
+        .pdfobject-container {width: 878px; height: 800px; margin-left: -20px;}
+        .pdfobject { border: 1px solid #666; }
+    </style>
 </head>
 
 <body>
@@ -65,41 +71,31 @@
                 <%
                     if (courseList != null && !courseList.isEmpty()) {
                         for (Doc doc : courseList) {
-                            out.print("<li><h5 onclick=\"javascript:showPdf(this);\" data=" + doc.get("learning_guide") + "><a>" + doc.get("name") + "</a></h5></li>");
+                            out.print("<li><h5 onclick=\"javascript:showPdf(this);\" data=" + BasicType.getValueByKey(doc.get("learning_guide"), "word_dir") + "><a>" + doc.get("name") + "</a></h5></li>");
                         }
                     }
                 %>
             </ul>
-            <script type="text/javascript" language="javascript">
-                navList(12);
-            </script>
         </div>
     </div>
     <div class="right_w">
         <div class="right_con">
 
             <div class="">
-                <div class="doc" id="doc" style="margin-left:-19px;margin-top:-20px;width:818px;height:600px;"></div>
-                <!--  <div class="ppt" id="ppt" style="margin-left:-10px;width:800px;height:600px;margin-top:-30px;"></div>-->
+                <div class="doc" id="doc"></div>
             </div>
-
         </div>
     </div>
     <div class="clear"></div>
 </div>
-<script type="text/javascript" src="../front_style/ppt_word/js/MPreview.js"></script>
+<script type="text/javascript" src="../public/js/pdfobject.min.js"></script>
 <script type="text/javascript">
+
     function showPdf(obj) {
-        var data=[];
         $('.selected').attr('class', '');
         $(obj).attr('class', 'selected');
-        var json = eval('('+$(obj).attr("data")+')');
-        var url = json.word_dir;
-        var num = json.num;
-        for (var i = 1; i <= num; i ++) {
-            data.push('/document/images/' + url + '/test-'+(i - 1)+'.png');
-        }
-        $('#doc').html('').MPreview({ data: data });
+        var url = $(obj).attr("data");
+        PDFObject.embed(url, "#doc");
     }
 </script>
 <jsp:include page="footer.jsp"></jsp:include>

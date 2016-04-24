@@ -18,6 +18,57 @@ import java.util.List;
  */
 public class ExaminationApi {
 
+    public JSONObject saveTime(HttpServletRequest request) {
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        RequestUtil ru = new RequestUtil(request);
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--学生考试答题使用时间更新";
+        JSONObject backjson = new JSONObject();
+        try {
+            dbc.openConn();
+            base.setDbc(dbc, false);
+            int examinationId = ru.getInt("examinationId");
+            int time_use = ru.getInt("time_use");
+
+            Object student_id = request.getSession().getAttribute("student_id");
+            Doc studentDoc = base.executeQuery2Docs("select teacher_id from bs_students where id=?", new Object[]{student_id}, 1)[0];
+            if (studentDoc == null || studentDoc.isEmpty()) {
+                backjson.put("type", false);
+                backjson.put("msg", "学生信息不存在,请重新登录");
+                backjson.put("errorCode", -1);
+                return backjson;
+            }
+            Doc answerDoc = base.executeQuery2Docs("select id,answer,is_commit,time_use from bs_examination_answer where examination_id=? and student_id=?", new Object[]{examinationId, student_id}, 1)[0];
+
+            if (answerDoc == null || answerDoc.isEmpty()) {
+                base.executeInsertByDoc("bs_examination_answer", new Doc()
+                        .put("time_use", time_use)
+                        .put("student_id", student_id)
+                        .put("add_time", AjaxXml.getTimestamp("now"))
+                        .put("examination_id", examinationId));
+            } else {
+                base.executeUpdateByDoc("bs_examination_answer",
+                        new Doc().put("time_use", time_use),
+                        new Doc().put("examination_id", examinationId).put("student_id", student_id));
+            }
+            base.commit();
+            backjson.put("type", true);
+            backjson.put("msg", "更新成功");
+            return backjson;
+        } catch (Exception e) {
+            base.rollback();
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
+
+
     public JSONObject answerExam(HttpServletRequest request) {
         Dbc dbc = DbcFactory.getBbsInstance();
         Base base = new Base();
@@ -30,7 +81,6 @@ public class ExaminationApi {
             base.setDbc(dbc, false);
             int examinationId = ru.getInt("examinationId");
             int qid = ru.getInt("qid");
-            int time_use = ru.getInt("time_use");
             int type = ru.getInt("type");
             String aid = ru.getString("aid").trim();
             if ("".equals(aid)) {
@@ -66,7 +116,6 @@ public class ExaminationApi {
                 answerObj.put(qid, optionIds);
                 base.executeInsertByDoc("bs_examination_answer", new Doc()
                         .put("answer", answerObj.toString())
-                        .put("time_use", time_use)
                         .put("student_id", student_id)
                         .put("add_time", AjaxXml.getTimestamp("now"))
                         .put("examination_id", examinationId));
@@ -78,7 +127,6 @@ public class ExaminationApi {
                 base.executeUpdateByDoc("bs_examination_answer",
                         new Doc()
                                 .put("answer", answerObj.toString())
-                                .put("time_use", time_use)
                         , new Doc()
                                 .put("examination_id", examinationId)
                                 .put("student_id", student_id));
@@ -172,9 +220,9 @@ public class ExaminationApi {
                         }
                     }
                     if (isOk) {
-                        isRight ++;
+                        isRight++;
                     } else {
-                        isWrong ++;
+                        isWrong++;
                     }
                 }
             } else {

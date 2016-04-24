@@ -1,32 +1,5 @@
 package com.battsister.util;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.jsp.PageContext;
-
-import net.sf.json.JSONObject;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemIterator;
-import org.apache.commons.fileupload.FileItemStream;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.lang.math.RandomUtils;
-
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
@@ -36,9 +9,23 @@ import com.baje.sz.util.AppConf;
 import com.baje.sz.util.FileUtil;
 import com.baje.sz.util.Magick;
 import com.baje.sz.util.RequestUtil;
-import com.g.Tojpg.Pdf2Jpg;
-import com.g.Tojpg.PdfToPng;
 import com.soft4j.httpupload4j.SmartUpload;
+import net.sf.json.JSONObject;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.lang.math.RandomUtils;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.PageContext;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class swfUpfile {
@@ -521,7 +508,7 @@ public class swfUpfile {
             String file_readme = "";//图片路径
             String file_ext = "";//图片后缀
             String imgSPaht = AppConf.getconf().get("Filepath") + impa;
-
+            String realName = "";
             long filesize = 0;
 
             System.out.println("imgSPaht=" + imgSPaht);
@@ -538,17 +525,18 @@ public class swfUpfile {
                 filesize = suFile.getSize() / 1024;
                 file_name = AjaxXml.Get_Date("now", "HH-MI-SS_") + AjaxXml.Getrandom(4);
                 file_readme = suFile.getFileName();
+                realName = suFile.getFileName();
                 file_ext = file_readme.substring(file_readme.lastIndexOf(".") + 1, file_readme.length());
-                //判断是否是pdf文件
+                /*//判断是否是pdf文件
                 if("pdf".equals(file_ext)){
                 	imgSPaht=AppConf.getconf().get("Filepath")+("/document/origin");
                 	File ppt_file=new File(imgSPaht);
                 	if(!ppt_file.exists()){
                 		ppt_file.mkdirs();
                 	}
-                }
+                }*/
                // LogUtility.log("imgSPaht-->"+imgSPaht);
-                //System.out.println("file_readme:"+file_readme);
+                System.out.println("file_readme:"+file_readme);
                 //FileUtil.copy(tmpFilePaths[i],imgSPaht+"/"+file_name+"."+file_ext,true);
                 System.out.println(imgSPaht + "/" + file_name + "." + file_ext);
                 //LogUtility.log("filename--"+imgSPaht + "/" + file_name + "." + file_ext);
@@ -587,7 +575,7 @@ public class swfUpfile {
                 }
                 //System.out.println("file_showname:"+file_showname);
                 file_readme = "/" + file_path + "/" + file_name + "." + file_ext;
-                if("pdf".equals(file_ext)){//如果是pdf
+                /*if("pdf".equals(file_ext)){//如果是pdf
                 	File ppt_image_file=new File(AppConf.getconf().get("Filepath")+"/document/images/"+file_name);
                 	if(!ppt_image_file.exists()){
                 		ppt_image_file.mkdirs();
@@ -600,7 +588,7 @@ public class swfUpfile {
                 	}
                 	backjson.put("num",ppt_num);//ppt图片张数
                 	file_readme=file_name;
-                }
+                }*/
                 String sqlx = "insert into bs_upfile (username,userid,logid,file_name,file_path,file_ext,"
                         + "file_size,file_readme,isphoto,addtime,file_remark,issave,photofile,photo_width,photo_height, file_showname,addip)"
                         + " values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -629,6 +617,8 @@ public class swfUpfile {
             }
             backjson.put("status", 1);
             backjson.put("imgpath", file_readme);
+            backjson.put("realName", realName);
+            System.out.println(backjson);
             return backjson.toString();
         } catch (Exception e) {
             e.printStackTrace();

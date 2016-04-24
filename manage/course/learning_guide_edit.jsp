@@ -100,10 +100,10 @@
     if (learning_guide != null && !"".equals(learning_guide)) {
         JSONObject path_json = JSONObject.fromObject(learning_guide);
         if (path_json != null) {
-            addBuffer.append("<div style=\"margin-top:10px;\"><div>请输入标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\"" + path_json.optString("title") + "\"/>" +
-                    "</div><a href=\"/manage/showword.jsp?imgpath=" + path_json.optString("word_dir") + "&num=" + path_json.optInt("num") + "\" target=\"_blank\"><img src=\"" + ("/document/images/" + path_json.optString("word_dir") + "/test-0" + (Pdf2Jpg.SUFF_IMAGE) + "") + "\"" +
-                    " height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"word_dir\" value=\"" +
-                    "" + path_json.optString("word_dir") + " \" /><input type=\"hidden\" name=\"num\" value=\"" + path_json.optInt("num") + "\"/></div>");
+            addBuffer.append("<div style=\"margin-top:10px;\"><div>标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\""+path_json.optString("title")+"\"/>"+
+                    "</div><a href=\"/pdf/web/viewer.html?file=" + path_json.optString("word_dir") + "\" target=\"_blank\"><img src=\"/public/images/word.png\""+
+                    " height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"word_dir\" value=\""+
+                    ""+path_json.optString("word_dir")+" \" /><input type=\"hidden\" name=\"num\" value=\""+path_json.optInt("num")+"\"/></div>");
         }
 
     }
@@ -136,22 +136,17 @@
             </ul>
             <script type="text/javascript">
 
-                var callback = function (imgpath, num) {
-                    var append = '<div style="margin-top:10px;"><div >请输入标题：<input type="text" name="title" style="width:120;"/></div><a href="/manage/showword.jsp?imgpath=' + (imgpath) + '&num=' + num + '" target="_blank"><img src="'
-                            + '<%-- /document/images/'+imgpath+'/test-0<%=Pdf2Jpg.SUFF_IMAGE%> --%>/images/test.jpg'
+                var callback = function (imgpath, realName) {
+                    var append = '<div style="margin-top:10px;"><div>标题：<input type="text" name="title" style="width:120px;" value="' + realName + '"/></div><a href="/pdf/web/viewer.html?file=' + (imgpath) + '" target="_blank"><img src="'
+                            + '/public/images/word.png'
                             + '" height=150></a><div class="del">删除</div><input type="hidden" name="word_dir" value="'
-                            + imgpath + '" /><input type="hidden" name="num" value="' + num + '"/></div>';
-                    $('#smallfileDetail').html(append);
+                            + imgpath + '" /></div>';
+                    $('#smallfileDetail').append(append);
                     $('.del').off('click').on('click', function () {
                         $(this).parent().remove();
                     });
                 };
-                if ($('#smallfileUpload').size()) {
-                    /* alert('okoko'); */
-                    //var obj = $('#form1').find('input[name=word_pic]');
-                    global_obj.file_upload($('#smallfileUpload'), '', $('#smallfileDetail'),
-                            '', true, 20, callback, '');
-                }
+                global_obj.file_upload($('#smallfileUpload'), '', $('#smallfileDetail'), '', true, 20, callback, '.pdf');
             </script>
             <div class="row_btn" style="margin-top:20px;">
                 <button type="button" id="tjbutton" onclick="usersave()">确定提交</button>
