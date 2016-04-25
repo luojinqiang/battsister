@@ -150,7 +150,7 @@
         <div class="right_teach">
             <div class="right_con">
                 <div class="one_t"><h5>PPT资料</h5></div>
-                <ul class="ziliao1">
+                <ul class="ziliao">
                     <%
                         if (getDoc.get("ppt_path") != null && !"".equals(getDoc.get("ppt_path"))) {
                             JSONArray ppt_array = JSONArray.fromObject(getDoc.get("ppt_path"));
@@ -160,7 +160,7 @@
                     %>
                     <li class="mr_15">
                         <div class="ziliao_img"><a href="../pdf/web/viewer.html?file=<%=ppt_json.optString("pic_dir")%>"
-                                                   target="_blank"><img src="../public/images/ppt.png"/></a></div>
+                                                   target="_blank"><img src="../public/images/ppt.png" style="width: 154px;height: 154px;margin-left: 57px;"/></a></div>
                         <p><%=ppt_json.optString("title")%>
                         </p>
                     </li>
@@ -185,7 +185,7 @@
                     <li class="mr_15">
                         <div class="ziliao_img"><a
                                 href="../pdf/web/viewer.html?file=<%=word_json.optString("pic_dir")%>"
-                                target="_blank"><img src="../public/images/word.png"/></a></div>
+                                target="_blank"><img src="../public/images/word.png" style="width: 154px;height: 154px;margin-left: 57px;"/></a></div>
                         <p><%=word_json.optString("title")%>
                         </p>
                     </li>
@@ -199,7 +199,7 @@
             </div>
             <div class="right_con">
                 <div class="three_t"><h5>视频、动画资料</h5></div>
-                <ul class="ziliao1">
+                <ul class="ziliao">
                     <%
                         if (getDoc.get("video_path") != null && !"".equals(getDoc.get("video_path"))) {
                             JSONArray video_array = JSONArray.fromObject(getDoc.get("video_path"));
