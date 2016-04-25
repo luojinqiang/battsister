@@ -238,17 +238,21 @@ $(function(){
                 <div class="mr_frUl">
                     <ul>
                      <%
-                    	
-                    	for(int i=0;i<cooperationList2.size();i++){
-                    		if(i%2==0){
-                    			out.print(" <li> ");
+                    	int size=cooperationList2.size();
+                     	int index=0;
+                     	if(size%2==0){
+                     		index=size/2;
+                     	}else{
+                     		index=(size/2)+1;
+                     	}
+                    	for(int i=0;i<index;i++){
+                    		out.print("<li>");
+                    		out.print("<p><img src=\""+cooperationList2.get(i*2).get("pic")+"\"/></p>");
+                    		if(i*2+1<size){
+                    			out.print("<p><img src=\""+cooperationList2.get(i*2+1).get("pic")+"\"/></p>");
                     		}
-                    			out.print("<p><img src=\""+cooperationList2.get(i).get("pic")+"\"/></p>");
-                    		if(i%3==0&&i!=0){
-                    			out.print(" </li> ");
-                    		}
+                    		out.print("</li>");
                     	}
-                    out.print("</li>");
                     %> 
                     </ul>
                 </div>
@@ -282,18 +286,22 @@ $(function(){
             <img class="mr_frBtnL prev" src="/front_style/images/mfrL.png" width="28" height="46" />
             <div class="mr_frUl">
                 <ul>
-                 <%
-                    	
-                    	for(int i=0;i<cooperationList1.size();i++){
-                    		if(i%2==0){
-                    			out.print(" <li> ");
+                  <%
+                    	int size=cooperationList1.size();
+                     	int index=0;
+                     	if(size%2==0){
+                     		index=size/2;
+                     	}else{
+                     		index=(size/2)+1;
+                     	}
+                    	for(int i=0;i<index;i++){
+                    		out.print("<li>");
+                    		out.print("<p><img src=\""+cooperationList1.get(i*2).get("pic")+"\"/></p>");
+                    		if(i*2+1<size){
+                    			out.print("<p><img src=\""+cooperationList1.get(i*2+1).get("pic")+"\"/></p>");
                     		}
-                    			out.print("<p><img src=\""+cooperationList1.get(i).get("pic")+"\"/></p>");
-                    		if(i%3==0&&i!=0){
-                    			out.print(" </li> ");
-                    		}
+                    		out.print("</li>");
                     	}
-                    out.print("</li>");
                     %> 
                 </ul>
             </div>
