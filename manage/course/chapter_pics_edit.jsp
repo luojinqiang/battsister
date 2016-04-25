@@ -140,7 +140,7 @@
             </script>
 
             <script type="text/javascript">
-                var pic_count = 10;
+                var pic_count = 200;
                 var callback = function (imgpath) {
                     if ($('#introduceDetail1 div').size() >= pic_count) {
                         alert('您上传的图片数量已经超过10张，不能再上传！');
