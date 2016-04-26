@@ -66,8 +66,8 @@
     }
     JSONArray dirArray=new JSONArray();
     JSONObject backjson=BasicType.getVideoAnimationFiles();
-    if(backjson!=null&&backjson.optString("dirArray")!=null&&!"".equals(backjson.optString("dirArray"))){
-    	dirArray=backjson.optJSONArray("dirArray");
+    if(backjson!=null&&backjson.optString("courseDirArray")!=null&&!"".equals(backjson.optString("courseDirArray"))){
+    	dirArray=backjson.optJSONArray("courseDirArray");
     	dirArray=dirArray==null?new JSONArray():dirArray;
     }
 %>
@@ -102,19 +102,41 @@
     </style>
     <script type="text/javascript">
     	var dirArray=eval('<%=dirArray%>');
-    	function getFilesByDir(obj){
+    	function getChapterDirByDir(obj){
     		var dirName=$(obj).val();
     		for(var i=0;i<dirArray.length;i++){
-    			if(dirArray[i].dirName==dirName){
-    				var files=dirArray[i].files;
-    				$("#fileName").empty();
-    				if(files.length>0){
-    					 $("#fileName").append("<option value=\"0\">--请选择文件--</option>");
-    					 for(var s=0;s<files.length;s++){
-    						 $("#fileName").append("<option value=\""+files[i].filePath+"\">"+files[i].fileName+"</option>"); 
+    			if(dirArray[i].courseDirName==dirName){
+    				var chapterDirArray=dirArray[i].chapterDirArray;
+    				$("#chapterDir").empty();
+    				if(chapterDirArray.length>0){
+    					 $("#chapterDir").append("<option value=\"0\">--请选择文件夹二--</option>");
+    					 for(var s=0;s<chapterDirArray.length;s++){
+    						 $("#chapterDir").append("<option value=\""+chapterDirArray[s].chapterDirName+"\">"+chapterDirArray[s].chapterDirName+"</option>"); 
     					 }
     				}else{
-    					 $("#fileName").append("<option value=\"0\">--暂无文件--</option>");
+    					 $("#chapterDir").append("<option value=\"0\">--暂无文件夹--</option>");
+    				}
+    			}
+    		}
+    	} 
+    	function getFilesByDir(obj){
+    		var chapterDir=$(obj).val();
+    		for(var i=0;i<dirArray.length;i++){
+    			var chapterDirArray=dirArray[i].chapterDirArray;
+    			if(chapterDirArray!=undefined){
+    				for(var s=0;s<chapterDirArray.length;s++){
+    					if(chapterDirArray[s].chapterDirName==chapterDir){
+    						var files=chapterDirArray[s].fileArray;
+    						$("#fileName").empty();
+    	    				if(files.length>0){
+    	    					 $("#fileName").append("<option value=\"0\">--请选择文件--</option>");
+    	    					 for(var j=0;j<files.length;j++){
+    	    						 $("#fileName").append("<option value=\""+files[j].filePath+"\">"+files[j].fileName+"</option>"); 
+    	    					 }
+    	    				}else{
+    	    					 $("#fileName").append("<option value=\"0\">--暂无文件--</option>");
+    	    				}
+    					}
     				}
     			}
     		}
@@ -177,22 +199,28 @@
                        <h4 style="margin-bottom:20px;color: red;">请确保视频已上传到服务器</h4>
                 </li>
             </ul>
-            <ul class="row2 clearfix">
+            <ul class="row1 clearfix">
             <li>
-            选择文件夹：
-            <select name="dirName" onchange="getFilesByDir(this)">
+            文件夹一：
+            <select name="dirName" onchange="getChapterDirByDir(this)">
             <option value="">--请选择文件夹--</option>
            <%
            	if(dirArray!=null){
            		for(int i=0;i<dirArray.size();i++){
            			JSONObject json=dirArray.getJSONObject(i);
            			%>
-           			<option value="<%=json.optString("dirName")%>"><%=json.optString("dirName")%></option>
+           			<option value="<%=json.optString("courseDirName")%>"><%=json.optString("courseDirName")%></option>
            			<%
            		}
            	}
            %>
            </select>
+             </li>
+             <li>
+              文件夹二：
+           <select name="chapterDir" id="chapterDir" onchange="getFilesByDir(this)">
+            <option value="">--请选择文件夹二--</option>
+           	</select>
              </li>
              <li>
             选择文件：

@@ -222,45 +222,62 @@ public class BasicType {
     }
 
     /**
-     * 获取视频、动画资源文件（仅支持两级目录）
+     * 获取视频、动画资源文件（三级目录）
      *
      * @return
      */
     public static JSONObject getVideoAnimationFiles() {
         JSONObject backjson = new JSONObject();
+        String filePath="E://battsisterProject//battsister//file";
+        if("linux".equals(AppConf.getconf().get("servertype"))){
+        	filePath=AppConf.getconf().get("filePath");
+        }
         File fileDir = new File(AppConf.getconf().get("filePath"));
         if (!fileDir.exists()) {
             fileDir.mkdirs();
         }
         //获取该路径下的文件夹
-        File[] dirs = fileDir.listFiles();
-        JSONArray dirArray = new JSONArray();
-        if (dirs != null) {
-            for (File dirFile : dirs) {
-                if (dirFile.isDirectory()) {//如果是文件夹
-                    JSONObject dirJson = new JSONObject();
-                    dirJson.put("dirName", dirFile.getName());
-                    JSONArray FileArray = new JSONArray();
-                    File[] dirFiles = dirFile.listFiles();
-                    JSONObject fileJson = new JSONObject();
-                    if (dirFiles != null) {
-                        for (File file : dirFiles) {
-                            fileJson.put("fileName", file.getName());
-                            fileJson.put("filePath", "/file/" + dirFile.getName() + "/" + file.getName());
-                            FileArray.add(fileJson);
-                        }
-                    }
-                    dirJson.put("files", FileArray);
-                    dirArray.add(dirJson);
-                }
-            }
+        File[] CourseDirs = fileDir.listFiles();
+        JSONArray courseDirArray=new JSONArray();
+        if(CourseDirs!=null){
+        	for(File courseDir:CourseDirs){
+        		if(courseDir.isDirectory()){
+        			JSONObject courseDirJson=new JSONObject();
+        			courseDirJson.put("courseDirName",courseDir.getName());
+        			File chapterDirs[]=courseDir.listFiles();
+        			JSONArray chapterDirArray=new JSONArray();
+        			if(chapterDirs!=null){
+        				for(File chapterDir:chapterDirs){
+        					if(chapterDir.isDirectory()){
+        						JSONObject chapterDirJson=new JSONObject();
+        						chapterDirJson.put("chapterDirName",chapterDir.getName());
+        						File files[]=chapterDir.listFiles();
+        						JSONArray fileArray=new JSONArray();
+        						if(files!=null){
+        							for(File file:files){
+        								if(file.isFile()){
+        									JSONObject fileJson=new JSONObject();
+        									fileJson.put("fileName",file.getName());
+        									fileJson.put("filePath","/file/"+courseDirJson.optString("courseDirName")+"/"
+        									+chapterDirJson.optString("chapterDirName")+"/"+fileJson.optString("fileName"));
+        									fileArray.add(fileJson);
+        								}
+        							}
+        						}
+        						chapterDirJson.put("fileArray", fileArray);
+        						chapterDirArray.add(chapterDirJson);
+        					}
+        				}
+        			}
+        			courseDirJson.put("chapterDirArray", chapterDirArray);
+        			courseDirArray.add(courseDirJson);//课程文件夹
+        		}
+        	}
         }
-        backjson.put("type", true);
-        backjson.put("dirArray", dirArray);
+        backjson.put("type",true);
+        backjson.put("courseDirArray", courseDirArray);
         return backjson;
-    }
-
-
+   }
     /**
      * 获取视频，动画的路径
      *
@@ -351,7 +368,7 @@ public class BasicType {
     }
 
     public static void main(String[] args) {
-        getVideoAnimationFiles();
+       System.out.println( getVideoAnimationFiles());
     }
 }
 
