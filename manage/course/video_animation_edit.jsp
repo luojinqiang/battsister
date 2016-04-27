@@ -269,7 +269,7 @@
            			<span>
            		标题：<input type="text" name="title" style="margin-bottom:10px;margin-top:10px;width:180px;" value="<%=json.optString("title")%>"/>
            			<video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered" controls
- 			preload="auto" width="220" height="132" poster="https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"
+ 			preload="auto" width="220" height="132"
  		data-setup='{}'>
 		<source src="<%=SetupUtil.getAllAddress(json.optString("filePath"))%>" type='video/mp4' />
 	</video>
