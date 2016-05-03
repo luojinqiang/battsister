@@ -47,12 +47,12 @@
 			for(Doc doc:newslist){
 				%>
 				 <div class="news">
-			        <div class="news_img"><a href="news_details.jsp?news_id=<%=doc.getIn("id")%>"><img src="<%=doc.get("smallfile")%>"></a></div>	
+			        <div class="news_img"><a href="news_details.jsp?news_id=<%=doc.getIn("id")%>&type=2"><img src="<%=doc.get("smallfile")%>"></a></div>	
 				        <div class="news_word">
-				          <h3><a href="news_details.jsp?news_id=<%=doc.getIn("id")%>"><%=doc.get("newstitle")%></a></h3>
+				          <h3><a href="news_details.jsp?news_id=<%=doc.getIn("id")%>&type=2"><%=doc.get("newstitle")%></a></h3>
 				          <div class="time"><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"),"YY04-MM-DD")%></div>
 				          <p><%=doc.get("note")%></p>
-				            <div class="news_botton"><a href="news_details.jsp?news_id=<%=doc.getIn("id")%>">查看详情</a></div>
+				            <div class="news_botton"><a href="news_details.jsp?news_id=<%=doc.getIn("id")%>&type=2">查看详情</a></div>
 				        </div>
        			 	<div class="clear"></div>
   				 </div>

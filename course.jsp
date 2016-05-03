@@ -25,6 +25,9 @@
 <meta name="keywords"  content="#" />
 <meta name="description" content="#" />
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/front_style/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/front_style/js/jquery.isotope.js"></script>
+<script type="text/javascript" src="/front_style/js/script.js"></script>
 </head>
 <body class="bg_white">
 <jsp:include page="head.jsp">
@@ -84,7 +87,7 @@
        %>
        <%=page_size>0?"<li><a href=\""+(pages!=page_size?"course.jsp?pages="+(pages+1):"javascript:void(0);")+"\">></a></li>":""%>
     </ul>
-   </div>
+   </div> 
 </div>
 <!-- 引入尾部 -->
 <%@include file="front_footer.jsp" %>

@@ -7,7 +7,6 @@
 	RequestUtil ru=new RequestUtil(request);
 	int news_id=ru.getInt("news_id");
 	int type=ru.getInt("type");
-	type=type==4?type:2;
 	Selectic selectic=new Selectic();
 	Doc newsDoc=selectic.Get_Doc("id,newstitle,bigfile,addtime,content", "bs_news", " where isdel=0 and id=? ","mysqlss",new Object[]{news_id});
 	if(newsDoc==null||newsDoc.isEmpty()){

@@ -12,7 +12,7 @@
 	RequestUtil ru=new RequestUtil(request);
 	int answer_id=ru.getInt("answer_id");
 	Selectic selectic=new Selectic();
-	Doc answerDoc=selectic.Get_Doc("a.id,a.answer,a.examination_id,a.time_use,a.commit_time,b.name,c.question_num", "bs_examination_answer a left join bs_students b on a.student_id=b.id left join bs_examination c on a.examination_id=c.id", " where a.isdel=0 and a.id=? and a.is_commit=1","mysqlss",new Object[]{answer_id});
+	Doc answerDoc=selectic.Get_Doc("a.id,a.answer,a.examination_id,a.time_use,a.commit_time,b.name,c.question_num,a.is_right", "bs_examination_answer a left join bs_students b on a.student_id=b.id left join bs_examination c on a.examination_id=c.id", " where a.isdel=0 and a.id=? and a.is_commit=1","mysqlss",new Object[]{answer_id});
 	if(answerDoc==null||answerDoc.isEmpty()){
 		out.print("	<script>alert(\"信息不存在\");window.location.href='/teacher/teacher_home.jsp';</script>");
 		return;
@@ -52,7 +52,7 @@
 <!--=== End Header ===-->
 <div class="container">
     <div class="info">
-    	<a href="teacher_home.jsp">首页</a><em>></em><a href="teaching.jsp">我要授课</a><em>></em><a href="examination_system.jsp">考试系统</a><em>></em><a href="examination_record.jsp">考试记录</a><em>></em><a href="javascript:void(0)">张帆考试记录</a>
+    	<a href="teacher_home.jsp">首页</a><em>></em><a href="teaching.jsp">我要授课</a><em>></em><a href="examination_system.jsp">考试系统</a><em>></em><a href="examination_record.jsp?examination_id=<%=answerDoc.getIn("examination_id")%>">考试记录</a><em>></em><a href="javascript:void(0)"><%=answerDoc.get("name")%>考试记录</a>
     </div>
 </div>
 <div class="container">
@@ -110,7 +110,7 @@
 		                    }
 		                    if(optJson.optString("name")!=null&&!"".equals(optJson.optString("name"))){
 		                    	out.print("<p>"+optString+optJson.optString("name")+"</p>" );
-		                    	optString="";//当显示了abcd时第二个不显示
+		                    	optString="";//选项既有图片和文字时，文字显示了abcd后图片不显示abcd
 		                    }
 		                    %>
 		                    <%=optJson.optString("pic")!=null&&!"".equals(optJson.optString("pic"))?"<div class=\"da_an_img\">"+optString+"<img src=\""+optJson.optString("pic")+"\"></div>":""%>
@@ -153,7 +153,7 @@
 	           }
 	           %>
 	        </ul>
-	         <div class="ex_info"><%=answerDoc.get("name")%>的答案：<%=studentAnswerString%>，<%=StudentAnswerBuffer.toString().equals(answerBuffer.toString())?"<span style=\"color:green;\">回答正确</span>":"<span style=\"color:red;\">回答错误</span>"%>，正确答案：<%=answerBuffer.toString()%></div>
+	         <div class="ex_info"><%=answerDoc.get("name")%>的答案：<%=StudentAnswerBuffer.toString()%>，<%=StudentAnswerBuffer.toString().equals(answerBuffer.toString())?"<span style=\"color:green;\">回答正确</span>":"<span style=\"color:red;\">回答错误</span>"%>，正确答案：<%=answerBuffer.toString()%></div>
 	    </div>
 	    <%
 	   	}

@@ -81,6 +81,7 @@
     <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
     <script src="/front_style/js/showList.js" type="text/javascript"></script>
+    <script src="/front_style/src/galleria.js"></script>
     <!-- video5 -->
     <link href="/front_style/video5/css/video-js.min.css" rel="stylesheet">
     <script src="/front_style/video5/js/video.min.js"></script>
@@ -228,19 +229,27 @@
                         }
                         out.print(" <div class=\"clear\"></div>");
                     %>
-                </ul>
-            </div>
-            <div class="right_con">
-                <div class="four_t"><h5>图片资料</h5></div>
-                <ul class="ziliao">
-                    <%
-                        if (getDoc.get("pics") != null && !"".equals(getDoc.get("pics"))) {
-                            JSONArray pic_array = JSONArray.fromObject(getDoc.get("pics"));
-                            if (pic_array != null) {
-                                for (int i = 0; i < pic_array.size(); i++) {
+                     <%
+                        if (getDoc.get("animation_path") != null && !"".equals(getDoc.get("animation_path"))) {
+                            JSONArray animation_array = JSONArray.fromObject(getDoc.get("animation_path"));
+                            if (animation_array != null) {
+                                for (int i = 0; i < animation_array.size(); i++) {
+                                    JSONObject animation_json = animation_array.getJSONObject(i);
                     %>
                     <li class="mr_15">
-                        <div class="ziliao_img"><img src="<%=pic_array.optString(i)%>"/></div>
+                        <div class="ziliao_img">
+                            <div class="p_shipin">
+                                <video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
+                                       controls
+                                       preload="auto" width="268" height="154"
+                                       data-setup='{}'>
+                                    <source src="<%=SetupUtil.getAllAddress(animation_json.optString("filePath"))%>"
+                                            type='video/mp4'/>
+                                </video>
+                            </div>
+                        </div>
+                        <p><%=animation_json.optString("title")%>
+                        </p>
                     </li>
                     <%
                                 }
@@ -250,11 +259,53 @@
                     %>
                 </ul>
             </div>
+            <div class="right_con" id="content">
+                <div class="four_t"><h5>图片资料</h5></div>
+                <ul class="ziliao">
+                    <%
+                        if (getDoc.get("pics") != null && !"".equals(getDoc.get("pics"))) {
+                            JSONArray pic_array = JSONArray.fromObject(getDoc.get("pics"));
+                            if (pic_array != null) {
+                                for (int i = 0; i < pic_array.size(); i++) {
+                    %>
+                    <li class="mr_15">
+                        <div class="ziliao_img"><a href="<%=pic_array.optString(i)%>"><img src="<%=pic_array.optString(i)%>"/></a></div>
+                    </li>
+                    
+                    <%
+                                }
+                            }
+                        }
+                        out.print(" <div class=\"clear\"></div>");
+                    %>
+                </ul>
+                 <div id="galleria"></div>
+            </div>
         </div>
     </div>
     <div class="clear"></div>
 </div>
-
+<script type="text/javascript">
+// Load theme
+Galleria.loadTheme('/front_style/src/themes/lightbox/galleria.lightbox.js');
+$('#galleria').galleria({
+	   data_source: '#content',
+	   extend: function() {
+			this.bind(Galleria.LOADFINISH, function(e) {
+				$(e.imageTarget).click(this.proxy(function(e) {
+					e.preventDefault();
+					this.next();
+				}))
+			})
+		},
+	   keep_source: true,
+	   data_config: function(img) {
+		   return {
+			   description: $(img).next('.caption').html()
+		   }
+	   }
+   });
+</script>
 <!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
 
