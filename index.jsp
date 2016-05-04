@@ -1,3 +1,4 @@
+<%@page import="net.sf.json.JSONObject"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.baje.sz.ajax.AjaxXml"%>
 <%@page import="java.util.List"%>
@@ -18,13 +19,12 @@
 	Object teacher_id=session.getAttribute("teacher_id");
 	Object student_id=session.getAttribute("student_id");
 	Selectic selectic=new Selectic();
-/* 	//banner图
-	Doc bannerDoc=selectic.Get_Doc("id,banner_pics", "bs_info"," where isdel=0 and id=? ","mysqlss");
+	//banner图
+	Doc bannerDoc=selectic.Get_Doc("id,banner_pics", "bs_info"," order by id desc limit 1 ","mysqlss");
 	JSONArray bannerArray=null;
 	if(bannerDoc!=null&&bannerDoc.get("banner_pics")!=null&&!"".equals(bannerDoc.get("banner_pics"))){
 		bannerArray=JSONArray.fromObject(bannerDoc.get("banner_pics"));
 	}
- 	*/
  //推荐课程
  List<Doc> courseList=selectic.Get_List("id,name,introduce,pic", "bs_course", " where isdel=0 and is_recommend=1 order by order_num asc ","mysqlss");
  //新闻列表
@@ -85,16 +85,46 @@ $(function(){
     <div class="ct-focusbox">         
         <div class="ct-focusimg ">
             <ul class="ct-fimglist">
-                <li class="ct-banner01"></li>
-                <li class="ct-banner02"></li>
-                <li class="ct-banner03"></li>
+               <%
+               		if(bannerArray!=null&&bannerArray.size()>0){
+               			for(int i=0;i<bannerArray.size();i++){
+               				JSONObject banner_json=bannerArray.optJSONObject(i);
+               				if(banner_json!=null){
+               					%>
+               					 <li style="background: url('<%=banner_json.optString("pic")%>') center;"></li>
+                       			<%
+               				}
+               			}
+               		}else{
+               			%>
+               			 <li class="ct-banner01"></li>
+			             <li class="ct-banner02"></li>
+			             <li class="ct-banner03"></li>
+               			<%
+               		}
+               %>
             </ul>
         </div> 
         <div class="ct-focustool w100">
             <ul class="ct-ftoollist">
-                <li class="on"><a href="javascript:void(0)"><img src="/front_style/images/ct-banner01_s.jpg"></a></li>
-                <li><a href="javascript:void(0)"><img src="/front_style/images/ct-banner02_s.jpg"></a></li>
-                <li><a href="javascript:void(0)"><img src="/front_style/images/ct-banner03_s.jpg"></a></li>
+             <%
+               		if(bannerArray!=null&&bannerArray.size()>0){
+               			for(int i=0;i<bannerArray.size();i++){
+               				JSONObject banner_json=bannerArray.optJSONObject(i);
+               				if(banner_json!=null){
+               					%>
+               					  <li <%=i==0?"class=\"on\"":""%>><a href="javascript:void(0)"><img src="<%=banner_json.optString("pic_lit")%>" style="width: 121px;height: 54px;"></a></li>
+                       			<%
+               				}
+               			}
+               		}else{
+               			%>
+               			 <li class="on"><a href="javascript:void(0)"><img src="/front_style/images/ct-banner01_s.jpg"></a></li>
+               			 <li><a href="javascript:void(0)"><img src="/front_style/images/ct-banner02_s.jpg"></a></li>
+               			 <li><a href="javascript:void(0)"><img src="/front_style/images/ct-banner03_s.jpg"></a></li>
+               			<%
+               		}
+               %>
             </ul>
         </div>
     </div>
@@ -233,7 +263,7 @@ $(function(){
         <%
         	if(cooperationList2.size()>0){
         %>
-            <div class="mr_frbox">
+            <div class="mr_frbox" id="mr_frbox1">
                 <img class="mr_frBtnL prev" src="/front_style/images/mfrL.png" width="28" height="46" />
                 <div class="mr_frUl">
                     <ul>
@@ -262,7 +292,7 @@ $(function(){
         		}
             %>
             <script type="text/javascript">
-            $(".mr_frbox").slide({
+            $("#mr_frbox1").slide({
                 titCell:"",
                 mainCell:".mr_frUl ul",
                 autoPage:true,
@@ -282,7 +312,7 @@ $(function(){
         <h6>cooperative institutions</h6>
     </div>
     <div class="s2_con">
-        <div class="mr_frbox">
+        <div class="mr_frbox2">
             <img class="mr_frBtnL prev" src="/front_style/images/mfrL.png" width="28" height="46" />
             <div class="mr_frUl">
                 <ul>
@@ -308,7 +338,7 @@ $(function(){
             <img class="mr_frBtnR next" src="/front_style/images/mfrR.png" width="28" height="46" />
         </div>
         <script type="text/javascript">
-        $(".mr_frbox").slide({
+        $(".mr_frbox2").slide({
             titCell:"",
             mainCell:".mr_frUl ul",
             autoPage:true,

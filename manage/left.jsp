@@ -61,7 +61,7 @@
                 	<%
                 }if(current_flags.contains("3004")){
              	   %>
-             	   <!-- <li><a href="javascript:window.parent.jianyi2('xinxi/banner.jsp','首页banner图')">首页banner图</a></li> -->
+             	   <li><a href="javascript:window.parent.jianyi2('xinxi/banner.jsp','首页banner图')">首页banner图</a></li> 
              	   <%
                 }if(current_flags.contains("3005")){
              	   %>

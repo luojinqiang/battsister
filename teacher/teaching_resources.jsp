@@ -269,7 +269,7 @@
                                 for (int i = 0; i < pic_array.size(); i++) {
                     %>
                     <li class="mr_15">
-                        <div class="ziliao_img"><a href="<%=pic_array.optString(i)%>"><img src="<%=pic_array.optString(i)%>"/></a></div>
+                        <div class="ziliao_img"><a href="javascript:void(0)"><img src="<%=pic_array.optString(i)%>"/></a></div>
                     </li>
                     
                     <%
