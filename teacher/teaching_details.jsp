@@ -195,7 +195,7 @@
             </div>
             <div class="right_con">
                 <div class="three_t"><h5>视频、动画资料</h5></div>
-                <ul class="ziliao1">
+                <ul class="ziliao">
                     <%
                         if (getDoc.get("video_path") != null && !"".equals(getDoc.get("video_path"))) {
                             JSONArray video_array = JSONArray.fromObject(getDoc.get("video_path"));

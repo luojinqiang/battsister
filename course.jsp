@@ -28,6 +28,20 @@
 <script type="text/javascript" src="/front_style/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="/front_style/js/jquery.isotope.js"></script>
 <script type="text/javascript" src="/front_style/js/script.js"></script>
+<script type="text/javascript">
+$(function(){
+	//从底部上升的遮罩效果开始
+	$(".main_con").hover(function(){
+		$(this).find(".main_txt").stop().animate({height:"200px"},200);
+		$(this).find(".main_txt h3").stop().animate({paddingTop:"20px"},200);
+	},function(){
+		$(this).find(".main_txt").stop().animate({height:"36px"},200);
+		$(this).find(".main_txt h3").stop().animate({paddingTop:"0px"},200);
+	})
+	//从底部上升的遮罩效果结束
+});
+</script>
+
 </head>
 <body class="bg_white">
 <jsp:include page="head.jsp">
@@ -36,8 +50,8 @@
 <!--=== End Header ===-->
 <div class="banner_course"></div>
 <div class="container">
-   <div class="two_con">
-   		<%
+   <div class="main">
+   		<%-- <%
    			if(courselist!=null){
    				for(int i=0;i<courselist.size();i++){
    					Doc doc=courselist.get(i);
@@ -64,7 +78,25 @@
    					}
    				}
    			}
-   		%>
+   		%> --%>
+   		<ul class="mainbox">
+			<%
+			if(courselist!=null){
+				for(int i=0;i<courselist.size();i++){
+   					Doc doc=courselist.get(i);
+   					%>
+   					<li class="main_con<%=i%3==0&&i!=0?"":" main_r"%>">
+						<a href="course_details.jsp?course_id=<%=doc.getIn("id")%>"><img src="<%=doc.get("pic")%>"/></a>
+						<div class="main_txt">
+							<h3><%=doc.get("name")%></h3>
+							<p><%=doc.get("introduce")%></p>
+						</div>
+					</li>
+   					<%
+   				}
+			}
+			%>
+		</ul>
         <div class="clear"></div>
       <!-- 分页 -->
      <ul class="pre">
