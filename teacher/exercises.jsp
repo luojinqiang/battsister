@@ -78,7 +78,7 @@ if(chapter_id>0){
 	String file="id,name,name_pic,type,order_num,thoughts";
 	String wheres="isdel=0 and chapter_id=? ";
 	counts=selectic.Get_count("id",table,wheres, "mysqlss",valueList);
-	exeList=selectic.Get_List(pages,pn, counts,table,wheres,file," order by type asc,order_num asc ","mysqlss",valueList);
+	exeList=selectic.Get_List(pages,pn, counts,table,wheres,file," order by type asc,order_num asc,id asc  ","mysqlss",valueList);
 	page_size=selectic.getPageSize(counts,pn);
 	if(exeList!=null){
 		for(Doc doc:exeList){
