@@ -451,6 +451,7 @@ h6 { font-size:12px; font-weight:normal; padding:0px; margin:0px;}
 .news_index_word { width:360px; float:left; height:70px; overflow:hidden;}
 .news_index_word p { color:#999; font-size:14px; line-height:1.4em; margin-top:5px;}
 
+
 .system { background:#2490eb; height:480px;width:100%; background:url(../images/bg2.jpg) no-repeat center center;}
 .system_con{ width:1200px; margin:0 auto;}
 .system_word { width:470px; float:right; padding:70px 0 70px 60px;}

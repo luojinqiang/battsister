@@ -73,7 +73,7 @@ if(targetObj.style.display!="none"){
 </div>
 <div class="container">
 	<div class="ex_wrap">
-		<div class="title_r">考试名称<i>参考人员：全体学员</i><i>考试时长：<%=examDoc.getIn("limit_time")%>分钟</i><i>试题数量：<%=examDoc.getIn("question_num")%></i></div>
+		<div class="title_r">考试名称<i>参考人员：全体学员</i><i>考试时长：<%=examDoc.getIn("limit_time")/60%>分钟</i><i>试题数量：<%=examDoc.getIn("question_num")%></i></div>
     <%
     if(examList!=null){
    		for(int i=0;i<examList.size();i++){
