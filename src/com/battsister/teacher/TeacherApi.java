@@ -791,7 +791,7 @@ public class TeacherApi {
 
             String[] strings = ids.split(",");
             for (int i = 0; i < strings.length; i ++) {
-            	JSONArray opt_array=base.executeQuery2JSONArray("select id,name,pic,is_answer from bs_exercise_option where exercise_library_id=? and isdel=0 order by id desc " , new Object[]{strings[i]});
+            	JSONArray opt_array=base.executeQuery2JSONArray("select id,name,pic,is_answer from bs_exercise_option where exercise_library_id=? and isdel=0 order by id  " , new Object[]{strings[i]});
                 base.executeUpdateByDoc("bs_exercise_exam",
                         new Doc().put("option_array",opt_array.toString()),new Doc().put("exercise_library_id", strings[i]).put("examination_id", bs_id));
             }
