@@ -271,7 +271,7 @@
         });
     }
     function editCourse(id, title) {
-        openurl('course_edit.jsp?id=' + id + '', 'user', title, 1000, 420, 0, 10, true);
+        openurl('course_edit.jsp?id=' + id + '', 'user', title, 1000, 500, 0, 10, true);
     }
     function editPracticalWord(id, title) {
         openurl('practical_word_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
