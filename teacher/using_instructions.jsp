@@ -1,4 +1,14 @@
+<%@page import="com.baje.sz.util.Selectic"%>
+<%@page import="com.baje.sz.util.Doc"%>
 <%@ page contentType="text/html; charset=utf-8" %>
+<%
+	String teacher_remark="";
+	Selectic selectic=new Selectic();
+	Doc infoDoc=selectic.Get_Doc("teacher_remark", "bs_info", "","mysqlss");
+	if(infoDoc!=null){
+		teacher_remark=infoDoc.get("teacher_remark");
+	}
+%>
 <!doctype html>
 <html>
 <head>
@@ -41,7 +51,7 @@
   	</div>
     <div class="right_w mt_none">
     	<div class="title_r">平台使用手册</div>
-        <div class="default">平台使用手册的内容暂时没有提供</div>
+        <div class="default"><%=teacher_remark%></div>
     </div>
     <div class="clear"></div>
 </div>

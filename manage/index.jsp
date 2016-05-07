@@ -200,6 +200,14 @@
                         	   %>
                         	   <li><a href="javascript:window.parent.jianyi2('xinxi/info.jsp?type=2','习题库介绍')">习题库介绍</a></li>
                         	   <%
+                           }if(current_flags.contains("3007")){
+                        	   %>
+                        	   <li><a href="javascript:window.parent.jianyi2('xinxi/remark.jsp?type=1','教师端说明文档')">教师端说明文档</a></li>
+                        	   <%
+                           }if(current_flags.contains("3008")){
+                        	   %>
+                        	   <li><a href="javascript:window.parent.jianyi2('xinxi/remark.jsp?type=2','教师端说明文档')">教师端说明文档</a></li>
+                        	   <%
                            }
                          %>
                     </ul>

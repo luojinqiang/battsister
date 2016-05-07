@@ -100,6 +100,7 @@ $(function(){
                			 <li class="ct-banner01"></li>
 			             <li class="ct-banner02"></li>
 			             <li class="ct-banner03"></li>
+			             <li class="ct-banner04"></li>
                			<%
                		}
                %>
@@ -122,6 +123,7 @@ $(function(){
                			 <li class="on"><a href="javascript:void(0)"><img src="/front_style/images/ct-banner01_s.jpg"></a></li>
                			 <li><a href="javascript:void(0)"><img src="/front_style/images/ct-banner02_s.jpg"></a></li>
                			 <li><a href="javascript:void(0)"><img src="/front_style/images/ct-banner03_s.jpg"></a></li>
+               			 <li><a href="javascript:void(0)"><img src="/front_style/images/ct-banner04_s.jpg"></a></li>
                			<%
                		}
                %>

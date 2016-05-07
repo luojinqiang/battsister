@@ -233,6 +233,16 @@
                             out.print("checked");
                         }
                     %>/>习题库介绍
+                      <input name="flag3" type="checkbox" value="3007" <%
+                        if (admin_flag.indexOf(",3007,") > -1) {
+                            out.print("checked");
+                        }
+                    %>/>教师端说明文档
+                      <input name="flag3" type="checkbox" value="3008" <%
+                        if (admin_flag.indexOf(",3008,") > -1) {
+                            out.print("checked");
+                        }
+                    %>/>学生端说明文档
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="selectAll_flag3" type="checkbox" id="selectAll_flag3"
                                                          onchange="selectall(3)"/><span style="color:green;">全选</span>
                 </li>
