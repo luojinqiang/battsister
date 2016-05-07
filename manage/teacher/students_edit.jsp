@@ -23,9 +23,9 @@
     	return; 
     }
 	String name="",username="",headpic="",account_status="";
-	int sex=0,birth=0,school_id=0,teacher_id=0;
+	int sex=0,birth=0,school_id=0,teacher_id=0,class_id=0;
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("name,username,headpic,sex,birth,account_status,school_id,teacher_id", "bs_students", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+        Doc doc = utildb.Get_Doc("name,username,headpic,sex,birth,class_id,account_status,school_id,teacher_id", "bs_students", " where id=? and isdel=0", "mysqlss", new Object[]{id});
         if (doc == null) {
             out.print("信息不存在");
             return;
@@ -38,6 +38,7 @@
         	account_status=doc.get("account_status");
         	school_id=doc.getIn("school_id");
         	teacher_id=doc.getIn("teacher_id");
+        	class_id=doc.getIn("class_id");
         }
     }
 %>
@@ -163,7 +164,7 @@
                               value="<%if(birth>0){out.print(AjaxXml.timeStamp2Date(birth, "YY04-MM-DD HH:MI:SS"));} %>"
                               style="width:65px;" onclick="SelectDate(this,'yyyy-MM-dd',0,0)"/></li>
             </ul>
-            <ul class="row2 clearfix">
+            <ul class="row3 clearfix">
             	 <li>所属学校：
             		<select name="school_id" onchange="getTeachers(this)">
             			<option value="0">--请选择所属学校--</option>
@@ -187,6 +188,22 @@
             					if(teacher_list!=null){
             						for(Doc doc:teacher_list){
             							out.print("<option value=\""+doc.getIn("id")+"\" "+(teacher_id==doc.getIn("id")?"selected=\"selected\"":"")+">"+doc.get("name")+"</option>");
+            						}
+            					}
+            				}
+            			%>
+            		</select>
+            	</li>
+            	<li>
+            		所属班级：
+            		<select name="class_id" id="class_id">
+            			<option value="0">--请选择班级--</option>
+            			<%
+            				if(school_id>0){
+            					List<Doc> teacher_list=utildb.Get_List("id,class_name","bs_class"," where isdel=0 and teacher_id=? ","mysqlss",new Object[]{teacher_id});
+            					if(teacher_list!=null){
+            						for(Doc doc:teacher_list){
+            							out.print("<option value=\""+doc.getIn("id")+"\" "+(class_id==doc.getIn("id")?"selected=\"selected\"":"")+">"+doc.get("class_name")+"</option>");
             						}
             					}
             				}

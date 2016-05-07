@@ -41,6 +41,7 @@ public class Student {
 	            String account_status=ru.getString("account_status");
 	            int school_id=ru.getInt("school_id");
 	            int teacher_id=ru.getInt("teacher_id");
+	            int class_id=ru.getInt("class_id");
 	            int sex=ru.getInt("sex");
 	            String birth=ru.getString("birth");
 	            int birthTemp=0;
@@ -81,6 +82,7 @@ public class Student {
 	            valueList.add(headpic);
 	            valueList.add(school_id);
 	            valueList.add(teacher_id);
+	            valueList.add(class_id);
 	            String addString="";
 	            String insertString="";
 	            String insertSql="";
@@ -100,11 +102,11 @@ public class Student {
 	            if (id > 0) {
 	                logtitle = "API--学生账号--编辑";
 	                valueList.add(id);
-	                base.executeUpdate("update bs_students set username=?,name=?,account_status=?,sex=?,birth=?,headpic=?,school_id=?,teacher_id=? "+addString+" where id=? ", valueList);
+	                base.executeUpdate("update bs_students set username=?,name=?,account_status=?,sex=?,birth=?,headpic=?,school_id=?,teacher_id=?,class_id=? "+addString+" where id=? ", valueList);
 	            } else {
 	                valueList.add(AjaxXml.getTimestamp("now"));
 	                base.executeUpdate("insert into bs_students (username,name,account_status,sex,"
-	                        + " birth,headpic,school_id,teacher_id"+insertSql+",addtime) values(?,?,?,?,?,?,?,?"+insertString+",?)", valueList);
+	                        + " birth,headpic,school_id,teacher_id,class_id"+insertSql+",addtime) values(?,?,?,?,?,?,?,?,?"+insertString+",?)", valueList);
 	            }
 	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
 	            backjson.put("type", true);

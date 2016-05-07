@@ -27,16 +27,16 @@ if(teacher_id==null){
 int pages=ru.getInt("pages");
 pages=pages==0?1:pages;
 int counts=selectic.Get_count("id", "bs_students", " teacher_id=? and isdel=0", "mysqlss",new Object[]{teacher_id});
-StringBuffer whereBuffer=new StringBuffer("teacher_id=? and isdel=0");
+StringBuffer whereBuffer=new StringBuffer("a.teacher_id=? and a.isdel=0 and b.isdel=0 ");
 String seacherWord=ru.getString("seacherWord");
 List valueList=new ArrayList();
 valueList.add(teacher_id);
 if(seacherWord!=null&&!"".equals(seacherWord)){
-	whereBuffer.append(" and ( name like ? or username like ?) ");
+	whereBuffer.append(" and ( a.name like ? or a.username like ?) ");
 	valueList.add("%"+seacherWord+"%");
 	valueList.add("%"+seacherWord+"%");
 }
-List<Doc> studentList=selectic.Get_List(pages, 10, counts, "bs_students",whereBuffer.toString(), "id,name,username,sex,mobile"," order by id desc ","mysqlss",valueList);
+List<Doc> studentList=selectic.Get_List(pages, 10, counts, "bs_students a left join bs_class b on a.class_id=b.id",whereBuffer.toString(), "a.id,a.name,a.username,a.sex,a.mobile,b.class_name"," order by a.id desc ","mysqlss",valueList);
 int pageSize=selectic.getPageSize(counts,10);
 %>
 <!doctype html>
@@ -59,12 +59,9 @@ int pageSize=selectic.getPageSize(counts,10);
 <%@include file="head1.jsp" %>
 <div class="container">
   	<div class="stu_top">
+  		<div class="stu_botton"><a href="class_management.jsp">班级管理</a></div>
     	<div class="stu_botton"><a href="increase_students.jsp">新增学员</a></div>
-       	<%
-       		if(studentList!=null&&!studentList.isEmpty()){
-       			out.print(" <div class=\"stu_botton1\"><a href=\"javascript:delAll();\">删除全部学员</a></div>");
-       		}
-       	%>
+       	<div class="stu_botton1"><a href="javascript:delAll();">删除学员</a></div>
       	<div class="stu_top_right">
       	<form action="" method="post">
         	<input name="seacherWord" value="<%=seacherWord%>" type="text" class="input_stu" placeholder="输入学生学号、姓名进行搜索">
@@ -76,6 +73,8 @@ int pageSize=selectic.getPageSize(counts,10);
     <div class="stu_con">
     	<table  width="100%;">
           <tr>
+           <th></th>
+           <th>班级</th>
             <th>学号</th>
             <th>姓名</th>
             <th>联系电话</th>
@@ -87,6 +86,8 @@ int pageSize=selectic.getPageSize(counts,10);
 		 		for(Doc doc:studentList){
 		 			%>
 		 			<tr>
+		 			<td><input type="checkbox" name="id" value="<%=doc.getIn("id")%>"></td>
+		 			<td><%=doc.get("class_name")%></td>
             		<td><%=doc.get("username")%></td>
            			<td><%=doc.get("name")%></td>
             		<td><%=doc.get("mobile")%></td>
@@ -97,6 +98,12 @@ int pageSize=selectic.getPageSize(counts,10);
 		 		}
 		 	}
 		 %>
+		 <tr>
+                    <td colspan="7" style="text-align:left;">&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox"
+                                                                     value="checkbox" onchange="CheckAll(this);"/>
+                        选中/取消所有
+                    </td>
+                </tr>
         </table>
     	<ul class="pre">
             <%
@@ -117,7 +124,7 @@ int pageSize=selectic.getPageSize(counts,10);
 <jsp:include page="footer.jsp"></jsp:include>
 <script type="text/javascript">
 	function delStudent(id){
-		if(confirm("你确定要删除改学生吗？")){
+		if(confirm("你确定要删除该学生吗？")){
 			$.ajax({ 
 	            dataType: "json",
 	            type: "post", 
@@ -134,12 +141,17 @@ int pageSize=selectic.getPageSize(counts,10);
 		}
 	}
 	function delAll(){
+		var ids=getcheckbox("id");
+		if(ids==""){
+			alert("请选择需要删除的学生？");
+            return;
+		}
 		if(confirm("你确定要删除全部学生吗？")){
 			$.ajax({ 
 	            dataType: "json",
 	            type: "post", 
 	            url: "student_management.jsp",
-	            data: "action=delAll", 
+	            data: "action=delAll&ids="+ids, 
 	            success: function (msg) {
 	                if (msg.type) {
 	                  	window.location.reload();
@@ -149,6 +161,29 @@ int pageSize=selectic.getPageSize(counts,10);
 	            }
 	        });
 		}
+	}
+	function CheckAll(obj){
+		$('input:checkbox[name=id]').each(function(){
+	       if($(obj).is(':checked')){
+	    	   $(this).attr("checked", true);
+	       }else{
+	    	   $(this).attr("checked", false);
+	       }
+		});
+	}
+	function getcheckbox(checkname) {
+	    var flag = "";
+	    $("[name='" + checkname + "']:checkbox").each(function () {
+	        if (this.checked == true) {
+	            if (flag == "") {
+	                flag = this.value;
+	            } else {
+	                flag = flag + "," + this.value;
+	            }
+
+	        }
+	    });
+	    return flag;
 	}
 </script>
 </body>

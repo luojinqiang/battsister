@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="com.battsister.teacher.TeacherApi"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
 <%@page import="com.baje.sz.util.Doc"%>
@@ -10,6 +11,7 @@ if("add".equals(action)){
 	out.print(new TeacherApi().addStudent(request));
 	return;
 }
+Object teacher_id=session.getAttribute("teacher_id");
 %>
 <!doctype html>
 <html>
@@ -34,6 +36,23 @@ if("add".equals(action)){
 <div class="container">
 	<div class="ex_wrap">
 		<div class="title_r">新增学员</div>
+		<div class="input_c">
+            <div class="input_word">班级</div>
+            <div class="input_text">
+            <select name="class_id" id="class_id" class="select_k">
+            <option value="0">--选择班级--</option>
+            	<%
+            		List<Doc> classList=new Selectic().Get_List("id,class_name","bs_class"," where isdel=0 and teacher_id=? ","mysqlss",new Object[]{teacher_id});
+            		if(classList!=null){
+            			for(Doc doc:classList){
+            				out.print("<option value=\""+doc.getIn("id")+"\">"+doc.get("class_name")+"</option>");
+            			}
+            		}
+            	%>
+           	</select>
+            </div>
+            <div class="clear"></div>
+        </div>
         <div class="input_c">
             <div class="input_word">学号</div>
             <div class="input_text"><input name="username" type="text" class="input_k" placeholder="首次密码默认为学号"></div>
@@ -81,6 +100,7 @@ if("add".equals(action)){
 		var name=$("input[name=name]").val();
 		var sex=$("#sex").val();
 		var mobile=$("input[name=mobile]").val();
+		var class_id=$("#class_id").val();
 		if(username==""||username==undefined){
 			alert("请输入学生学号");
 			return;
@@ -106,11 +126,15 @@ if("add".equals(action)){
 				return false;
 			}
 		}
+		if(class_id==0||class_id==undefined){
+			alert("请选择班级");
+			return;
+		}
 		$.ajax({ 
             dataType: "json",
             type: "post", 
             url: "increase_students.jsp",
-            data: "action=add&name="+name+"&sex="+sex+"&mobile="+mobile+"&username="+username, 
+            data: "action=add&name="+name+"&sex="+sex+"&mobile="+mobile+"&username="+username+"&class_id="+class_id, 
             success: function (msg) {
                 if (msg.type) {
                   	window.location.href='student_management.jsp';

@@ -235,7 +235,7 @@
     </div>
     <div class="btnitem mb10 clearfix">
         <ul class="s_btn">
-            <li><a href="javascript:editStudent(0,'新增教师')">新增教师</a></li>
+            <li><a href="javascript:editStudent(0,'新增学生')">新增学生</a></li>
         </ul>
     </div>
     <div class="form_table">
@@ -245,6 +245,7 @@
                     <th width="4%">&nbsp;</th>
                     <th width="8%">所属学校</th>
                     <th width="8%">所属教师</th>
+                    <th width="8%">所属班级</th>
                     <th width="12%">学生姓名</th>
                     <th width="6%">账号状态</th>
                     <th width="6%">性别</th>
@@ -256,7 +257,7 @@
                 </tr>
                 <%
 
-                    String table = "bs_students a left join bs_schools b on a.school_id=b.id left join bs_teachers c on a.teacher_id=c.id";
+                    String table = "bs_students a left join bs_schools b on a.school_id=b.id left join bs_teachers c on a.teacher_id=c.id left join bs_class d on a.class_id=d.id";
                     String wheres = "a.isdel=0 ";
                     List sqllist = new ArrayList();
                     if (!student_name.equals("")) {
@@ -272,7 +273,7 @@
                          sqllist.add(teacher_id);
                     }
                     String file = "a.id,a.name as 'student_name',a.username,a.headpic,a.sex,a.last_login_time,a.addtime,"+
-                    "a.last_login_ip,a.login_times,a.account_status,a.school_id,b.name as 'school_name',c.name as 'teacher_name'";
+                    "a.last_login_ip,a.login_times,a.account_status,a.school_id,b.name as 'school_name',c.name as 'teacher_name',d.class_name";
                     String order = " order by a.id desc";
                     String idd = "a.id";
                     int counts = utildb.Get_count(idd, table, wheres, "mysqlss", sqllist);
@@ -286,6 +287,8 @@
                     <td><%=doc.get("school_name", "")%>
                     </td>
                      <td><%=doc.get("teacher_name", "")%>
+                    </td>
+                      <td><%=doc.get("class_name", "")%>
                     </td>
                     <td><%=doc.get("student_name", "")%>
                     </td>

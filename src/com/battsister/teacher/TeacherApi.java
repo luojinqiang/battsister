@@ -1,5 +1,6 @@
 package com.battsister.teacher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.internet.MimeUtility;
@@ -19,6 +20,7 @@ import com.baje.sz.util.Doc;
 import com.baje.sz.util.KeyBean;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.SendEmail;
+import com.baje.sz.util.StringUtil;
 import com.battsister.admin.sys.Logdb;
 
 public class TeacherApi {
@@ -235,7 +237,7 @@ public class TeacherApi {
     }
 
     /**
-     * 删除全部学生
+     * 批量删除学生
      *
      * @param request
      * @return
@@ -245,7 +247,7 @@ public class TeacherApi {
         Base base = new Base();
         JSONObject backjson = new JSONObject();
         String ajaxRequest = "";
-        String logtitle = "派司德教育--删除全部学生";
+        String logtitle = "派司德教育--批量删除学生";
         try {
             dbc.openConn("mysqlss");
             base.setDbc(dbc);
@@ -258,8 +260,30 @@ public class TeacherApi {
                 backjson.put("msg", "教师账号不存在");
                 return backjson;
             }
-            base.executeUpdate("update bs_students set isdel=1 where teacher_id=? ", new Object[]{teacher_id});
-            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "教师删除全部学生", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
+            String ids=ru.getString("ids");
+            if(ids==null||ids.equals("")){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "请选择需要删除的学生");
+                 return backjson;
+            }
+            StringBuffer wenhao = new StringBuffer();
+            List sqllist = new ArrayList();
+            String[] idArr = StringUtil.strs2array(ids, ",");
+            if (idArr.length <= 0) {
+                backjson.put("type", false);
+                backjson.put("msg", "请选择需要删除的学生");
+                return backjson;
+            }
+            for (int i = 0; i < idArr.length; i++) {
+                if (i == 0) {
+                    wenhao.append("?");
+                } else {
+                    wenhao.append(",?");
+                }
+                sqllist.add(idArr[i]);
+            }
+            base.executeUpdate("update bs_students set isdel=1 where  id in (" + wenhao + ") ",sqllist);
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "教师批量删除学生", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
             backjson.put("type", true);
             backjson.put("msg", "操作成功");
             return backjson;
@@ -302,6 +326,7 @@ public class TeacherApi {
             String name = ru.getString("name");
             String mobile = ru.getString("mobile");
             int sex = ru.getInt("sex");
+            int class_id=ru.getInt("class_id");
             if (username == null || "".equals(username)) {
                 backjson.put("type", false);
                 backjson.put("msg", "请输入学生学号");
@@ -324,6 +349,11 @@ public class TeacherApi {
                 backjson.put("msg", "请选择学生性别");
                 return backjson;
             }
+            if (class_id<=0) {
+                backjson.put("type", false);
+                backjson.put("msg", "请选择班级");
+                return backjson;
+            }
             Doc insertDoc = new Doc();
             insertDoc.put("username", username);
             insertDoc.put("password", new KeyBean().getkeyBeanofStr(username).toLowerCase());
@@ -333,6 +363,7 @@ public class TeacherApi {
             insertDoc.put("account_status", "Y");
             insertDoc.put("school_id", teacherDoc.getIn("school_id"));
             insertDoc.put("teacher_id", teacher_id);
+            insertDoc.put("class_id",class_id);
             insertDoc.put("addtime", AjaxXml.getTimestamp("now"));
             base.executeInsertByDoc("bs_students", insertDoc);
             Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "添加学生", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
@@ -350,6 +381,106 @@ public class TeacherApi {
         }
     }
 
+    /**
+     * 教师端--编辑班级信息
+     * @param request
+     * @return
+     */
+    public JSONObject editClass(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--编辑班级";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            Object teacher_id = request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc = base.executeQuery2Docs("select id,username,school_id from bs_teachers where id=? and isdel=0", new Object[]{teacher_id}, 1)[0];
+            if (teacherDoc == null || teacherDoc.isEmpty()) {
+                backjson.put("type", false);
+                backjson.put("msg", "教师账号不存在");
+                return backjson;
+            }
+            int id=ru.getInt("id");
+            String class_name = ru.getString("class_name");
+            if(class_name==null||"".equals(class_name)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "班级名称为空");
+                 return backjson;
+            }
+            if(id==0){
+            	 Doc isDoc=base.executeQuery2Docs("select id from bs_class where isdel=0 and class_name = ? ",new Object[]{class_name},1)[0];
+                 if(isDoc!=null&&!isDoc.isEmpty()){
+                 	 backjson.put("type", false);
+                      backjson.put("msg", "班级名称已经存在");
+                      return backjson;
+                 }
+                 base.executeUpdate("insert into bs_class(teacher_id,class_name,create_time) values(?,?,?)", new Object[]{teacher_id,class_name,AjaxXml.getTimestamp("now")});
+            }else{
+            	base.executeUpdate("update bs_class set class_name=? where id=? ",new Object[]{class_name,id});
+            }
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "编辑班级", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "操作成功");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    
+    }
+    
+    /**
+     * 教师端--删除班级
+     * @param request
+     * @return
+     */
+    public JSONObject delClass(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--删除班级";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc,false);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            Object teacher_id = request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc = base.executeQuery2Docs("select id,username from bs_teachers where id=? and isdel=0", new Object[]{teacher_id}, 1)[0];
+            if (teacherDoc == null || teacherDoc.isEmpty()) {
+                backjson.put("type", false);
+                backjson.put("msg", "教师账号不存在");
+                return backjson;
+            }
+            int id=ru.getInt("class_id");
+            base.executeUpdate("update bs_class set isdel=1 where teacher_id=? and id=? ", new Object[]{teacher_id,id});
+            base.executeUpdate("update bs_students set isdel=1 where class_id=? and teacher_id=?",new Object[]{id,teacher_id});
+            Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "删除班级", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
+            base.commit();
+            backjson.put("type", true);
+            backjson.put("msg", "操作成功");
+            return backjson;
+        } catch (Exception e) {
+        	base.rollback();
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    
+    }
     /**
      * 更新学生信息
      *
@@ -380,6 +511,7 @@ public class TeacherApi {
             int sex = ru.getInt("sex");
             String password = ru.getString("password");
             int student_id = ru.getInt("student_id");
+            int class_id=ru.getInt("class_id");
             if (username == null || "".equals(username)) {
                 backjson.put("type", false);
                 backjson.put("msg", "请输入学生学号");
@@ -402,11 +534,17 @@ public class TeacherApi {
                 backjson.put("msg", "请选择学生性别");
                 return backjson;
             }
+            if(class_id<=0){
+            	backjson.put("type", false);
+                backjson.put("msg", "请选择班级");
+                return backjson;
+            }
             Doc updateDoc = new Doc();
             updateDoc.put("username", username);
             updateDoc.put("name", name);
             updateDoc.put("mobile", mobile);
             updateDoc.put("sex", sex);
+            updateDoc.put("class_id",class_id);
             if (password != null && !"".equals(password)) {
                 updateDoc.put("password", new KeyBean().getkeyBeanofStr(password).toLowerCase());
             }
