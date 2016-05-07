@@ -837,10 +837,22 @@ public class TeacherApi {
             int id = ru.getInt("id");
             String name = ru.getString("name");
             String end_time = ru.getString("end_time");
+            int limit_time=ru.getInt("limit_time");
+            String class_ids=ru.getString("class_ids");
             if (name == null || "".equals(name)) {
                 backjson.put("type", false);
                 backjson.put("msg", "请输入考试名称");
                 return backjson;
+            }
+            if(limit_time<=0){
+            	  backjson.put("type", false);
+                  backjson.put("msg", "请选择考试时长");
+                  return backjson;
+            }
+            if(class_ids==null||"".equals(class_ids)){
+            	  backjson.put("type", false);
+                  backjson.put("msg", "请选择考试班级");
+                  return backjson;
             }
             if (end_time == null || "".equals(end_time)) {
                 backjson.put("type", false);
@@ -920,9 +932,10 @@ public class TeacherApi {
                 return backjson;
             }
             insertDoc.put("question_num",ids.split(",").length);
-            insertDoc.put("limit_time", type == 0 ? 60*60 : 40*60);
+            insertDoc.put("limit_time",limit_time*60);
             insertDoc.put("end_time", AjaxXml.getTimestamp(end_time + " 23:59:59"));
             insertDoc.put("teacher_id", teacher_id);
+            insertDoc.put("class_ids", class_ids);
             insertDoc.put("add_time", AjaxXml.getTimestamp("now"));
             int bs_id = base.executeInsertByDoc("bs_examination", insertDoc);
             base.executeUpdate("insert into bs_exercise_exam(exercise_library_id,examination_id,name,name_pic,type,course_id,chapter_id,add_time,answer,order_num,thoughts) select id," + bs_id + ",name,name_pic,type,course_id,chapter_id," + AjaxXml.getTimestamp("now") + ",answer,order_num,thoughts from bs_exercise_library where isdel=0 and id in ("+ids+")", new Object[]{});

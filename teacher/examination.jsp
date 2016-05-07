@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="com.baje.sz.util.Doc"%>
 <%@page import="com.baje.sz.util.RequestUtil"%>
 <%@ page contentType="text/html; charset=utf-8" %>
@@ -75,9 +76,26 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <!-- 时间选择器 -->
 <script type="text/javascript" src="/front_style/datepicker/jquery-ui-datepicker.js"></script>
+<script type="text/javascript" src="/front_style/js/lean-modal.min.js"></script>
 <link href="/front_style/datepicker/jquery-ui.css" rel="stylesheet" type="text/css" />
-</head>
+<style type="text/css">
+#lean_overlay{position:fixed; z-index:10; top:0px; left:0px; height:100%; width:100%; background:#000; display:none;}
+.lean-modal{width:40%; font-size:14px; position:absolute; left:0; top:0; display:none; background:#ddd; border-radius:3px; box-shadow: 0px 1px 5px #333333; } 
+.lean-modal .modal_close{   display:block; width:100%; height:40px;  z-index:2000; text-align:center; border-top:#ccc solid 1px; line-height:40px;}
+.lean-modal a{ color:#333;text-decoration:none;}.lean-modal a:hover{ text-decoration:none;}
+.lean-modal{ z-index:10001;display:none; color:#ffffff;}
+.lean-modal .tips{ line-height:24px; padding:0px 10px;  max-height:300px; overflow:auto;}
 
+
+.tan-list{ border-top:#ccc solid 1px; padding:10px; text-align:left; color:#CCC;}
+.tan-title label{ display:block; width:100%; height:100%;}
+</style>
+<script type="text/javascript">
+function intid(){
+	$('#home_mod_tips').leanModal(); 
+} 
+</script>
+</head>
 <body>
 <!--=== Header ===-->
 <!-- 引入头部 -->
@@ -93,9 +111,14 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 <div class="container">
 	<div class="ex_wrap">
 		<div class="title_r">发起考试</div>
-        <div class="input_c">
+		 <div class="input_c">
             <div class="input_word">考试名称</div>
             <div class="input_text"><input name="name" type="text" class="input_k" placeholder="请输入考试名称"></div>
+            <div class="clear"></div>
+        </div>
+		 <div class="input_c">
+            <div class="input_word">考试班级</div>
+            <div class="input_text" onclick="intid();"><input name="classes" type="text" class="input_k" placeholder="选择考试班级"></div>
             <div class="clear"></div>
         </div>
         <div class="input_c">
@@ -105,6 +128,17 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
               <option value="1">按模块</option>
               <option value="0">按任务</option>
           </select>
+            </div>
+            <div class="clear"></div>
+        </div>
+         <div class="input_c">
+            <div class="input_word">考试时长</div>
+            <div class="input_text">
+          	    <select class="select_k" id="limit_time">
+          	    	<option value="30">30分钟</option>
+          	    	<option value="60">60分钟</option>
+          	    	<option value="90">90分钟</option>
+          	    </select>
             </div>
             <div class="clear"></div>
         </div>
@@ -162,6 +196,26 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
         <div class="input_c">
             <div class="botton2"><a href="javascript:void(0)" onclick="send();">发起考试</a></div>
         </div>
+        
+    <div id="home_mod_tips" class="lean-modal"> 
+		<div class="tips">
+			<%
+				List<Doc> classList=selectic.Get_List("id,class_name", "bs_class","where isdel=0 and teacher_id=? ","mysqlss",new Object[]{teacher_id});
+				if(classList!=null){
+					for(int i=0;i<classList.size();i++){
+						Doc doc=classList.get(i);
+						%>
+						 <div class="ysh_webkit tan-list"> 
+				            <div class="tan-title ysh_webkit_flex"><label for="check1"><%=doc.get("class_name")%></label></div>
+				            <div class="tan-box"><input type="checkbox"  name="class_ids" value="<%=doc.getIn("id")%>" onchange="showClassName()"></div>
+	       				</div> 
+						<%
+					}
+				}
+			%>
+	    </div>
+	    <div class="h"><a class="modal_close" href="javascript:void(0);">确定</a></div>
+	</div>
     </div>	
 </div>
 <!-- 引入尾部 -->
@@ -177,13 +231,22 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 			$('#module').show();
 		}
 	}
-	
 	function send(){
 		var type=$('#examination_model').val();
 		var id=0;
 		var name=$('input[name=name]').val();
+		var limit_time=$('#limit_time').val();
 		if(name==undefined||name==""){
 			alert("请输入考试名称");
+			return;
+		}
+		var class_ids=getcheckbox("class_ids");
+		if(class_ids==""){
+			alert("请输入参加考试的班级");
+			return;
+		}
+		if(limit_time==undefined||limit_time<=0){
+			alert("请输入考试时长");
 			return;
 		}
 		var end_time=$('input[name=end_time]').val();
@@ -200,7 +263,7 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
             dataType: "json",
             type: "post", 
             url: "examination.jsp",
-            data: "action=send&type="+type+"&id="+id+"&name="+name+"&end_time="+end_time, 
+            data: "action=send&type="+type+"&id="+id+"&name="+name+"&end_time="+end_time+"&class_ids="+class_ids+"&limit_time="+limit_time, 
             success: function (msg) {
                 if (msg.type) {
                   	alert("发起考试成功");
@@ -218,8 +281,37 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 		minDate: 1,
 		maxDate: 30
 	});
-	
 });
+	
+function showClassName(){
+	var classNames="";
+	$('input:checkbox[name=class_ids]').each(function(){
+	       if($(this).is(':checked')){
+	    	   var class_name=$(this).parent().parent().find('div').find('label').text();
+	    	   if(classNames==""){
+	    		   classNames=class_name;
+	    	   }else{
+	    		   classNames=classNames+" , "+class_name;
+	    	   }
+	       }
+	});
+	$('input[name=classes]').val(classNames);
+}
+
+function getcheckbox(checkname) {
+    var flag = "";
+    $("[name='" + checkname + "']:checkbox").each(function () {
+        if (this.checked == true) {
+            if (flag == "") {
+                flag = this.value;
+            } else {
+                flag = flag + "," + this.value;
+            }
+
+        }
+    });
+    return flag;
+}
 </script>
 </body>
 </html>
