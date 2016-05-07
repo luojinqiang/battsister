@@ -9,9 +9,9 @@
 <div class="footer">
     <div class="footer_con">
         <ul class="footer_nav">
-            <li><a href="about.jsp">关于我们</a></li>
+            <li><a href="/about.jsp">关于我们</a></li>
             <li><a href="st_using_instructions.jsp">平台使用手册</a></li>
-            <li><a href="contact.html">联系我们</a></li>
+          <!--   <li><a href="contact.html">联系我们</a></li> -->
             <li><a href="st_feedback.jsp">投诉&反馈 </a></li>
             <div class="clear"></div>
         </ul>
