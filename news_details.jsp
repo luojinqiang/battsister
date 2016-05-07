@@ -68,14 +68,14 @@
         <%
        		if(previous_news_id>0){
        			%>
-       			<div class="up_botton"><a href="news_details.jsp?news_id=<%=previous_news_id%>&type=<%=type%>">上一篇</a></div>
+       			<div class="up_botton"><a href="news_details.jsp?news_id=<%=previous_news_id%>&type=<%=type%>&other_type=<%=other_type%>">上一篇</a></div>
        			<%
        		}
         %>
        <%
       		if(next_news_id>0){
       			%>
-      			 <div class="up_botton"><a href="news_details.jsp?news_id=<%=next_news_id%>&type=<%=type%>">下一篇</a></div>
+      			 <div class="up_botton"><a href="news_details.jsp?news_id=<%=next_news_id%>&type=<%=type%>&other_type=<%=other_type%>">下一篇</a></div>
       			<%
       		}
         %>
