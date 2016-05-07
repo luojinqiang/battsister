@@ -206,7 +206,7 @@
                         	   <%
                            }if(current_flags.contains("3008")){
                         	   %>
-                        	   <li><a href="javascript:window.parent.jianyi2('xinxi/remark.jsp?type=2','教师端说明文档')">教师端说明文档</a></li>
+                        	   <li><a href="javascript:window.parent.jianyi2('xinxi/remark.jsp?type=2','学生端说明文档')">学生端说明文档</a></li>
                         	   <%
                            }
                          %>

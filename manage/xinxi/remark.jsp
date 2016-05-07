@@ -27,7 +27,7 @@
 		if(type==1){
 			remark=infoDoc.get("teacher_remark");
 		}else{
-			remark=infoDoc.get("teacher_remark");
+			remark=infoDoc.get("student_remark");
 		}
 	}
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -49,6 +49,7 @@
     <script type='text/javascript' src='/public/js/operamasks/operamasks-ui.min.js'></script>
     <script type="text/javascript">
         function usersave() {
+        	var content = escape(escape(editor.getContent()));
             if (content == "") {
                 content = "<p></p>";
             }
@@ -93,7 +94,7 @@
 <%@ include file="../left.jsp" %><!--End Sidebar-->
 <div class="iframe_box">
     <div class="box_input">
-        <form id="form1" name="form1" method="post" action="news_edit.jsp">
+        <form id="form1" name="form1" method="post" action="remark.jsp">
         <input type="hidden" name="action" value="save"/>
          <input type="hidden" name="type" value="<%=type%>"/>
             <ul class="row1 clearfix">
