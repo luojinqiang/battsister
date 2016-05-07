@@ -59,15 +59,15 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 //考试列表
 List valueList=new ArrayList();
 valueList.add(teacher_id);
-String table="bs_examination";
-String file="id,name,type,question_num,class_ids,limit_time,end_time";
-String wheres="isdel=0 and teacher_id=?";
-int counts=selectic.Get_count("id", table, wheres, "mysqlss",valueList);
+String table="bs_examination a left join bs_class b on a.class_id=b.id";
+String file="a.id,a.name,a.type,a.question_num,a.class_id,a.limit_time,a.end_time,b.class_name";
+String wheres="a.isdel=0 and a.teacher_id=?";
+int counts=selectic.Get_count("a.id", table, wheres, "mysqlss",valueList);
 int pages=ru.getInt("pages");
 pages=pages==0?1:pages;
-int pn=3;
+int pn=5;
 int page_size=selectic.getPageSize(counts, pn);
-List<Doc> examinationList=selectic.Get_List(pages, pn, counts, table, wheres, file, "order by add_time desc", "mysqlss",valueList);
+List<Doc> examinationList=selectic.Get_List(pages, pn, counts, table, wheres, file, "order by a.add_time desc", "mysqlss",valueList);
 %>
 <!doctype html>
 <html>
@@ -138,24 +138,6 @@ List<Doc> examinationList=selectic.Get_List(pages, pn, counts, table, wheres, fi
         <%
         	if(examinationList!=null){
         		for(Doc doc:examinationList){
-        			//考试的班级
-        			List<Doc> examClassList=null;
-        			StringBuffer wenhao = new StringBuffer("");
-		            List sqllist = new ArrayList();
-		            String[] idArr =StringUtil.strs2array(doc.get("class_ids"), ",");
-		            if(idArr!=null){
-		            	for (int i = 0; i < idArr.length; i++) {
-			                if (i == 0) {
-			                    wenhao.append("?");
-			                } else {
-			                    wenhao.append(",?");
-			                }
-			                sqllist.add(idArr[i]);
-			            }
-		            	if(idArr.length>0){
-		            		examClassList=selectic.Get_List("id,class_name", "bs_class"," where isdel=0 and id in (" + wenhao + ") ", "mysqlss",sqllist);
-		            	}
-		            }
         			%>
 		        <div class="kaoshi">
 			        	<table width="100%" border="0" cellspacing="1" cellpadding="0">
@@ -172,17 +154,7 @@ List<Doc> examinationList=selectic.Get_List(pages, pn, counts, table, wheres, fi
 			              </tr>
 			              <tr>
 			                <td><%=doc.getIn("type")==0?"按模块":"按任务"%></td>
-			                <td><%
-			                	if(examClassList!=null){
-			                		for(int i=0;i<examClassList.size();i++){
-			                			if(i!=examClassList.size()-1){
-			                				out.print(examClassList.get(i).get("class_name")+"<br/>");
-			                			}else{
-			                				out.print(examClassList.get(i).get("class_name"));
-			                			}
-			                		}
-			                	}
-			                %></td>
+			                <td><%=doc.get("class_name")%></td>
 			                <td><%=doc.getIn("question_num")%></td>
 			                <td><%=doc.getIn("limit_time")/60+"分钟"%></td>
 			                <td><%=AjaxXml.timeStamp2Date(doc.getIn("end_time"),"YY04-MM-DD")%></td>

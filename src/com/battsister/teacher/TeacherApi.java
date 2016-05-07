@@ -919,10 +919,6 @@ public class TeacherApi {
                     buffer.append(doc.getIn("id") + ",");
                 }
             }
-            //插入一个考试
-            Doc insertDoc = new Doc();
-            insertDoc.put("name", name);
-            insertDoc.put("type", type);
             String ids = "";
             if (!buffer.equals("")) {
                 ids = buffer.substring(0, buffer.length() - 1);
@@ -931,22 +927,35 @@ public class TeacherApi {
                 backjson.put("msg", "该课程尚未有试题，敬请期待");
                 return backjson;
             }
-            insertDoc.put("question_num",ids.split(",").length);
-            insertDoc.put("limit_time",limit_time*60);
-            insertDoc.put("end_time", AjaxXml.getTimestamp(end_time + " 23:59:59"));
-            insertDoc.put("teacher_id", teacher_id);
-            insertDoc.put("class_ids", class_ids);
-            insertDoc.put("add_time", AjaxXml.getTimestamp("now"));
-            int bs_id = base.executeInsertByDoc("bs_examination", insertDoc);
-            base.executeUpdate("insert into bs_exercise_exam(exercise_library_id,examination_id,name,name_pic,type,course_id,chapter_id,add_time,answer,order_num,thoughts) select id," + bs_id + ",name,name_pic,type,course_id,chapter_id," + AjaxXml.getTimestamp("now") + ",answer,order_num,thoughts from bs_exercise_library where isdel=0 and id in ("+ids+")", new Object[]{});
+            if(class_ids!=null){
+            	String ss[]=class_ids.split(",");
+            	if(ss!=null){
+            		for(int s=0;s<ss.length;s++){
+            			if("".equals(ss[s].trim())){
+            				continue;
+            			}
+            			 //插入一个考试
+                        Doc insertDoc = new Doc();
+                        insertDoc.put("name", name);
+                        insertDoc.put("type", type);
+               		 	insertDoc.put("question_num",ids.split(",").length);
+                        insertDoc.put("limit_time",limit_time*60);
+                        insertDoc.put("end_time", AjaxXml.getTimestamp(end_time + " 23:59:59"));
+                        insertDoc.put("teacher_id", teacher_id);
+                        insertDoc.put("class_id", ss[s]);
+                        insertDoc.put("add_time", AjaxXml.getTimestamp("now"));
+                        int bs_id = base.executeInsertByDoc("bs_examination", insertDoc);
+                        base.executeUpdate("insert into bs_exercise_exam(exercise_library_id,examination_id,name,name_pic,type,course_id,chapter_id,add_time,answer,order_num,thoughts) select id," + bs_id + ",name,name_pic,type,course_id,chapter_id," + AjaxXml.getTimestamp("now") + ",answer,order_num,thoughts from bs_exercise_library where isdel=0 and id in ("+ids+")", new Object[]{});
 
-            String[] strings = ids.split(",");
-            for (int i = 0; i < strings.length; i ++) {
-            	JSONArray opt_array=base.executeQuery2JSONArray("select id,name,pic,is_answer from bs_exercise_option where exercise_library_id=? and isdel=0 order by id  " , new Object[]{strings[i]});
-                base.executeUpdateByDoc("bs_exercise_exam",
-                        new Doc().put("option_array",opt_array.toString()),new Doc().put("exercise_library_id", strings[i]).put("examination_id", bs_id));
+                        String[] strings = ids.split(",");
+                        for (int i = 0; i < strings.length; i ++) {
+                        	JSONArray opt_array=base.executeQuery2JSONArray("select id,name,pic,is_answer from bs_exercise_option where exercise_library_id=? and isdel=0 order by id  " , new Object[]{strings[i]});
+                            base.executeUpdateByDoc("bs_exercise_exam",
+                                    new Doc().put("option_array",opt_array.toString()),new Doc().put("exercise_library_id", strings[i]).put("examination_id", bs_id));
+                        }
+               	}
+            	}
             }
-
             base.commit();
             Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "发起考试", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
             backjson.put("type", true);

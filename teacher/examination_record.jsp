@@ -16,7 +16,7 @@
 	}
 	int examination_id=ru.getInt("examination_id");
 	Selectic selectic=new Selectic();
-	Doc examDoc=selectic.Get_Doc("id,name,type,question_num,class_ids,limit_time,end_time","bs_examination", " where isdel=0 and id=?","mysqlss",new Object[]{examination_id});
+	Doc examDoc=selectic.Get_Doc("id,name,type,question_num,class_id,limit_time,end_time","bs_examination", " where isdel=0 and id=?","mysqlss",new Object[]{examination_id});
 	if(examDoc==null||examDoc.isEmpty()){
 		out.print("	<script>alert(\"该试题不存在\");window.history.back(-1);</script>");
 		return;
@@ -25,28 +25,14 @@
 	int pages=ru.getInt("pages");
 	pages=pages==0?1:pages;
 	int pn=4;
-	String table="bs_students a left join bs_examination_answer b on a.id=b.student_id ";
+	String table="bs_students a  left join bs_examination c on a.class_id=c.class_id left join  bs_examination_answer b on c.id=b.examination_id";
 	String file="a.id,a.name,b.id,b.examination_id,b.time_use,is_right,is_commit,b.id as 'answer_id',b.commit_time";
-	StringBuffer whereBuffer=new StringBuffer(" a.isdel=0 and a.teacher_id=?  and b.examination_id=?");
+	StringBuffer whereBuffer=new StringBuffer(" a.isdel=0 and a.teacher_id=? and a.class_id=? and c.id=? ");
 	String order=" order by b.is_commit asc,a.id desc ";
 	List valueList=new ArrayList();
 	valueList.add(teacher_id);
+	valueList.add(examDoc.getIn("class_id"));
 	valueList.add(examination_id);
-    String[] idArr =StringUtil.strs2array(examDoc.get("class_ids"), ",");//考试的班级，找到这些班级中的学生
-    if(idArr!=null){
-    	StringBuffer wenhao=new StringBuffer("");
-    	for (int i = 0; i < idArr.length; i++) {
-            if (i == 0) {
-            	wenhao.append("?");
-            } else {
-            	wenhao.append(",?");
-            }
-            valueList.add(idArr[i]);
-        }
-    	if(idArr.length>0){
-    		whereBuffer.append(" and a.class_id in ( "+wenhao+" ) ");
-    	}
-    }
 	int counts=selectic.Get_count("a.id", table, whereBuffer.toString(), "mysqlss",valueList);
 	List<Doc> answerList=selectic.Get_List(pages, pn, counts, table, whereBuffer.toString(), file, order,"mysqlss",valueList);
 	int page_size=selectic.getPageSize(counts, pn);
@@ -77,7 +63,6 @@
         <%
         	if(answerList!=null){
         		for(Doc doc:answerList){
-        			System.out.print(doc.getIn("examination_id")+"<=---examination_id");
         			%>
         				 <div class="ex_two">
 				           <!--  <div class="ex_user"><img src="images/user.jpg"></div> -->
