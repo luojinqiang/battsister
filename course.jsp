@@ -85,7 +85,7 @@ $(function(){
 				for(int i=0;i<courselist.size();i++){
    					Doc doc=courselist.get(i);
    					%>
-   					<li class="main_con<%=i%3==0&&i!=0?"":" main_r"%>">
+   					<li class="main_con<%=(i+1)%4==0?"":" main_r"%>">
 						<img src="<%=doc.get("pic")%>"/>
 						<div class="main_txt" onclick="window.location.href='course_details.jsp?course_id=<%=doc.getIn("id")%>'">
 							<h3><%=doc.get("name")%></h3>
