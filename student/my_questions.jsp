@@ -17,6 +17,10 @@
         out.print(new QuestionApi().replyQuestion(request));
         return;
     }
+    if("del".equals(action)){//删除提问
+   	  	out.print(new QuestionApi().delQuestion(request));
+        return;
+    }
 %>
 <!doctype html>
 <html>
@@ -99,6 +103,7 @@
             <div id="zzjs_net1" class="q_shuru1">
                 <textarea name="" cols="" rows="" class="textarea_q" placeholder="请直接输入内容"></textarea>
                 <div class="rep_botton"><a onclick="userSave(this, '<%=doc.getIn("id")%>')">回复</a></div>
+                 <div class="del_botton"><a href="javascript:void(0)" onclick="delQuestion('<%=doc.getIn("id")%>',this)">删除</a></div>
             </div>
             <div class="clear"></div>
         </div>
@@ -127,6 +132,24 @@
                 }
             }, 500);
         },'json');
+    }
+    function delQuestion(id,obj){
+    	alert(id);
+    	if(confirm("你确定要删除该问题吗？")){
+    		$.ajax({ 
+                dataType: "json",
+                type: "post", 
+                url: "my_questions.jsp",
+                data: "action=del&id="+id,
+                success: function (msg) {
+                    if (msg.type) {
+                    	window.location.reload();
+                    } else {
+                        alert(msg.msg);
+                    }
+                }
+            });
+    	}
     }
 </script>
 </body>
