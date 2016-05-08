@@ -312,6 +312,24 @@ public class BasicType {
             case 4:
                 opt = "E";
                 break;
+            case 5:
+                opt = "F";
+                break;
+            case 6:
+                opt = "G";
+                break;
+            case 7:
+                opt = "H";
+                break;
+            case 8:
+                opt = "I";
+                break;
+            case 9:
+                opt = "J";
+                break;
+            case 10:
+                opt = "K";
+                break;
             default:
                 opt = "";
                 break;

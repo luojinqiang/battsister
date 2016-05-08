@@ -6,6 +6,7 @@
 <%@ page import="net.sf.json.JSONObject" %>
 <%@ page import="utils.UtilsTime" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.battsister.util.BasicType" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@include file="sys.jsp" %>
 <%
@@ -127,7 +128,6 @@
                             if (!examOptionArray.isEmpty()) {
                                 j = 0;
                                 for (Object o : examOptionArray) {
-                                    j++;
                                     optionObj = JSONObject.fromObject(o);
 
                                     String seleced = "";
@@ -139,7 +139,8 @@
                                             }
                                         }
                                     }
-                                    out.print("<li><input name=\"question_" + doc.getIn("id") + "\" type=\"" + (1 == type ? "checkbox" : "radio") + "\" value=\"" + optionObj.get("id") + "\"  class=\"input_radio\" " + seleced + ">" + j + "、" + optionObj.get("name") + "</li>");
+                                    out.print("<li><input name=\"question_" + doc.getIn("id") + "\" type=\"" + (1 == type ? "checkbox" : "radio") + "\" value=\"" + optionObj.get("id") + "\"  class=\"input_radio\" " + seleced + ">" + BasicType.getOption(j) + "、" + optionObj.get("name") + "</li>");
+                                    j++;
                                 }
                             }
                         } else {
@@ -159,10 +160,10 @@
 
                     %>
                     <li><input name="question_<%=doc.getIn("id")%>" type="radio" value="0" <%=isWrong%>
-                               class="input_radio">1、错误
+                               class="input_radio">A、错误
                     </li>
                     <li><input name="question_<%=doc.getIn("id")%>" type="radio" value="1" <%=isRight%>
-                               class="input_radio">2、正确
+                               class="input_radio">B、正确
                     </li>
                     <%
                         }

@@ -4,6 +4,7 @@
 <%@ page import="net.sf.json.JSONArray" %>
 <%@ page import="net.sf.json.JSONObject" %>
 <%@ page import="java.util.List" %>
+<%@ page import="com.battsister.util.BasicType" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@include file="sys.jsp" %>
 <%
@@ -122,7 +123,6 @@
                         if (!examOptionArray.isEmpty()) {
                             j = 0;
                             for (Object o : examOptionArray) {
-                                j++;
                                 optionObj = JSONObject.fromObject(o);
                                 if ("1".equals(optionObj.getString("is_answer"))) {
                                     if ("".equals(answerString)) {
@@ -140,7 +140,8 @@
                                         }
                                     }
                                 }
-                                out.print("<li><input name=\"question_" + doc.getIn("id") + "\" type=\"" + (1 == type ? "checkbox" : "radio") + "\" value=\"" + optionObj.get("id") + "\"  class=\"input_radio\" " + seleced + "><div class=\"da_an\"><p>" + j + "、" + optionObj.get("name") + "</p></div><div class=\"clear\"></div></li>");
+                                out.print("<li><input name=\"question_" + doc.getIn("id") + "\" type=\"" + (1 == type ? "checkbox" : "radio") + "\" value=\"" + optionObj.get("id") + "\"  class=\"input_radio\" " + seleced + "><div class=\"da_an\"><p>" + BasicType.getOption(j) + "、" + optionObj.get("name") + "</p></div><div class=\"clear\"></div></li>");
+                                j++;
                             }
                         }
                     } else {
@@ -165,12 +166,12 @@
                 %>
                 <li><input name="question_<%=doc.getIn("id")%>" type="radio" value="0" <%=isWrong%>
                            class="input_radio">
-                    <div class="da_an"><p>1、错误</p></div>
+                    <div class="da_an"><p>A、错误</p></div>
                     <div class="clear"></div>
                 </li>
                 <li><input name="question_<%=doc.getIn("id")%>" type="radio" value="1" <%=isRight%>
                            class="input_radio">
-                    <div class="da_an"><p>2、正确</p></div>
+                    <div class="da_an"><p>B、正确</p></div>
                     <div class="clear"></div>
                 </li>
                 <%

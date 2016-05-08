@@ -47,7 +47,7 @@
      	<div class="title_d">未参加的考试</div>
          <%
              Selectic selectic = new Selectic();
-             List<Doc> list = selectic.Get_List("id,name,limit_time,question_num"," bs_examination ", "where isdel=0 and end_time > ? and teacher_id in(select teacher_id from bs_students where id=? and isdel=0) and id not in (select examination_id from bs_examination_answer where student_id=?)", "mysqlss", new Object[]{AjaxXml.getTimestamp("now"), student_id, student_id});
+             List<Doc> list = selectic.Get_List("id,name,limit_time,question_num"," bs_examination ", "where isdel=0 and end_time > ? and teacher_id in(select teacher_id from bs_students where id=? and isdel=0) and class_id in(select class_id from bs_students where id=? and isdel=0) and id not in (select examination_id from bs_examination_answer where student_id=?)", "mysqlss", new Object[]{AjaxXml.getTimestamp("now"), student_id, student_id, student_id});
              if (list != null && !list.isEmpty()) {
                  Doc examDoc;
                  for (Doc doc : list) {
