@@ -1027,6 +1027,43 @@ public class TeacherApi {
         } finally {
             dbc.closeConn();
         }
+    }
     
+    /**
+     * 教师端--删除问题
+     * @param request
+     * @return
+     */
+    public JSONObject delQuestion(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        RequestUtil ru = new RequestUtil(request);
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--删除问题";
+        JSONObject backjson = new JSONObject();
+        try {
+            dbc.openConn();
+            base.setDbc(dbc);
+            Object teacher_id = request.getSession().getAttribute("teacher_id");
+            Doc teacherDoc = base.executeQuery2Docs("select id,username,course_flag from bs_teachers where id=? and isdel=0", new Object[]{teacher_id}, 1)[0];
+            if (teacherDoc == null || teacherDoc.isEmpty()) {
+                backjson.put("type", false);
+                backjson.put("msg", "教师账号不存在");
+                return backjson;
+            }
+            int id=ru.getInt("id");
+            base.executeUpdate("update bs_question set isdel=1 where id=? ",new Object[]{id});
+            backjson.put("type", true);
+            backjson.put("msg", "删除成功");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
     }
 }

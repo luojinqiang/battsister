@@ -7,6 +7,7 @@ import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
 import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
+
 import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,6 +92,43 @@ public class QuestionApi {
             return backjson;
         } catch (Exception e) {
             base.rollback();
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
+    }
+    /**
+     * 学生端--删除问题
+     * @param request
+     * @return
+     */
+    public JSONObject delQuestion(HttpServletRequest request){
+        Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        RequestUtil ru = new RequestUtil(request);
+        String ajaxRequest = "";
+        String logtitle = "派司德教育--学生端--删除问题";
+        JSONObject backjson = new JSONObject();
+        try {
+            dbc.openConn();
+            base.setDbc(dbc);
+            Object student_id = request.getSession().getAttribute("student_id");
+            Doc studentDoc = base.executeQuery2Docs("select teacher_id from bs_students where id=?", new Object[]{student_id}, 1)[0];
+            if (studentDoc == null || studentDoc.isEmpty()) {
+                backjson.put("type", false);
+                backjson.put("msg", "学生信息不存在,请重新登录");
+                return backjson;
+            }
+            int id=ru.getInt("id");
+            base.executeUpdate("update bs_question set isdel=1 where id=? ",new Object[]{id});
+            backjson.put("type", true);
+            backjson.put("msg", "删除成功");
+            return backjson;
+        } catch (Exception e) {
             e.printStackTrace();
             LogUtility.log(e, logtitle + "\r\n" + ajaxRequest + "\r\n ");
             backjson.put("type", false);
