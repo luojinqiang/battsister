@@ -15,6 +15,11 @@
 		out.print(teacherApi.replyStudent(request));
 		return;
 	}
+	if("del".equals(action)){//删除问题
+		TeacherApi teacherApi=new TeacherApi();
+		out.print(teacherApi.delQuestion(request));
+		return;
+	}
 	Object teacher_id=session.getAttribute("teacher_id");
 	Selectic selectic=new Selectic();
 	if(teacher_id==null){
@@ -130,7 +135,7 @@ if(targetObj.style.display!="none"){
 <body>
 <!-- 引入头部 -->
 <jsp:include page="head.jsp">
-	<jsp:param value="1" name="type"/>
+	<jsp:param value="2" name="type"/>
 </jsp:include>
 <!-- 引入第二个头部 -->
 <%@include file="head1.jsp" %>
@@ -216,6 +221,7 @@ if(targetObj.style.display!="none"){
             %>
             <div id="zzjs_net1" class="q_shuru"><textarea name="content" cols="" rows="" class="textarea_q"  placeholder="请直接输入您的回复内容"></textarea></div>
            <div class="rep_botton"><a onclick="reply(this,'<%=doc.getIn("id")%>');">回复</a></div>
+           <div class="del_botton"><a href="javascript:void(0)" onclick="delQuestion('<%=doc.getIn("id")%>',this)">删除</a></div>
                 <div class="clear"></div>
          </div>
   	  			<%
@@ -266,6 +272,24 @@ if(targetObj.style.display!="none"){
                 }
             }, 500);
         },'json');
+    }
+    
+    function delQuestion(id,obj){
+    	if(confirm("你确定要删除该问题吗？")){
+    		$.ajax({ 
+                dataType: "json",
+                type: "post", 
+                url: "questions.jsp",
+                data: "action=del&id="+id,
+                success: function (msg) {
+                    if (msg.type) {
+                    	window.location.reload();
+                    } else {
+                        alert(msg.msg);
+                    }
+                }
+            });
+    	}
     }
 </script>
 </body>
