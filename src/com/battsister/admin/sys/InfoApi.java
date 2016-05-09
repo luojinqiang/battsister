@@ -129,6 +129,7 @@ public class InfoApi {
 	            String content = ru.getString("contentx").trim();
 	            content = AjaxXml.unescape(content);
 	            content = StringUtil.replace(content, "^…", "&");
+	            content="<style type=\"text/css\">img {max-width:100%;}</style>"+content;
 	            Doc updateDoc=new Doc();
 	            if(type==1){
 	            	updateDoc.put("course_outline", content);
