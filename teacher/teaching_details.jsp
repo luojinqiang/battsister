@@ -39,7 +39,7 @@
 						JSONArray hasChapterArray=hasJson.optJSONArray("chapters");
 						if(hasChapterArray!=null){
 							for(int j=0;j<hasChapterArray.size();j++){
-								Doc chapterDoc=selectic.Get_Doc("id,name,course_id,video_path,animation_path,pics,ppt_path,word_path", "bs_chapter", " where id=?","mysqlss",new Object[]{hasChapterArray.optJSONObject(j).optInt("chapter_id")});
+								Doc chapterDoc=selectic.Get_Doc("id,name,course_id,video_path,animation_path,pics,ppt_path,word_path", "bs_chapter", " where id=? ","mysqlss",new Object[]{hasChapterArray.optJSONObject(j).optInt("chapter_id")});
 								if(chapterDoc!=null&&!chapterDoc.isEmpty()){
 									JSONObject chapterJson=new JSONObject();
 									chapterJson.put("id",chapterDoc.getIn("id"));

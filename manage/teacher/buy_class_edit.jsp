@@ -96,7 +96,7 @@
                		course_flag_array=JSONArray.fromObject(course_flag);
                		course_flag_array=course_flag_array==null?new JSONArray():course_flag_array;
                	}
-               	List<Doc> courseList=utildb.Get_List("id,name", "bs_course", " where isdel=0","mysqlss");
+               	List<Doc> courseList=utildb.Get_List("id,name", "bs_course", " where isdel=0 order by order_num asc ","mysqlss");
                	if(courseList!=null){
                		for(int i=0;i<courseList.size();i++){
                			Doc courseDoc=courseList.get(i);
