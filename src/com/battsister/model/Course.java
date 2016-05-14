@@ -9,6 +9,8 @@ import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.StringUtil;
 import com.battsister.admin.sys.Logdb;
+import com.battsister.util.SetupUtil;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -105,6 +107,7 @@ public class Course {
             }
             String[] dir = ru.getStrings("word_dir");
             String[] titles = ru.getStrings("title");
+            String []order_nos=ru.getStrings("order_no");
             JSONArray array = new JSONArray();
             JSONObject object;
             if (dir != null && dir.length > 0) {
@@ -113,10 +116,12 @@ public class Course {
                     object = new JSONObject();
                     object.put("word_dir", s);
                     object.put("title", titles[i]);
+                    object.put("order_no", order_nos[i]);
                     array.add(object);
                     i++;
                 }
             }
+            array=SetupUtil.sortJSONArray(array, "order_no",2);
             base.executeUpdate("update bs_course set practical_word_path=? where id=? ", new Object[]{array.toString(), id});
             backjson.put("type", true);
             backjson.put("msg", "操作成功");
@@ -381,7 +386,7 @@ public class Course {
         }
     }
 
-    public static JSONArray genFilePath(String filePath_str, String title_str, String order_no_str) {
+    public static JSONArray genFilePath(String filePath_str, String title_str, String order_no_str) throws Exception {
         String titles[] = null;
         String filePaths[];
         String orderNos[] = null;
@@ -413,6 +418,6 @@ public class Course {
                 }
             }
         }
-        return filePath;
+        return SetupUtil.sortJSONArray(filePath, "order_no", 2);
     }
 }

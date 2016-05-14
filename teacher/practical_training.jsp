@@ -39,19 +39,19 @@
                         course_array.add(course_json);
                     }
                 }
-                if (course_id == 0) {
+         /*        if (course_id == 0) {
                     if (i == 0) {//第一次进来
                         getJson = course_json;
                     }
-                } else {//选择课程后
+                } else {//选择课程后 */
                     if (course_id == course_json.optInt("id")) {
                         getJson = course_json;
                     }
-                }
+               /*  } */
             }
         }
     }
-    if (getJson == null) {
+    if (course_array == null||course_array.size()<=0) {
         out.print("	<script>alert(\"您尚未购买课程\");window.location.href='/login.jsp';</script>");
         return;
     }
@@ -93,11 +93,11 @@
                     for (int i = 0; i < course_array.size(); i++) {
                 %>
                 <li onclick="hrefUrl('<%=course_array.getJSONObject(i).optInt("id")%>');" id="l_<%=course_array.getJSONObject(i).optInt("id")%>">
-                    <h4 <%=getJson.optInt("id") == course_array.getJSONObject(i).optInt("id") ? "class=\"selected\"" : ""%>>
+                    <h4 <%=getJson!=null&&getJson.optInt("id") == course_array.getJSONObject(i).optInt("id") ? "class=\"selected\"" : ""%>>
                         <%=course_array.getJSONObject(i).optString("name")%>
                     </h4>
 
-                    <div class="list-item <%=getJson.optInt("id") == course_array.getJSONObject(i).optInt("id") ? "" : "none"%>">
+                    <div class="list-item <%=getJson!=null&&getJson.optInt("id") == course_array.getJSONObject(i).optInt("id") ? "" : "none"%>">
                         <%
                             String practical_word_path = course_array.getJSONObject(i).optString("practical_word_path");
                             if (practical_word_path != null && !"".equals(practical_word_path)) {
@@ -122,7 +122,10 @@
             </script>
         </div>
     </div>
-    <div class="right_w">
+   	<%
+   		if(getJson!=null){
+   			%>
+   			 <div class="right_w">
         <div class="project_w">
             <div class="title_c"><%=getJson.opt("name")%>
             </div>
@@ -130,7 +133,7 @@
                 <div class="doc" id="doc" style="margin-top: -20px;width: 85%;margin-left: 10px;"></div>
             </div>--%>
             <div class="project_con">
-                <h5>更多相关资料</h5>
+                <h5>视频资料</h5>
                 <ul class="ziliao">
                     <%
                         if (getJson.optString("practical_video_path") != null && !"".equals(getJson.optString("practical_video_path"))) {
@@ -164,6 +167,9 @@
             </div>
         </div>
     </div>
+   			<%
+   		}
+   	%>
     <div class="clear"></div>
 </div>
 <!-- 引入尾部 -->

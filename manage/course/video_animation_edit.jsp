@@ -119,24 +119,27 @@
         }
         function getFilesByDir(obj) {
             var chapterDir = $(obj).val();
+            var dirName=$('#dirName').val();
             for (var i = 0; i < dirArray.length; i++) {
-                var chapterDirArray = dirArray[i].chapterDirArray;
-                if (chapterDirArray != undefined) {
-                    for (var s = 0; s < chapterDirArray.length; s++) {
-                        if (chapterDirArray[s].chapterDirName == chapterDir) {
-                            var files = chapterDirArray[s].fileArray;
-                            $("#fileName").empty();
-                            if (files.length > 0) {
-                                $("#fileName").append("<option value=\"0\">--请选择文件--</option>");
-                                for (var j = 0; j < files.length; j++) {
-                                    $("#fileName").append("<option value=\"" + files[j].filePath + "\">" + files[j].fileName + "</option>");
-                                }
-                            } else {
-                                $("#fileName").append("<option value=\"0\">--暂无文件--</option>");
-                            }
-                        }
-                    }
-                }
+               if(dirName==dirArray[i].courseDirName){
+            	   var chapterDirArray = dirArray[i].chapterDirArray;
+                   if (chapterDirArray != undefined) {
+                       for (var s = 0; s < chapterDirArray.length; s++) {
+                           if (chapterDirArray[s].chapterDirName == chapterDir) {
+                               var files = chapterDirArray[s].fileArray;
+                               $("#fileName").empty();
+                               if (files.length > 0) {
+                                   $("#fileName").append("<option value=\"0\">--请选择文件--</option>");
+                                   for (var j = 0; j < files.length; j++) {
+                                       $("#fileName").append("<option value=\"" + files[j].filePath + "\">" + files[j].fileName + "</option>");
+                                   }
+                               } else {
+                                   $("#fileName").append("<option value=\"0\">--暂无文件--</option>");
+                               }
+                           }
+                       }
+                   }
+               }
             }
         }
     </script>
@@ -204,7 +207,7 @@
             <ul class="row1 clearfix">
                 <li>
                     文件夹一：
-                    <select name="dirName" onchange="getChapterDirByDir(this)">
+                    <select name="dirName" onchange="getChapterDirByDir(this)" id="dirName">
                         <option value="">--请选择文件夹--</option>
                         <%
                             if (dirArray != null) {
@@ -249,11 +252,11 @@
                     }
                     JSONArray video_array = JSONArray.fromObject(video_path);
                     video_array = video_array == null ? new JSONArray() : video_array;
-                    if (filePaths != null && titles != null) {
+                    if (filePaths != null && titles != null&&order_nos!=null) {
                         String ss[] = filePaths.split(",");
                         String ts[] = titles.split(",");
                         String os[] = order_nos.split(",");
-                        if (ss != null && ts != null) {
+                        if (ss != null && ts != null&&os!=null) {
                             for (int i = 0; i < ss.length; i++) {
                                 if (!"".equals(ss[i])) {
                                     JSONObject json = new JSONObject();
@@ -269,7 +272,7 @@
                             }
                         }
                     }
-                    video_array = SetupUtil.sortJSONArray(video_array, "order_no", 2);
+                   /*  video_array = SetupUtil.sortJSONArray(video_array, "order_no", 2); */
                     for (int i = 0; i < video_array.size(); i++) {
                         JSONObject json = video_array.getJSONObject(i);
                 %>

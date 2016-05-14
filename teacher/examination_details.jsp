@@ -157,6 +157,8 @@ if(targetObj.style.display!="none"){
        %>
        <%=page_size>0?"<li><a href=\""+(pages!=page_size?"examination_details.jsp?pages="+(pages+1)+"&examination_id="+examination_id:"javascript:void(0);")+"\">></a></li>":""%>
     </ul>
+    </div>
+    </div>
 <!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
 

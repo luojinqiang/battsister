@@ -159,7 +159,7 @@
     $(document).ready(function () {
         $('#smallfileDetail').html('<%=addBuffer%>');
         $('.del').off('click').on('click', function () {
-            $(this).parent().parent();
+            $(this).parent().parent().remove();
         });
     });
 </script>

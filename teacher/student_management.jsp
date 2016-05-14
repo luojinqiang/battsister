@@ -28,7 +28,8 @@ int pages=ru.getInt("pages");
 pages=pages==0?1:pages;
 int counts=selectic.Get_count("id", "bs_students", " teacher_id=? and isdel=0", "mysqlss",new Object[]{teacher_id});
 StringBuffer whereBuffer=new StringBuffer("a.teacher_id=? and a.isdel=0 and b.isdel=0 ");
-String seacherWord=ru.getString("seacherWord");
+String seacherWord=ru.getString("seacherWord");//学生名字查找
+int class_id=ru.getInt("class_id");//班级id查找
 List valueList=new ArrayList();
 valueList.add(teacher_id);
 if(seacherWord!=null&&!"".equals(seacherWord)){
@@ -36,8 +37,14 @@ if(seacherWord!=null&&!"".equals(seacherWord)){
 	valueList.add("%"+seacherWord+"%");
 	valueList.add("%"+seacherWord+"%");
 }
+if(class_id>0){
+	whereBuffer.append(" and a.class_id=? ");
+	valueList.add(class_id);
+}
 List<Doc> studentList=selectic.Get_List(pages, 10, counts, "bs_students a left join bs_class b on a.class_id=b.id",whereBuffer.toString(), "a.id,a.name,a.username,a.sex,a.mobile,b.class_name"," order by a.id desc ","mysqlss",valueList);
 int pageSize=selectic.getPageSize(counts,10);
+/*教师的班级*/
+List<Doc> classList=selectic.Get_List("id,class_name","bs_class"," where isdel=0 and teacher_id=? ","mysqlss",new Object[]{teacher_id});
 %>
 <!doctype html>
 <html>
@@ -64,6 +71,16 @@ int pageSize=selectic.getPageSize(counts,10);
        	<div class="stu_botton1"><a href="javascript:delAll();">删除学员</a></div>
       	<div class="stu_top_right">
       	<form action="" method="post">
+      	<select name="class_id" class="select_c">
+              <option value="0">全部班级</option>
+            	<%
+            		if(classList!=null){
+            			for(Doc doc:classList){
+            				out.print("<option value=\""+doc.getIn("id")+"\""+(class_id==doc.getIn("id")?"selected=\"selected\"":"")+">"+(doc.get("class_name"))+"</option>");
+            			}
+            		}
+            	%>
+           </select>
         	<input name="seacherWord" value="<%=seacherWord%>" type="text" class="input_stu" placeholder="输入学生学号、姓名进行搜索">
           	<input type="submit" class="tijiao" value="提交">
         </form>

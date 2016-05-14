@@ -51,6 +51,7 @@ List<Doc> classList=selectic.Get_List("id,class_name,create_time", "bs_class", "
 <div class="container">
   	<div class="stu_top">
     	<div class="stu_botton"><a href="increase_class.jsp">新增班级</a></div>
+    	<div class="stu_botton"><a href="student_management.jsp">学生管理</a></div>
         <div class="clear"></div>
     </div>
     <div class="stu_con">
