@@ -206,15 +206,19 @@ public class ExaminationApi {
                                 examAnswerArray.add(optionObj.getString("id"));
                             }
                         }
-                        myOptionArray = answerObj.getJSONArray(doc.getString("id"));
-                        if (myOptionArray.equals(examAnswerArray)) {
+                        myOptionArray = answerObj.opt(doc.getString("id")) == null ? null : answerObj.getJSONArray(doc.getString("id"));
+                        if (myOptionArray != null && myOptionArray.equals(examAnswerArray)) {
                             isOk = true;
                         } else {
                             isOk = false;
                         }
                     } else {
-                        if (answerObj.getJSONArray(doc.getString("id")).contains(doc.getString("answer"))) {
-                            isOk = true;
+                        if (answerObj.opt(doc.getString("id")) != null) {
+                            if (answerObj.getJSONArray(doc.getString("id")).contains(doc.getString("answer"))) {
+                                isOk = true;
+                            } else {
+                                isOk = false;
+                            }
                         } else {
                             isOk = false;
                         }

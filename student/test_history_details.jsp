@@ -126,9 +126,9 @@
                                 optionObj = JSONObject.fromObject(o);
                                 if ("1".equals(optionObj.getString("is_answer"))) {
                                     if ("".equals(answerString)) {
-                                        answerString = "" + j;
+                                        answerString = "" + BasicType.getOption(j);
                                     } else {
-                                        answerString += "," + j;
+                                        answerString += "," + BasicType.getOption(j);
                                     }
                                 }
                                 String seleced = "";
@@ -159,9 +159,9 @@
                             }
                         }
                         if (1 == doc.getIn("answer")) {
-                            answerString = "2";
+                            answerString = "B";
                         } else {
-                            answerString = "1";
+                            answerString = "A";
                         }
                 %>
                 <li><input name="question_<%=doc.getIn("id")%>" type="radio" value="0" <%=isWrong%>

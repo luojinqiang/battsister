@@ -666,3 +666,8 @@ h6 { font-size:12px; font-weight:normal; padding:0px; margin:0px;}
 
 
 
+.test_c { margin-bottom:10px; background:#f3f3f3;}
+.test_c dl { padding:10px;}
+.test_c dt { margin-bottom:10px; font-weight:bold;}
+.test_c dd { float:left; margin-right:30px; display:block; padding:5px 10px; border:1px dashed #bbb;}
+.test_c dd a { display:block; cursor:pointer;}

@@ -75,7 +75,7 @@
 
 <div class="container">
     <div class="info">
-        <a href="student_home.jsp">首页</a><em>></em><a href="test_history.jsp">考试记录</a><em>></em><a href="take_test.jsp">参加考试</a>
+        <a href="student_home.jsp">首页</a><em>></em><a href="test_history.jsp">考试记录</a><em>></em><a href="take_test.jsp?examinationId=<%=examinationId%>">参加考试</a>
     </div>
 </div>
 
@@ -98,8 +98,7 @@
                 List<Doc> examList = selectic.Get_List("id,examination_id,name,name_pic,type,option_array,answer,order_num,thoughts ", " bs_exercise_exam", " where examination_id=? and isdel=0 order by type asc", "mysqlss", new Object[]{examinationId});
                 if (examList != null && !examList.isEmpty()) {
             %>
-            <div class="test_title">共<%=examList.size()%>题<em>已完成了<span id="questionNum"><%=questionNum%></span>题</em>
-            </div>
+            <div class="test_title">共<%=examList.size()%>题<em>已完成了<span id="questionNum"><%=questionNum%></span>题</em></div>
             <%
 
                 int i = 0;
@@ -110,11 +109,28 @@
                 JSONArray examOptionArray;
                 JSONObject optionObj;
                 JSONArray optionArray;
+                String completeExamStr = "";
+                String uncompleteExamStr = "";
                 for (Doc doc : examList) {
                     i++;
                     type = doc.getIn("type");
+                    int id = doc.getIn("id");
+                    String u_style = "";
+                    String c_style = "style=\"display:block;\"";
+                    if (answerObj.isEmpty()) {
+                        u_style = "style=\"display:none;\"";
+                    } else {
+                        if (answerObj.get(String.valueOf(id)) == null) {
+                            u_style = "style=\"display:none;\"";
+                        } else {
+                            c_style = "style=\"display:none;\"";
+                        }
+                    }
+
+                    completeExamStr += "<dd id=\"complete_"+id+"\" "+u_style+"><a onclick=\"forwardToExam(this,"+id+");\">"+i+"</a></dd>";
+                    uncompleteExamStr += "<dd id=\"uncomplete_"+id+"\" "+c_style+" uncomplete><a onclick=\"forwardToExam(this,"+id+");\">"+i+"</a></dd>";
             %>
-            <div id="exam_<%=doc.getIn("id")%>" <%=1 != i ? "style=\"display:none;\"" : ""%>>
+            <div class="_examList" id="exam_<%=id%>" <%=1 != i ? "style=\"display:none;\"" : ""%> selecter>
                 <div class="ex_one_title">
                     <em><%=type == 1 ? "多选" : type == 2 ? "判断题" : "单选"%>
                     </em>
@@ -132,14 +148,14 @@
 
                                     String seleced = "";
                                     if (!answerObj.isEmpty()) {
-                                        if (answerObj.get(String.valueOf(doc.getIn("id"))) != null) {
-                                            optionArray = JSONArray.fromObject(answerObj.get(String.valueOf(doc.getIn("id"))));
+                                        if (answerObj.get(String.valueOf(id)) != null) {
+                                            optionArray = JSONArray.fromObject(answerObj.get(String.valueOf(id)));
                                             if (optionArray.contains(optionObj.getString("id"))) {
                                                 seleced = "checked";
                                             }
                                         }
                                     }
-                                    out.print("<li><input name=\"question_" + doc.getIn("id") + "\" type=\"" + (1 == type ? "checkbox" : "radio") + "\" value=\"" + optionObj.get("id") + "\"  class=\"input_radio\" " + seleced + ">" + BasicType.getOption(j) + "、" + optionObj.get("name") + "</li>");
+                                    out.print("<li><input name=\"question_" + id + "\" type=\"" + (1 == type ? "checkbox" : "radio") + "\" value=\"" + optionObj.get("id") + "\"  class=\"input_radio\" " + seleced + ">" + BasicType.getOption(j) + "、" + optionObj.get("name") + "</li>");
                                     j++;
                                 }
                             }
@@ -147,8 +163,8 @@
                             isWrong = "";
                             isRight = "";
                             if (!answerObj.isEmpty()) {
-                                if (answerObj.get(String.valueOf(doc.getIn("id"))) != null) {
-                                    optionArray = JSONArray.fromObject(answerObj.get(String.valueOf(doc.getIn("id"))));
+                                if (answerObj.get(String.valueOf(id)) != null) {
+                                    optionArray = JSONArray.fromObject(answerObj.get(String.valueOf(id)));
                                     if (optionArray.contains("0")) {
                                         isWrong = "checked";
                                     }
@@ -159,10 +175,10 @@
                             }
 
                     %>
-                    <li><input name="question_<%=doc.getIn("id")%>" type="radio" value="0" <%=isWrong%>
+                    <li><input name="question_<%=id%>" type="radio" value="0" <%=isWrong%>
                                class="input_radio">A、错误
                     </li>
-                    <li><input name="question_<%=doc.getIn("id")%>" type="radio" value="1" <%=isRight%>
+                    <li><input name="question_<%=id%>" type="radio" value="1" <%=isRight%>
                                class="input_radio">B、正确
                     </li>
                     <%
@@ -174,27 +190,27 @@
                         if (i == examList.size()) {
                     %>
                     <div class="test_botton"><a
-                            onclick="nextExam('<%=doc.getIn("id")%>', '<%=examList.get(i - 2).getIn("id")%>', '<%=type%>', 'back')">上一题</a>
+                            onclick="nextExam('<%=id%>', '<%=examList.get(i - 2).getIn("id")%>', '<%=type%>', 'back')">上一题</a>
                     </div>
                     <div class="test_botton2"><a
-                            onclick="examCommit('<%=doc.getIn("id")%>', '<%=type%>', 'next');">交卷</a></div>
+                            onclick="examCommit('<%=id%>', '<%=type%>', 'next');">交卷</a></div>
                     <div class="clear"></div>
                     <%
                     } else if (0 == (i - 1)) {
                     %>
                     <%--<div class="test_botton1"><a>没有了</a></div>--%>
                     <div class="test_botton"><a
-                            onclick="nextExam('<%=doc.getIn("id")%>', '<%=examList.get(i).getIn("id")%>', '<%=type%>', 'next')">下一题</a>
+                            onclick="nextExam('<%=id%>', '<%=examList.get(i).getIn("id")%>', '<%=type%>', 'next')">下一题</a>
                     </div>
                     <div class="clear"></div>
                     <%
                     } else {
                     %>
                     <div class="test_botton"><a
-                            onclick="nextExam('<%=doc.getIn("id")%>', '<%=examList.get(i-2).getIn("id")%>', '<%=type%>', 'back')">上一题</a>
+                            onclick="nextExam('<%=id%>', '<%=examList.get(i-2).getIn("id")%>', '<%=type%>', 'back')">上一题</a>
                     </div>
                     <div class="test_botton"><a
-                            onclick="nextExam('<%=doc.getIn("id")%>', '<%=examList.get(i).getIn("id")%>', '<%=type%>', 'next')">下一题</a>
+                            onclick="nextExam('<%=id%>', '<%=examList.get(i).getIn("id")%>', '<%=type%>', 'next')">下一题</a>
                     </div>
                     <div class="clear"></div>
                     <%
@@ -204,6 +220,22 @@
             </div>
             <%
                     }
+                    %>
+            <div class="test_c">
+                <dl>
+                    <dt>还未完成的试题</dt>
+                    <%=uncompleteExamStr%>
+                    <div class="clear" id="uncompleteExamStr"></div>
+                </dl>
+            </div>
+            <div class="test_c">
+                <dl>
+                    <dt>已经完成的试题</dt>
+                    <%=completeExamStr%>
+                    <div class="clear" id="completeExamStr"></div>
+                </dl>
+            </div>
+            <%
                 }
             %>
 
@@ -221,11 +253,18 @@
 </div>
 
 <script src="../manage/js/sys.js"></script>
+<script src="/front_style/js/jquery.contextmenu.js"></script>
 <script type="text/javascript">
     /*window.onbeforeunload = function(event) {
         event = event || window.event;
         event.returnValue = '';
     }*/
+    var menu1 = [
+        /*{'刷新页面':function(menuItem,menu) { window.location.reload(); } }*/
+    ];
+    $(function() {
+        $(this).contextMenu(menu1,{theme:'vista'});
+    });
 
     //倒计时
     var c = (parseInt($('#h').html()) * 60 * 60) + (parseInt($('#m').html()) * 60) + parseInt($('#s').html());
@@ -236,7 +275,7 @@
         c --;
         s ++;
         $('#limit_time').html(secondToString(c));
-        if (0 == c) {
+        if (0 == c || -1 == c) {
             stopInterval(sId);
             //alert('time out');
             commitExam();
@@ -314,13 +353,14 @@
             }
             $.post('?', 'action=answerCommit&qid=' + obj + '&aid=' + aid + '&type=' + type + '&examinationId=<%=examinationId%>', function (data) {
                 if (!data.type) {
-                    alert(data.msg);
                     if (data.errorCode == -1) {
                         window.location.href = '/login.jsp';
                     }
                     return false;
                 } else {
                     $('#questionNum').html(data.questionNum);
+                    $('#complete_' + obj).show();
+                    $('#uncomplete_' + obj).hide();
                 }
             }, 'json');
         }
@@ -329,6 +369,17 @@
 
     function examCommit(obj, type, opt) {
         if (answerCommit(obj, type, opt)) {
+            var re = false;
+            $('*[uncomplete]').each(function () {
+                if ($(this).attr('style') == 'display:block;') {
+                    re = true;
+                }
+            });
+
+            if (re) {
+                alert('您还有未答题的');
+                return false;
+            }
             $('#questionList').hide();
             $('#tips').show();
         }
@@ -345,6 +396,12 @@
                 window.location.href = 'test_history_details.jsp?examinationId=<%=examinationId%>';
             }
         }, 'json');
+    }
+    function forwardToExam(obj,id) {
+        $('*[selecter]').each(function () {
+            $(this).attr('style', 'display:none');
+        });
+        $('#exam_'+ id).show();
     }
 </script>
 
