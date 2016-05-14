@@ -124,7 +124,8 @@
                                         for (int i = 0; i < pathArray.size(); i++) {
                                             path_json = pathArray.getJSONObject(i);
                                             addBuffer.append("<div style=\"margin-top:10px;\"><div>标题：<input type=\"text\" name=\"title\" style=\"width:120;\" value=\"" + path_json.optString("title") + "\"/>" +
-                                                    "</div><a href=\"/pdf/web/viewer.html?file=" + path_json.optString("word_dir") + "\" target=\"_blank\"><img src=\"/public/images/word.png\"" +
+                                                   	"  排序：<input style=\"max-width: 30px;\" type=\"number\" name=\"order_no\" value=\""+path_json.optInt("order_no")+"\">"
+                                            		+ "</div><a href=\"/pdf/web/viewer.html?file=" + path_json.optString("word_dir") + "\" target=\"_blank\"><img src=\"/public/images/word.png\"" +
                                                     " height=150></a><div class=\"del\">删除</div><input type=\"hidden\" name=\"word_dir\" value=\"" +
                                                     "" + path_json.optString("word_dir") + " \" /><input type=\"hidden\" name=\"num\" value=\"" + path_json.optInt("num") + "\"/></div>");
                                         }
@@ -141,7 +142,7 @@
             <script type="text/javascript">
 
                 var callback = function (imgpath, realName) {
-                    var append = '<div style="margin-top:10px;"><div>标题：<input type="text" name="title" style="width:120px;" value="' + realName + '"/></div><a href="/pdf/web/viewer.html?file=' + (imgpath) + '" target="_blank"><img src="'
+                    var append = '<div style="margin-top:10px;"><div>标题：<input type="text" name="title" style="width:120px;" value="' + realName + '"/>排序：<input type="number" name="order_no" style="max-width:30px;" /></div><a href="/pdf/web/viewer.html?file=' + (imgpath) + '" target="_blank"><img src="'
                             + '/public/images/word.png'
                             + '" height=150></a><div class="del">删除</div><input type="hidden" name="word_dir" value="'
                             + imgpath + '" /></div>';

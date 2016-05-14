@@ -9,10 +9,13 @@ import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.StringUtil;
 import com.battsister.model.Course;
+import com.battsister.util.SetupUtil;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,9 +114,11 @@ public class Chapter {
             String title_str = ru.getString("title_str");
             String pic_str = ru.getString("pic_str");
             String num_str = ru.getString("num_str");
+            String order_str=ru.getString("order_str");
             String titles[] = null;
             String pics[] = null;
             String nums[] = null;
+            String order_nos[]=null;
             JSONArray pathArray = new JSONArray();
             if (pic_str != null) {
                 pics = pic_str.split(",");
@@ -122,6 +127,9 @@ public class Chapter {
                 }
                 if (num_str != null) {
                     nums = num_str.split(",");
+                }
+                if(order_str!=null){
+                	order_nos = order_str.split(",");
                 }
                 if (pics != null) {
                     for (int i = 0; i < pics.length; i++) {
@@ -138,11 +146,17 @@ public class Chapter {
                             } else {
                                 json.put("num", 0);
                             }
+                            if (order_nos != null && order_nos.length > i) {
+                                json.put("order_no", order_nos[i]);
+                            } else {
+                                json.put("order_no", 0);
+                            }
                             pathArray.add(json);
                         }
                     }
                 }
             }
+            pathArray=SetupUtil.sortJSONArray(pathArray,"order_no", 2);
             base.executeUpdate("update bs_chapter set ppt_path=? where id=? ", new Object[]{pathArray.toString(), id});
             Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             backjson.put("type", true);
@@ -280,9 +294,11 @@ public class Chapter {
             String title_str = ru.getString("title_str");
             String word_str = ru.getString("word_str");
             String num_str = ru.getString("num_str");
+            String order_str=ru.getString("order_str");
             String titles[] = null;
             String pics[] = null;
             String nums[] = null;
+            String order_nos[]=null;
             JSONArray pathArray = new JSONArray();
             if (word_str != null) {
                 pics = word_str.split(",");
@@ -291,6 +307,9 @@ public class Chapter {
                 }
                 if (num_str != null) {
                     nums = num_str.split(",");
+                }
+                if (order_str != null) {
+                    order_nos = order_str.split(",");
                 }
                 if (pics != null) {
                     for (int i = 0; i < pics.length; i++) {
@@ -307,11 +326,17 @@ public class Chapter {
                             } else {
                                 json.put("num", 0);
                             }
+                            if (order_nos != null && order_nos.length > i) {
+                                json.put("order_no", order_nos[i]);
+                            } else {
+                                json.put("order_no", 0);
+                            }
                             pathArray.add(json);
                         }
                     }
                 }
             }
+            pathArray=SetupUtil.sortJSONArray(pathArray, "order_no",2);
             base.executeUpdate("update bs_chapter set word_path=? where id=? ", new Object[]{pathArray.toString(), id});
             Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             backjson.put("type", true);
