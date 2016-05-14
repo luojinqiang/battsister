@@ -9,6 +9,8 @@ import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.StringUtil;
 import com.battsister.admin.sys.Logdb;
+import com.battsister.util.SetupUtil;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -381,7 +383,7 @@ public class Course {
         }
     }
 
-    public static JSONArray genFilePath(String filePath_str, String title_str, String order_no_str) {
+    public static JSONArray genFilePath(String filePath_str, String title_str, String order_no_str) throws Exception {
         String titles[] = null;
         String filePaths[];
         String orderNos[] = null;
@@ -413,6 +415,6 @@ public class Course {
                 }
             }
         }
-        return filePath;
+        return SetupUtil.sortJSONArray(filePath, "order_no", 2);
     }
 }
