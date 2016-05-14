@@ -23,6 +23,9 @@
 <meta name="description" content="#" />
 <link href="../front_style/css/style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="../front_style/js/jquery.min.js"></script>
+       <script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 
 <body>
@@ -68,7 +71,7 @@
 <script>
     function userSave(obj) {
         if ($('textarea[name=content]').val().length < 10) {
-            alert('请输入10个字以上哦');
+        	art.dialog.alert('请输入10个字以上哦');
             return;
         }
         $(obj).html('提交中...').attr('onclick', 'void(0);');

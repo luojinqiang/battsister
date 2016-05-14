@@ -31,7 +31,9 @@
     <meta name="description" content="#"/>
     <link href="../front_style/css/style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="../front_style/js/jquery.min.js"></script>
-
+   <script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 
 <body>
@@ -118,7 +120,7 @@
     function userSave(obj, id) {
         var content = $(obj).parent().parent().find('textarea').val();
         if (content == '') {
-            alert('请输入要回复的内容');
+        	art.dialog.alert('请输入要回复的内容');
             return false;
         }
         $(obj).html('提交中...').attr('onclick', 'void(0);');
@@ -134,22 +136,36 @@
         },'json');
     }
     function delQuestion(id,obj){
-    	alert(id);
-    	if(confirm("你确定要删除该问题吗？")){
-    		$.ajax({ 
-                dataType: "json",
-                type: "post", 
-                url: "my_questions.jsp",
-                data: "action=del&id="+id,
-                success: function (msg) {
-                    if (msg.type) {
-                    	window.location.reload();
-                    } else {
-                        alert(msg.msg);
-                    }
+    	art.dialog({
+            id: 'delID',
+            content: '你确定要删除该问题吗？',
+            lock: true,
+            button: [
+                {
+                    name: '确定',
+                    callback: function () {
+                    	$.ajax({ 
+                            dataType: "json",
+                            type: "post", 
+                            url: "my_questions.jsp",
+                            data: "action=del&id="+id,
+                            success: function (msg) {
+                                if (msg.type) {
+                                	window.location.reload();
+                                } else {
+                                	art.dialog.alert(msg.msg);
+                                }
+                            }
+                        });
+                        return false;
+                    },
+                    focus: true
+                },
+                {
+                    name: '取消'
                 }
-            });
-    	}
+            ]
+        });
     }
 </script>
 </body>

@@ -32,6 +32,9 @@
 <meta name="description" content="#" />
 <link href="../front_style/css/style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="../front_style/js/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 
 <body>
@@ -101,15 +104,15 @@
 
     function userSave(obj) {
         if ($('select[name=course_id]').val() == '0') {
-            alert('请选择课程');
+        	art.dialog.alert('请选择课程');
             return false;
         }
         if ($('select[name=chapter_id]').val() == '0') {
-            alert('请选择章节');
+        	art.dialog.alert('请选择章节');
             return false;
         }
         if ($('textarea[name=content]').val().length > 1000) {
-            alert('字数不能超过1000个字哦');
+        	art.dialog.alert('字数不能超过1000个字哦');
             return;
         }
         $(obj).html('提交中...').attr('onclick', 'void(0);');

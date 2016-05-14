@@ -64,6 +64,9 @@
     <meta name="description" content="#"/>
     <link href="../front_style/css/style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="../front_style/js/jquery.min.js"></script>
+         <script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 
 <body>
@@ -377,7 +380,7 @@
             });
 
             if (re) {
-                alert('您还有未答题的');
+            	art.dialog.alert('您还有未答题的');
                 return false;
             }
             $('#questionList').hide();
@@ -388,7 +391,7 @@
     function commitExam() {
         $.post('?', 'action=commitExam&examinationId=<%=examinationId%>&time_use=' + a, function (data) {
             if (!data.type) {
-                alert(data.msg);
+            	art.dialog.alert(data.msg);
                 if (data.errorCode == -1) {
                     window.location.href = '/login.jsp';
                 }
