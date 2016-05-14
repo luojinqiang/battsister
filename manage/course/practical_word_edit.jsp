@@ -152,7 +152,7 @@
                 };
                 global_obj.file_upload($('#smallfileUpload'), '', $('#smallfileDetail'), '', true, 20, callback, '.pdf');
                 $(document).ready(function () {
-                    $('#smallfileDetail div div').off('click').on('click', function () {
+                    $('.del').off('click').on('click', function () {
                         $(this).parent().remove();
                     });
                 });
