@@ -29,6 +29,9 @@ if(id>0){
 <meta name="description" content="#" />
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 <body>
 <!-- 引入头部 -->
@@ -60,7 +63,7 @@ if(id>0){
 	function addStudent(){
 		var class_name=$("input[name=class_name]").val();
 		if(class_name==""||class_name==undefined){
-			alert("请输入班级名称");
+			art.dialog.alert("请输入班级名称");
 			return;
 		}
 		$.ajax({ 
@@ -72,7 +75,7 @@ if(id>0){
                 if (msg.type) {
                   	window.location.href='class_management.jsp';
                 } else {
-                    alert(msg.msg);
+                	art.dialog.alert(msg.msg);
                 }
             }
         });

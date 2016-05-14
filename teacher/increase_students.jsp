@@ -22,6 +22,9 @@ Object teacher_id=session.getAttribute("teacher_id");
 <meta name="description" content="#" />
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 <body>
 <!-- 引入头部 -->
@@ -102,32 +105,32 @@ Object teacher_id=session.getAttribute("teacher_id");
 		var mobile=$("input[name=mobile]").val();
 		var class_id=$("#class_id").val();
 		if(username==""||username==undefined){
-			alert("请输入学生学号");
+			art.dialog.alert("请输入学生学号");
 			return;
 		}else{
 			var pass_reg=/^[0-9a-zA-Z]*$/g;
 			if(!pass_reg.test(username)){
-				alert("学号只能为字母、数字");
+				art.dialog.alert("学号只能为字母、数字");
 				return false;
 			}
 		}
 		if(name==""||name==undefined){
-			alert("请输入学生姓名");
+			art.dialog.alert("请输入学生姓名");
 			return;
 		}
 		if(sex!=1&&sex!=2){
-			alert("请选择学生性别");
+			art.dialog.alert("请选择学生性别");
 			return;
 		}
 		if(mobile!=""&&mobile!=undefined){
 			var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/; 
 			if(!myreg.test(mobile)){
-				alert("请输入正确格式的手机号");
+				art.dialog.alert("请输入正确格式的手机号");
 				return false;
 			}
 		}
 		if(class_id==0||class_id==undefined){
-			alert("请选择班级");
+			art.dialog.alert("请选择班级");
 			return;
 		}
 		$.ajax({ 
@@ -139,7 +142,7 @@ Object teacher_id=session.getAttribute("teacher_id");
                 if (msg.type) {
                   	window.location.href='student_management.jsp';
                 } else {
-                    alert(msg.msg);
+                	art.dialog.alert(msg.msg);
                 }
             }
         });

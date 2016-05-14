@@ -110,6 +110,9 @@ if(questionList!=null){
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 <script type="text/javascript">
 //=点击展开关闭效果=
 function open_zzjs_net(oSourceObj,oTargetObj,shutAble,oOpenTip,oShutTip){
@@ -275,21 +278,36 @@ if(targetObj.style.display!="none"){
     }
     
     function delQuestion(id,obj){
-    	if(confirm("你确定要删除该问题吗？")){
-    		$.ajax({ 
-                dataType: "json",
-                type: "post", 
-                url: "questions.jsp",
-                data: "action=del&id="+id,
-                success: function (msg) {
-                    if (msg.type) {
-                    	window.location.reload();
-                    } else {
-                        alert(msg.msg);
-                    }
+    	art.dialog({
+            id: 'delID',
+            content: '你确定要删除该问题吗？',
+            lock: true,
+            button: [
+                {
+                    name: '确定',
+                    callback: function () {
+                    	$.ajax({ 
+                            dataType: "json",
+                            type: "post", 
+                            url: "questions.jsp",
+                            data: "action=del&id="+id,
+                            success: function (msg) {
+                                if (msg.type) {
+                                	window.location.reload();
+                                } else {
+                                	art.dialog.alert(msg.msg);
+                                }
+                            }
+                        });
+                        return false;
+                    },
+                    focus: true
+                },
+                {
+                    name: '取消'
                 }
-            });
-    	}
+            ]
+        });
     }
 </script>
 </body>

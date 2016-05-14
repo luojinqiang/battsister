@@ -31,6 +31,9 @@
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 <body>
 <jsp:include page="head.jsp">
@@ -119,27 +122,27 @@
 		var password=$("input[name=password]").val();
 		var password_comfirm=$("input[name=password_comfirm]").val();
 		if(name==""||name==undefined){
-			alert("请输入您的姓名");
+			art.dialog.alert("请输入您的姓名");
 			return;
 		}
 		if(email==""||email==undefined){
-			alert("请输入您的邮箱地址");
+			art.dialog.alert("请输入您的邮箱地址");
 			return;
 		}else{
 			var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/; 
 			if(!myreg.test(email)){
-				alert("请输入正确格式的邮箱地址");
+				art.dialog.alert("请输入正确格式的邮箱地址");
 				return false;
 			}
 		}
 		if(password!=""&&password!=undefined){
 			var pass_reg=/^[0-9a-zA-Z]*$/g;
 			if(!pass_reg.test(password)){
-				alert("密码只能为字母、数字");
+				art.dialog.alert("密码只能为字母、数字");
 				return false;
 			}
 			if(password!=password_comfirm){
-				alert("两次输入密码不一致");
+				art.dialog.alert("两次输入密码不一致");
 				return false;
 			}
 		}
@@ -157,7 +160,7 @@
                   		window.location.href='teacher_home.jsp';
                   	}
                 } else {
-                    alert(msg.msg);
+                	art.dialog.alert(msg.msg);
                 }
             }
         });

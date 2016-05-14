@@ -38,7 +38,7 @@
             var user_name = $("#user_name").val();
             var user_pwd = $("#user_pwd").val();
             if (user_name == "" || user_name == "请输入后台帐号") {
-                alert("请输入后台帐号");
+            	art.dialog.alert("请输入后台帐号");
                 return;
             }
             $("#tipsspan").html("<img src='images/loading.gif' />加载中……请稍候……");
@@ -51,7 +51,7 @@
                     if (msg.type == true) {
                         window.location.href = "index.jsp";
                     } else {
-                        alert(msg.msg);
+                    	art.dialog.alert(msg.msg);
                         $("#tipsspan").html("");
                     }
                 }

@@ -110,7 +110,7 @@
         function batchdel(id) {
             var ids = getcheckbox("id");
             if (ids == "") {
-                alert("请选择删除项？");
+            	art.dialog.alert("请选择删除项？");
                 return;
             }
             art.dialog({

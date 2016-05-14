@@ -40,6 +40,9 @@ List<Doc> classList=selectic.Get_List("id,class_name,create_time", "bs_class", "
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 <body>
 <!-- 引入头部 -->
@@ -94,21 +97,36 @@ List<Doc> classList=selectic.Get_List("id,class_name,create_time", "bs_class", "
 <jsp:include page="footer.jsp"></jsp:include>
 <script type="text/javascript">
 	function delStudent(id){
-		if(confirm("你确定要删除班级吗？该操作将删除该班级下的所有学生")){
-			$.ajax({ 
-	            dataType: "json",
-	            type: "post", 
-	            url: "class_management.jsp",
-	            data: "action=del&class_id="+id, 
-	            success: function (msg) {
-	                if (msg.type) {
-	                  	window.location.reload();
-	                } else {
-	                    alert(msg.msg);
-	                }
-	            }
-	        });
-		}
+		 art.dialog({
+             id: 'delID',
+             content: '你确定要删除班级吗？该操作将删除该班级下的所有学生?',
+             lock: true,
+             button: [
+                 {
+                     name: '确定',
+                     callback: function () {
+                    	 $.ajax({ 
+             	            dataType: "json",
+             	            type: "post", 
+             	            url: "class_management.jsp",
+             	            data: "action=del&class_id="+id, 
+             	            success: function (msg) {
+             	                if (msg.type) {
+             	                  	window.location.reload();
+             	                } else {
+             	                	 art.dialog.alert(msg.msg);
+             	                }
+             	            }
+             	        });
+                         return false;
+                     },
+                     focus: true
+                 },
+                 {
+                     name: '取消'
+                 }
+             ]
+         });
 	}
 </script>
 </body>

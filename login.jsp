@@ -25,6 +25,9 @@
 <meta name="description" content="#" />
 <link href="front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="front_style/js/jquery.min.js"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 <!--tab切换效果的js-->
 <script type="text/javascript">
             $(function () {
@@ -115,11 +118,11 @@
 			loginPassword=$("input[name=student_password]").val();
 		}
 		if(loginName==undefined||loginName==""){
-			alert("请输入登录账号");
+			art.dialog.alert("请输入登录账号");
 			return;
 		}
 		if(loginPassword==undefined||loginPassword==""){
-			alert("请输入登录密码");
+			art.dialog.alert("请输入登录密码");
 			return;
 		}
 		 $.ajax({ 
@@ -135,7 +138,7 @@
                         window.location.href='/student/student_home.jsp';
                     }
                  } else {
-                     alert(msg.msg);
+                	 art.dialog.alert(msg.msg);
                      return false;
                  }
              }

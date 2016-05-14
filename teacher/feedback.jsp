@@ -19,6 +19,9 @@
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 
 <body>
@@ -77,11 +80,11 @@
 		var content=$("#content").val();
 		var type=$("input[name=type]").val();
 		if(content==""||content==undefined){
-			alert("请输入你要反馈的内容");
+			 art.dialog.alert("请输入你要反馈的内容");
 			return;
 		}
 		if(type!=1&&type!=2){
-			alert("请选择您的反馈类型");
+			 art.dialog.alert("请选择您的反馈类型");
 			return;
 		}
 		$.ajax({ 
@@ -91,10 +94,10 @@
             data: "action=commit&content="+content+"&type="+type, 
             success: function (msg) {
                 if (msg.type) {
-                  	alert("感谢您的反馈，祝您生活愉快");
+                	art.dialog.alert("感谢您的反馈，祝您生活愉快");
                   	window.location.href='/teacher/teacher_home.jsp';
                 } else {
-                    alert(msg.msg);
+                	 art.dialog.alert(msg.msg);
                 }
             }
         });

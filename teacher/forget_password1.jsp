@@ -28,6 +28,9 @@
 <meta name="description" content="#" />
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 
 <body class="bg_white">
@@ -67,16 +70,16 @@
 		var pass=$('input[name=password]').val();
 		var pass_comfirm=$('input[name=password_comfirm]').val();
 		if(pass==""||pass==undefined){
-			alert("请输入新密码");
+			art.dialog.alert("请输入新密码");
 			return;
 		}
 		var pass_reg=/^[0-9a-zA-Z]*$/g;
 		if(!pass_reg.test(pass)){
-			alert("密码只能为字母、数字");
+			art.dialog.alert("密码只能为字母、数字");
 			return false;
 		}
 		if(pass!=pass_comfirm){
-			alert("两次输入密码不一致");
+			art.dialog.alert("两次输入密码不一致");
 			return;
 		}
 		$.ajax({ 
@@ -88,7 +91,7 @@
                 if (msg.type) {
                	 	window.location.href='forget_password2.jsp';
                 } else {
-                    alert(msg.msg);
+                	art.dialog.alert(msg.msg);
                 }
             }
         });

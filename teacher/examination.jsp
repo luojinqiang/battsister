@@ -77,6 +77,9 @@ if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag")
 <!-- 时间选择器 -->
 <script type="text/javascript" src="/front_style/datepicker/jquery-ui-datepicker.js"></script>
 <script type="text/javascript" src="/front_style/js/lean-modal.min.js"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 <link href="/front_style/datepicker/jquery-ui.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 #lean_overlay{position:fixed; z-index:10; top:0px; left:0px; height:100%; width:100%; background:#000; display:none;}
@@ -237,21 +240,21 @@ function intid(){
 		var name=$('input[name=name]').val();
 		var limit_time=$('#limit_time').val();
 		if(name==undefined||name==""){
-			alert("请输入考试名称");
+			art.dialog.alert("请输入考试名称");
 			return;
 		}
 		var class_ids=getcheckbox("class_ids");
 		if(class_ids==""){
-			alert("请输入参加考试的班级");
+			art.dialog.alert("请输入参加考试的班级");
 			return;
 		}
 		if(limit_time==undefined||limit_time<=0){
-			alert("请输入考试时长");
+			art.dialog.alert("请输入考试时长");
 			return;
 		}
 		var end_time=$('input[name=end_time]').val();
 		if(end_time==undefined||end_time==""){
-			alert("请选择考试截至时间");
+			art.dialog.alert("请选择考试截至时间");
 			return;
 		}
 		if(type==0){
@@ -266,10 +269,10 @@ function intid(){
             data: "action=send&type="+type+"&id="+id+"&name="+name+"&end_time="+end_time+"&class_ids="+class_ids+"&limit_time="+limit_time, 
             success: function (msg) {
                 if (msg.type) {
-                  	alert("发起考试成功");
+                	art.dialog.alert("发起考试成功");
                   	window.location.href='examination_system.jsp';
                 } else {
-                    alert(msg.msg);
+                	art.dialog.alert(msg.msg);
                 }
             }
         });

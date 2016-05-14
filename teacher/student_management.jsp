@@ -56,6 +56,9 @@ List<Doc> classList=selectic.Get_List("id,class_name","bs_class"," where isdel=0
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
 <script src="/front_style/js/showList.js" type="text/javascript"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 <body>
 <!-- 引入头部 -->
@@ -141,26 +144,41 @@ List<Doc> classList=selectic.Get_List("id,class_name","bs_class"," where isdel=0
 <jsp:include page="footer.jsp"></jsp:include>
 <script type="text/javascript">
 	function delStudent(id){
-		if(confirm("你确定要删除该学生吗？")){
-			$.ajax({ 
-	            dataType: "json",
-	            type: "post", 
-	            url: "student_management.jsp",
-	            data: "action=del&student_id="+id, 
-	            success: function (msg) {
-	                if (msg.type) {
-	                  	window.location.reload();
-	                } else {
-	                    alert(msg.msg);
-	                }
-	            }
-	        });
-		}
+		art.dialog({
+            id: 'delID',
+            content: '你确定要删除该学生吗？',
+            lock: true,
+            button: [
+                {
+                    name: '确定',
+                    callback: function () {
+                    	$.ajax({ 
+            	            dataType: "json",
+            	            type: "post", 
+            	            url: "student_management.jsp",
+            	            data: "action=del&student_id="+id, 
+            	            success: function (msg) {
+            	                if (msg.type) {
+            	                  	window.location.reload();
+            	                } else {
+            	                    alert(msg.msg);
+            	                }
+            	            }
+            	        });
+                        return false;
+                    },
+                    focus: true
+                },
+                {
+                    name: '取消'
+                }
+            ]
+        });
 	}
 	function delAll(){
 		var ids=getcheckbox("id");
 		if(ids==""){
-			alert("请选择需要删除的学生？");
+			art.dialog.alert("请选择需要删除的学生？");
             return;
 		}
 		if(confirm("你确定要删除全部学生吗？")){
@@ -173,7 +191,7 @@ List<Doc> classList=selectic.Get_List("id,class_name","bs_class"," where isdel=0
 	                if (msg.type) {
 	                  	window.location.reload();
 	                } else {
-	                    alert(msg.msg);
+	                	art.dialog.alert(msg.msg);
 	                }
 	            }
 	        });

@@ -24,6 +24,9 @@
 <meta name="description" content="#" />
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/front_style/js/jquery.min.js"></script>
+<script type="text/javascript"
+            src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
+<script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
 </head>
 <body class="bg_white">
 <div class="headerbg">
@@ -66,7 +69,7 @@
 	function getVerify(){
 		var email=$('input[name=email]').val();
 		if(email==""||email==undefined){
-			alert("请输入预留电子邮箱");
+			 art.dialog.alert("请输入预留电子邮箱");
 			return;
 		}
 		 $.ajax({ 
@@ -93,7 +96,7 @@
                 	 },1000);
                 	 
                  } else {
-                     alert(msg.msg);
+                	 art.dialog.alert(msg.msg);
                  }
              }
          });
@@ -102,7 +105,7 @@
 	function checkVerify(){
 		var verify=$('input[name=verify]').val();
 		if(verify==""||verify==undefined){
-			alert("请输入验证码");
+			 art.dialog.alert("请输入验证码");
 			return;
 		}
 		 $.ajax({ 
@@ -114,7 +117,7 @@
                  if (msg.type) {
                 	 window.location.href='forget_password1.jsp?verify='+verify;
                  } else {
-                     alert(msg.msg);
+                	 art.dialog.alert(msg.msg);
                  }
              }
          });
