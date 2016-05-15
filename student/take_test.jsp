@@ -256,19 +256,7 @@
 </div>
 
 <script src="../manage/js/sys.js"></script>
-<script src="/front_style/js/jquery.contextmenu.js"></script>
 <script type="text/javascript">
-    /*window.onbeforeunload = function(event) {
-        event = event || window.event;
-        event.returnValue = '';
-    }*/
-    var menu1 = [
-        /*{'刷新页面':function(menuItem,menu) { window.location.reload(); } }*/
-    ];
-    $(function() {
-        $(this).contextMenu(menu1,{theme:'vista'});
-    });
-
     //倒计时
     var c = (parseInt($('#h').html()) * 60 * 60) + (parseInt($('#m').html()) * 60) + parseInt($('#s').html());
     var s = 0; //此次答题所用时长

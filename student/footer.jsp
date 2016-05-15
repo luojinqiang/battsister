@@ -6,6 +6,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=utf-8" %>
+<script src="/front_style/js/jquery.contextmenu.js"></script>
+<script type="text/javascript">
+var menu1 = [
+             /*{'刷新页面':function(menuItem,menu) { window.location.reload(); } }*/
+         ];
+         $(function() {
+             $(this).contextMenu(menu1,{theme:'vista'});
+         });
+</script>
 <div class="footer">
     <div class="footer_con">
         <ul class="footer_nav">
