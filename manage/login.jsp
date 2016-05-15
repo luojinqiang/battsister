@@ -93,7 +93,7 @@
     </div>
 </div>
 
-<div class="footer"><a href="http://www.battsister.com" title="派司德官网" target="_blank">派司德官网</a> Copyright&copy;2010 – 2015 v1.0.1</div>
+<div class="footer"><a href="http://www.battsister.com" title="派司德官网" target="_blank">派司德官网</a> Copyright&copy;2010 – 2016 v1.0.1</div>
 </body>
 </html>
 
