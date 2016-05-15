@@ -106,7 +106,7 @@
                                 if (pathArray != null) {
                                     for (int m = 0; m < pathArray.size(); m++) {
                                         path_json = pathArray.getJSONObject(m);
-                                        out.print("<p><a href=\"/pdf/web/viewer.html?file=" + path_json.optString("word_dir") + "\" target=\"_blank\">" + path_json.optString("title") + "</a></p>");
+                                        out.print("<p><a href=\"/pdf/web/viewer2.html?file=" + path_json.optString("word_dir") + "\" target=\"_blank\">" + path_json.optString("title") + "</a></p>");
                                     }
                                 }
                         %>

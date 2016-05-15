@@ -180,7 +180,7 @@
                     %>
                     <li class="mr_15">
                         <div class="ziliao_img"><a
-                                href="../pdf/web/viewer.html?file=<%=word_json.optString("pic_dir")%>"
+                                href="../pdf/web/viewer2.html?file=<%=word_json.optString("pic_dir")%>"
                                 target="_blank"><img src="../public/images/word.png" style="width: 154px;height: 154px;margin-left: 57px;"/></a></div>
                         <p><%=word_json.optString("title")%>
                         </p>
