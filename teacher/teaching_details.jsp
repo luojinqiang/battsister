@@ -76,6 +76,7 @@
 <head>
 <meta charset="utf-8">
 <title>我要授课</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
 <meta name="keywords"  content="#" />
 <meta name="description" content="#" />
 <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
@@ -85,11 +86,12 @@
 <script src="/front_style/src/galleria.js"></script>
 
 <!-- video5 -->
-<link href="/front_style/video5/css/video-js.min.css" rel="stylesheet">
+    <script src="//api.html5media.info/1.1.8/html5media.min.js"></script>
+<%--<link href="/front_style/video5/css/video-js.min.css" rel="stylesheet">
 <script src="/front_style/video5/js/video.min.js"></script>
 <script>
     videojs.options.flash.swf = "/front_style/video5/js/video-js.swf";
-</script>
+</script>--%>
 </head>
 <body>
 <!-- 引入头部 -->
@@ -206,13 +208,14 @@
                     <li class="mr_15">
                         <div class="ziliao_img">
                             <div class="p_shipin">
-                                <video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
+                                <%--<video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
                                        controls
                                        preload="auto" width="268" height="154"
                                        data-setup='{}'>
                                     <source src="<%=SetupUtil.getAllAddress(video_json.optString("filePath"))%>"
                                             type='video/mp4'/>
-                                </video>
+                                </video>--%>
+                                    <video src="<%=SetupUtil.getAllAddress(video_json.optString("filePath"))%>" width="268" height="154" controls preload></video>
                             </div>
                         </div>
                         <p><%=video_json.optString("title")%>
