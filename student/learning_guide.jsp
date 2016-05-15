@@ -90,12 +90,16 @@
 </div>
 <script type="text/javascript" src="../public/js/pdfobject.min.js"></script>
 <script type="text/javascript">
-
+var options = {
+		pdfOpenParams: {
+			toolbar: 0,
+		}
+	};
     function showPdf(obj) {
         $('.selected').attr('class', '');
         $(obj).attr('class', 'selected');
         var url = $(obj).attr("data");
-        PDFObject.embed(url, "#doc");
+        PDFObject.embed(url, "#doc",options);
     }
 </script>
 <jsp:include page="footer.jsp"></jsp:include>
