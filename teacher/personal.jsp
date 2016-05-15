@@ -125,6 +125,10 @@
 			art.dialog.alert("请输入您的姓名");
 			return;
 		}
+		if(name.length>20){
+			art.dialog.alert("您的姓名似乎太长了点");
+			return;
+		}
 		if(email==""||email==undefined){
 			art.dialog.alert("请输入您的邮箱地址");
 			return;

@@ -79,13 +79,13 @@
                 </select></div>
                 <div class="clear"></div>
             </div>
-            <div class="input_c">
+           <%--  <div class="input_c">
                 <div class="input_word">生日</div>
-                <div class="input_text"><input name="birth" type="text" class="input_k" onclick="SelectDate(this,'yyyy-MM-dd',0,0);" placeholder="" value="<%=birth%>" notnull></div>
+                <div class="input_text"><input name="birth" type="text" class="input_k" onclick="SelectDate(this,'yyyy-MM-dd',0,0);" placeholder="" value="<%=birth%>" notnull readonly="readonly"/></div>
                 <div class="clear"></div>
-            </div>
+            </div> --%>
             <div class="input_c">
-                <div class="input_word">联系电话</div>
+                <div class="input_word">手机号码</div>
                 <div class="input_text"><input name="mobile" type="text" class="input_k"  value="<%=mobile%>" notnull></div>
                 <div class="clear"></div>
             </div>
@@ -109,6 +109,30 @@
 <script>
     function userSave(obj) {
         if(global_obj.check_form($('*[notnull]'))){return false;}
+        var name=$('input[name=name]').val();
+        if(name==""||name==undefined){
+			art.dialog.alert("请输入您的姓名");
+			return;
+		}
+        if(name.length>20){
+			art.dialog.alert("您的姓名似乎太长了点");
+			return;
+		}
+        var password=$('input[name=password]').val();
+        if(password!=""&&password!=undefined){
+			var pass_reg=/^[0-9a-zA-Z]*$/g;
+			if(!pass_reg.test(password)){
+				art.dialog.alert("密码只能为字母、数字");
+				return false;
+			}
+		}
+        var mobile=$('input[name=mobile]').val();
+        if(mobile!=""){
+        	if(!/^(13[0-9]|17[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(mobile)){
+        		art.dialog.alert("您的手机号码格式似乎不正确哦");
+    			return false;
+        	}
+        }
         $(obj).html('提交中...').attr('onclick', 'void(0);');
         $.post('?',$('#userInfo').serialize(),function (data) {
         	if(data.type){
