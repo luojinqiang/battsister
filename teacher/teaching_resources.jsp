@@ -75,8 +75,8 @@
 <html>
 <head>
     <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <title>教学资源</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="keywords" content="#"/>
     <meta name="description" content="#"/>
     <link href="/front_style/css/style.css" rel="stylesheet" type="text/css">
@@ -84,12 +84,11 @@
     <script src="/front_style/js/showList.js" type="text/javascript"></script>
     <script src="/front_style/src/galleria.js"></script>
     <!-- video5 -->
-    <%--<link href="/front_style/video5/css/video-js.min.css" rel="stylesheet">
-    <script src="/front_style/video5/js/video.min.js"></script>--%>
-    <script src="//api.html5media.info/1.1.8/html5media.min.js"></script>
-    <%--<script>
+    <link href="/front_style/video5/css/video-js.min.css" rel="stylesheet">
+    <script src="/front_style/video5/js/video.min.js"></script>
+    <script>
         videojs.options.flash.swf = "/front_style/video5/js/video-js.swf";
-    </script>--%>
+    </script>
 </head>
 <body>
 <!-- 引入头部 -->
@@ -213,14 +212,13 @@
                     <li class="mr_15">
                         <div class="ziliao_img">
                             <div class="p_shipin">
-                                <%--<video class="video-js vjs-default-skin vjs-big-play-centered"
+                                <video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
                                        controls
                                        preload="auto" width="268" height="154"
                                        data-setup='{}'>
                                     <source src="<%=SetupUtil.getAllAddress(video_json.optString("filePath"))%>"
                                             type='video/mp4'/>
-                                </video>--%>
-                                    <video src="<%=SetupUtil.getAllAddress(video_json.optString("filePath"))%>" width="268" height="154" controls preload></video>
+                                </video>
                             </div>
                         </div>
                         <p><%=video_json.optString("title")%>
@@ -242,7 +240,7 @@
                     <li class="mr_15">
                         <div class="ziliao_img">
                             <div class="p_shipin">
-                                <video class="video-js vjs-default-skin vjs-big-play-centered"
+                                <video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
                                        controls
                                        preload="auto" width="268" height="154"
                                        data-setup='{}'>
