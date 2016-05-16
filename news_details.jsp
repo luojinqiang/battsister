@@ -9,6 +9,7 @@
 	int news_id=ru.getInt("news_id");
 	int type=ru.getInt("type");
 	int other_type=ru.getInt("other_type");
+	int pages=ru.getInt("pages");//几页
 	Selectic selectic=new Selectic();
 	Doc newsDoc=selectic.Get_Doc("id,newsclass,newstitle,bigfile,addtime,content", "bs_news", " where isdel=0 and id=? ","mysqlss",new Object[]{news_id});
 	if(newsDoc==null||newsDoc.isEmpty()){
@@ -58,24 +59,24 @@
    <div class="re_list">
    		<div class="up_botton"><a href="<%
    			if(type==2){
-   				out.print("news.jsp");
+   				out.print("news.jsp?pages="+pages);
    			}else if(type==4){
-   				out.print("industry_resources.jsp?type="+other_type);
+   				out.print("industry_resources.jsp?type="+other_type+"&pages="+pages);
    			}else{
-   				out.print("professional_resources.jsp?type="+other_type);
+   				out.print("professional_resources.jsp?type="+other_type+"&pages="+pages);
    			}
    		%>">返回列表</a></div>
         <%
        		if(previous_news_id>0){
        			%>
-       			<div class="up_botton"><a href="news_details.jsp?news_id=<%=previous_news_id%>&type=<%=type%>&other_type=<%=other_type%>">上一篇</a></div>
+       			<div class="up_botton"><a href="news_details.jsp?news_id=<%=previous_news_id%>&type=<%=type%>&other_type=<%=other_type%>&pages=<%=pages%>">上一篇</a></div>
        			<%
        		}
         %>
        <%
       		if(next_news_id>0){
       			%>
-      			 <div class="up_botton"><a href="news_details.jsp?news_id=<%=next_news_id%>&type=<%=type%>&other_type=<%=other_type%>">下一篇</a></div>
+      			 <div class="up_botton"><a href="news_details.jsp?news_id=<%=next_news_id%>&type=<%=type%>&other_type=<%=other_type%>&pages=<%=pages%>">下一篇</a></div>
       			<%
       		}
         %>
