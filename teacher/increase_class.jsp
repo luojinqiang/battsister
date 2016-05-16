@@ -36,7 +36,7 @@ if(id>0){
 <body>
 <!-- 引入头部 -->
 <jsp:include page="head.jsp">
-	<jsp:param value="1" name="type"/>
+	<jsp:param value="4" name="type"/>
 </jsp:include>
 <div class="container">
     <div class="info">

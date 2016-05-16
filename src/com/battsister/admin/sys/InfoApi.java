@@ -205,6 +205,49 @@ public class InfoApi {
         } finally {
             dbc.closeConn();
         }
+	}
+	
+	/**
+	 * 编辑课程大纲
+	 * @param request
+	 * @param userid
+	 * @param username
+	 * @return
+	 */
+	public JSONObject ediCourseOutline(HttpServletRequest request, int userid, String username){
+	 	Dbc dbc = DbcFactory.getBbsInstance();
+        Base base = new Base();
+        JSONObject backjson = new JSONObject();
+        String ajaxRequest = "";
+        String logtitle = "API--编辑课程大纲";
+        try {
+            dbc.openConn("mysqlss");
+            base.setDbc(dbc);
+            ajaxRequest = AjaxXml.getParameterStr(request);
+            RequestUtil ru = new RequestUtil(request);
+            String course_outline=ru.getString("course_outline");
+            if(course_outline==null||"".equals(course_outline)){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "请上传课程大纲文档");
+                 return backjson;
+            }
+            Doc infoDoc=base.executeQuery2Docs("select id from bs_info limit 1",new Object[]{},1)[0];
+            if(infoDoc!=null&&!infoDoc.isEmpty()){
+            	base.executeUpdate("update bs_info set course_outline=? where id=? ", new Object[]{course_outline,infoDoc.getIn("id")});
+            }
+            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
+            backjson.put("type", true);
+            backjson.put("msg", "操作成功");
+            return backjson;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtility.log(e, logtitle + "\r\n" + ajaxRequest);
+            backjson.put("type", false);
+            backjson.put("msg", "系统忙，请稍候再试");
+            return backjson;
+        } finally {
+            dbc.closeConn();
+        }
 	
 	}
 }

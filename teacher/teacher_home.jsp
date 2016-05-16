@@ -71,6 +71,10 @@ if(infoDoc!=null){
 <!-- <link rel="stylesheet" href="/front_style/ppt_word/css/base.css">
 <link rel="stylesheet" href="/front_style/ppt_word/css/MPreview.css"> -->
  <script type="text/javascript" src="/front_style/ppt_word/js/MPreview.js"></script>
+  <style>
+        .pdfobject-container {width: 878px; height: 800px; margin-left: 0px;}
+        .pdfobject { border: 1px solid #666; }
+    </style>
 </head>
 
 <body>
@@ -144,11 +148,33 @@ if(infoDoc!=null){
    <script type="text/javascript">$('#doc').MPreview({ data: data });</script> -->
    
    <!--   </div> -->
-   	<%=course_outline%>
+   <%-- 	<%=course_outline%> --%>
+    <div class="">
+                <div class="doc" id="doc"></div>
+    </div>
   </div>
   <div class="clear"></div>
 </div>
 <!-- 引入尾部 -->
 <jsp:include page="footer.jsp"></jsp:include>
 </body>
+<script type="text/javascript" src="../public/js/pdfobject.min.js"></script>
+<script type="text/javascript">
+var options = {
+		pdfOpenParams: {
+			toolbar: 0,
+		}
+	};
+ $(document).ready(function (){
+	<%
+		if(course_outline!=null&&!"".equals(course_outline)){
+	%>
+	 PDFObject.embed('<%=course_outline%>', "#doc",options);
+	<%
+		}
+	%>
+	
+	
+ });
+</script>
 </html>

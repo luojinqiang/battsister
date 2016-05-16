@@ -65,7 +65,7 @@
              	   <%
                 }if(current_flags.contains("3005")){
              	   %>
-             	   <li><a href="javascript:window.parent.jianyi2('xinxi/info.jsp?type=1','课程大纲')">课程大纲</a></li>
+             	   <li><a href="javascript:window.parent.jianyi2('xinxi/outline.jsp','课程大纲')">课程大纲</a></li>
              	   <%
                 }if(current_flags.contains("3006")){
              	   %>
