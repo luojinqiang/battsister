@@ -309,7 +309,7 @@
                                onclick="CheckAll(this.form);"/>选中/取消所有
                     </td>
                     <td colspan="6" style="text-align:right">
-                        <input name="tjdel " type="button" onclick=" batchDel()" value="批量删除信息"/>
+                        <input name="tjdel " type="button" onclick=" batchDel()" style="margin-top: 3px;margin-right: 3px;" value="批量删除信息"/>
                         <%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%>
                     </td>
                 </tr>

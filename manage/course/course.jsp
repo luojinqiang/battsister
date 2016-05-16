@@ -149,7 +149,7 @@
                                                                      value="checkbox" onclick="CheckAll(this.form);"/>
                         选中/取消所有
                     </td>
-                    <td colspan="6" style="text-align:right"><input name="tjczft" type="button" onclick="batchdel()"
+                    <td colspan="6" style="text-align:right"><input name="tjczft" type="button" onclick="batchdel()" style="margin-top: 3px;margin-right: 3px;"
                                                                     value="批量删除"/><%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%>
                     </td>
                 </tr>
