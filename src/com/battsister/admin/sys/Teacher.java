@@ -69,10 +69,17 @@ public class Teacher {
             }
            /*判断账号是否重复*/
             Doc teacherDoc=base.executeQuery2Docs("select id from bs_teachers where username=? and isdel=0 ", new Object[]{user_name},1)[0];
-            if(teacherDoc!=null&&teacherDoc.isEmpty()&&teacherDoc.getIn("id")!=id){
-            	 backjson.put("type", false);
-                 backjson.put("msg", "教师账号存在重复，请重新输入");
-                 return backjson;
+            if(teacherDoc!=null&&!teacherDoc.isEmpty()){
+            	if(id>0&&id!=teacherDoc.getIn("id")){
+            		 backjson.put("type", false);
+                     backjson.put("msg", "教师账号存在重复，请重新输入");
+                     return backjson;
+            	}
+            	if(id==0){
+            		 backjson.put("type", false);
+                     backjson.put("msg", "教师账号存在重复，请重新输入");
+                     return backjson;
+            	}
             }
             if(name==null||"".equals(name)){
            	 	backjson.put("type", false);
