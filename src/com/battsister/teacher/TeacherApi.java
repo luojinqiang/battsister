@@ -92,7 +92,7 @@ public class TeacherApi {
                 session.setMaxInactiveInterval(60 * 60 * 3);//3小时后过期
                 session.setAttribute("teacher_id", teacherDoc.getIn("id"));
                 session.setAttribute("teacher_name", teacherDoc.get("name"));
-                session.setAttribute("username", teacherDoc.get("username"));
+                session.setAttribute("teacher_username", teacherDoc.get("username"));
                 session.setAttribute("last_login_time", 0!=teacherDoc.getIn("last_login_time")?AjaxXml.timeStamp2Date(teacherDoc.getIn("last_login_time"), "YY04-MM-DD HH:MI:SS"):null);
             } else {
                 shengxia = 5 - login_err;
@@ -331,6 +331,13 @@ public class TeacherApi {
                 backjson.put("type", false);
                 backjson.put("msg", "请输入学生学号");
                 return backjson;
+            }
+            //判断是否学号存在相同
+            Doc studentDoc=base.executeQuery2Docs("select id from bs_students where username=? and isdel=0 ",new Object[]{username},1)[0];
+            if(studentDoc!=null&&studentDoc.isEmpty()){
+            	  backjson.put("type", false);
+                  backjson.put("msg", "学生学号已经存在");
+                  return backjson;
             }
             if (name == null || "".equals(name)) {
                 backjson.put("type", false);

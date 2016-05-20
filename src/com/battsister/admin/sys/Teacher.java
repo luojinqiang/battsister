@@ -67,11 +67,18 @@ public class Teacher {
                  backjson.put("msg", "请输入教师登陆账号");
                  return backjson;
             }
+           /*判断账号是否重复*/
+            Doc teacherDoc=base.executeQuery2Docs("select id from bs_teachers where username=? and isdel=0 ", new Object[]{user_name},1)[0];
+            if(teacherDoc!=null&&teacherDoc.isEmpty()&&teacherDoc.getIn("id")!=id){
+            	 backjson.put("type", false);
+                 backjson.put("msg", "教师账号存在重复，请重新输入");
+                 return backjson;
+            }
             if(name==null||"".equals(name)){
            	 	backjson.put("type", false);
                 backjson.put("msg", "请输入教师姓名");
                 return backjson;
-           }
+            }
             if(email!=null&&!"".equals(email)){
             	if(!AjaxXml.checkEmail(email)){
             		backjson.put("type", false);

@@ -228,7 +228,7 @@
                                 }
                             }
                         }
-                        out.print(" <div class=\"clear\"></div>");
+                        /* out.print(" <div class=\"clear\"></div>"); */
                     %>
                      <%
                         if (getDoc.get("animation_path") != null && !"".equals(getDoc.get("animation_path"))) {

@@ -51,7 +51,8 @@
   	</div>
     <div class="right_w mt_none">
     	<div class="title_r">平台使用手册</div>
-        <div class="default"><%=teacher_remark%></div>
+    	<%=teacher_remark%>
+        <!-- <div class="default"></div> -->
     </div>
     <div class="clear"></div>
 </div>

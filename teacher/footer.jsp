@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=utf-8" %>
-<script src="/front_style/js/jquery.contextmenu.js"></script>
+ <script src="/front_style/js/jquery.contextmenu.js"></script>
 <script type="text/javascript">
 var menu1 = [
              /*{'刷新页面':function(menuItem,menu) { window.location.reload(); } }*/
