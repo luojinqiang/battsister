@@ -73,7 +73,7 @@ if(infoDoc!=null){
  <script type="text/javascript" src="/front_style/ppt_word/js/MPreview.js"></script>
   <style>
         .pdfobject-container {width: 878px; height: 800px; margin-left: 0px;}
-        .pdfobject { border: 1px solid #666; }
+        .pdfobject { border: 0px solid #666; }
     </style>
 </head>
 
