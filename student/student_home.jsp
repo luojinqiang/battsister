@@ -17,6 +17,7 @@
     <meta name="keywords" content="#"/>
     <meta name="description" content="#"/>
     <link href="../front_style/css/style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../front_style/js/jquery.min.js"></script>
 </head>
 
 <body>

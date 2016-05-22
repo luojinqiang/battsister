@@ -47,6 +47,7 @@
     <meta name="keywords" content="#"/>
     <meta name="description" content="#"/>
     <link href="../front_style/css/style.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../front_style/js/jquery.min.js"></script>
     <script type="text/javascript">
         //=点击展开关闭效果=
         function open_zzjs_net(oSourceObj, oTargetObj, shutAble, oOpenTip, oShutTip) {
@@ -99,7 +100,7 @@
             int type = 0;
             String isWrong = "";
             String isRight = "";
-            JSONArray examOptionArray;
+            JSONArray examOptionArray = null;
             JSONObject optionObj;
             JSONArray optionArray;
             for (Doc doc : examList) {

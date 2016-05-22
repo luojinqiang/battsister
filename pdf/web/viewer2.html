@@ -26,7 +26,7 @@ See https://github.com/adobe-type-tools/cmap-resources
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>PDF.js viewer</title>
+    <!--<title>PDF.js viewer</title>-->
 
 
     <link rel="stylesheet" href="viewer.css"/>
@@ -41,8 +41,8 @@ See https://github.com/adobe-type-tools/cmap-resources
 <script src="../build/pdf.js"></script>
 
 
-
-    <script src="debugger.js"></script>
+<!--
+    <script src="debugger.js"></script>-->
     <script src="viewer.js"></script>
 
   </head>
@@ -418,5 +418,13 @@ See https://github.com/adobe-type-tools/cmap-resources
 </div>
 
   </body>
+  <script>
+    setInterval(function () {
+      var url = window.location.href;
+      var l = url.lastIndexOf('/') + 1;
+      url = url.substring(l, url.length);
+      document.title=url;
+    }, 300);
+  </script>
 </html>
 
