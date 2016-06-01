@@ -108,40 +108,34 @@ public class Teacher {
                     return backjson;
             	}
             }
-            List valueList = new ArrayList();
-            valueList.add(user_name);
-            valueList.add(name);
-            valueList.add(account_status);
-            valueList.add(sex);
-            valueList.add(birthTemp);
-            valueList.add(headpic);
-            valueList.add(email);
-            valueList.add(school_id);
-            valueList.add(ipArray.toString());
-            String addString="";
-            String insertString="";
-            String insertSql="";
+            Doc updateDoc=new Doc();
+            updateDoc.put("username", user_name);
+            updateDoc.put("name", name);
+            updateDoc.put("account_status", account_status);
+            updateDoc.put("sex", sex);
+            updateDoc.put("birth", birth);
+            updateDoc.put("headpic", headpic);
+            updateDoc.put("email", email);
+            updateDoc.put("school_id", school_id);
+            updateDoc.put("ip_limit", ipArray.toString());
             if(password!=null&&!"".equals(password)){
             	if(!password.equals(password1)){
             		 backjson.put("type",false);
                      backjson.put("msg", "两次密码输入不一致");
                      return backjson;
             	}else{
-            		addString=",password=? ";
-            		insertString=",?";
-            		insertSql=",password";
             		password= new KeyBean().getkeyBeanofStr(password).toLowerCase();
-            		valueList.add(password);
+            		updateDoc.put("password", password);
             	}
+            }
+            if("Y".equals(account_status)){
+            	updateDoc.put("login_err_times", 0);
             }
             if (id > 0) {
                 logtitle = "API--教师账号--编辑";
-                valueList.add(id);
-                base.executeUpdate("update bs_teachers set username=?,name=?,account_status=?,sex=?,birth=?,headpic=?,email=?,school_id=?,ip_limit=? "+addString+" where id=? ", valueList);
+                base.executeUpdateByDoc("bs_teachers", updateDoc, new Doc().put("id",id));
             } else {
-                valueList.add(AjaxXml.getTimestamp("now"));
-                base.executeUpdate("insert into bs_teachers (username,name,account_status,sex,"
-                        + " birth,headpic,email,school_id,ip_limit "+insertSql+",addtime) values(?,?,?,?,?,?,?,?,?"+insertString+",?)", valueList);
+                updateDoc.put("addtime", AjaxXml.getTimestamp("now"));
             }
             Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             backjson.put("type", true);
