@@ -198,18 +198,21 @@ if(targetObj.style.display!="none"){
 	        		   Doc optDoc=opt_list.get(j);
            %>
 	            <li>
-	               <%=questionDoc.getIn("type")==0?"<input name=\""+i+"\" type=\"radio\" value=\"0\" class=\"input_radio\">":" <input name=\""+i+"\" type=\"checkbox\" value=\"1\" class=\"input_checkbox\">"%>
-	                <div class="da_an">
-	                    <%
-	                    String optString=BasicType.getOption(j)+"   ";
-	                    if(optDoc.get("name")!=null&&!"".equals(optDoc.get("name"))){
-	                    	out.print("<p>"+optString+optDoc.get("name")+"</p>" );
-	                    	optString="";//当显示了abcd时第二个不显示
-	                    }
-	                    %>
-	                    <%=optDoc.get("pic")!=null&&!"".equals(optDoc.get("pic"))?"<div class=\"da_an_img\">"+optString+"<img src=\""+optDoc.get("pic")+"\"></div>":""%>
-	                </div>
-	                <div class="clear"></div>
+					<label>
+						<div>
+						<%=questionDoc.getIn("type")==0?"<input name=\""+i+"\" type=\"radio\" value=\"0\" class=\"input_radio\">":" <input name=\""+i+"\" type=\"checkbox\" value=\"1\" class=\"input_checkbox\">"%>
+
+							<%
+								String optString=BasicType.getOption(j)+"   ";
+								if(optDoc.get("name")!=null&&!"".equals(optDoc.get("name"))){
+									out.print("<p>"+optString+optDoc.get("name")+"</p>" );
+									optString="";//当显示了abcd时第二个不显示
+								}
+							%>
+							<%=optDoc.get("pic")!=null&&!"".equals(optDoc.get("pic"))?"<div class=\"da_an_img\">"+optString+"<img src=\""+optDoc.get("pic")+"\"></div>":""%>
+						</div>
+					</label>
+					<div class="clear"></div>
 	            </li>
            <%
            			}
