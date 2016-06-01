@@ -96,7 +96,7 @@ public class TeacherApi {
                 session.setAttribute("last_login_time", 0!=teacherDoc.getIn("last_login_time")?AjaxXml.timeStamp2Date(teacherDoc.getIn("last_login_time"), "YY04-MM-DD HH:MI:SS"):null);
             } else {
                 shengxia = 5 - login_err;
-                if (login_err + 1 == 6) {
+                if (login_err + 1 >= 6) {
                     base.executeUpdate("update bs_teachers set login_err_times=login_err_times+1,account_status='N' where id=?", new Object[]{teacherDoc.getI("id")});
                     backjson.put("type", false);
                     backjson.put("msg", "密码错误超过5次，帐号已经被锁定");
