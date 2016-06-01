@@ -113,7 +113,7 @@ public class Teacher {
             updateDoc.put("name", name);
             updateDoc.put("account_status", account_status);
             updateDoc.put("sex", sex);
-            updateDoc.put("birth", birth);
+            updateDoc.put("birth", birthTemp);
             updateDoc.put("headpic", headpic);
             updateDoc.put("email", email);
             updateDoc.put("school_id", school_id);
@@ -136,6 +136,7 @@ public class Teacher {
                 base.executeUpdateByDoc("bs_teachers", updateDoc, new Doc().put("id",id));
             } else {
                 updateDoc.put("addtime", AjaxXml.getTimestamp("now"));
+                base.executeInsertByDoc("bs_teachers",updateDoc);
             }
             Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             backjson.put("type", true);

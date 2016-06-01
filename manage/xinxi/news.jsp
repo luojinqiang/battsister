@@ -262,6 +262,7 @@
                     <th width="30%">标题</th>
                     <th width="11%">栏目</th>
                     <th width="8%">排序</th>
+                    <th width="8%">是否置顶</th>
                     <th width="12%">添加时间</th>
                     <th width="15%">操作</th>
                 </tr>
@@ -276,8 +277,8 @@
                     int pages = ru.getInt("page");
                     int pn = 25;
                     String table = "bs_news";
-                    String file = "id,newstitle,bossname,newsclass,ordernum,addtime";
-                    String order = " order by id desc";
+                    String file = "id,newstitle,bossname,newsclass,is_top,ordernum,addtime";
+                    String order = " order by is_top desc,ordernum asc";
                     String idd = "id";
                     int counts = utildb.Get_count(idd, table, wheres, "", sqllist);
                     List list = utildb.Get_mssqlList(pages, pn, counts, table, wheres,
@@ -292,7 +293,9 @@
                     </td>
                     <td><%=newsdoc.get(doc.get("newsclass"))%>
                     </td>
-                    <td><%=doc.getIn("paixu")%>
+                    <td><%=doc.getIn("ordernum")%>
+                    </td>
+                     <td><%=doc.getIn("is_top")==1?"是":"否"%>
                     </td>
                     <td><%=AjaxXml.timeStamp2Date(doc.getIn("addtime"), "YY04-MM-DD HH:MI:SS")%>
                     </td>
@@ -308,7 +311,7 @@
                         <input type="checkbox" name="chkall" id="chkall" value="checkbox"
                                onclick="CheckAll(this.form);"/>选中/取消所有
                     </td>
-                    <td colspan="6" style="text-align:right">
+                    <td colspan="7" style="text-align:right">
                         <input name="tjdel " type="button" onclick=" batchDel()" style="margin-top: 3px;margin-right: 3px;" value="批量删除信息"/>
                         <%out.print(AjaxXml.getPage(pages, 10, pn, counts, "", "", "", request));%>
                     </td>
