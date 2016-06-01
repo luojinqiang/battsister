@@ -135,9 +135,9 @@
                  	 <h3><%=course_json.optString("name")%></h3>
                   		<p><%=course_json.optString("introduce")%></p>
 						<div class="botton1"><a href="course_modules_details.jsp?course_id=<%=course_json.optInt("id")%>">查看详情</a></div>
-						<div class="botton1"><a href="../pdf/web/viewer2.html?file=<%=BasicType.getValueByKey(course_json.optString("teaching_guide"), "word_dir")%>" target="_blank" style="background-color:#fd7700;">教学指南</a></div>
-						<div class="botton1"><a href="../pdf/web/viewer2.html?file=<%=BasicType.getValueByKey(course_json.optString("teaching_evalution"), "word_dir")%>" target="_blank" style="background-color:#fd7700;">教学评价</a></div>
-						<div class="botton1"><a href="../pdf/web/viewer2.html?file=<%=BasicType.getValueByKey(course_json.optString("teaching_plan"), "word_dir")%>" target="_blank" style="background-color:#fd7700;">课程标准</a></div>
+						<div class="botton1"><a href="../pdf/web/viewer2.jsp?file=<%=BasicType.getValueByKey(course_json.optString("teaching_guide"), "word_dir")%>" target="_blank" style="background-color:#fd7700;">教学指南</a></div>
+						<div class="botton1"><a href="../pdf/web/viewer2.jsp?file=<%=BasicType.getValueByKey(course_json.optString("teaching_evalution"), "word_dir")%>" target="_blank" style="background-color:#fd7700;">教学评价</a></div>
+						<div class="botton1"><a href="../pdf/web/viewer2.jsp?file=<%=BasicType.getValueByKey(course_json.optString("teaching_plan"), "word_dir")%>" target="_blank" style="background-color:#fd7700;">课程标准</a></div>
                 </div>
                 <div class="clear"></div>
            </div>	

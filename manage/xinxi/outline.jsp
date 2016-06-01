@@ -86,7 +86,7 @@
 	StringBuffer addBuffer=new StringBuffer("");
 	if(course_outline!=null&&!"".equals(course_outline)){
 		addBuffer.append("<div style=\"margin-top:10px;\">"+
-				"<a href=\"/pdf/web/viewer.html?file=" +course_outline + "\" target=\"_blank\"><img src=\"/public/images/word.png\""+
+				"<a href=\"/pdf/web/viewer.jsp?file=" +course_outline + "\" target=\"_blank\"><img src=\"/public/images/word.png\""+
                       " height=150></a><input type=\"hidden\" name=\"course_outline\" value=\""+
                        ""+course_outline+" \" /></div>");
 		
@@ -115,7 +115,7 @@
            <script type="text/javascript">
              
                 var callback = function (imgpath, realName) {
-                    var append = '<div style="margin-top:10px;"><a href="/pdf/web/viewer.html?file=' + (imgpath) + '" target="_blank"><img src="'
+                    var append = '<div style="margin-top:10px;"><a href="/pdf/web/viewer.jsp?file=' + (imgpath) + '" target="_blank"><img src="'
                             + '/public/images/word.png'
                             + '" height=150></a><input type="hidden" name="course_outline" value="'
                             + imgpath + '" /></div>';

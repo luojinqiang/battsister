@@ -1,3 +1,11 @@
+<%@ page contentType="text/html; charset=utf-8" %>
+<%
+  Object teacher_id=session.getAttribute("teacher_id");
+  if(teacher_id==null){
+    out.print("	<script>alert(\"请先登录\");window.location.href='/login.jsp';</script>");
+    return;
+  }
+%>
 <!DOCTYPE html>
 <!--
 Copyright 2012 Mozilla Foundation
@@ -26,7 +34,7 @@ See https://github.com/adobe-type-tools/cmap-resources
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!--<title>PDF.js viewer</title>-->
+    <title>PDF.js viewer</title>
 
 
     <link rel="stylesheet" href="viewer.css"/>
@@ -35,14 +43,14 @@ See https://github.com/adobe-type-tools/cmap-resources
 
 
 
-<!-- This snippet is used in production (included from viewer.html) -->
+<!-- This snippet is used in production (included from viewer.jsp) -->
 <link rel="resource" type="application/l10n" href="locale/locale.properties"/>
 <script src="l10n.js"></script>
 <script src="../build/pdf.js"></script>
 
 
-<!--
-    <script src="debugger.js"></script>-->
+
+    <script src="debugger.js"></script>
     <script src="viewer.js"></script>
 
   </head>
@@ -174,7 +182,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                 <span id="numPages" class="toolbarLabel"></span>
               </div>
               <div id="toolbarViewerRight">
-                <button id="presentationMode" style="display: none;" class="toolbarButton presentationMode hiddenLargeView" title="Switch to Presentation Mode" tabindex="31" data-l10n-id="presentation_mode">
+                <button id="presentationMode" class="toolbarButton presentationMode hiddenLargeView" title="Switch to Presentation Mode" tabindex="31" data-l10n-id="presentation_mode">
                   <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
                 </button>
                 <button style="display: none;" id="openFile" class="toolbarButton openFile hiddenLargeView" title="Open File" tabindex="32" data-l10n-id="open_file">
@@ -418,13 +426,5 @@ See https://github.com/adobe-type-tools/cmap-resources
 </div>
 
   </body>
-  <script>
-    setInterval(function () {
-      var url = window.location.href;
-      var l = url.lastIndexOf('/') + 1;
-      url = url.substring(l, url.length);
-      document.title=url;
-    }, 300);
-  </script>
 </html>
 
