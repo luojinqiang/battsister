@@ -334,7 +334,7 @@ public class TeacherApi {
             }
             //判断是否学号存在相同
             Doc studentDoc=base.executeQuery2Docs("select id from bs_students where username=? and isdel=0 ",new Object[]{username},1)[0];
-            if(studentDoc!=null&&studentDoc.isEmpty()){
+            if(studentDoc!=null&&!studentDoc.isEmpty()){
             	  backjson.put("type", false);
                   backjson.put("msg", "学生学号已经存在");
                   return backjson;
