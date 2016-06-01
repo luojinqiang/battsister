@@ -1,12 +1,10 @@
-<%@page import="com.battsister.util.BasicType"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="net.sf.json.JSONObject"%>
-<%@page import="net.sf.json.JSONArray"%>
 <%@page import="com.baje.sz.util.Doc"%>
 <%@page import="com.baje.sz.util.Selectic"%>
-<%@page import="com.baje.sz.ajax.AjaxXml"%>
-<%@page import="com.baje.sz.util.RequestUtil"%>
+<%@page import="com.battsister.util.BasicType"%>
+<%@page import="net.sf.json.JSONArray"%>
+<%@page import="net.sf.json.JSONObject"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%
 RequestUtil ru=new RequestUtil(request);
@@ -180,7 +178,7 @@ if(targetObj.style.display!="none"){
  <div class="right_w">
     <%
     	if(chapter_id==0){
-    		out.print("<div class=\"title_r\">习题库介绍</div> <p>"+exercises_introduce+"</p>");
+    		out.print("<div class=\"title_r\">习题库介绍</div> <div style=\"padding:8px;\"><p>"+exercises_introduce+"</p></div>");
     	}else{
     		int size=exeList.size();
     		%>

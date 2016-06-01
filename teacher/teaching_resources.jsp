@@ -161,7 +161,7 @@
                                     JSONObject ppt_json = ppt_array.getJSONObject(i);
                     %>
                     <li class="mr_15">
-                        <div class="ziliao_img"><a href="../pdf/web/viewer.html?file=<%=ppt_json.optString("pic_dir")%>"
+                        <div class="ziliao_img"><a href="../pdf/web/viewer.jsp?file=<%=ppt_json.optString("pic_dir")%>"
                                                    target="_blank"><img src="../public/images/ppt.png" style="width: 154px;height: 154px;margin-left: 57px;"/></a></div>
                         <p><%=ppt_json.optString("title")%>
                         </p>
@@ -186,7 +186,7 @@
                     %>
                     <li class="mr_15">
                         <div class="ziliao_img"><a
-                                href="../pdf/web/viewer2.html?file=<%=word_json.optString("pic_dir")%>"
+                                href="../pdf/web/viewer2.jsp?file=<%=word_json.optString("pic_dir")%>"
                                 target="_blank"><img src="../public/images/word.png" style="width: 154px;height: 154px;margin-left: 57px;"/></a></div>
                         <p><%=word_json.optString("title")%>
                         </p>
