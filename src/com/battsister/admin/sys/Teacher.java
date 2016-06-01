@@ -136,6 +136,7 @@ public class Teacher {
                 base.executeUpdateByDoc("bs_teachers", updateDoc, new Doc().put("id",id));
             } else {
                 updateDoc.put("addtime", AjaxXml.getTimestamp("now"));
+                base.executeInsertByDoc("bs_teachers",updateDoc);
             }
             Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
             backjson.put("type", true);

@@ -28,13 +28,13 @@
     String newstitle = "", bossname = "", smallfile = "", bigfile = "";
     int ordernum = 0, isdel = 0;
     String addtime = "", adduser = "";
-    int adduserid = 0;
+    int adduserid = 0,is_top=0;
     String  content = "";
     String keywords = "",note="";
     int id = ru.getInt("id");
     action = "save";
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("id,newstitle,note,newsclass,bossname,smallfile,bigfile,ordernum,isdel,addtime,adduser,adduserid," +
+        Doc doc = utildb.Get_Doc("id,newstitle,is_top,note,newsclass,bossname,smallfile,bigfile,ordernum,isdel,addtime,adduser,adduserid," +
                 "content,hits,keywords" +
                 "", "bs_news", "where id=?", "", new Object[]{new Integer(id)});
         if (doc != null) {
@@ -168,7 +168,7 @@
             <input name="id" id="id" type="hidden" value="<%=id%>"/>
             <input name="action" id="action" type="hidden" value="<%=action%>"/>
             <input name="newstype" id="newstype" type="hidden" value="1"/>
-            <ul class="row2 clearfix">
+            <ul class="row3 clearfix">
                 <li>
                     <label for="textfield">栏&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目：</label>
                     <select name="newsclass" id="newsclass">
@@ -202,9 +202,10 @@
                     </select>
 
                 </li>
+                <li>是否置顶：<input type="checkbox" name="is_top"  value="1"  <%=is_top==1?"checked=\"checked\"":""%>/>&nbsp;
+                </li>
                 <li>排序：<input type="text" name="ordernum" id="ordernum" value="<%=ordernum %>" style="width:50px;"/>&nbsp;从小到大
                 </li>
-
             </ul>
             <ul class="row1 clearfix">
                 <li>

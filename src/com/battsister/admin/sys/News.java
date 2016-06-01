@@ -12,6 +12,7 @@ import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
 import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
+import com.baje.sz.util.Doc;
 import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.StringUtil;
 
@@ -46,6 +47,7 @@ public class News {
             String bigfile = ru.getString("bigfile").trim();
             int newsclass = ru.getInt("newsclass");
             int ordernum = ru.getInt("ordernum");
+            int is_top=ru.getInt("is_top");
             String note=ru.getString("note");
             content = AjaxXml.unescape(content);
             if (newstitle.equals("")) {
@@ -62,11 +64,29 @@ public class News {
             	backjson.put("msg","新闻简介需50字以内");
                 return backjson;
             }
+            if(id>0){//排序不能相同
+            	Doc doc=base.executeQuery2Docs("select id from bs_news where ordernum=? and id !=? and isdel=0 and newsclass=? ",new Object[]{ordernum,id,newsclass},1)[0];
+            	if(doc!=null&&!doc.isEmpty()){
+            		backjson.put("type",false);
+                	backjson.put("msg","排序存在重复");
+                    return backjson;
+            	}
+            }else{
+            	Doc doc=base.executeQuery2Docs("select id from bs_news where ordernum=? and isdel=0 and newsclass=? ",new Object[]{ordernum,newsclass},1)[0];
+            	if(doc!=null&&!doc.isEmpty()){
+            		backjson.put("type",false);
+                	backjson.put("msg","排序存在重复");
+                    return backjson;
+            	}
+            }
+            if(is_top==1){
+            	base.executeUpdate("update bs_news set is_top =0 where newsclass=? and isdel=0 ",new Object[]{newsclass});
+            }
             content = StringUtil.replace(content, "^…", "&");
             String sql = "insert into bs_news (newstitle,content,newsclass," +
-                    "smallfile,bigfile,ordernum,keywords,bossname,note," +
+                    "smallfile,bigfile,ordernum,keywords,bossname,note,is_top," +
                     "adduser,adduserid,addtime)" +
-                    " values (?,?,?,?,?,?,?,?,?,?,?,?)";
+                    " values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             List list = new ArrayList();
             list.add(newstitle);
             list.add(content);
@@ -77,10 +97,11 @@ public class News {
             list.add(keywords);
             list.add(bossname);
             list.add(note);
+            list.add(is_top);
             if (id > 0) {
                 sql = "update bs_news set newstitle=?,content=?,newsclass=?," +
                         "smallfile=?,bigfile=?,ordernum=?,keywords=?," +
-                        "bossname=?,note=?  where id=?";
+                        "bossname=?,note=?,is_top=?  where id=?";
                 list.add(id);
                 logtitle = "编辑新闻";
             } else {

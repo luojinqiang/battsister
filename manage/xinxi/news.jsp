@@ -277,7 +277,7 @@
                     int pn = 25;
                     String table = "bs_news";
                     String file = "id,newstitle,bossname,newsclass,ordernum,addtime";
-                    String order = " order by id desc";
+                    String order = " order by is_top,ordernum desc";
                     String idd = "id";
                     int counts = utildb.Get_count(idd, table, wheres, "", sqllist);
                     List list = utildb.Get_mssqlList(pages, pn, counts, table, wheres,
