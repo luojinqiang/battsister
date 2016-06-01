@@ -36,7 +36,7 @@
  	String file="id,newstitle,smallfile,addtime,note";
  	String where="isdel=0 and newsclass=?";
 	int counts=selectic.Get_count("id",table,where, "mysqlss",valuelist);
-	List<Doc> newslist=selectic.Get_List(pages, pn, counts, table, where, file, "order by ordernum asc,addtime desc  ", "mysqlss",valuelist);
+	List<Doc> newslist=selectic.Get_List(pages, pn, counts, table, where, file, "order by is_top desc,ordernum asc ", "mysqlss",valuelist);
 	int page_size=selectic.getPageSize(counts, pn);
 %>
 <!doctype html>
