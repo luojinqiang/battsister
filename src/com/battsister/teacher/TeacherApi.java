@@ -1,27 +1,20 @@
 package com.battsister.teacher;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.mail.internet.MimeUtility;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import com.baje.sz.ajax.AjaxXml;
 import com.baje.sz.ajax.LogUtility;
 import com.baje.sz.db.Base;
 import com.baje.sz.db.Dbc;
 import com.baje.sz.db.DbcFactory;
-import com.baje.sz.util.AppConf;
-import com.baje.sz.util.Doc;
-import com.baje.sz.util.KeyBean;
-import com.baje.sz.util.RequestUtil;
-import com.baje.sz.util.SendEmail;
-import com.baje.sz.util.StringUtil;
+import com.baje.sz.util.*;
 import com.battsister.admin.sys.Logdb;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import javax.mail.internet.MimeUtility;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TeacherApi {
     /**
@@ -327,16 +320,22 @@ public class TeacherApi {
             String mobile = ru.getString("mobile");
             int sex = ru.getInt("sex");
             int class_id=ru.getInt("class_id");
+            String student_number = ru.getString("student_number");
             if (username == null || "".equals(username)) {
+                backjson.put("type", false);
+                backjson.put("msg", "请输入登录账号");
+                return backjson;
+            }
+            if (student_number == null || "".equals(student_number)) {
                 backjson.put("type", false);
                 backjson.put("msg", "请输入学生学号");
                 return backjson;
             }
             //判断是否学号存在相同
             Doc studentDoc=base.executeQuery2Docs("select id from bs_students where username=? and isdel=0 ",new Object[]{username},1)[0];
-            if(studentDoc!=null&&studentDoc.isEmpty()){
+            if(studentDoc!=null&&!studentDoc.isEmpty()){
             	  backjson.put("type", false);
-                  backjson.put("msg", "学生学号已经存在");
+                  backjson.put("msg", "学生账号已经存在");
                   return backjson;
             }
             if (name == null || "".equals(name)) {
@@ -363,6 +362,7 @@ public class TeacherApi {
             }
             Doc insertDoc = new Doc();
             insertDoc.put("username", username);
+            insertDoc.put("student_number", student_number);
             insertDoc.put("password", new KeyBean().getkeyBeanofStr(username).toLowerCase());
             insertDoc.put("name", name);
             insertDoc.put("mobile", mobile);
@@ -519,6 +519,7 @@ public class TeacherApi {
             String password = ru.getString("password");
             int student_id = ru.getInt("student_id");
             int class_id=ru.getInt("class_id");
+            String student_number = ru.getString("student_number");
             if (username == null || "".equals(username)) {
                 backjson.put("type", false);
                 backjson.put("msg", "请输入学生学号");
@@ -552,6 +553,7 @@ public class TeacherApi {
             updateDoc.put("mobile", mobile);
             updateDoc.put("sex", sex);
             updateDoc.put("class_id",class_id);
+            updateDoc.put("student_number", student_number);
             if (password != null && !"".equals(password)) {
                 updateDoc.put("password", new KeyBean().getkeyBeanofStr(password).toLowerCase());
             }

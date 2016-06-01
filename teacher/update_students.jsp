@@ -14,7 +14,7 @@ if("update".equals(action)){
 int student_id=ru.getInt("student_id");
 Object teacher_id=session.getAttribute("teacher_id");
 Selectic selectic=new Selectic();
-Doc studentDoc=selectic.Get_Doc("name,username,class_id,sex,mobile", "bs_students", " where id=? and teacher_id=? and isdel=0", "mysqlss",new Object[]{student_id,teacher_id});
+Doc studentDoc=selectic.Get_Doc("name,username,class_id,sex,mobile,student_number", "bs_students", " where id=? and teacher_id=? and isdel=0", "mysqlss",new Object[]{student_id,teacher_id});
 if(studentDoc==null||studentDoc.isEmpty()){
 	out.print("	<script>alert(\"该学生不存在\");window.location.href='/teacher/teacher_home.jsp';</script>");
 	return;
@@ -64,11 +64,16 @@ if(studentDoc==null||studentDoc.isEmpty()){
             </div>
             <div class="clear"></div>
         </div>
-        <div class="input_c">
-            <div class="input_word">学号</div>
-            <div class="input_text"><input name="username" value="<%=studentDoc.get("username")%>" type="text" class="input_k" placeholder="学生学号"></div>
-            <div class="clear"></div>
-        </div>
+		<div class="input_c">
+			<div class="input_word">学号</div>
+			<div class="input_text"><input name="student_number" value="<%=studentDoc.get("student_number")%>" type="text" class="input_k" placeholder="学生学号"></div>
+			<div class="clear"></div>
+		</div>
+		<div class="input_c">
+			<div class="input_word">账号</div>
+			<div class="input_text"><input name="username" value="<%=studentDoc.get("username")%>" type="text" class="input_k" placeholder="登录账号"></div>
+			<div class="clear"></div>
+		</div>
          <div class="input_c">
             <div class="input_word">登录密码</div>
             <div class="input_text"><input name="password" type="password" class="input_k"  placeholder="******"></div>
@@ -102,24 +107,39 @@ if(studentDoc==null||studentDoc.isEmpty()){
 <script type="text/javascript">
 	function updateStudent(){
 		var username=$("input[name=username]").val();
+		var student_number=$("input[name=student_number]").val();
 		var name=$("input[name=name]").val();
 		var sex=$("#sex").val();
 		var mobile=$("input[name=mobile]").val();
 		var password=$("input[name=password]").val();
 		var class_id=$("#class_id").val();
 		if(username==""||username==undefined){
-			art.dialog.alert("请输入学生学号");
+			art.dialog.alert("请输入登录账号");
 			return;
 		}else{
 			var pass_reg=/^[0-9a-zA-Z]*$/g;
 			if(!pass_reg.test(username)){
+				art.dialog.alert("登录账号只能为字母、数字");
+				return false;
+			}
+		}
+		if (username.length < 3 ||  username.length > 12) {
+			art.dialog.alert("登录账号长度不能小于3位或大于12位");
+			return false;
+		}
+		if(student_number==""||student_number==undefined){
+			art.dialog.alert("请输入学号");
+			return;
+		}else{
+			var pass_reg=/^[0-9a-zA-Z]*$/g;
+			if(!pass_reg.test(student_number)){
 				art.dialog.alert("学号只能为字母、数字");
 				return false;
 			}
 		}
 		if(password!=""&&password!=undefined){
 			var pass_reg=/^[0-9a-zA-Z]*$/g;
-			if(!pass_reg.test(username)){
+			if(!pass_reg.test(password)){
 				art.dialog.alert("密码只能为字母、数字");
 				return false;
 			}
@@ -147,7 +167,7 @@ if(studentDoc==null||studentDoc.isEmpty()){
             dataType: "json",
             type: "post", 
             url: "update_students.jsp",
-            data: "action=update&name="+name+"&sex="+sex+"&mobile="+mobile+"&username="+username+"&password="+password+"&student_id=<%=student_id%>&class_id="+class_id, 
+            data: "action=update&name="+name+"&sex="+sex+"&mobile="+mobile+"&username="+username+"&password="+password+"&student_id=<%=student_id%>&class_id="+class_id+"&student_number=" + student_number,
             success: function (msg) {
                 if (msg.type) {
                   	window.location.href='student_management.jsp';
