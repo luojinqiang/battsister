@@ -113,7 +113,7 @@ public class Teacher {
             updateDoc.put("name", name);
             updateDoc.put("account_status", account_status);
             updateDoc.put("sex", sex);
-            updateDoc.put("birth", birth);
+            updateDoc.put("birth", birthTemp);
             updateDoc.put("headpic", headpic);
             updateDoc.put("email", email);
             updateDoc.put("school_id", school_id);
