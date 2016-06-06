@@ -136,6 +136,7 @@
                         <a href="javascript:editLearningGuide('<%=doc.getIn("id")%>','学习指导')">学习指导</a>&nbsp;&nbsp;&nbsp;
                       <a href="javascript:editTeachingPlan('<%=doc.getIn("id")%>','课程标准')">课程标准</a>&nbsp;&nbsp;&nbsp; 
                        <a href="javascript:editTeachingEvalution('<%=doc.getIn("id")%>','教学评价')">教学评价</a>&nbsp;&nbsp;&nbsp;
+                       <a href="javascript:editTeachingData('<%=doc.getIn("id")%>','教材')">教材</a>&nbsp;&nbsp;&nbsp;
                     <a href="javascript:editCourse('<%=doc.get("id")%>','编辑课程')">编辑</a>&nbsp;&nbsp;&nbsp;
                     <a href="javascript:del('<%=doc.get("id")%>')">删除</a></td>
                 </tr>
@@ -290,6 +291,9 @@
     }
     function editTeachingEvalution(id, title) {
         openurl('teaching_evalution_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+    }
+    function editTeachingData(id, title) {
+        openurl('teaching_data_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
     }
 </script>
 <%@ include file="../end.jsp" %><!--End Sidebar--></body>

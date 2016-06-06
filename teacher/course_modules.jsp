@@ -25,7 +25,7 @@
 				JSONObject course_json=new JSONObject();
 				JSONObject hasJson=hasArray.optJSONObject(i);
 				if(hasJson!=null){
-					Doc coursedDoc=selectic.Get_Doc("id,name,introduce,pic,teaching_guide,teaching_evalution,teaching_plan", "bs_course", " where id=? ","mysqlss",new Object[]{hasJson.optInt("course_id")});
+					Doc coursedDoc=selectic.Get_Doc("id,name,introduce,pic,teaching_guide,teaching_evalution,teaching_plan,teaching_data", "bs_course", " where id=? ","mysqlss",new Object[]{hasJson.optInt("course_id")});
 					if(coursedDoc!=null&&!coursedDoc.isEmpty()){
 						course_json.put("id",coursedDoc.getIn("id"));
 						course_json.put("name",coursedDoc.get("name"));
@@ -34,6 +34,7 @@
 						course_json.put("teaching_guide",coursedDoc.get("teaching_guide"));
 						course_json.put("teaching_evalution",coursedDoc.get("teaching_evalution"));
 						course_json.put("teaching_plan",coursedDoc.get("teaching_plan"));
+						course_json.put("teaching_data", coursedDoc.get("teaching_data"));
 						//该教师拥有的课程下面的章节
 						JSONArray chapter_array=new JSONArray();
 						JSONArray hasChapterArray=hasJson.optJSONArray("chapters");
@@ -138,6 +139,7 @@
 						<div class="botton1"><a href="../pdf/web/viewer2.jsp?file=<%=BasicType.getValueByKey(course_json.optString("teaching_guide"), "word_dir")%>" target="_blank" style="background-color:#fd7700;">教学指南</a></div>
 						<div class="botton1"><a href="../pdf/web/viewer2.jsp?file=<%=BasicType.getValueByKey(course_json.optString("teaching_evalution"), "word_dir")%>" target="_blank" style="background-color:#fd7700;">教学评价</a></div>
 						<div class="botton1"><a href="../pdf/web/viewer2.jsp?file=<%=BasicType.getValueByKey(course_json.optString("teaching_plan"), "word_dir")%>" target="_blank" style="background-color:#fd7700;">课程标准</a></div>
+						<div class="botton1"><a href="../pdf/web/viewer2.jsp?file=<%=BasicType.getValueByKey(course_json.optString("teaching_data"), "word_dir")%>" target="_blank" style="background-color:#fd7700;">教材</a></div>
                 </div>
                 <div class="clear"></div>
            </div>	

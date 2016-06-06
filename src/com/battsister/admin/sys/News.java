@@ -79,8 +79,29 @@ public class News {
                     return backjson;
             	}
             }
-            if(is_top==1){
-            	base.executeUpdate("update bs_news set is_top =0 where newsclass=? and isdel=0 ",new Object[]{newsclass});
+            if(is_top==1){//2016-06-06置顶只能6篇文章
+            	List<Doc> listTop=base.executeQuery2List("select id from bs_news where newsclass=? and isdel=0 and is_top=1 ", new Object[]{newsclass});
+            	if(id>0){//更新
+            		if(listTop!=null){
+                		boolean is_exist=false;
+                		for(Doc doc:listTop){
+                			if(doc.getIn("id")==id){
+                				is_exist=true;
+                			}
+                		}
+                		if(!is_exist&&listTop.size()>=6){
+                			backjson.put("type",false);
+                        	backjson.put("msg","只能置顶6篇文章");
+                            return backjson;
+                		}
+                	}
+            	}else{//添加
+            		if(listTop!=null&&listTop.size()>=6){
+            			backjson.put("type",false);
+                    	backjson.put("msg","只能置顶6篇文章");
+                        return backjson;
+            		}
+            	}
             }
             content = StringUtil.replace(content, "^…", "&");
             String sql = "insert into bs_news (newstitle,content,newsclass," +
