@@ -238,8 +238,8 @@
                     </td>
                     <td><%=doc.getIn("order_num")%>
                     </td>
-                     <td><a href="javascript:editppt('<%=doc.get("id")%>','PPT')" >ppt</a>&nbsp;&nbsp;<a
-                            href="javascript:editword('<%=doc.get("id")%>','word')" >word</a>&nbsp;&nbsp;
+                     <td><a href="javascript:editppt('<%=doc.get("id")%>','PPT')" >ppt</a>&nbsp;&nbsp;<%-- <a
+                            href="javascript:editword('<%=doc.get("id")%>','word')" >word</a>&nbsp;&nbsp; --%>
                              <a
                             href="javascript:editvideo('<%=doc.get("id")%>','视频')">视频</a>&nbsp;&nbsp;
                              <a

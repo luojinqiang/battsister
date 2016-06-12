@@ -169,7 +169,7 @@
                     %>
                 </ul>
             </div>
-            <div class="right_con">
+          <%--   <div class="right_con">
                 <div class="two_t"><h5>word资料</h5></div>
                 <ul class="ziliao">
                     <%
@@ -193,7 +193,7 @@
                         out.print(" <div class=\"clear\"></div>");
                     %>
                 </ul>
-            </div>
+            </div> --%>
             <div class="right_con">
                 <div class="three_t"><h5>视频、动画资料</h5></div>
                 <ul class="ziliao">

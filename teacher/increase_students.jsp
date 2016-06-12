@@ -56,16 +56,11 @@ Object teacher_id=session.getAttribute("teacher_id");
             </div>
             <div class="clear"></div>
         </div>
-		<div class="input_c">
-			<div class="input_word">学号</div>
-			<div class="input_text"><input name="student_number" type="text" class="input_k" placeholder="首次密码默认为学号"></div>
-			<div class="clear"></div>
-		</div>
-		<div class="input_c">
-			<div class="input_word">账号</div>
-			<div class="input_text"><input name="username" type="text" class="input_k" placeholder="首次密码默认为与账号相同"></div>
-			<div class="clear"></div>
-		</div>
+        <div class="input_c">
+            <div class="input_word">学号</div>
+            <div class="input_text"><input name="username" type="text" class="input_k" placeholder="首次密码默认为学号"></div>
+            <div class="clear"></div>
+        </div>
         <!--  <div class="input_c">
             <div class="input_word">登录密码</div>
             <div class="input_text"><input name="password" type="password" class="input_k"  placeholder="******"></div>
@@ -109,30 +104,15 @@ Object teacher_id=session.getAttribute("teacher_id");
 		var sex=$("#sex").val();
 		var mobile=$("input[name=mobile]").val();
 		var class_id=$("#class_id").val();
-		var student_number=$("input[name=student_number]").val();
-		var pass_reg=/^[0-9a-zA-Z]*$/g;
-		if(student_number==""||student_number==undefined){
-			art.dialog.alert("请输入学号");
-			return;
-		}else{
-			if(!pass_reg.test(student_number)){
-				art.dialog.alert("学号只能为字母、数字");
-				return false;
-			}
-		}
 		if(username==""||username==undefined){
 			art.dialog.alert("请输入学生学号");
 			return;
 		}else{
+			var pass_reg=/^[0-9a-zA-Z]*$/g;
 			if(!pass_reg.test(username)){
 				art.dialog.alert("学号只能为字母、数字");
 				return false;
 			}
-		}
-
-		if (username.length < 3 ||  username.length > 12) {
-			art.dialog.alert("登录账号长度不能小于3位或大于12位");
-			return false;
 		}
 		if(name==""||name==undefined){
 			art.dialog.alert("请输入学生姓名");
@@ -157,7 +137,7 @@ Object teacher_id=session.getAttribute("teacher_id");
             dataType: "json",
             type: "post", 
             url: "increase_students.jsp",
-            data: "action=add&name="+name+"&sex="+sex+"&mobile="+mobile+"&username="+username+"&class_id="+class_id+"&student_number=" + student_number,
+            data: "action=add&name="+name+"&sex="+sex+"&mobile="+mobile+"&username="+username+"&class_id="+class_id, 
             success: function (msg) {
                 if (msg.type) {
                   	window.location.href='student_management.jsp';

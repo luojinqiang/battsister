@@ -51,7 +51,7 @@
             addtime = doc.get("addtime");
             adduser = doc.get("adduser");
             note=doc.get("note");
-
+            is_top=doc.getIn("is_top");
         }
     }
     String logstarttime = AjaxXml.Get_Date("now", "YY04-MM-DD HH:MI:SS");
