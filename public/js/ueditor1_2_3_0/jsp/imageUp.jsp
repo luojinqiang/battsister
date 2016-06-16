@@ -1,8 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<%@ page import="ueditor.UploaderFix" %>
-<%@ page import="com.baje.sz.ajax.*" %>
-<%@ page import="com.battsister.util.Upfile" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     request.setCharacterEncoding("UTF-8");
     response.setCharacterEncoding("UTF-8");
@@ -15,5 +11,5 @@
     System.out.println(up.getUrl());
     Upfile upfile = new Upfile();
     String backurl = upfile.optUpFile(up.getUrl());
-    response.getWriter().print("{'original':'" + up.getOriginalName() + "','url':'" + up.getUrl() + "','title':'" + up.getTitle() + "','state':'" + up.getState() + "'}");
+    response.getWriter().print("{'original':'" + up.getOriginalName() + "','url':'" + up.getUrl() + "','title':'','state':'" + up.getState() + "'}");
 %>

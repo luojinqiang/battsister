@@ -279,7 +279,7 @@ $(function(){
                      	}
                     	for(int i=0;i<index;i++){
                     		out.print("<li>");
-                    		out.print("<p><img src=\""+cooperationList2.get(i*2).get("pic")+"\"/></p>");
+                    		out.print("<p><a href=\""+(!"".equals(cooperationList2.get(i*2).get("weburl"))?cooperationList2.get(i*2).get("weburl") :"javascript:void(0);")+"\" target=\"_blank\"><img src=\""+cooperationList2.get(i*2).get("pic")+"\"/></a></p>");
                     		if(i*2+1<size){
                     			out.print("<p><img src=\""+cooperationList2.get(i*2+1).get("pic")+"\"/></p>");
                     		}
@@ -328,7 +328,7 @@ $(function(){
                      	}
                     	for(int i=0;i<index;i++){
                     		out.print("<li>");
-                    		out.print("<p><img src=\""+cooperationList1.get(i*2).get("pic")+"\"/></p>");
+                    		out.print("<p><a href=\""+(!"".equals(cooperationList2.get(i*2).get("weburl"))?cooperationList2.get(i*2).get("weburl"):"javascript:void(0);")+"\" target=\"_blank\"><img src=\""+cooperationList1.get(i*2).get("pic")+"\"/></a></p>");
                     		if(i*2+1<size){
                     			out.print("<p><img src=\""+cooperationList1.get(i*2+1).get("pic")+"\"/></p>");
                     		}
