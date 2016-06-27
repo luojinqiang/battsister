@@ -210,7 +210,7 @@
                                     JSONObject video_json = video_array.getJSONObject(i);
                     %>
                     <li class="mr_15">
-                        <div class="ziliao_img">
+                        <%--<div class="ziliao_img">
                             <div class="p_shipin">
                                 <video class="video-js vjs-default-skin vjs-big-play-centered"
                                        controls
@@ -220,9 +220,15 @@
                                             type='video/mp4'/>
                                 </video>
                             </div>
-                        </div>
-                        <p><%=video_json.optString("title")%>
-                        </p>
+                        </div>--%>
+                            <a href="showVideo.jsp?filePath=<%=video_json.optString("filePath")%>" target="_blank">
+                                <div class="ziliao_img">
+                                    <%--<img src="/public/images/play53.png">--%>
+                                    <div class="p_shipin"><img src="/public/images/bofang.png"></div>
+                                </div>
+                                <p><%=video_json.optString("title")%></p>
+                            </a>
+
                     </li>
                     <%
                                 }
@@ -238,7 +244,7 @@
                                     JSONObject animation_json = animation_array.getJSONObject(i);
                     %>
                     <li class="mr_15">
-                        <div class="ziliao_img">
+                       <%-- <div class="ziliao_img">
                             <div class="p_shipin">
                                 <video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
                                        controls
@@ -250,7 +256,15 @@
                             </div>
                         </div>
                         <p><%=animation_json.optString("title")%>
-                        </p>
+                        </p>--%>
+
+                        <a href="showVideo.jsp?filePath=<%=animation_json.optString("filePath")%>" target="_blank">
+                            <div class="ziliao_img">
+                                <%--<img src="/public/images/play53.png">--%>
+                                <div class="p_shipin"><img src="/public/images/bofang.png"></div>
+                            </div>
+                            <p><%=animation_json.optString("title")%></p>
+                        </a>
                     </li>
                     <%
                                 }

@@ -162,7 +162,7 @@ if(infoDoc!=null){
 <script type="text/javascript">
 var options = {
 		pdfOpenParams: {
-			toolbar: 0,
+			toolbar: 0
 		}
 	};
  $(document).ready(function (){
@@ -173,8 +173,6 @@ var options = {
 	<%
 		}
 	%>
-	
-	
  });
 </script>
 </html>
