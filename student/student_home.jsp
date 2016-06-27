@@ -33,7 +33,19 @@
         <div class="side_user">
             <div class="side_user_img"><img src="../front_style/images/user.jpg"></div>
             <div class="side_user_word">
-                <h4>晚上好，<%=student_name%>
+                <%
+
+                    int now=Integer.parseInt(AjaxXml.Get_Date("now","HH"));
+                    String nowString="上午好";
+                    if(now>0&&now<9){
+                        nowString="早上好";
+                    }else if(now>12&&now<18){
+                        nowString="下午好";
+                    }else if(now>=18&&now<24){
+                        nowString="晚上好";
+                    }
+                %>
+                <h4><%=nowString%>，<%=student_name%>
                 </h4>
                 <p>上次登录时间<br><%=last_login_time%>
                 </p>

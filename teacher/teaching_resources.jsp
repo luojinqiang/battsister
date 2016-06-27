@@ -242,7 +242,7 @@
                             <div class="p_shipin">
                                 <video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered"
                                        controls
-                                       preload="auto" width="268" height="154"
+                                       preload="none" width="268" height="154"
                                        data-setup='{}'>
                                     <source src="<%=SetupUtil.getAllAddress(animation_json.optString("filePath"))%>"
                                             type='video/mp4'/>
