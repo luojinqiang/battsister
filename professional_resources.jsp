@@ -135,7 +135,7 @@
 	%>
   <!-- 分页 -->
      <ul class="pre">
-      <%=page_size>0?"<li><a href=\""+(pages!=1?"professional_resources.jsp.jsp?pages="+(pages-1)+"&type="+type:"javascript:void(0);")+"\"><</a></li>":""%>
+      <%=page_size>0?"<li><a href=\""+(pages!=1?"professional_resources.jsp?pages="+(pages-1)+"&type="+type:"javascript:void(0);")+"\"><</a></li>":""%>
        <%
        	int index=1;
        	int index2=page_size;
@@ -149,10 +149,10 @@
 	       	}
        	}
        	for(int i=index;i<=index2;i++){
-       		out.print("<li"+(i==pages?" class=\"active_pre\"":"")+"><a href=\"professional_resources.jsp.jsp?pages="+i+"&type="+type+"\">"+i+"</a></li>");
+       		out.print("<li"+(i==pages?" class=\"active_pre\"":"")+"><a href=\"professional_resources.jsp?pages="+i+"&type="+type+"\">"+i+"</a></li>");
        	}
        %>
-       <%=page_size>0?"<li><a href=\""+(pages!=page_size?"professional_resources.jsp.jsp?pages="+(pages+1)+"&type="+type:"javascript:void(0);")+"\">></a></li>":""%>
+       <%=page_size>0?"<li><a href=\""+(pages!=page_size?"professional_resources.jsp?pages="+(pages+1)+"&type="+type:"javascript:void(0);")+"\">></a></li>":""%>
     </ul>
 </div>
 <!-- 引入尾部 -->

@@ -39,7 +39,9 @@
     </jsp:include>
     <div class="right_w mt_none">
     	<div class="title_r">平台使用手册</div>
-        <%=student_remark%>
+    	<div style="padding-left: 10px;padding-right: 10px; ">
+    	<%=student_remark%>
+    	</div>
     </div>
     <div class="clear"></div>
 </div>
