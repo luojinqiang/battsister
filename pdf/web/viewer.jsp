@@ -1,4 +1,7 @@
-<%@ page contentType="text/html; charset=utf-8" %>
+<%@page import="com.baje.sz.util.RequestUtil"%>
+<%@page import="com.battsister.util.SetupUtil"%>
+<%@page language="java" import="java.util.*"%>
+<%@page contentType="text/html; charset=utf-8" %>
 <%
   Object teacher_id=session.getAttribute("teacher_id");
   if(teacher_id==null){
