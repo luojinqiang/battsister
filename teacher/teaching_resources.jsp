@@ -221,9 +221,9 @@
                                 </video>
                             </div>
                         </div>--%>
-                            <a href="showVideo.jsp?filePath=<%=video_json.optString("filePath")%>" target="video_view">
+                            <a href="showVideo.jsp?filePath=<%=video_json.optString("filePath")%>&title=<%=video_json.optString("title")%>" target="video_view">
                                 <div class="ziliao_img">
-                                    <%--<img src="/public/images/play53.png">--%>
+                                    <img src="/front_style/images/videoHead.jpg">
                                     <div class="p_shipin"><img src="/public/images/bofang.png"></div>
                                 </div>
                                 <p><%=video_json.optString("title")%></p>
@@ -258,9 +258,9 @@
                         <p><%=animation_json.optString("title")%>
                         </p>--%>
 
-                        <a href="showVideo.jsp?filePath=<%=animation_json.optString("filePath")%>" target="video_view">
+                        <a href="showVideo.jsp?filePath=<%=animation_json.optString("filePath")%>&title=<%=animation_json.optString("title")%>" target="video_view">
                             <div class="ziliao_img">
-                                <%--<img src="/public/images/play53.png">--%>
+                                <img src="/front_style/images/videoHead.jpg">
                                 <div class="p_shipin"><img src="/public/images/bofang.png"></div>
                             </div>
                             <p><%=animation_json.optString("title")%></p>
