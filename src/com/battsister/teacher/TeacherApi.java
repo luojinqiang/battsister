@@ -419,7 +419,7 @@ public class TeacherApi {
                  return backjson;
             }
             if(id==0){
-            	 Doc isDoc=base.executeQuery2Docs("select id from bs_class where isdel=0 and class_name = ? ",new Object[]{class_name},1)[0];
+            	 Doc isDoc=base.executeQuery2Docs("select id from bs_class where isdel=0 and class_name = ? and teacher_id=? ",new Object[]{class_name,teacher_id},1)[0];
                  if(isDoc!=null&&!isDoc.isEmpty()){
                  	 backjson.put("type", false);
                       backjson.put("msg", "班级名称已经存在");
@@ -427,6 +427,12 @@ public class TeacherApi {
                  }
                  base.executeUpdate("insert into bs_class(teacher_id,class_name,create_time) values(?,?,?)", new Object[]{teacher_id,class_name,AjaxXml.getTimestamp("now")});
             }else{
+            	Doc isDoc=base.executeQuery2Docs("select id from bs_class where isdel=0 and class_name = ? and teacher_id=? ",new Object[]{class_name,teacher_id},1)[0];
+            	if(isDoc!=null&&!isDoc.isEmpty()&&isDoc.getIn("id")!=id){
+            		 backjson.put("type", false);
+                     backjson.put("msg", "班级名称已经存在");
+                     return backjson;
+            	}
             	base.executeUpdate("update bs_class set class_name=? where id=? ",new Object[]{class_name,id});
             }
             Logdb.WriteSysLog(AjaxXml.getParameterStr(request), "编辑班级", teacherDoc.get("username"), teacherDoc.getIn("id"), ru.getIps(), 0, base);
