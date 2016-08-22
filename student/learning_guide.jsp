@@ -1,3 +1,4 @@
+<%@page import="com.battsister.util.SetupUtil"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="net.sf.json.JSONObject"%>
 <%@page import="net.sf.json.JSONArray"%>
@@ -21,21 +22,27 @@
          return;
     }
     Doc teacherDoc=selectic.Get_Doc("id,course_flag", "bs_teachers", " where id=? ","mysqlss",new Object[]{studentDoc.getIn("teacher_id")});
-    List<Doc> courseList=new ArrayList();
+    JSONArray courseArray=new JSONArray();
     if(teacherDoc.get("course_flag")!=null&&!"".equals(teacherDoc.get("course_flag"))){
 		JSONArray hasArray=JSONArray.fromObject(teacherDoc.get("course_flag"));
 		if(hasArray!=null){
 			for(int i=0;i<hasArray.size();i++){
 				JSONObject hasJson=hasArray.optJSONObject(i);
 				if(hasJson!=null){
-					Doc coursedDoc=selectic.Get_Doc("id,learning_guide,name", "bs_course", " where id=? ","mysqlss",new Object[]{hasJson.optInt("course_id")});
+					Doc coursedDoc=selectic.Get_Doc("id,learning_guide,name,order_num", "bs_course", " where id=? order by order_num desc ","mysqlss",new Object[]{hasJson.optInt("course_id")});
 					if(coursedDoc!=null&&!coursedDoc.isEmpty()){
-						courseList.add(coursedDoc);
+						JSONObject courseJson=new JSONObject();
+						courseJson.put("id", coursedDoc.getIn("id"));
+						courseJson.put("learning_guide", coursedDoc.get("learning_guide",""));
+						courseJson.put("name", coursedDoc.get("name",""));
+						courseJson.put("order_num",coursedDoc.getIn("order_num"));
+						courseArray.add(courseJson);
 					}
 				}
 			}
 		}
 	}
+    courseArray=SetupUtil.sortJSONArray(courseArray, "order_num",2);
 %>
 <!doctype html>
 <html>
@@ -69,9 +76,10 @@
             <ul id="juheweb">
                 <h3>学习指导</h3>
                 <%
-                    if (courseList != null && !courseList.isEmpty()) {
-                        for (Doc doc : courseList) {
-                            out.print("<li><h5 onclick=\"javascript:showPdf(this);\" data=" + BasicType.getValueByKey(doc.get("learning_guide"), "word_dir") + "><a>" + doc.get("name") + "</a></h5></li>");
+                    if (courseArray != null && !courseArray.isEmpty()) {
+                        for(int i=0;i<courseArray.size();i++){
+                        	JSONObject courserJson=courseArray.optJSONObject(i);
+                        	 out.print("<li><h5 onclick=\"javascript:showPdf(this);\" data=" + BasicType.getValueByKey(courserJson.optString("learning_guide"), "word_dir") + "><a>" + courserJson.optString("name") + "</a></h5></li>");
                         }
                     }
                 %>

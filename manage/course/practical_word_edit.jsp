@@ -142,7 +142,7 @@
             <script type="text/javascript">
 
                 var callback = function (imgpath, realName) {
-                    var append = '<div style="margin-top:10px;"><div>标题：<input type="text" name="title" style="width:120px;" value="' + realName + '"/>排序：<input type="number" name="order_no" style="max-width:30px;" /></div><a href="/pdf/web/viewer.jsp?file=' + (imgpath) + '" target="_blank"><img src="'
+                    var append = '<div style="margin-top:10px;"><div>标题：<input type="text" name="title" style="width:120px;" value="' + realName + '"/>排序：<input type="number" name="order_no" style="max-width:30px;" value="0" /></div><a href="/pdf/web/viewer.jsp?file=' + (imgpath) + '" target="_blank"><img src="'
                             + '/public/images/word.png'
                             + '" height=150></a><div class="del">删除</div><input type="hidden" name="word_dir" value="'
                             + imgpath + '" /></div>';

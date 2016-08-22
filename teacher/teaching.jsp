@@ -24,12 +24,13 @@
 				JSONObject course_json=new JSONObject();
 				JSONObject hasJson=hasArray.optJSONObject(i);
 				if(hasJson!=null){
-					Doc coursedDoc=selectic.Get_Doc("id,name,introduce,pic", "bs_course", " where id=? ","mysqlss",new Object[]{hasJson.optInt("course_id")});
+					Doc coursedDoc=selectic.Get_Doc("id,name,introduce,pic,order_num", "bs_course", " where id=? ","mysqlss",new Object[]{hasJson.optInt("course_id")});
 					if(coursedDoc!=null&&!coursedDoc.isEmpty()){
 						course_json.put("id",coursedDoc.getIn("id"));
 						course_json.put("name",coursedDoc.get("name"));
 						course_json.put("introduce",coursedDoc.get("introduce"));
 						course_json.put("pic",coursedDoc.get("pic"));
+						course_json.put("order_num",coursedDoc.getIn("order_num"));
 						//该教师拥有的课程下面的章节
 						JSONArray chapter_array=new JSONArray();
 						JSONArray hasChapterArray=hasJson.optJSONArray("chapters");

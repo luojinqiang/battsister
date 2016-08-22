@@ -28,7 +28,7 @@
                 JSONObject course_json = new JSONObject();
                 JSONObject hasJson = hasArray.optJSONObject(i);
                 if (hasJson != null) {
-                    Doc coursedDoc = selectic.Get_Doc("id,name,introduce,pic", "bs_course", " where id=? ", "mysqlss", new Object[]{hasJson.optInt("course_id")});
+                    Doc coursedDoc = selectic.Get_Doc("id,name,introduce,pic,order_num", "bs_course", " where id=? ", "mysqlss", new Object[]{hasJson.optInt("course_id")});
                     if (coursedDoc != null && !coursedDoc.isEmpty()) {
                         course_json.put("id", coursedDoc.getIn("id"));
                         course_json.put("name", coursedDoc.get("name"));
@@ -66,6 +66,7 @@
             }
         }
     }
+    course_array=SetupUtil.sortJSONArray(course_array, "order_num", 2);
     if (getDoc == null) {//老师未购买该章节
         out.print("	<script>alert(\"您尚未购买该章节\");window.location.href='/login.jsp';</script>");
         return;

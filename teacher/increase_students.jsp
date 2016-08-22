@@ -111,7 +111,7 @@ Object teacher_id=session.getAttribute("teacher_id");
 			var pass_reg=/^[0-9a-zA-Z]*$/g;
 			if(!pass_reg.test(username)){
 				art.dialog.alert("学号只能为字母、数字");
-				return false;
+				return ;
 			}
 		}
 		if(name==""||name==undefined){
@@ -126,7 +126,7 @@ Object teacher_id=session.getAttribute("teacher_id");
 			var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/; 
 			if(!myreg.test(mobile)){
 				art.dialog.alert("请输入正确格式的手机号");
-				return false;
+				return ;
 			}
 		}
 		if(class_id==0||class_id==undefined){

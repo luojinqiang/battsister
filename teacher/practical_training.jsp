@@ -28,7 +28,7 @@
                 JSONObject course_json = new JSONObject();
                 JSONObject hasJson = hasArray.optJSONObject(i);
                 if (hasJson != null) {
-                    Doc coursedDoc = selectic.Get_Doc("id,name,introduce,pic,practical_word_path,practical_video_path", "bs_course", " where id=? ", "mysqlss", new Object[]{hasJson.optInt("course_id")});
+                    Doc coursedDoc = selectic.Get_Doc("id,name,introduce,pic,practical_word_path,practical_video_path,order_num", "bs_course", " where id=? ", "mysqlss", new Object[]{hasJson.optInt("course_id")});
                     if (coursedDoc != null && !coursedDoc.isEmpty()) {
                         course_json.put("id", coursedDoc.getIn("id"));
                         course_json.put("name", coursedDoc.get("name"));
@@ -36,6 +36,7 @@
                         course_json.put("pic", coursedDoc.get("pic"));
                         course_json.put("practical_word_path", coursedDoc.get("practical_word_path"));
                         course_json.put("practical_video_path", coursedDoc.get("practical_video_path"));
+                        course_json.put("order_num",coursedDoc.getIn("order_num"));
                         course_array.add(course_json);
                     }
                 }
@@ -55,6 +56,7 @@
         out.print("	<script>alert(\"您尚未购买课程\");window.location.href='/login.jsp';</script>");
         return;
     }
+    course_array=SetupUtil.sortJSONArray(course_array, "order_num", 2);
 %>
 <!doctype html>
 <html>

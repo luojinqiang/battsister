@@ -113,12 +113,14 @@ public class Course {
             if (dir != null && dir.length > 0) {
                 int i = 0;
                 for (String s : dir) {
-                    object = new JSONObject();
-                    object.put("word_dir", s);
-                    object.put("title", titles[i]);
-                    object.put("order_no", order_nos[i]);
-                    array.add(object);
-                    i++;
+                   if(s!=null&&!"".equals(s)){
+                	   object = new JSONObject();
+                       object.put("word_dir", s);
+                       object.put("title", titles[i]);
+                       object.put("order_no",order_nos[i]);
+                       array.add(object);
+                       i++;
+                   }
                 }
             }
             array=SetupUtil.sortJSONArray(array, "order_no",2);
