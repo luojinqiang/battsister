@@ -34,6 +34,7 @@
                         course_json.put("name", coursedDoc.get("name"));
                         course_json.put("introduce", coursedDoc.get("introduce"));
                         course_json.put("pic", coursedDoc.get("pic"));
+						course_json.put("order_num", coursedDoc.getIn("order_num"));
                         //该教师拥有的课程下面的章节
                         JSONArray chapter_array = new JSONArray();
                         JSONArray hasChapterArray = hasJson.optJSONArray("chapters");
