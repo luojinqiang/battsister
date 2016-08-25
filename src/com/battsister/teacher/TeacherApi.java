@@ -1,7 +1,10 @@
 package com.battsister.teacher;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +25,7 @@ import com.baje.sz.util.RequestUtil;
 import com.baje.sz.util.SendEmail;
 import com.baje.sz.util.StringUtil;
 import com.battsister.admin.sys.Logdb;
+import com.battsister.mail.SendMail;
 
 public class TeacherApi {
     /**
@@ -677,22 +681,25 @@ public class TeacherApi {
             }
             boolean send = false;
             String de_email_con_value = AjaxXml.Getrandom(6);
-            SendEmail sw = new SendEmail();
+            SendMail sendMail=new SendMail("battsister@battsister.com","SrnvuoPw0xSs6Juw");
             String subject = MimeUtility.encodeWord("派司德科技邮箱找回密码（此邮件回复无效）", "UTF-8", "Q");//标题
-            sw.setSubject(subject);
-            //内容
             String content = "您在派司德科技教育平台找回密码的邮箱验证码是:" + de_email_con_value;
-            sw.setContent(content);
-            String strFrom = AppConf.getconf().get("emailfrom");//发送的邮箱
-            String smtp = AppConf.getconf().get("emailsmtp");//发送协议
-            String user = AppConf.getconf().get("emailfrom");//发送的邮箱
-            String epass = AppConf.getconf().get("emailpwd");//密码
-            boolean smail = sw.sendMail_x(email, strFrom, smtp, user, epass);
-            if (!smail) {
-                backjson.put("type", false);
-                backjson.put("msg", "邮件发送失败，请稍候再试");
-                return backjson;
-            }
+            Map<String,String> map= new HashMap<String,String>();
+            map.put("mail.smtp.host", "smtp.exmail.qq.com");
+            map.put("mail.smtp.auth", "true");
+            map.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            map.put("mail.smtp.port", "465");
+            map.put("mail.smtp.socketFactory.port", "465");
+            sendMail.setPros(map);
+            sendMail.initMessage();
+            List<String> list = new ArrayList<String>();
+            list.add(email);
+            sendMail.setRecipients(list);
+            sendMail.setSubject(subject);
+            sendMail.setDate(new Date());
+            sendMail.setFrom("派司德科技");
+            sendMail.setContent(content, "text/html; charset=UTF-8");
+            sendMail.sendMessage();//发送邮件
             send = true;
             if (send) {
                 Doc insertDoc = new Doc();
