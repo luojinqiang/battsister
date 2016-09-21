@@ -173,7 +173,7 @@ $(function(){
             		for(int i=0;i<newsList.size()&&i<3;i++){
             			Doc doc=newsList.get(i);
             			%>
-                    <a href="news_details.jsp?news_id=<%=doc.getIn("id")%>">
+                    <a href="news_details.jsp?news_id=<%=doc.getIn("id")%>&type=2&pages=1">
 	                    <div class="news_list">
 	                        <div class="date">
 	                            <div class="month">
@@ -205,7 +205,7 @@ $(function(){
                    			for(int i=3;i<newsList.size();i++){
                    				Doc doc=newsList.get(i);
                    				%>
-                   	<a href="news_details.jsp?news_id=<%=doc.getIn("id")%>">
+                   	<a href="news_details.jsp?news_id=<%=doc.getIn("id")%>&type=2&pages=1">
 	                    <div class="news_list">
 	                        <div class="date">
 	                            <div class="month">
