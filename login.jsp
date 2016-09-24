@@ -55,7 +55,7 @@
 
 <div class="headerbg">
    <div class="header">
-   		<div class="logo"><img src="front_style/images/logo.png"></div>
+   		<div class="logo" onclick="window.location.href='index.jsp'"><img src="front_style/images/logo.png"></div>
         <div class="logo_info">用户登录</div>
    </div>
 </div>

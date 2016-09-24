@@ -52,8 +52,8 @@
     <meta name="keywords" content="#"/>
     <meta name="description" content="#"/>
     <link href="../front_style/css/style.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="../front_style/ppt_word/css/base.css">
-    <link rel="stylesheet" href="../front_style/ppt_word/css/MPreview.css">
+  <!--   <link rel="stylesheet" href="../front_style/ppt_word/css/base.css">
+    <link rel="stylesheet" href="../front_style/ppt_word/css/MPreview.css"> -->
     <script type="text/javascript" src="../front_style/js/jquery.min.js"></script>
     <script src="../front_style/js/showList.js" type="text/javascript"></script>
     <style>
@@ -79,7 +79,7 @@
                     if (courseArray != null && !courseArray.isEmpty()) {
                         for(int i=0;i<courseArray.size();i++){
                         	JSONObject courserJson=courseArray.optJSONObject(i);
-                        	 out.print("<li><h5 onclick=\"javascript:showPdf(this);\" data=" + BasicType.getValueByKey(courserJson.optString("learning_guide"), "word_dir") + "><a>" + courserJson.optString("name") + "</a></h5></li>");
+                        	 out.print("<li><h5><a href='/pdf/web/viewer.jsp?file="+ BasicType.getValueByKey(courserJson.optString("learning_guide"), "word_dir")+"' target='show'>" + courserJson.optString("name") + "</a></h5></li>");
                         }
                     }
                 %>
@@ -90,26 +90,15 @@
         <div class="right_con">
 
             <div class="">
-                <div class="doc" id="doc"></div>
+                <div class="doc" id="doc"> 
+                <iframe name="show" style="width: 100%;height: 900px;" frameBorder="0">
+                </iframe>
+                </div> 
             </div>
         </div>
     </div>
     <div class="clear"></div>
 </div>
-<script type="text/javascript" src="../public/js/pdfobject.min.js"></script>
-<script type="text/javascript">
-var options = {
-		pdfOpenParams: {
-			toolbar: 0,
-		}
-	};
-    function showPdf(obj) {
-        $('.selected').attr('class', '');
-        $(obj).attr('class', 'selected');
-        var url = $(obj).attr("data");
-        PDFObject.embed(url, "#doc",options);
-    }
-</script>
 <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

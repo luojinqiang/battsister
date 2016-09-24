@@ -4,7 +4,8 @@
 <%@page contentType="text/html; charset=utf-8" %>
 <%
   Object teacher_id=session.getAttribute("teacher_id");
-  if(teacher_id==null){
+  Object student_id=session.getAttribute("student_id");
+  if(teacher_id==null&&student_id==null){
     out.print("	<script>alert(\"请先登录\");window.location.href='/login.jsp';</script>");
     return;
   }
