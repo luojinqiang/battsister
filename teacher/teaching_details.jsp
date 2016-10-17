@@ -279,9 +279,19 @@
                             JSONArray pic_array = JSONArray.fromObject(getDoc.get("pics"));
                             if (pic_array != null) {
                                 for (int i = 0; i < pic_array.size(); i++) {
+                                	  String path="";
+                                	  String title="";
+                                	  JSONObject pic_json=pic_array.optJSONObject(i);
+                                	  if(pic_json==null||pic_json.isEmpty()){
+                                		  path=pic_array.optString(i);
+                                	  }else{
+                                		  path=pic_json.optString("path");
+                                		  title=pic_json.optString("title");
+                                	  }
                     %>
                     <li class="mr_15">
-                        <div class="ziliao_img"><a href="javascript:void(0)"><img src="<%=pic_array.optString(i)%>"/></a></div>
+                        <div class="ziliao_img"><a href="javascript:void(0)"><img src="<%=path%>"/></a></div>
+                        <p><%=title%></p>
                     </li>
                     
                     <%

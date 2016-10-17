@@ -380,12 +380,17 @@ public class Chapter {
                 return backjson;
             }
             String upload_pics = ru.getString("upload_pics");
+            String titles=ru.getString("titles");
             JSONArray pic_array = new JSONArray();
             if (upload_pics != null) {
                 String ss[] = upload_pics.split(",");
+                String title[]=titles.split(",");
                 if (ss != null) {
-                    for (int i = 0; i < ss.length && !"".equals(ss[i]); i++) {
-                        pic_array.add(ss[i]);
+                    for (int i = 0; i < ss.length && !"".equals(ss[i])&&i<title.length; i++) {
+                    	JSONObject pic_json=new JSONObject();
+                    	pic_json.put("title",title[i]);
+                    	pic_json.put("path", ss[i]);
+                        pic_array.add(pic_json);
                     }
                 }
             }
@@ -403,9 +408,5 @@ public class Chapter {
         } finally {
             dbc.closeConn();
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(AjaxXml.getTimestamp("now"));
     }
 }

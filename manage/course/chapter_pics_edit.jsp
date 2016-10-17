@@ -65,11 +65,19 @@
                 	upload_pics += "," + $(this).val();
                 }
             });
+            var titles='';
+            $("input[name=title]").each(function () {
+                if (titles == "") {
+                	titles = $(this).val();
+                } else {
+                	titles += "," + $(this).val();
+                }
+            });
             $.ajax({
                 dataType: "json",
                 type: "post",
                 url: "chapter_pics_edit.jsp",
-                data: $("#form1").serialize()+"&upload_pics="+upload_pics,
+                data: $("#form1").serialize()+"&upload_pics="+upload_pics+"&titles="+titles,
                 success: function (msg) {
                     if (msg.type) {
                         window.parent.art.dialog({
@@ -127,9 +135,18 @@
                     <%if (pics_path != null && !"".equals(pics_path)) {
                            JSONArray picArray=JSONArray.fromObject(pics_path);
                               for (int i = 0; i < picArray.size(); i++) {
-                                  if (!picArray.getString(i).equals("")) {
+                            	  String path="";
+                            	  String title="";
+                            	  JSONObject pic_json=picArray.optJSONObject(i);
+                            	  if(pic_json==null||pic_json.isEmpty()){
+                            		  path=picArray.optString(i);
+                            	  }else{
+                            		  path=pic_json.optString("path");
+                            		  title=pic_json.optString("title");
+                            	  }
+                                  if (!path.equals("")) {
                                       %>
-                    $('#introduceDetail1').append('<span><a href="<%=picArray.getString(i)%>" target="_blank"><img src="<%=picArray.getString(i)%>" height=150></a><span class="del">删除</span><input type="hidden" name="upload_pic" value="<%=picArray.getString(i)%>" /></span>');
+                    $('#introduceDetail1').append('<span><div>标题：<input type="text" name="title" value="<%=title%>"/></div><a href="<%=path%>" target="_blank"><img src="<%=path%>" height=150></a><span class="del">删除</span><input type="hidden" name="upload_pic" value="<%=path%>" /></span>');
                     <%}
                               }
                           }%>
@@ -148,7 +165,7 @@
                     }
                     $('#introduceDetail1')
                             .append(
-                                    '<span><a href="'
+                                    '<span><div>标题：<input type="text" name="title" value=""/></div><a href="'
                                     + imgpath
                                     + '" target="_blank"><img src="'
                                     + imgpath

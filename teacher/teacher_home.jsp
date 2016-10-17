@@ -157,10 +157,9 @@
 					'/document/images/18-47-05_6642/test-7.png'];
 	  </script>
  <script type="text/javascript">$('#doc').MPreview({ data: data });</script> -->
-
 		<!--   </div> -->
 		<%-- 	<%=course_outline%> --%>
-		<iframe height="700" width="100%" src="class_gang.jsp">
+		<iframe height="700" width="100%" src="/teacher/gang/gang.htm">
 		
 		</iframe>
 	</div>
