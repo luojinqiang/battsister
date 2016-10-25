@@ -386,9 +386,13 @@ public class Chapter {
                 String ss[] = upload_pics.split(",");
                 String title[]=titles.split(",");
                 if (ss != null) {
-                    for (int i = 0; i < ss.length && !"".equals(ss[i])&&i<title.length; i++) {
+                    for (int i = 0; i < ss.length && !"".equals(ss[i]); i++) {
                     	JSONObject pic_json=new JSONObject();
-                    	pic_json.put("title",title[i]);
+                    	String t="";
+                    	if(i<title.length){
+                    		t=title[i];
+                    	}
+                    	pic_json.put("title",t);
                     	pic_json.put("path", ss[i]);
                         pic_array.add(pic_json);
                     }

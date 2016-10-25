@@ -159,9 +159,13 @@
  <script type="text/javascript">$('#doc').MPreview({ data: data });</script> -->
 		<!--   </div> -->
 		<%-- 	<%=course_outline%> --%>
-		<iframe height="700" width="100%" src="/teacher/gang/gang.htm">
+		<div class="right_con">
+		<div class="wrapper">
+		<iframe height="800" width="100%" src="/teacher/gang/gang.htm" frameborder="0" >
 		
 		</iframe>
+		</div>
+		</div>
 	</div>
 	<div class="clear"></div>
 </div>
