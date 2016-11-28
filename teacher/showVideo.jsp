@@ -86,9 +86,8 @@ body{ margin:0px; padding:0px;}
     <div class="video_t"><h2><%=title%></h2></div>
     <div class="video">
     <video id="example_video1" class="video-js vjs-default-skin vjs-big-play-centered"
-                                       controls
-                                       preload="true" width="1300" height="600"
-                                       data-setup='{"autoplay":true}'>
+                                      width="1300" height="600"
+                                       data-setup='{"autoplay":true,"example_option":true,"controls": true,"preload":"auto"}'>
                                     <source src="<%=SetupUtil.getAllAddress(filePath)%>"
                                             type='video/mp4'/>
                                 </video></div>
