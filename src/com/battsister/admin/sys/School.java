@@ -42,6 +42,7 @@ public class School {
 	            String address=ru.getString("address");
 	            String weburl=ru.getString("weburl");
 	            String beizhu=ru.getString("beizhu");
+	            String logo=ru.getString("logo");
 	            List valueList = new ArrayList();
 	            valueList.add(name);
 	            valueList.add(address);
@@ -51,13 +52,14 @@ public class School {
 	            valueList.add(contact);
 	            valueList.add(beizhu);
 	            valueList.add(weburl);
+	            valueList.add(logo);
 	            if (id > 0) {
 	                logtitle = "API--学校--编辑";
 	                valueList.add(id);
-	                base.executeUpdate("update bs_schools set name=?,address=?,tel=?,fax=?,email=?,contact=?,beizhu=?,weburl=? where id=? ", valueList);
+	                base.executeUpdate("update bs_schools set name=?,address=?,tel=?,fax=?,email=?,contact=?,beizhu=?,weburl=?,logo=? where id=? ", valueList);
 	            } else {
 	                valueList.add(AjaxXml.getTimestamp("now"));
-	                base.executeUpdate("insert into bs_schools (name,address,tel,fax,email,contact,beizhu,weburl,add_time) values(?,?,?,?,?,?,?,?,?)", valueList);
+	                base.executeUpdate("insert into bs_schools (name,address,tel,fax,email,contact,beizhu,weburl,logo,add_time) values(?,?,?,?,?,?,?,?,?,?)", valueList);
 	            }
 	            Logdb.WriteSysLog(ajaxRequest, logtitle, username, userid, ru.getIps(), 0, base);
 	            backjson.put("type", true);

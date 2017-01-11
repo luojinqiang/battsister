@@ -179,7 +179,7 @@
 	            	IP限制5：<input type="text" name="ip_limit" value="<%=ipArray.size()>1?ipArray.optString(4):""%>"/>
 	            </li>
             </ul>
-            <ul class="row1 clearfix">
+           <%--  <ul class="row1 clearfix">
                 <li>头像图：
 							<span class="input"> <span class="upload_file">
 									<div>
@@ -196,13 +196,13 @@
 									<div class="img" id="smallfileDetail1" style="width: 100px;"></div>
 							</span> </span>
                 </li>
-            </ul>
+            </ul> --%>
               <ul class="row3 clearfix">
                 <li>密 码：<input name="password" type="password" id="password" size="15"/></li>
                 <li>确认密码：<input name="password1" type="password" id="password1" size="15"/></li>
                 <li>编辑时不输入则不更改密码</li>
             </ul>
-            <script type="text/javascript">
+           <!--  <script type="text/javascript">
                 if ($('#smallfileUpload1').size()) {
                     global_obj.file_upload($('#smallfileUpload1'),
                             $('#form1 input[name=headpic]'), $('#smallfileDetail1'),
@@ -217,7 +217,7 @@
                         $(this).parent().html('');
                     });
                 }
-            </script>
+            </script> -->
             <div class="row_btn">
                 <button type="button" id="tjbutton" onclick="usersave()">确定提交</button>
                 <span id="tisspan"></span>

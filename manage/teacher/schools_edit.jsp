@@ -22,9 +22,9 @@
     	out.print(school.editSchool(request, user_id, user_name));
     	return; 
     }
-	String name="",address="",tel="",fax="",email="",contact="",beizhu="",weburl="";
+	String name="",address="",tel="",fax="",email="",contact="",beizhu="",weburl="",logo="";
     if (id > 0) {
-        Doc doc = utildb.Get_Doc("name,address,tel,fax,email,contact,beizhu,weburl","bs_schools", " where id=? and isdel=0", "mysqlss", new Object[]{id});
+        Doc doc = utildb.Get_Doc("name,address,tel,fax,email,contact,beizhu,weburl,logo","bs_schools", " where id=? and isdel=0", "mysqlss", new Object[]{id});
         if (doc == null) {
             out.print("信息不存在");
             return;
@@ -37,6 +37,7 @@
         	contact=doc.get("contact");
         	beizhu=doc.get("beizhu");
         	weburl=doc.get("weburl");
+        	logo=doc.get("logo");
         }
     }
 %>
@@ -117,6 +118,40 @@
 	           	</li>
 	           
             </ul>
+             <ul class="row1 clearfix">
+                <li>logo：
+							<span class="input"> <span class="upload_file">
+									<div>
+                                        <div class="up_input">
+                                            <input name="FileUpload" id="smallfileUpload1" type="file"/>
+                                        </div>
+                                        <div class="tips">
+                                            图片尺寸建议：200px*60px
+                                        </div>
+                                        <div class="clear"></div>
+                                        <input type="hidden" name="logo"
+                                               value="<%=logo%>"/>
+                                    </div>
+									<div class="img" id="smallfileDetail1" style="width: 100px;"></div>
+							</span> </span>
+                </li>
+            </ul>
+             <script type="text/javascript">
+                if ($('#smallfileUpload1').size()) {
+                    global_obj.file_upload($('#smallfileUpload1'),
+                            $('#form1 input[name=logo]'), $('#smallfileDetail1'),
+                            'web_column');
+                    $('#smallfileDetail1').html(
+                            global_obj.img_link($('#form1 input[name=logo]').val()));
+                    if ($('#form1 input[name=logo]').val() != '') {
+                        $('#smallfileDetail1').append('<div class="del">删除</div>');
+                    }
+                    $('#smallfileDetail1 div').click(function () {
+                        $('#form1 input[name=logo]').val('');
+                        $(this).parent().html('');
+                    });
+                }
+            </script>
             <ul class="row1 clearfix">
             	<li>
             	备注：<textarea rows="5" cols="50"><%=beizhu%></textarea>

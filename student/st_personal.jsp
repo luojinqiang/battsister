@@ -15,16 +15,18 @@
         out.print(new StudentApi().editStudentInfo(request));
         return;
     }
-    Doc doc = new Selectic().Get_Doc("name,birth,sex,mobile", "bs_students", "where id=?", "mysqlss", new Object[]{student_id});
+    Doc doc = new Selectic().Get_Doc("name,birth,sex,mobile,headpic", "bs_students", "where id=?", "mysqlss", new Object[]{student_id});
     String name = "";
     String birth = "";
     int sex = 0;
     String mobile = "";
+    String headpic="";
     if (doc != null && !doc.isEmpty()) {
         name = doc.get("name");
         birth = AjaxXml.timeStamp2Date(doc.getIn("birth"), "YY04-MM-DD");
         sex = doc.getIn("sex");
         mobile = doc.get("mobile");
+        headpic=doc.get("headpic");
     }
 %>
 <!doctype html>
@@ -39,6 +41,9 @@
      <script type="text/javascript"
             src="/manage/js/artDialog4.1.6/artDialog.js?skin=blue"></script>
 <script type="text/javascript" src="/manage/js//artDialog4.1.6/plugins/iframeTools.source.js"></script>
+<!-- 图片上传 -->
+ <script type='text/javascript' src='/public/js/global.js'></script>
+    <script type='text/javascript' src='/public/js/operamasks/operamasks-ui.min.js'></script>
 </head>
 
 <body>
@@ -95,6 +100,41 @@
                 <div class="clear"></div>
             </div>
             <div class="input_c">
+                <div class="input_word">头像</div>
+                <div class="input_text">
+                	<span class="input"> <span class="upload_file">
+									<div>
+                                        <div class="up_input">
+                                            <input name="FileUpload" id="smallfileUpload1" type="file"/>
+                                        </div>
+                                        <div class="tips">
+                                        </div>
+                                        <div class="clear"></div>
+                                        <input type="hidden" name="headpic"
+                                               value="<%=headpic%>"/>
+                                    </div>
+									<div class="img" id="smallfileDetail1" style="width: 100px;"></div>
+							</span> </span>
+                </div>
+                <div class="clear"></div>
+                 <script type="text/javascript">
+                if ($('#smallfileUpload1').size()) {
+                    global_obj.file_upload($('#smallfileUpload1'),
+                            $('#userInfo input[name=headpic]'), $('#smallfileDetail1'),
+                            'web_column');
+                    $('#smallfileDetail1').html(
+                            global_obj.img_link($('#userInfo input[name=headpic]').val()));
+                    if ($('#userInfo input[name=headpic]').val() != '') {
+                        $('#smallfileDetail1').append('<div class="del">删除</div>');
+                    }
+                    $('#smallfileDetail1 div').click(function () {
+                        $('#userInfo input[name=headpic]').val('');
+                        $(this).parent().html('');
+                    });
+                }
+            </script>
+            </div>
+            <div class="input_c">
                 <div class="botton2"><a href="javascript:void(0)" onclick="userSave(this);">确认修改</a></div>
             </div>
         </div>
@@ -136,7 +176,7 @@
         $(obj).html('提交中...').attr('onclick', 'void(0);');
         $.post('?',$('#userInfo').serialize(),function (data) {
         	if(data.type){
-        		art.dialog.alert(data.msg);
+        		//art.dialog.alert(data.msg);
         		window.location.href='student_home.jsp';
         	}else{
         		art.dialog.alert(data.msg);

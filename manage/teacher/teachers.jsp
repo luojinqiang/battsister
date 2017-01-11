@@ -214,12 +214,12 @@
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <th width="4%">&nbsp;</th>
-                    <th width="8%">登录帐号</th>
-                    <th width="8%">姓名</th>
+                    <th width="12%">登录帐号</th>
+                    <th width="12%">姓名</th>
                     <th width="15%">所属学校</th>
                     <th width="8%">账号状态</th>
                     <th width="5%">性别</th>
-                    <th width="10%">头像</th>
+                   <!--  <th width="10%">头像</th> -->
                     <th width="12%">添加时间</th>
                    	<th width="12%">最后登录时间</th>
                    	<th width="6%">登录次数</th>
@@ -271,8 +271,8 @@
                     	}
                     %>
                     </td>
-                   <td><%=(doc.get("headpic") != null && !doc.get("headpic").equals("")) ? "<img src=\"" + doc.get("headpic") + "\" width=\"30\">" : "" %>
-                    </td>
+                  <%--  <td><%=(doc.get("headpic") != null && !doc.get("headpic").equals("")) ? "<img src=\"" + doc.get("headpic") + "\" width=\"30\">" : "" %>
+                    </td> --%>
                      <td><%
                         if (doc.getIn("addtime") > 0) {
                             out.print(AjaxXml.timeStamp2Date(doc.getIn("addtime"), "YY04-MM-DD HH:MI:SS"));

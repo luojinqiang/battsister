@@ -162,7 +162,7 @@
             });
         }
         function editSchool(id, title) {
-            openurl('schools_edit.jsp?id=' + id + '', 'user', title, 700, 380, 0, 10, true);
+            openurl('schools_edit.jsp?id=' + id + '', 'user', title, 750, 400, 0, 10, true);
         }
     </script>
 </head>
@@ -194,14 +194,15 @@
             <table cellpadding="0" cellspacing="0">
                 <tr>
                     <th width="4%">&nbsp;</th>
-                    <th width="8%">学校名称</th>
+                    <th width="14%">学校名称</th>
+                    <th width="10%">logo</th>
                     <th width="10%">联系人</th>
-                    <th width="8%">联系电话</th>
-                    <th width="20%">联系地址</th>
-                    <th width="12%">传真</th>
-                    <th width="6%">邮箱</th>
+                    <th width="12%">联系电话</th>
+                    <th width="18%">联系地址</th>
+                    <th width="10%">传真</th>
+                   <!--  <th width="6%">邮箱</th> -->
                     <th width="12%">添加时间</th>
-                    <th width="7%">操作</th>
+                    <th width="">操作</th>
                 </tr>
                 <%
 
@@ -212,7 +213,7 @@
                         wheres = wheres + " and name like ?";
                         sqllist.add("%" + school_name+ "%");
                     }
-                    String file = "id,name,address,tel,fax,email,contact,add_time,weburl";
+                    String file = "id,name,address,tel,fax,email,contact,add_time,weburl,logo";
                     String order = " order by id desc";
                     String idd = "id";
                     int counts = utildb.Get_count(idd, table, wheres, "mysqlss", sqllist);
@@ -225,6 +226,14 @@
                     <td><input name="id" type="checkbox" id="id" value="<%=doc.get("id")%>"/></td>
                     <td><%=doc.get("name", "")%>
                     </td>
+                     <td><%
+                     	if(doc.getString("logo")!=null&&!"".equals(doc.getString("logo").trim())){
+                     		%>
+                     		<img src="<%=doc.getString("logo")%>" width="30"/>
+                     		<%
+                     	}
+                     %>
+                    </td>
                       <td><%=doc.get("contact", "") %>
                     </td>
                     <td><%=doc.get("tel")%></td>
@@ -232,7 +241,7 @@
                     </td>
                    <td><%=doc.get("fax")%>
                     </td>
-                     <td><%=doc.get("email")%></td>
+                    <%--  <td><%=doc.get("email")%></td> --%>
                     <td><%
                         if (doc.getIn("add_time") > 0) {
                             out.print(AjaxXml.timeStamp2Date(doc.getIn("add_time"), "YY04-MM-DD HH:MI:SS"));

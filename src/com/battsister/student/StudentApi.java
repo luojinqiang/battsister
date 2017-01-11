@@ -122,12 +122,13 @@ public class StudentApi {
             String mobile = ru.getString("mobile").trim();
             String birth = ru.getString("birth").trim();
             int sex = ru.getInt("sex");
+            String headpic=ru.getString("headpic");
             Object student_id = request.getSession().getAttribute("student_id");
             Doc doc = new Doc()
                     .put("name", name)
                     .put("sex", sex)
                     .put("mobile", mobile)
-                    .put("birth", AjaxXml.getTimestamp(birth + " 00:00:00"));
+                    .put("headpic", headpic);
             if (!"".equals(password)) {
                 doc.put("password", new KeyBean().getkeyBeanofStr(password).toLowerCase());
             }

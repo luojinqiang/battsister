@@ -31,7 +31,19 @@
 <div class="container">
     <div class="left_side">
         <div class="side_user">
-            <div class="side_user_img"><img src="../front_style/images/user.jpg"></div>
+            <div class="side_user_img">
+            <%
+            	if(student_headpic==null||student_headpic.toString().trim().equals("")){
+            		%>
+            		<img src="../front_style/images/user01.png"></div>
+            		<%
+            	}else{
+            		%>
+            		<img src="<%=student_headpic%>"></div>
+            		<%
+            	}
+            %>
+            
             <div class="side_user_word">
                 <%
 
@@ -122,6 +134,7 @@
         </div>
     </div>
     <div class="clear"></div>
+ </div>
     <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>
