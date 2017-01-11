@@ -282,7 +282,7 @@
                           value="<%=json.optString("title")%>"/>
                         排序：<input style="max-width: 30px;" type="number" name="order_no" value="<%=json.optInt("order_no", 0)%>">
            			<video id="really-cool-video" class="video-js vjs-default-skin vjs-big-play-centered" controls
-                           preload="auto" width="220" height="132"
+                           preload="none" width="220" height="132"
                            data-setup='{}'>
 		<source src="<%=SetupUtil.getAllAddress(json.optString("filePath"))%>" type='video/mp4'/>
 	</video>
