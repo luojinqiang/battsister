@@ -133,7 +133,7 @@
 			art.dialog.alert("请输入您的邮箱地址");
 			return;
 		}else{
-			var myreg = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/; 
+			var myreg = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/; 
 			if(!myreg.test(email)){
 				art.dialog.alert("请输入正确格式的邮箱地址");
 				return false;
