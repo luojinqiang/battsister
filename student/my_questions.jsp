@@ -54,7 +54,7 @@
     <div class="ex_wrap">
         <div class="title_r">学生提问<a href="ask_question.jsp">快速提问</a></div>
         <%
-            Doc sDoc;
+            //Doc sDoc = null;
             String name = "";
             String headpic = "";
             List<Doc> qList = selectic.Get_List("q.id,q.content,q.add_time,s.name,s.headpic", "bs_question q left join bs_students s on q.student_id=s.id", "where q.student_id=? and q.isdel=0 and s.isdel=0 order by q.id desc", "mysqlss", new Object[]{student_id});
@@ -78,7 +78,7 @@
                         name = "";
                         headpic = "";
                         if (rdoc.getIn("reply_type") == 1) {
-                            sDoc = selectic.Get_Doc("name,headpic", "bs_teachers", "where isdel=0 and id=?", "mysqlss", new Object[]{rdoc.getIn("teacher_id")});
+                           	sDoc = selectic.Get_Doc("name,headpic", "bs_teachers", "where isdel=0 and id=?", "mysqlss", new Object[]{rdoc.getIn("teacher_id")});
                         } else {
                             sDoc = selectic.Get_Doc("name,headpic", "bs_students", "where isdel=0 and id=?", "mysqlss", new Object[]{rdoc.getIn("student_id")});
                         }

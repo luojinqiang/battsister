@@ -21,7 +21,7 @@ var global_obj = {
         var queueSizeLimit = (typeof(arguments[5]) == 'undefined') ? 5 : arguments[5];
         var callback = arguments[6];
         var fileExt = (typeof(arguments[7]) == 'undefined') ? '*.jpg;*.png;*.gif;*.jpeg;*.bmp;*.pdf' : arguments[7];
-        var fileSize = (typeof(arguments[8]) == 'undefined') ? 20480: arguments[8];
+        var fileSize = (typeof(arguments[8]) == 'undefined') ? 51200: arguments[8];
         var imgSize = (typeof(arguments[9]) == 'undefined') ? 100 : arguments[9];
         file_input_obj.omFileUpload({
             action: '/manage/upfile.jsp',
