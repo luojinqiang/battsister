@@ -30,7 +30,7 @@
             <li><a href="#">网站地图</a></li>
             <div class="clear"></div>
         </ul> -->
-        <p>Copyright © 2006-2016 深圳市派司德科技有限公司 All Rights Reserved 粤ICP备09008542号</p>
+        <p>Copyright © 2006-2016 深圳市派司德科技有限公司 All Rights Reserved <a href="http://www.beian.miit.gov.cn/" target="_blank">粤ICP备19162788号</a></p>
     </div>
 </div>
 

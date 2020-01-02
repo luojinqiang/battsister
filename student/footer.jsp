@@ -24,7 +24,7 @@ var menu1 = [
             <li><a href="st_feedback.jsp">投诉&反馈 </a></li>
             <div class="clear"></div>
         </ul>
-        <p>Powered by EOS2011 © 2006-2013 深圳市派司德科技有限公司 <a href="http://www.miit.gov.cn/" target="_blank">粤ICP备09008542</a></p>
+        <p>Powered by EOS2011 © 2006-2013 深圳市派司德科技有限公司 <a href="http://www.beian.miit.gov.cn/" target="_blank">粤ICP备19162788号</a></p>
     </div>
 </div>
 

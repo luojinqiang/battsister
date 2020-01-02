@@ -17,6 +17,6 @@ var menu1 = [
             <li><a href="feedback.jsp">投诉&反馈 </a></li>
             <div class="clear"></div>
         </ul>
-        <p>Copyright ©  2006-2016 深圳市派司德科技有限公司 粤ICP备09008542</p>
+        <p>Copyright ©  2006-2016 深圳市派司德科技有限公司 <a href="http://www.beian.miit.gov.cn/" target="_blank">粤ICP备19162788号</a></p>
     </div>
 </div>
